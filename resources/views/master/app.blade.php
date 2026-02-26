@@ -57,7 +57,104 @@
 
         .publication-menu-link:hover {
             color: #ffd84d !important;
-        }</style>
+        }
+
+        .navbar .submenu.flyout-parent {
+            position: relative;
+        }
+
+        .navbar .submenu > .sub-menu {
+            overflow: visible !important;
+        }
+
+        .navbar .submenu.flyout-parent::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: -14px;
+            width: 14px;
+            height: 100%;
+        }
+
+        .navbar .submenu.flyout-parent > .flyout-card {
+            position: absolute !important;
+            display: block !important;
+            left: 100% !important;
+            top: 0 !important;
+            margin-left: 8px;
+            min-width: 220px;
+            padding: 10px 0;
+            border-radius: 22px;
+            background: #f7b500;
+            border: 0;
+            box-shadow: 0 18px 36px rgba(8, 22, 43, 0.22);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: translateY(8px);
+            transition: all 0.2s ease;
+            z-index: 999;
+        }
+
+        .navbar .submenu.flyout-parent:hover > .flyout-card {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        .navbar .submenu.flyout-parent:focus-within > .flyout-card {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        .navbar .submenu.flyout-parent > .flyout-card .nav-link {
+            color: #ffffff !important;
+            font-weight: 500;
+            padding: 12px 20px !important;
+            display: block;
+        }
+
+        .navbar .submenu.flyout-parent > .flyout-card .nav-link:hover {
+            color: #000000 !important;
+            background: transparent;
+        }
+
+        @media only screen and (max-width: 991px) {
+            .navbar .submenu.flyout-parent::after {
+                display: none;
+            }
+
+            .navbar .submenu.flyout-parent > .flyout-card {
+                position: static;
+                left: auto;
+                top: auto;
+                margin-left: 0;
+                min-width: 100%;
+                padding: 0 0 0 14px;
+                border: 0;
+                border-radius: 0;
+                box-shadow: none;
+                background: transparent;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                transition: none;
+            }
+
+            .navbar .submenu.flyout-parent > .flyout-card .nav-link {
+                color: inherit !important;
+                font-weight: 500;
+                padding: 8px 0 !important;
+            }
+
+            .navbar .submenu.flyout-parent > .flyout-card .nav-link:hover {
+                background: transparent;
+            }
+        }
+    </style>
     <link rel="preload" href="https://sda.pu.go.id/web/images/slider1.webp" as="image">
 
     <!-- Google tag (gtag.js) -->

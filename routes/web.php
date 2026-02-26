@@ -4,11 +4,15 @@ use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminBeritaController;
 use App\Http\Controllers\AdminKaryaIlmiahController;
 use App\Http\Controllers\AdminLaporanSkmController;
+use App\Http\Controllers\AdminPengumumanController;
 use App\Http\Controllers\AdminSniController;
+use App\Http\Controllers\AdminSiatabController;
 use App\Http\Controllers\AdminThumbnailController;
 use App\Models\Berita;
 use App\Models\KaryaIlmiah;
 use App\Models\LaporanSkm;
+use App\Models\Pengumuman;
+use App\Models\Siatab;
 use App\Models\Sni;
 use App\Models\Thumbnail;
 use Illuminate\Support\Facades\Route;
@@ -41,13 +45,22 @@ Route::get('/', function () {
     $publikasiKaryaIlmiahs = KaryaIlmiah::query()->latest()->take(12)->get();
     $publikasiSnis = Sni::query()->latest()->take(12)->get();
     $publikasiLaporanSkms = LaporanSkm::query()->latest()->take(12)->get();
+    $pengumumans = Pengumuman::query()->latest()->take(12)->get();
+    $siatabs = Siatab::query()
+        ->with(['images' => function ($query) {
+            $query->oldest('id');
+        }])
+        ->latest()
+        ->get();
 
     return view('pages.home', compact(
         'beritas',
         'heroThumbnails',
         'publikasiKaryaIlmiahs',
         'publikasiSnis',
-        'publikasiLaporanSkms'
+        'publikasiLaporanSkms',
+        'pengumumans',
+        'siatabs'
     ));
 })->name('home');
 
@@ -66,6 +79,10 @@ Route::prefix('admin')->name('admin.')->middleware('admin.auth')->group(function
     Route::put('/thumbnail/{thumbnail}', [AdminThumbnailController::class, 'update'])->name('thumbnail.update');
     Route::delete('/thumbnail/{thumbnail}', [AdminThumbnailController::class, 'destroy'])->name('thumbnail.destroy');
     Route::post('/thumbnail/visibility', [AdminThumbnailController::class, 'updateVisibility'])->name('thumbnail.visibility');
+    Route::get('/pengumuman', [AdminPengumumanController::class, 'index'])->name('pengumuman');
+    Route::post('/pengumuman', [AdminPengumumanController::class, 'store'])->name('pengumuman.store');
+    Route::put('/pengumuman/{pengumuman}', [AdminPengumumanController::class, 'update'])->name('pengumuman.update');
+    Route::delete('/pengumuman/{pengumuman}', [AdminPengumumanController::class, 'destroy'])->name('pengumuman.destroy');
     Route::view('/jurnal', 'pages.admin.jurnal')->name('jurnal');
     Route::get('/karya-ilmiah', [AdminKaryaIlmiahController::class, 'index'])->name('karya-ilmiah');
     Route::post('/karya-ilmiah', [AdminKaryaIlmiahController::class, 'store'])->name('karya-ilmiah.store');
@@ -75,6 +92,10 @@ Route::prefix('admin')->name('admin.')->middleware('admin.auth')->group(function
     Route::post('/sni', [AdminSniController::class, 'store'])->name('sni.store');
     Route::put('/sni/{sni}', [AdminSniController::class, 'update'])->name('sni.update');
     Route::delete('/sni/{sni}', [AdminSniController::class, 'destroy'])->name('sni.destroy');
+    Route::get('/siatab', [AdminSiatabController::class, 'index'])->name('siatab');
+    Route::post('/siatab', [AdminSiatabController::class, 'store'])->name('siatab.store');
+    Route::put('/siatab/{siatab}', [AdminSiatabController::class, 'update'])->name('siatab.update');
+    Route::delete('/siatab/{siatab}', [AdminSiatabController::class, 'destroy'])->name('siatab.destroy');
     Route::get('/laporan-skm', [AdminLaporanSkmController::class, 'index'])->name('laporan-skm');
     Route::post('/laporan-skm', [AdminLaporanSkmController::class, 'store'])->name('laporan-skm.store');
     Route::put('/laporan-skm/{laporanSkm}', [AdminLaporanSkmController::class, 'update'])->name('laporan-skm.update');
@@ -103,6 +124,10 @@ Route::prefix('informasi_publik')->name('informasi_publik.')->group(function () 
 
 Route::prefix('pelayanan_publik')->name('pelayanan_publik.')->group(function () {
     Route::view('/standar_pelayanan', 'pages.menu_detail', ['menuGroup' => 'Pelayanan Publik', 'pageTitle' => 'Standar Pelayanan'])->name('standar_pelayanan');
-    Route::view('/maklumat', 'pages.menu_detail', ['menuGroup' => 'Pelayanan Publik', 'pageTitle' => 'Maklumat'])->name('maklumat');
-    Route::view('/buletin', 'pages.menu_detail', ['menuGroup' => 'Pelayanan Publik', 'pageTitle' => 'Buletin'])->name('buletin');
+    Route::view('/maklumat_pelayanan', 'pages.menu_detail', ['menuGroup' => 'Pelayanan Publik', 'pageTitle' => 'Maklumat Pelayanan'])->name('maklumat_pelayanan');
+    Route::view('/permintaan_pelayanan', 'pages.menu_detail', ['menuGroup' => 'Pelayanan Publik', 'pageTitle' => 'Permintaan Pelayanan'])->name('permintaan_pelayanan');
+    Route::view('/permintaan_pelayanan/data', 'pages.pelayanan_publik.permintaan_pelayanan_data')->name('permintaan_pelayanan_data');
+    Route::view('/permintaan_pelayanan/magang', 'pages.pelayanan_publik.permintaan_pelayanan_magang')->name('permintaan_pelayanan_magang');
+    Route::view('/e_ppid', 'pages.menu_detail', ['menuGroup' => 'Pelayanan Publik', 'pageTitle' => 'E-PPID'])->name('e_ppid');
+    Route::view('/layanan_pengaduan', 'pages.menu_detail', ['menuGroup' => 'Pelayanan Publik', 'pageTitle' => 'Layanan Pengaduan'])->name('layanan_pengaduan');
 });

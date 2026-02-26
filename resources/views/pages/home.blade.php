@@ -103,11 +103,33 @@
 
                     <!-- About Content Body Start -->
                     <div class="about-content-body wow fadeInUp" data-wow-delay="0.5s">
-                        <ul>
-                            <li>Perumusan dan Pelaksanaan Kebijakan</li>
-                            <li>Penyusunan Norma, Standar, Prosedur, dan Kriteria</li>
-                            <li>Pemberian Bimbingan Teknis dan Supervisi</li>
-                            <li>Pelaksanaan Evaluasi dan Pelaporan serta Administrasi</li>
+                        <style>
+                            .about-check-list {
+                                padding: 24px !important;
+                            }
+
+                            .about-check-list li::before {
+                                display: none !important;
+                                content: none !important;
+                            }
+                        </style>
+                        <ul class="about-check-list" style="list-style:none;margin:0;display:grid;gap:10px;">
+                            <li style="display:flex;align-items:flex-start;gap:10px;">
+                                <ion-icon name="checkmark-circle" style="color:#f4b000;font-size:20px;flex-shrink:0;margin-top:2px;"></ion-icon>
+                                <span>Perumusan dan Pelaksanaan Kebijakan</span>
+                            </li>
+                            <li style="display:flex;align-items:flex-start;gap:10px;">
+                                <ion-icon name="checkmark-circle" style="color:#f4b000;font-size:20px;flex-shrink:0;margin-top:2px;"></ion-icon>
+                                <span>Penyusunan Norma, Standar, Prosedur, dan Kriteria</span>
+                            </li>
+                            <li style="display:flex;align-items:flex-start;gap:10px;">
+                                <ion-icon name="checkmark-circle" style="color:#f4b000;font-size:20px;flex-shrink:0;margin-top:2px;"></ion-icon>
+                                <span>Pemberian Bimbingan Teknis dan Supervisi</span>
+                            </li>
+                            <li style="display:flex;align-items:flex-start;gap:10px;">
+                                <ion-icon name="checkmark-circle" style="color:#f4b000;font-size:20px;flex-shrink:0;margin-top:2px;"></ion-icon>
+                                <span>Pelaksanaan Evaluasi dan Pelaporan serta Administrasi</span>
+                            </li>
                         </ul>
                     </div>
                     <!-- About Content Body End -->
@@ -934,13 +956,87 @@
                 <!-- Section Title Start -->
                 <div class="section-title">
                     <h3 class="wow fadeInUp">Akun Resmi</h3>
-                    <h2 class="text-anime-style-3" data-cursor="-opaque">Media Sosial</h2>
+                    <h2 class="text-anime-style-3" data-cursor="-opaque">Media Sosial & Aplikasi</h2>
                 </div>
                 <!-- Section Title End -->
             </div>
         </div>
 
         <div class="row justify-content-center">
+            <style>
+                .siatab-widget {
+                    background: #ffffff;
+                    border: 1px solid #dce4ef;
+                    border-radius: 18px;
+                    padding: 8px;
+                    box-shadow: 0 12px 28px rgba(20, 34, 56, 0.12);
+                    height: 100%;
+                }
+
+                .siatab-swiper {
+                    width: 100%;
+                    overflow: hidden;
+                    border-radius: 14px;
+                }
+
+                .siatab-slide-card {
+                    background: #eef3fb;
+                    border: 1px solid #dbe6f5;
+                    border-radius: 14px;
+                    overflow: hidden;
+                }
+
+                .siatab-slide-image {
+                    background: linear-gradient(180deg, #edf3fb 0%, #e5edf8 100%);
+                    padding: 6px;
+                    border-bottom: 1px solid #d4dfef;
+                }
+
+                .siatab-slide-image img {
+                    width: 100%;
+                    aspect-ratio: 16 / 8.2;
+                    object-fit: contain;
+                    background: #f7faff;
+                    border-radius: 10px;
+                    display: block;
+                }
+
+                .siatab-slide-title {
+                    padding: 12px 14px 14px;
+                    margin: 0;
+                    color: #1c2f49;
+                    font-size: 16px;
+                    line-height: 1.35;
+                    font-weight: 700;
+                    min-height: 56px;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 2;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                    background: #ffffff;
+                    border-top: 1px solid #e7edf6;
+                }
+
+                .siatab-pagination {
+                    margin-top: 8px;
+                    margin-bottom: 2px;
+                    text-align: center;
+                    position: static;
+                }
+
+                .siatab-pagination .swiper-pagination-bullet {
+                    width: 8px;
+                    height: 8px;
+                    background: #99aac2;
+                    opacity: 1;
+                }
+
+                .siatab-pagination .swiper-pagination-bullet-active {
+                    width: 20px;
+                    border-radius: 999px;
+                    background: #2f486c;
+                }
+            </style>
             <div class="col-lg-4 col-md-4 col-sm-6 col-6">
                 {{-- <div class="iframely-embed"><div class="iframely-responsive" style="height: 140px; padding-bottom: 0;"><a href="https://www.youtube.com/channel/UCSIbT953e30J_K0fKT8nPgA" data-iframely-url="//iframely.net/BOkn3PiP?theme=dark"></a></div></div><script async src="//iframely.net/embed.js"></script> --}}
             </div>
@@ -1002,14 +1098,49 @@
             </div>
 
             <div class="col-lg-4 col-md-4 col-sm-12 col-12">
-                <!-- Project Item Start -->
-                {{-- <div class="project-item wow fadeInUp" data-wow-delay="1s">
-                    <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@pu_sda" data-unique-id="pu_sda" data-embed-type="creator" style="max-width: 780px; min-width: 288px;margin-top: 0;">
-                        <section><a target="_blank" href="https://www.tiktok.com/@pu_sda?refer=creator_embed">&#64;pu_sda</a></section>
-                    </blockquote>
-                    <script async src="https://www.tiktok.com/embed.js"></script>
-                </div> --}}
-                <!-- Project Item End -->
+                <div class="siatab-widget wow fadeInUp" data-wow-delay="0.8s">
+                    <div class="swiper siatab-swiper" id="siatabSwiper">
+                        <div class="swiper-wrapper" data-cursor-text="Drag">
+                            @php
+                                $hasSiatabSlides = false;
+                            @endphp
+                            @foreach ($siatabs as $siatab)
+                                @if ($siatab->images->isNotEmpty())
+                                    @php $hasSiatabSlides = true; @endphp
+                                    @foreach ($siatab->images as $siatabImage)
+                                        <div class="swiper-slide" data-title="{{ $siatab->judul }}">
+                                            <article class="siatab-slide-card">
+                                                <div class="siatab-slide-image">
+                                                    <img src="{{ asset('storage/' . $siatabImage->image_path) }}" alt="{{ $siatab->judul }}">
+                                                </div>
+                                            </article>
+                                        </div>
+                                    @endforeach
+                                @elseif ($siatab->image_path)
+                                    @php $hasSiatabSlides = true; @endphp
+                                    <div class="swiper-slide" data-title="{{ $siatab->judul }}">
+                                        <article class="siatab-slide-card">
+                                            <div class="siatab-slide-image">
+                                                <img src="{{ asset('storage/' . $siatab->image_path) }}" alt="{{ $siatab->judul }}">
+                                            </div>
+                                        </article>
+                                    </div>
+                                @endif
+                            @endforeach
+                            @if (!$hasSiatabSlides)
+                                <div class="swiper-slide" data-title="Belum ada data SIATAB.">
+                                    <article class="siatab-slide-card">
+                                        <div class="siatab-slide-image">
+                                            <img src="https://placehold.co/1280x720/e6edf5/27364a?text=Belum+ada+SIATAB" alt="Belum ada SIATAB">
+                                        </div>
+                                    </article>
+                                </div>
+                            @endif
+                        </div>
+                        <div class="swiper-pagination siatab-pagination" id="siatabPagination"></div>
+                    </div>
+                    <h5 class="siatab-slide-title" id="siatabActiveTitle">Belum ada data SIATAB.</h5>
+                </div>
             </div>
         </div>
     </div>
@@ -1038,6 +1169,24 @@
 <!-- Pengumuman Section Start -->
 <div class="what-we-do">
     <div class="light-bg-section">
+        <style>
+            .pengumuman-card {
+                display: block;
+            }
+
+            .pengumuman-card .image-anime {
+                border-radius: 12px;
+                overflow: hidden;
+                border: 1px solid #d9e0ea;
+            }
+
+            .pengumuman-card img {
+                width: 100%;
+                aspect-ratio: 4 / 5;
+                object-fit: cover;
+                display: block;
+            }
+        </style>
         <div class="container">
             <div class="row section-row mb-0">
                 <div class="col-lg-12">
@@ -1054,65 +1203,45 @@
                     <div class="pengumuman-slider">
                         <div class="swiper">
                             <div class="swiper-wrapper" data-cursor-text="Drag">
-<!--                                <div class="swiper-slide ">-->
-<!--                                    <div class="link-item align-items-center justify-content-center align-content-center">-->
-<!--                                        <a href="https://pmb.sttpu.civitas.id/" title="Penerimaan Mahasiswa Baru STT Pekerjaan Umum Jakarta" target="_blank">-->
-<!--                                            <div class="link-body">-->
-<!--                                                <figure class="image-anime">-->
-<!--                                                    <img width="80%" src="https://sda.pu.go.id//assets/uploads/pages/1745910775_0b3ba24ebbacbbe52fe5.jpeg" alt="Penerimaan Mahasiswa Baru STT Pekerjaan Umum Jakarta">-->
-<!--                                                </figure>-->
-<!--                                                <video width="60%" controls>-->
-<!--                                                    <source src="--><!--assets/uploads/pengumuman/VideoPromotionSTTPU.mp4" type="video/mp4">-->
-<!--                                                    Your browser does not support HTML video.-->
-<!--                                                </video>-->
-<!--                                            </div>-->
-<!--                                        </a>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-
-                                <div class="swiper-slide ">
-                                    <div class="link-item">
-                                        <div class="link-body">
-                                            <a href="https://www.instagram.com/p/DTZ8FAIkgDN/?igsh=MW42NGRnaDF5OGs2Ng==">
+                                @forelse ($pengumumans->chunk(2) as $pengumumanChunk)
+                                    <div class="swiper-slide">
+                                        <div class="link-item">
+                                            <div class="link-body">
+                                                <div class="row text-center align-content-center justify-content-center g-3">
+                                                    @foreach ($pengumumanChunk as $pengumuman)
+                                                        @php
+                                                            $pengumumanImage = asset('storage/' . $pengumuman->image_path);
+                                                        @endphp
+                                                        <div class="col-6">
+                                                            <a href="{{ $pengumumanImage }}" class="pengumuman-card" target="_blank" rel="noopener noreferrer">
+                                                                <figure class="image-anime mb-0">
+                                                                    <img src="{{ $pengumumanImage }}" alt="Pengumuman {{ $pengumuman->id }}">
+                                                                </figure>
+                                                            </a>
+                                                        </div>
+                                                    @endforeach
+                                                    @if ($pengumumanChunk->count() === 1)
+                                                        <div class="col-6"></div>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @empty
+                                    <div class="swiper-slide">
+                                        <div class="link-item">
+                                            <div class="link-body">
                                                 <div class="row text-center align-content-center justify-content-center">
-                                                    <div class="col-5 com-sm-12">
+                                                    <div class="col-lg-10 col-md-10 col-sm-12">
                                                         <figure class="image-anime">
-                                                            <img width="100%" src="https://sda.pu.go.id/assets/uploads/pengumuman/Batas Akhir Permen PUPR No. 3 Tahun 2023 (Cover).webp" alt="Batas Akhir Permen PUPR No. 3 Tahun 2023">
-                                                        </figure>
-                                                    </div>
-                                                    <div class="col-5 com-sm-12">
-                                                        <figure class="image-anime">
-                                                            <img width="100%" src="https://sda.pu.go.id/assets/uploads/pengumuman/Batas Akhir Permen PUPR No. 3 Tahun 2023 (01).webp" alt="Batas Akhir Permen PUPR No. 3 Tahun 2023">
+                                                            <img width="100%" src="https://placehold.co/1000x1400/e6edf5/27364a?text=Belum+ada+pengumuman" alt="Belum ada pengumuman">
                                                         </figure>
                                                     </div>
                                                 </div>
-                                            </a>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-
-                                <div class="swiper-slide ">
-                                    <div class="link-item">
-                                        <div class="link-body">
-                                            <a href="https://sda.pu.go.id/pages/waspada-penipuan">
-                                                <div class="row text-center align-content-center justify-content-center">
-                                                    <div class="col-5 com-sm-12">
-                                                        <figure class="image-anime">
-                                                            <img width="100%" src="https://sda.pu.go.id/assets/uploads/pengumuman/Waspada Penipuan-01.jpg" alt="Waspada Penipuan-01">
-                                                        </figure>
-                                                    </div>
-                                                    <div class="col-5 com-sm-12">
-                                                        <figure class="image-anime">
-                                                            <img width="100%" src="https://sda.pu.go.id/assets/uploads/pengumuman/Waspada Penipuan-02.jpg" alt="Waspada Penipuan-01">
-                                                        </figure>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-
-
+                                @endforelse
 
                             </div>
                             <div class="swiper-pagination"></div>
@@ -1392,7 +1521,7 @@
 
 </style>
 <!--start: floating ads-->
-<div id="popup">
+{{-- <div id="popup">
     <div id="popup-content">
         <div class="text-end"><a id='close-floatads' onclick='document.getElementById(&apos;popup&apos;).style.display = &apos;none&apos;;' style=' cursor:pointer;'>
                 <i class="fa fa-2x fa-window-close"></i></a>
@@ -1403,20 +1532,70 @@
         </a>
         <!--Akhir script iklan-->
     </div>
-</div><!--end: floating ads-->
+</div> --}}
+<!--end: floating ads-->
 
 <script>
-    window.onload = function() {
-        // Tampilkan pop-up setelah 3 detik
-        setTimeout(function() {
-            document.getElementById("popup").style.display = "block";
+    window.addEventListener('load', function () {
+        const popup = document.getElementById('popup');
+        if (popup) {
+            setTimeout(function () {
+                popup.style.display = 'block';
+                setTimeout(function () {
+                    popup.style.display = 'none';
+                }, 8000);
+            }, 0);
+        }
 
-            // Sembunyikan pop-up setelah 5 detik tampil
-            setTimeout(function() {
-                document.getElementById("popup").style.display = "none";
-            }, 8000); // 5000 ms = 5 detik tampil
-        }, 0000);
-    };
+        const siatabSlider = document.getElementById('siatabSwiper');
+        const siatabPagination = document.getElementById('siatabPagination');
+        const siatabActiveTitle = document.getElementById('siatabActiveTitle');
+        if (!siatabSlider || typeof Swiper === 'undefined') {
+            return;
+        }
+
+        const slideCount = siatabSlider.querySelectorAll('.swiper-slide').length;
+        const useLoop = slideCount > 1;
+
+        if (siatabPagination) {
+            siatabPagination.style.display = useLoop ? 'block' : 'none';
+        }
+
+        function updateSiatabTitle(swiper) {
+            if (!siatabActiveTitle || !swiper || !swiper.slides || !swiper.slides.length) return;
+            const slide = swiper.slides[swiper.activeIndex];
+            const title = slide ? slide.getAttribute('data-title') : '';
+            siatabActiveTitle.textContent = title || 'SIATAB';
+        }
+
+        const siatabSwiper = new Swiper('#siatabSwiper', {
+            slidesPerView: 1,
+            spaceBetween: 10,
+            loop: useLoop,
+            speed: 700,
+            grabCursor: true,
+            allowTouchMove: useLoop,
+            autoplay: useLoop ? {
+                delay: 3500,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true
+            } : false,
+            pagination: {
+                el: '#siatabPagination',
+                clickable: true
+            },
+            on: {
+                init: function () {
+                    updateSiatabTitle(this);
+                },
+                slideChange: function () {
+                    updateSiatabTitle(this);
+                }
+            }
+        });
+
+        updateSiatabTitle(siatabSwiper);
+    });
 </script>
 
 

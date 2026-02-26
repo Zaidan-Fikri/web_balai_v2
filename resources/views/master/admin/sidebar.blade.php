@@ -17,6 +17,9 @@
             <a class="menu-item {{ request()->routeIs('admin.thumbnail') ? 'active' : '' }}" href="{{ route('admin.thumbnail') }}">
                 <i class="fa-regular fa-file-lines"></i><span>Thumbnail</span>
             </a>
+            <a class="menu-item {{ request()->routeIs('admin.pengumuman') ? 'active' : '' }}" href="{{ route('admin.pengumuman') }}">
+                <i class="fa-regular fa-bell"></i><span>Pengumuman</span>
+            </a>
             <a class="menu-item {{ request()->routeIs('admin.jurnal') ? 'active' : '' }}" href="{{ route('admin.jurnal') }}">
                 <i class="fa-solid fa-diagram-project"></i><span>Jurnal</span>
             </a>
@@ -25,6 +28,9 @@
             </a>
             <a class="menu-item {{ request()->routeIs('admin.sni') ? 'active' : '' }}" href="{{ route('admin.sni') }}">
                 <i class="fa-solid fa-ruler-combined"></i><span>SNI</span>
+            </a>
+            <a class="menu-item {{ request()->routeIs('admin.siatab*') ? 'active' : '' }}" href="{{ route('admin.siatab') }}">
+                <i class="fa-solid fa-images"></i><span>SIATAB</span>
             </a>
             <a class="menu-item {{ request()->routeIs('admin.laporan-skm') ? 'active' : '' }}" href="{{ route('admin.laporan-skm') }}">
                 <i class="fa-solid fa-chart-column"></i><span>Laporan SKM</span>

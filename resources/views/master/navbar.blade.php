@@ -45,8 +45,16 @@
                         <li class="nav-item submenu"><a class="nav-link" href="#">Pelayanan Publik <ion-icon name="chevron-down-outline" class="menu-caret" aria-hidden="true"></ion-icon></a>
                             <ul class="sub-menu">
                                 <li class="nav-item"><a class="nav-link" href="{{ route('pelayanan_publik.standar_pelayanan') }}">Standar Pelayanan</a></li>
-                                <li class="nav-item"><a class="nav-link" href="{{ route('pelayanan_publik.maklumat') }}">Maklumat</a></li>
-                                <li class="nav-item"><a class="nav-link" href="{{ route('pelayanan_publik.buletin') }}">Buletin</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ route('pelayanan_publik.maklumat_pelayanan') }}">Maklumat Pelayanan</a></li>
+                                <li class="nav-item submenu flyout-parent">
+                                    <a class="nav-link" href="{{ route('pelayanan_publik.permintaan_pelayanan') }}">Permintaan Pelayanan <ion-icon name="chevron-forward-outline" class="menu-caret" aria-hidden="true"></ion-icon></a>
+                                    <ul class="sub-menu flyout-card">
+                                        <li class="nav-item"><a class="nav-link" href="{{ route('pelayanan_publik.permintaan_pelayanan_data') }}">Data</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="{{ route('pelayanan_publik.permintaan_pelayanan_magang') }}">Magang</a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item"><a class="nav-link" href="{{ route('pelayanan_publik.e_ppid') }}">E-PPID</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ route('pelayanan_publik.layanan_pengaduan') }}">Layanan Pengaduan</a></li>
                             </ul>
                         </li>
                         <li class="nav-item submenu"><a class="nav-link" href="#"><ion-icon name="search-outline" aria-hidden="true"></ion-icon><ion-icon name="chevron-down-outline" class="menu-caret" aria-hidden="true"></ion-icon></a>
