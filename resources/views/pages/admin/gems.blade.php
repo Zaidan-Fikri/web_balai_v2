@@ -1,6 +1,6 @@
 @extends('master.admin.app')
 
-@section('title', 'Admin SIATAB')
+@section('title', 'Admin GEMS')
 
 @section('content')
     <style>
@@ -49,8 +49,8 @@
     <section>
         <div class="panel full-card">
             <div class="head">
-                <h3>SIATAB</h3>
-                <button type="button" class="btn-plus" id="openPopup" aria-label="Tambah SIATAB">+</button>
+                <h3>GEMS</h3>
+                <button type="button" class="btn-plus" id="openPopup" aria-label="Tambah GEMS">+</button>
             </div>
             @if (session('success'))<div class="flash-success">{{ session('success') }}</div>@endif
             @if ($errors->any())<div class="flash-error">{{ $errors->first() }}</div>@endif
@@ -59,7 +59,7 @@
                 <table class="table-item">
                     <thead><tr><th>Judul</th><th>Jumlah Gambar</th><th>Tanggal</th><th>Action</th></tr></thead>
                     <tbody>
-                    @forelse ($siatabs as $item)
+                    @forelse ($gems as $item)
                         @php
                             $imagePayload = $item->images
                                 ->map(function ($image) {
@@ -78,13 +78,13 @@
                             <td>
                                 <div class="action-group">
                                     <button type="button" class="btn-action read js-read-btn" data-judul="{{ $item->judul }}" data-images="{{ e($imagePayload) }}">Read</button>
-                                    <button type="button" class="btn-action update js-update-btn" data-id="{{ $item->id }}" data-judul="{{ $item->judul }}" data-update-url="{{ route('admin.siatab.update', $item->id) }}" data-images="{{ e($imagePayload) }}">Update</button>
-                                    <form method="POST" action="{{ route('admin.siatab.destroy', $item->id) }}" class="js-delete-form">@csrf @method('DELETE')<button type="submit" class="btn-action delete">Delete</button></form>
+                                    <button type="button" class="btn-action update js-update-btn" data-id="{{ $item->id }}" data-judul="{{ $item->judul }}" data-update-url="{{ route('admin.gems.update', $item->id) }}" data-images="{{ e($imagePayload) }}">Update</button>
+                                    <form method="POST" action="{{ route('admin.gems.destroy', $item->id) }}" class="js-delete-form">@csrf @method('DELETE')<button type="submit" class="btn-action delete">Delete</button></form>
                                 </div>
                             </td>
                         </tr>
                     @empty
-                        <tr><td colspan="4">Belum ada data SIATAB.</td></tr>
+                        <tr><td colspan="4">Belum ada data GEMS.</td></tr>
                     @endforelse
                     </tbody>
                 </table>
@@ -94,8 +94,8 @@
 
     <div class="popup-overlay" id="createOverlay" aria-hidden="true">
         <div class="popup-card">
-            <h4>Tambah SIATAB</h4>
-            <form method="POST" action="{{ route('admin.siatab.store') }}" enctype="multipart/form-data">
+            <h4>Tambah GEMS</h4>
+            <form method="POST" action="{{ route('admin.gems.store') }}" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="form_type" value="create">
                 <input type="text" class="popup-input" id="createTitleInput" name="judul" value="{{ old('judul') }}" placeholder="Masukkan judul" required>
@@ -110,7 +110,7 @@
 
     <div class="popup-overlay" id="readOverlay" aria-hidden="true">
         <div class="popup-card">
-            <h4 id="readTitle">Detail SIATAB</h4>
+            <h4 id="readTitle">Detail GEMS</h4>
             <div class="read-images" id="readImages"></div>
             <div class="popup-actions" style="margin-top:12px;"><button type="button" class="btn-primary" data-close-overlay="readOverlay">Tutup</button></div>
         </div>
@@ -118,12 +118,12 @@
 
     <div class="popup-overlay" id="updateOverlay" aria-hidden="true">
         <div class="popup-card">
-            <h4>Update SIATAB</h4>
+            <h4>Update GEMS</h4>
             <form method="POST" id="updateForm" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <input type="hidden" name="form_type" value="update">
-                <input type="hidden" name="siatab_id" id="updateSiatabId">
+                <input type="hidden" name="gem_id" id="updateGemId">
                 <input type="text" class="popup-input" id="updateTitleInput" name="judul" placeholder="Masukkan judul" required>
                 <div id="existingImageList" class="existing-image-list"></div>
                 <div class="image-input-list" id="updateImageInputList"></div>
@@ -145,7 +145,7 @@
             const readTitle = document.getElementById('readTitle');
             const readImages = document.getElementById('readImages');
             const updateForm = document.getElementById('updateForm');
-            const updateId = document.getElementById('updateSiatabId');
+            const updateId = document.getElementById('updateGemId');
             const updateTitleInput = document.getElementById('updateTitleInput');
             const existingImageList = document.getElementById('existingImageList');
             if (!openButton || !createOverlay || !createTitleInput) return;
@@ -300,7 +300,7 @@
             document.querySelectorAll('.js-read-btn').forEach(function (button) {
                 button.addEventListener('click', function () {
                     const images = parseImages(button.dataset.images);
-                    readTitle.textContent = button.dataset.judul || 'Detail SIATAB';
+                    readTitle.textContent = button.dataset.judul || 'Detail GEMS';
                     readImages.innerHTML = '';
                     if (!images.length) {
                         readImages.innerHTML = '<p style="grid-column:1/-1;margin:0;color:#666;font-size:12px;">Tidak ada gambar.</p>';
@@ -308,7 +308,7 @@
                         images.forEach(function (image) {
                             const img = document.createElement('img');
                             img.src = image.url;
-                            img.alt = button.dataset.judul || 'SIATAB';
+                            img.alt = button.dataset.judul || 'GEMS';
                             readImages.appendChild(img);
                         });
                     }
@@ -344,7 +344,7 @@
 
             document.querySelectorAll('.js-delete-form').forEach(function (form) {
                 form.addEventListener('submit', function (event) {
-                    if (!window.confirm('Hapus data SIATAB ini beserta semua gambarnya?')) {
+                    if (!window.confirm('Hapus data GEMS ini beserta semua gambarnya?')) {
                         event.preventDefault();
                     }
                 });

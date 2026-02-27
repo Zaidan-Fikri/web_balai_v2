@@ -66,17 +66,27 @@
 
         .thumbnail-table th:nth-child(1),
         .thumbnail-table td:nth-child(1) {
-            width: 60%;
+            width: 28%;
         }
 
         .thumbnail-table th:nth-child(2),
         .thumbnail-table td:nth-child(2) {
-            width: 16%;
+            width: 18%;
         }
 
         .thumbnail-table th:nth-child(3),
         .thumbnail-table td:nth-child(3) {
             width: 24%;
+        }
+
+        .thumbnail-table th:nth-child(4),
+        .thumbnail-table td:nth-child(4) {
+            width: 10%;
+        }
+
+        .thumbnail-table th:nth-child(5),
+        .thumbnail-table td:nth-child(5) {
+            width: 20%;
         }
 
         .thumb-preview {
@@ -171,6 +181,19 @@
             margin-bottom: 12px;
         }
 
+        .popup-textarea {
+            width: 100%;
+            border: 1px solid #d4d4d4;
+            border-radius: 10px;
+            padding: 10px 12px;
+            min-height: 96px;
+            font: inherit;
+            color: #161616;
+            resize: vertical;
+            outline: none;
+            margin-bottom: 12px;
+        }
+
         .popup-actions {
             display: flex;
             justify-content: flex-end;
@@ -226,6 +249,21 @@
             justify-content: flex-end;
             margin-top: 10px;
         }
+
+        .desc-text {
+            margin: 0;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .read-description {
+            margin-top: 10px;
+            border: 1px solid #e4e4e4;
+            border-radius: 10px;
+            padding: 10px 12px;
+            background: #fafafa;
+            white-space: pre-wrap;
+        }
     </style>
 
     <section>
@@ -248,6 +286,8 @@
                     <thead>
                     <tr>
                         <th>Gambar</th>
+                        <th>Judul</th>
+                        <th>Deskripsi</th>
                         <th>Tampil di Home</th>
                         <th>Action</th>
                     </tr>
@@ -264,12 +304,18 @@
                                 </div>
                             </td>
                             <td>
+                                <p class="desc-text">{{ $thumbnail->title ?: '-' }}</p>
+                            </td>
+                            <td>
+                                <p class="desc-text">{{ $thumbnail->description ?: '-' }}</p>
+                            </td>
+                            <td>
                                 <input type="checkbox" class="js-thumbnail-visible" value="{{ $thumbnail->id }}" {{ $thumbnail->show_on_home ? 'checked' : '' }}>
                             </td>
                             <td>
                                 <div class="action-group">
-                                    <button type="button" class="btn-action read js-read-btn" data-image="{{ $imageUrl }}">Read</button>
-                                    <button type="button" class="btn-action update js-update-btn" data-update-url="{{ route('admin.thumbnail.update', $thumbnail->id) }}" data-image="{{ $imageUrl }}">Update</button>
+                                    <button type="button" class="btn-action read js-read-btn" data-image="{{ $imageUrl }}" data-title="{{ $thumbnail->title }}" data-description="{{ $thumbnail->description }}">Read</button>
+                                    <button type="button" class="btn-action update js-update-btn" data-update-url="{{ route('admin.thumbnail.update', $thumbnail->id) }}" data-image="{{ $imageUrl }}" data-title="{{ $thumbnail->title }}" data-description="{{ $thumbnail->description }}">Update</button>
                                     <form method="POST" action="{{ route('admin.thumbnail.destroy', $thumbnail->id) }}" class="js-delete-form">
                                         @csrf
                                         @method('DELETE')
@@ -280,7 +326,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="3">Belum ada data thumbnail.</td>
+                            <td colspan="5">Belum ada data thumbnail.</td>
                         </tr>
                     @endforelse
                     </tbody>
@@ -301,8 +347,10 @@
             <form method="POST" action="{{ route('admin.thumbnail.store') }}" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="form_type" value="create">
+                <input type="text" class="popup-input" id="createTitleInput" name="title" value="{{ old('title') }}" placeholder="Masukkan judul thumbnail">
                 <input type="file" class="popup-input" id="createThumbnailInput" name="image" accept=".jpg,.jpeg,.png,.webp,image/*" required>
                 <div class="upload-preview" id="createThumbnailPreview"></div>
+                <textarea class="popup-textarea" id="createDescriptionInput" name="description" placeholder="Masukkan deskripsi thumbnail">{{ old('description') }}</textarea>
                 <div class="popup-actions">
                     <button type="submit" class="btn-primary">Tambah</button>
                 </div>
@@ -313,7 +361,9 @@
     <div class="popup-overlay" id="readThumbnailOverlay" aria-hidden="true">
         <div class="popup-card" role="dialog" aria-modal="true" aria-labelledby="readThumbnailTitle">
             <h4 id="readThumbnailTitle">Detail Thumbnail</h4>
+            <div class="read-description" id="readThumbnailTitleText">-</div>
             <div class="read-image" id="readThumbnailImage"></div>
+            <div class="read-description" id="readThumbnailDescription">-</div>
             <div class="popup-actions" style="margin-top: 12px;">
                 <button type="button" class="btn-primary" data-close-overlay="readThumbnailOverlay">Tutup</button>
             </div>
@@ -327,9 +377,11 @@
                 @csrf
                 @method('PUT')
                 <input type="hidden" name="form_type" value="update">
+                <input type="text" class="popup-input" id="updateTitleInput" name="title" placeholder="Masukkan judul thumbnail">
                 <div class="upload-preview" id="currentThumbnailPreview"></div>
                 <input type="file" class="popup-input" id="updateThumbnailInput" name="image" accept=".jpg,.jpeg,.png,.webp,image/*" required>
                 <div class="upload-preview" id="updateThumbnailPreview"></div>
+                <textarea class="popup-textarea" id="updateDescriptionInput" name="description" placeholder="Masukkan deskripsi thumbnail"></textarea>
                 <div class="popup-actions">
                     <button type="submit" class="btn-primary">Simpan</button>
                 </div>
@@ -345,11 +397,17 @@
             const updateOverlay = document.getElementById('updateThumbnailOverlay');
             const createInput = document.getElementById('createThumbnailInput');
             const createPreview = document.getElementById('createThumbnailPreview');
+            const createTitleInput = document.getElementById('createTitleInput');
             const readImage = document.getElementById('readThumbnailImage');
+            const readTitleText = document.getElementById('readThumbnailTitleText');
+            const readDescription = document.getElementById('readThumbnailDescription');
             const updateForm = document.getElementById('updateThumbnailForm');
             const currentPreview = document.getElementById('currentThumbnailPreview');
             const updateInput = document.getElementById('updateThumbnailInput');
             const updatePreview = document.getElementById('updateThumbnailPreview');
+            const updateTitleInput = document.getElementById('updateTitleInput');
+            const createDescriptionInput = document.getElementById('createDescriptionInput');
+            const updateDescriptionInput = document.getElementById('updateDescriptionInput');
             const visibilityForm = document.getElementById('thumbnailVisibilityForm');
 
             if (!openButton || !createOverlay || !readOverlay || !updateOverlay) return;
@@ -400,6 +458,8 @@
 
             openButton.addEventListener('click', function () {
                 if (createInput) createInput.value = '';
+                if (createTitleInput) createTitleInput.value = '';
+                if (createDescriptionInput) createDescriptionInput.value = '';
                 renderPreview(createPreview, null, null);
                 openOverlay(createOverlay, createInput);
             });
@@ -414,6 +474,12 @@
             document.querySelectorAll('.js-read-btn').forEach(function (button) {
                 button.addEventListener('click', function () {
                     readImage.innerHTML = '<img src="' + (button.dataset.image || '') + '" alt="Detail thumbnail">';
+                    if (readTitleText) {
+                        readTitleText.textContent = button.dataset.title || '-';
+                    }
+                    if (readDescription) {
+                        readDescription.textContent = button.dataset.description || '-';
+                    }
                     openOverlay(readOverlay);
                 });
             });
@@ -425,6 +491,12 @@
                     }
                     if (updateInput) {
                         updateInput.value = '';
+                    }
+                    if (updateTitleInput) {
+                        updateTitleInput.value = button.dataset.title || '';
+                    }
+                    if (updateDescriptionInput) {
+                        updateDescriptionInput.value = button.dataset.description || '';
                     }
                     renderPreview(currentPreview, null, button.dataset.image || null);
                     renderPreview(updatePreview, null, null);

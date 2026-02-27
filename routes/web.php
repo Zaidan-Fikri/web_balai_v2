@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminBeritaController;
+use App\Http\Controllers\AdminGemController;
 use App\Http\Controllers\AdminKaryaIlmiahController;
 use App\Http\Controllers\AdminLaporanSkmController;
 use App\Http\Controllers\AdminPengumumanController;
@@ -96,6 +97,10 @@ Route::prefix('admin')->name('admin.')->middleware('admin.auth')->group(function
     Route::post('/siatab', [AdminSiatabController::class, 'store'])->name('siatab.store');
     Route::put('/siatab/{siatab}', [AdminSiatabController::class, 'update'])->name('siatab.update');
     Route::delete('/siatab/{siatab}', [AdminSiatabController::class, 'destroy'])->name('siatab.destroy');
+    Route::get('/gems', [AdminGemController::class, 'index'])->name('gems');
+    Route::post('/gems', [AdminGemController::class, 'store'])->name('gems.store');
+    Route::put('/gems/{gem}', [AdminGemController::class, 'update'])->name('gems.update');
+    Route::delete('/gems/{gem}', [AdminGemController::class, 'destroy'])->name('gems.destroy');
     Route::get('/laporan-skm', [AdminLaporanSkmController::class, 'index'])->name('laporan-skm');
     Route::post('/laporan-skm', [AdminLaporanSkmController::class, 'store'])->name('laporan-skm.store');
     Route::put('/laporan-skm/{laporanSkm}', [AdminLaporanSkmController::class, 'update'])->name('laporan-skm.update');

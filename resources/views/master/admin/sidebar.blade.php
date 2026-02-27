@@ -32,6 +32,9 @@
             <a class="menu-item {{ request()->routeIs('admin.siatab*') ? 'active' : '' }}" href="{{ route('admin.siatab') }}">
                 <i class="fa-solid fa-images"></i><span>SIATAB</span>
             </a>
+            <a class="menu-item {{ request()->routeIs('admin.gems*') ? 'active' : '' }}" href="{{ route('admin.gems') }}">
+                <i class="fa-solid fa-gem"></i><span>GEMS</span>
+            </a>
             <a class="menu-item {{ request()->routeIs('admin.laporan-skm') ? 'active' : '' }}" href="{{ route('admin.laporan-skm') }}">
                 <i class="fa-solid fa-chart-column"></i><span>Laporan SKM</span>
             </a>

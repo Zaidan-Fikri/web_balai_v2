@@ -1,6 +1,52 @@
 @extends('master.app')
 
 @section('content')
+<style>
+    .hero-slide {
+        position: relative;
+    }
+
+    .hero-slider-image {
+        position: relative;
+    }
+
+    .hero-slider-image::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.01);
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .hero-slide .container {
+        position: relative;
+        z-index: 2;
+    }
+
+    .hero-kicker {
+        font-family: "Manrope", "DM Sans", sans-serif;
+        font-weight: 800;
+        font-size: clamp(28px, 5.2vw, 72px);
+        line-height: 1.05;
+        letter-spacing: -0.015em;
+        color: #f7f8fb;
+        text-transform: uppercase;
+        text-shadow: 0 6px 24px rgba(0, 0, 0, 0.28);
+        margin-bottom: 0.6rem;
+    }
+
+    .hero-headline {
+        font-family: "roboto", "DM Sans", sans-serif;
+        font-weight: 800;
+        font-size: clamp(34px, 7vw, 72px);
+        line-height: 1.05;
+        letter-spacing: -0.02em;
+        color: #f6f6f6;
+        text-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+        margin-bottom: 3rem;
+    }
+</style>
 
 <!-- Preloader Start -->
 <!-- <div class="preloader">
@@ -33,8 +79,12 @@
                                     <div class="col-lg-12">
                                         <div class="hero-content">
                                             <div class="section-title mb-lg-5">
-                                                <h3 class="wow fadeInUp mt-5 mb-3">sigap membangun negeri untuk rakyat</h3>
-                                                <h1 class="text-anime-style-3 mb-lg-5 pb-lg-5" data-cursor="-opaque">#MengelolaAirUntukNegeri</h1>
+                                                <h3 class="hero-kicker wow fadeInUp mt-5 mb-3">
+                                                    {{ !empty($heroThumbnail->title) ? $heroThumbnail->title : 'sigap membangun negeri untuk rakyat' }}
+                                                </h3>
+                                                <h1 class="hero-headline text-anime-style-3 mb-lg-5 pb-lg-5" data-cursor="-opaque" style="font-size: 50px;">
+                                                    {{ !empty($heroThumbnail->description) ? $heroThumbnail->description : '#MengelolaAirUntukNegeri' }}
+                                                </h1>
                                             </div>
                                         </div>
                                     </div>
@@ -58,8 +108,8 @@
                                     <div class="col-lg-12">
                                         <div class="hero-content">
                                             <div class="section-title mb-lg-5">
-                                                <h3 class="wow fadeInUp mt-5 mb-3">sigap membangun negeri untuk rakyat</h3>
-                                                <h1 class="text-anime-style-3 mb-lg-5 pb-lg-5" data-cursor="-opaque">#MengelolaAirUntukNegeri</h1>
+                                                <h3 class="hero-kicker wow fadeInUp mt-5 mb-3">sigap membangun negeri untuk rakyat</h3>
+                                                <h1 class="hero-headline text-anime-style-3 mb-lg-5 pb-lg-5" data-cursor="-opaque">#MengelolaAirUntukNegeri</h1>
                                             </div>
                                         </div>
                                     </div>
@@ -83,7 +133,7 @@
                 <div class="about-image">
                     <div class="about-img">
                         <figure class="reveal">
-                            <img src="https://sda.pu.go.id/web/images/home1.webp" alt="Balai Air Tanah">
+                            <img src="{{ asset('images/cp.png') }}" alt="Balai Air Tanah">
                         </figure>
                     </div>
                 </div>
@@ -950,7 +1000,7 @@
 
 <!-- Why Choose Us Section Start -->
 <div class="akun">
-    <div class="container">
+    <div class="container-fluid px-3 px-lg-4">
         <div class="row section-row">
             <div class="col-lg-12">
                 <!-- Section Title Start -->
@@ -967,9 +1017,9 @@
                 .siatab-widget {
                     background: #ffffff;
                     border: 1px solid #dce4ef;
-                    border-radius: 18px;
-                    padding: 8px;
-                    box-shadow: 0 12px 28px rgba(20, 34, 56, 0.12);
+                    border-radius: 20px;
+                    padding: 12px 12px 10px;
+                    box-shadow: 0 14px 34px rgba(20, 34, 56, 0.12);
                     height: 100%;
                 }
 
@@ -982,33 +1032,42 @@
                 .siatab-slide-card {
                     background: #eef3fb;
                     border: 1px solid #dbe6f5;
-                    border-radius: 14px;
+                    border-radius: 18px;
                     overflow: hidden;
+                }
+
+                .siatab-link {
+                    display: block;
+                    color: inherit;
+                    text-decoration: none;
                 }
 
                 .siatab-slide-image {
                     background: linear-gradient(180deg, #edf3fb 0%, #e5edf8 100%);
                     padding: 6px;
                     border-bottom: 1px solid #d4dfef;
+                    min-height: 470px;
+                    border-radius: 16px;
                 }
 
                 .siatab-slide-image img {
                     width: 100%;
-                    aspect-ratio: 16 / 8.2;
+                    height: 458px;
                     object-fit: contain;
+                    object-position: center;
                     background: #f7faff;
                     border-radius: 10px;
                     display: block;
                 }
 
                 .siatab-slide-title {
-                    padding: 12px 14px 14px;
+                    padding: 16px 16px 18px;
                     margin: 0;
-                    color: #1c2f49;
-                    font-size: 16px;
-                    line-height: 1.35;
+                    color: #12345b;
+                    font-size: 32px;
+                    line-height: 1.2;
                     font-weight: 700;
-                    min-height: 56px;
+                    min-height: 96px;
                     display: -webkit-box;
                     -webkit-line-clamp: 2;
                     -webkit-box-orient: vertical;
@@ -1036,14 +1095,59 @@
                     border-radius: 999px;
                     background: #2f486c;
                 }
-            </style>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-6">
-                {{-- <div class="iframely-embed"><div class="iframely-responsive" style="height: 140px; padding-bottom: 0;"><a href="https://www.youtube.com/channel/UCSIbT953e30J_K0fKT8nPgA" data-iframely-url="//iframely.net/BOkn3PiP?theme=dark"></a></div></div><script async src="//iframely.net/embed.js"></script> --}}
-            </div>
 
-            <div class="col-lg-4 col-md-4 col-sm-6 col-6">
-                <!-- Project Item Start -->
-                <div class="project-item wow fadeInUp" data-wow-delay="0.5s">
+                .instagram-widget .instagram-media {
+                    margin: 0 !important;
+                    max-width: 100% !important;
+                    min-width: 100% !important;
+                    width: 100% !important;
+                    border-radius: 18px !important;
+                    border: 1px solid #dbe6f5 !important;
+                    overflow: hidden !important;
+                    box-shadow: none !important;
+                }
+
+                .instagram-widget .instagram-media iframe {
+                    min-height: 458px !important;
+                }
+
+                .siatab-empty {
+                    min-height: 458px;
+                    border-radius: 10px;
+                    background: #c6ceda;
+                    color: #2b3c55;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: clamp(30px, 3.2vw, 48px);
+                    font-weight: 700;
+                    line-height: 1.2;
+                    text-align: center;
+                    padding: 20px;
+                }
+
+                @media (max-width: 991px) {
+                    .siatab-slide-image {
+                        min-height: 360px;
+                    }
+
+                    .siatab-slide-image img {
+                        height: 348px;
+                    }
+
+                    .siatab-empty {
+                        min-height: 348px;
+                        font-size: clamp(24px, 6vw, 36px);
+                    }
+
+                    .siatab-slide-title {
+                        font-size: 24px;
+                        min-height: 78px;
+                    }
+                }
+            </style>
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12">
+                <div class="siatab-widget instagram-widget wow fadeInUp" data-wow-delay="0.5s">
                     <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/pu_sda_balaiairtanah/?utm_source=ig_embed&utm_campaign=loading" data-instgrm-version="14" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:658px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);">
                         <div style="padding:16px;"><a href="https://www.instagram.com/pu_sda_balaiairtanah/?utm_source=ig_embed&utm_campaign=loading" style=" background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank">
                                 <div style=" display: flex; flex-direction: row; align-items: center;">
@@ -1094,10 +1198,13 @@
                                     Air</a> (@<a href="https://www.instagram.com/pu_sda_balaiairtanah/?utm_source=ig_embed&utm_campaign=loading" style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px;" target="_blank">pu_sda_balaiairtanah</a>) � Instagram photos and videos</p></div>
                     </blockquote>
                     <script async src="//platform.instagram.com/en_US/embeds.js"></script>
+                    <a class="siatab-link" href="https://www.instagram.com/pu_sda_balaiairtanah/" target="_blank" rel="noopener noreferrer">
+                        <h5 class="siatab-slide-title">Instagram Balai Air Tanah</h5>
+                    </a>
                 </div>
             </div>
 
-            <div class="col-lg-4 col-md-4 col-sm-12 col-12">
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12">
                 <div class="siatab-widget wow fadeInUp" data-wow-delay="0.8s">
                     <div class="swiper siatab-swiper" id="siatabSwiper">
                         <div class="swiper-wrapper" data-cursor-text="Drag">
@@ -1111,7 +1218,9 @@
                                         <div class="swiper-slide" data-title="{{ $siatab->judul }}">
                                             <article class="siatab-slide-card">
                                                 <div class="siatab-slide-image">
-                                                    <img src="{{ asset('storage/' . $siatabImage->image_path) }}" alt="{{ $siatab->judul }}">
+                                                    <a class="siatab-link" href="https://siatab.sda.pu.go.id/" target="_blank" rel="noopener noreferrer">
+                                                        <img src="{{ asset('storage/' . $siatabImage->image_path) }}" alt="{{ $siatab->judul }}">
+                                                    </a>
                                                 </div>
                                             </article>
                                         </div>
@@ -1121,7 +1230,9 @@
                                     <div class="swiper-slide" data-title="{{ $siatab->judul }}">
                                         <article class="siatab-slide-card">
                                             <div class="siatab-slide-image">
-                                                <img src="{{ asset('storage/' . $siatab->image_path) }}" alt="{{ $siatab->judul }}">
+                                                <a class="siatab-link" href="https://siatab.sda.pu.go.id/" target="_blank" rel="noopener noreferrer">
+                                                    <img src="{{ asset('storage/' . $siatab->image_path) }}" alt="{{ $siatab->judul }}">
+                                                </a>
                                             </div>
                                         </article>
                                     </div>
@@ -1131,7 +1242,9 @@
                                 <div class="swiper-slide" data-title="Belum ada data SIATAB.">
                                     <article class="siatab-slide-card">
                                         <div class="siatab-slide-image">
-                                            <img src="https://placehold.co/1280x720/e6edf5/27364a?text=Belum+ada+SIATAB" alt="Belum ada SIATAB">
+                                            <a class="siatab-link" href="https://siatab.sda.pu.go.id/" target="_blank" rel="noopener noreferrer">
+                                                <div class="siatab-empty">Belum ada SIATAB</div>
+                                            </a>
                                         </div>
                                     </article>
                                 </div>
@@ -1139,7 +1252,22 @@
                         </div>
                         <div class="swiper-pagination siatab-pagination" id="siatabPagination"></div>
                     </div>
-                    <h5 class="siatab-slide-title" id="siatabActiveTitle">Belum ada data SIATAB.</h5>
+                    <a class="siatab-link" href="https://siatab.sda.pu.go.id/" target="_blank" rel="noopener noreferrer">
+                        <h5 class="siatab-slide-title" id="siatabActiveTitle">Belum ada data SIATAB.</h5>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12">
+                <div class="siatab-widget wow fadeInUp" data-wow-delay="1s">
+                    <a class="siatab-link" href="https://siatab.sda.pu.go.id/" target="_blank" rel="noopener noreferrer">
+                        <article class="siatab-slide-card">
+                            <div class="siatab-slide-image">
+                                <img src="{{ asset('images/siatab-preview.svg') }}" alt="Portal SIATAB">
+                            </div>
+                        </article>
+                        <h5 class="siatab-slide-title">Portal SIATAB</h5>
+                    </a>
                 </div>
             </div>
         </div>

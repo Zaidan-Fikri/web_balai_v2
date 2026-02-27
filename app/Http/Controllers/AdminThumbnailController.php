@@ -20,13 +20,17 @@ class AdminThumbnailController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'image' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
+            'image' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:10240'],
+            'title' => ['nullable', 'string', 'max:255'],
+            'description' => ['nullable', 'string', 'max:500'],
         ]);
 
         $path = $validated['image']->store('thumbnails', 'public');
 
         Thumbnail::create([
             'image_path' => $path,
+            'title' => $validated['title'] ?? null,
+            'description' => $validated['description'] ?? null,
         ]);
 
         return redirect()
@@ -37,7 +41,9 @@ class AdminThumbnailController extends Controller
     public function update(Request $request, Thumbnail $thumbnail)
     {
         $validated = $request->validate([
-            'image' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
+            'image' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:10240'],
+            'title' => ['nullable', 'string', 'max:255'],
+            'description' => ['nullable', 'string', 'max:500'],
         ]);
 
         if (! empty($thumbnail->image_path)) {
@@ -48,6 +54,8 @@ class AdminThumbnailController extends Controller
 
         $thumbnail->update([
             'image_path' => $path,
+            'title' => $validated['title'] ?? null,
+            'description' => $validated['description'] ?? null,
         ]);
 
         return redirect()

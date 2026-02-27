@@ -1,0 +1,49 @@
+<svg width="1903" height="629" viewBox="0 0 1903 629" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1903" y2="629" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#CDD6E1"/>
+      <stop offset="1" stop-color="#E6EBF1"/>
+    </linearGradient>
+    <linearGradient id="leftpanel" x1="0" y1="0" x2="920" y2="629" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#CFD7E3"/>
+      <stop offset="1" stop-color="#DFE6EF"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1903" height="629" fill="url(#bg)"/>
+  <path d="M0 0H1320L1000 320L640 629H0V0Z" fill="url(#leftpanel)"/>
+
+  <rect x="280" y="20" width="1340" height="64" rx="32" fill="#FFFFFF" stroke="#D2DCE8"/>
+  <rect x="1488" y="36" width="112" height="38" rx="19" fill="#1C88FF"/>
+  <text x="1544" y="60" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#FFFFFF">Dashboard</text>
+
+  <rect x="310" y="42" width="24" height="24" rx="3" fill="#FFB400"/>
+  <path d="M322 42V66" stroke="#1B4D89" stroke-width="6"/>
+  <path d="M310 54H334" stroke="#1B4D89" stroke-width="6"/>
+  <text x="342" y="62" font-family="Arial, sans-serif" font-size="42" font-weight="500" fill="#334C6E">SIATAB</text>
+  <text x="890" y="58" font-family="Arial, sans-serif" font-size="16" font-weight="500" fill="#1680F0">Beranda</text>
+  <text x="983" y="58" font-family="Arial, sans-serif" font-size="16" font-weight="500" fill="#1A1F27">Peta</text>
+
+  <text x="292" y="230" font-family="Arial, sans-serif" font-size="60" font-weight="700" fill="#314A6B">SISTEM INFORMASI</text>
+  <text x="292" y="298" font-family="Arial, sans-serif" font-size="60" font-weight="700" fill="#1F86FF">AIR TANAH DAN</text>
+  <text x="292" y="366" font-family="Arial, sans-serif" font-size="60" font-weight="700" fill="#1F86FF">AIR BAKU</text>
+
+  <text x="292" y="430" font-family="Arial, sans-serif" font-size="17" fill="#1F2E43">Sistem Informasi Air Tanah dan Air Baku Kementerian Pekerjaan Umum yang menyediakan data</text>
+  <text x="292" y="457" font-family="Arial, sans-serif" font-size="17" fill="#1F2E43">teknis infrastruktur seperti Sumur Bor, Mata Air, Intake Sungai, PAH, dan ABSAH untuk mendukung</text>
+  <text x="292" y="484" font-family="Arial, sans-serif" font-size="17" fill="#1F2E43">pengelolaan sumber daya air yang terintegrasi dan berkelanjutan.</text>
+
+  <rect x="294" y="506" width="126" height="44" rx="22" fill="#1C88FF"/>
+  <text x="357" y="535" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#FFFFFF">Peta</text>
+
+  <circle cx="1205" cy="255" r="38" fill="#2C98E5"/>
+  <rect x="1268" y="250" width="255" height="140" rx="10" fill="#E8F1FB" stroke="#2385D8" stroke-width="6"/>
+  <rect x="1298" y="324" width="24" height="28" rx="4" fill="#2F96E0"/>
+  <rect x="1332" y="305" width="24" height="47" rx="4" fill="#2F96E0"/>
+  <rect x="1366" y="282" width="24" height="70" rx="4" fill="#2F96E0"/>
+  <rect x="1430" y="288" width="56" height="6" rx="3" fill="#2F96E0"/>
+  <rect x="1430" y="304" width="56" height="6" rx="3" fill="#2F96E0"/>
+  <rect x="1430" y="320" width="56" height="6" rx="3" fill="#2F96E0"/>
+
+  <ellipse cx="1200" cy="535" rx="220" ry="10" fill="#8BD6F3"/>
+  <ellipse cx="1370" cy="535" rx="260" ry="10" fill="#8BD6F3"/>
+</svg>
