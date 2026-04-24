@@ -1345,6 +1345,39 @@
 
 <!-- Our Galeri Section Start -->
 <div class="gallery-home">
+    <style>
+        .gallery-home {
+            position: relative;
+            overflow: hidden;
+            background: none !important;
+            background-image: none !important;
+        }
+
+        .gallery-home::before {
+            content: none !important;
+            background: none !important;
+            background-image: none !important;
+        }
+
+        .gallery-home::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(90deg, rgba(249, 248, 246, 0.96) 0%, rgba(249, 248, 246, 0.90) 28%, rgba(249, 248, 246, 0.82) 52%, rgba(249, 248, 246, 0.62) 100%),
+                url('{{ asset('images/background3.png') }}');
+            background-repeat: no-repeat, no-repeat;
+            background-position: center center, center center;
+            background-size: cover, cover;
+            opacity: 0.48;
+            pointer-events: none;
+        }
+
+        .gallery-home .container {
+            position: relative;
+            z-index: 1;
+        }
+    </style>
     <div class="container">
         <div class="row section-row">
             <div class="col-lg-12">
