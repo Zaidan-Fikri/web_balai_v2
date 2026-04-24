@@ -154,6 +154,22 @@
                 background: transparent;
             }
         }
+
+        .auto-hide-navbar {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            will-change: transform;
+            z-index: 1030;
+        }
+
+        .auto-hide-navbar.is-hidden {
+            transform: translateY(calc(-100% - 16px));
+            opacity: 0.98;
+        }
+
+        .auto-hide-navbar.is-visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
     </style>
     <link rel="preload" href="https://sda.pu.go.id/web/images/slider1.webp" as="image">
 
@@ -204,5 +220,54 @@
 <script src="https://sda.pu.go.id/web/js/function.js"></script>
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var navbar = document.getElementById('siteNavbar');
+
+        if (!navbar) {
+            return;
+        }
+
+        var lastScrollY = window.scrollY;
+        var revealZone = 100;
+        var hideThreshold = 140;
+
+        function showNavbar() {
+            navbar.classList.remove('is-hidden');
+            navbar.classList.add('is-visible');
+        }
+
+        function hideNavbar() {
+            if (window.scrollY <= hideThreshold) {
+                return;
+            }
+
+            navbar.classList.remove('is-visible');
+            navbar.classList.add('is-hidden');
+        }
+
+        showNavbar();
+
+        window.addEventListener('scroll', function () {
+            var currentScrollY = window.scrollY;
+
+            if (currentScrollY <= hideThreshold || currentScrollY < lastScrollY) {
+                showNavbar();
+            } else if (currentScrollY > lastScrollY) {
+                hideNavbar();
+            }
+
+            lastScrollY = currentScrollY;
+        }, { passive: true });
+
+        document.addEventListener('mousemove', function (event) {
+            if (event.clientY <= revealZone) {
+                showNavbar();
+            }
+        });
+
+        navbar.addEventListener('mouseenter', showNavbar);
+    });
+</script>
 </body>
 </html>

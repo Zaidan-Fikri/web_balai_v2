@@ -207,9 +207,37 @@
 </div><!-- About Section End -->
 
 <!-- Berita Section Start -->
-<div class="what-we-do" style="padding: 50px 0;">
-    <div class="light-bg-section">
+<div class="what-we-do berita-terkini-wrapper" style="padding: 50px 0;">
+    <div class="light-bg-section berita-terkini-section">
         <style>
+            .berita-terkini-wrapper {
+                background:
+                    radial-gradient(circle at 78% 14%, rgba(234, 182, 48, 0.16) 0%, rgba(234, 182, 48, 0) 16%),
+                    radial-gradient(circle at 88% 82%, rgba(217, 223, 198, 0.34) 0%, rgba(217, 223, 198, 0) 24%),
+                    radial-gradient(circle at 16% 12%, rgba(75, 92, 132, 0.36) 0%, rgba(75, 92, 132, 0) 30%),
+                    linear-gradient(96deg, #5c6986 0%, #7f8dad 18%, #eef0f4 48%, #f9f8f6 70%, #e4e8d8 100%);
+            }
+
+            .berita-terkini-section {
+                background: transparent !important;
+            }
+
+            .berita-terkini-section .blog-item {
+                background: #f9f8f6;
+                overflow: hidden;
+                border-radius: 40px;
+            }
+
+            .berita-terkini-section .post-item-content,
+            .berita-terkini-section .post-item-body,
+            .berita-terkini-section .post-item-footer {
+                background: #f9f8f6;
+            }
+
+            .berita-terkini-section .post-item-content {
+                border-radius: 0 0 40px 40px;
+            }
+
             .berita-detail-btn {
                 border: 1px solid #edaa00;
                 background: #fff4d8;
@@ -248,7 +276,7 @@
 
             .berita-detail-title {
                 margin: 0 0 8px;
-                color: #1a2e4a;
+                color: #374774;
             }
 
             .berita-detail-date {
@@ -263,7 +291,7 @@
                 overflow: hidden;
                 border-radius: 12px;
                 border: 1px solid #d5dfeb;
-                background: #0f1b30;
+                background: transparent;
                 margin-bottom: 10px;
             }
 
@@ -274,10 +302,13 @@
 
             .berita-detail-slide {
                 min-width: 100%;
+                display: flex;
+                justify-content: center;
             }
 
             .berita-detail-slide img {
-                width: 100%;
+                width: auto;
+                max-width: 100%;
                 max-height: min(70vh, 760px);
                 object-fit: contain;
                 display: block;
@@ -318,7 +349,9 @@
                 <div class="col-lg-12">
                     <!-- Section Title Start -->
                     <div class="section-title">
-                        <a href="post"><h3 class="wow fadeInUp">Index Berita</h3></a>
+                        <a href="post">
+                            <h3 class="wow fadeInUp" style="color: #A03A13;">Index Berita</h3>
+                        </a>
                         <h2 class="text-anime-style-3" data-cursor="-opaque">Berita Terkini</h2>
                     </div>
                     <!-- Section Title End -->
@@ -536,6 +569,38 @@
                         <h3 class="publication-menu-title">Menu Publikasi</h3>
                     </div>
                         <style>
+                            .buletin {
+                                position: relative;
+                                overflow: hidden;
+                                background: none !important;
+                                background-image: none !important;
+                            }
+
+                            .buletin::before {
+                                content: none !important;
+                                background: none !important;
+                                background-image: none !important;
+                            }
+
+                            .buletin::after {
+                                content: "";
+                                position: absolute;
+                                inset: 0;
+                                background-image:
+                                    linear-gradient(90deg, rgba(249, 248, 246, 0.98) 0%, rgba(249, 248, 246, 0.94) 42%, rgba(249, 248, 246, 0.82) 62%, rgba(249, 248, 246, 0.48) 100%),
+                                    url('{{ asset('images/background2.png') }}');
+                                background-repeat: no-repeat, no-repeat;
+                                background-position: center center, right center;
+                                background-size: cover, min(54vw, 880px) auto;
+                                opacity: 0.38;
+                                pointer-events: none;
+                            }
+
+                            .buletin .container {
+                                position: relative;
+                                z-index: 1;
+                            }
+
                             .publication-menu-box {
                                 background: #0b1f4d;
                                 border-radius: 22px;
@@ -874,130 +939,6 @@
     })();
 </script>
 
-<!-- Jurnal Section Start -->
-<div class="our-faqs">
-    <div class="light-bg-section">
-        <div class="container">
-            <div class="row section-row">
-                <div class="col-lg-12">
-                    <!-- Section Title Start -->
-                    <div class="section-title">
-                        <h3 class="wow fadeInUp">Wadah Informasi</h3>
-                        <h2 class="text-anime-style-3" data-cursor="-opaque">Jurnal SDA</h2>
-                    </div>
-                    <!-- Section Title End -->
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-lg-4 col-md-4">
-                    <!-- Project Item Start -->
-                    <div class="project-item wow fadeInUp" data-wow-delay="0.25s">
-                        <!-- Project Image Start -->
-                        <div class="project-image" data-cursor-text="View">
-                            <a href="https://jurnalsda.pusair-pu.go.id/index.php/JSDA">
-                                <figure>
-                                    <img src="https://sda.pu.go.id/web/images/jurnal-sda.webp" alt="Jurnal Sumber Daya Air">
-                                </figure>
-                            </a>
-                        </div>
-                        <!-- Project Image End -->
-
-                        <!-- Project Body Start -->
-                        <div class="project-body mb-3">
-                            <!-- Project Body Title Start -->
-                            <div class="project-body-title">
-                                <h3>Jurnal Sumber Daya Air</h3>
-                            </div>
-                            <!-- Project Body Title End -->
-
-                            <!-- Project Content Start -->
-                            <div class="project-content">
-                                <div class="project-content-footer">
-                                    <a href="https://jurnalsda.pusair-pu.go.id/index.php/JSDA" class="readmore-btn">Selengkapnya</a>
-                                </div>
-                            </div>
-                            <!-- Project Content End -->
-                        </div>
-                        <!-- Project Body End -->
-                    </div>
-                    <!-- Project Item End -->
-                </div>
-
-                <div class="col-lg-4 col-md-4">
-                    <!-- Project Item Start -->
-                    <div class="project-item wow fadeInUp" data-wow-delay="0.5s">
-                        <!-- Project Image Start -->
-                        <div class="project-image" data-cursor-text="View">
-                            <a href="https://jurnalth.pusair-pu.go.id/">
-                                <figure>
-                                    <img src="https://sda.pu.go.id/web/images/jurnal-hidraulik.webp" alt="Jurnal Teknik Hidraulik">
-                                </figure>
-                            </a>
-                        </div>
-
-                        <!-- Project Image End -->
-
-                        <!-- Project Body Start -->
-                        <div class="project-body mb-3">
-                            <!-- Project Body Title Start -->
-                            <div class="project-body-title">
-                                <h3>Jurnal Hidraulik</h3>
-                            </div>
-                            <!-- Project Body Title End -->
-
-                            <!-- Project Content Start -->
-                            <div class="project-content">
-                                <div class="project-content-footer">
-                                    <a href="https://jurnalth.pusair-pu.go.id/" class="readmore-btn">Selengkapnya</a>
-                                </div>
-                            </div>
-                            <!-- Project Content End -->
-                        </div>
-                        <!-- Project Body End -->
-                    </div>
-                    <!-- Project Item End -->
-                </div>
-
-                <div class="col-lg-4 col-md-4">
-                    <!-- Project Item Start -->
-                    <div class="project-item wow fadeInUp" data-wow-delay="0.75s">
-                        <!-- Project Image Start -->
-                        <div class="project-image" data-cursor-text="View">
-                            <a href="#">
-                                <figure>
-                                    <img src="https://sda.pu.go.id/web/images/jurnal-irigasi.webp" alt="Jurnal Irigasi">
-                                </figure>
-                            </a>
-                        </div>
-                        <!-- Project Image End -->
-
-                        <!-- Project Body Start -->
-                        <div class="project-body mb-3">
-                            <!-- Project Body Title Start -->
-                            <div class="project-body-title">
-                                <h3>Jurnal Irigasi</h3>
-                            </div>
-                            <!-- Project Body Title End -->
-
-                            <!-- Project Content Start -->
-                            <div class="project-content">
-                                <div class="project-content-footer">
-                                    <a href="#" class="readmore-btn">Selengkapnya</a>
-                                </div>
-                            </div>
-                            <!-- Project Content End -->
-                        </div>
-                        <!-- Project Body End -->
-                    </div>
-                    <!-- Project Item End -->
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Jurnal Section End -->
-
 <!-- Why Choose Us Section Start -->
 <div class="akun">
     <div class="container-fluid px-3 px-lg-4">
@@ -1014,6 +955,38 @@
 
         <div class="row justify-content-center">
             <style>
+                .akun {
+                    position: relative;
+                    overflow: hidden;
+                    background: none !important;
+                    background-image: none !important;
+                }
+
+                .akun::before {
+                    content: none !important;
+                    background: none !important;
+                    background-image: none !important;
+                }
+
+                .akun::after {
+                    content: "";
+                    position: absolute;
+                    inset: 0;
+                    background-image:
+                        linear-gradient(90deg, rgba(249, 248, 246, 0.78) 0%, rgba(249, 248, 246, 0.86) 28%, rgba(249, 248, 246, 0.92) 52%, rgba(249, 248, 246, 0.98) 100%),
+                        url('{{ asset('images/background1.png') }}');
+                    background-repeat: no-repeat, no-repeat;
+                    background-position: center center, -180px top;
+                    background-size: cover, min(64vw, 1120px) auto;
+                    opacity: 0.62;
+                    pointer-events: none;
+                }
+
+                .akun .container-fluid {
+                    position: relative;
+                    z-index: 1;
+                }
+
                 .siatab-widget {
                     background: #ffffff;
                     border: 1px solid #dce4ef;
@@ -1258,18 +1231,6 @@
                 </div>
             </div>
 
-            <div class="col-lg-4 col-md-6 col-sm-12 col-12">
-                <div class="siatab-widget wow fadeInUp" data-wow-delay="1s">
-                    <a class="siatab-link" href="https://siatab.sda.pu.go.id/" target="_blank" rel="noopener noreferrer">
-                        <article class="siatab-slide-card">
-                            <div class="siatab-slide-image">
-                                <img src="{{ asset('images/siatab-preview.svg') }}" alt="Portal SIATAB">
-                            </div>
-                        </article>
-                        <h5 class="siatab-slide-title">Portal SIATAB</h5>
-                    </a>
-                </div>
-            </div>
         </div>
     </div>
 </div><!-- Why Choose Us Section End -->

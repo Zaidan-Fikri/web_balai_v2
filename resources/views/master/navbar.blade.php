@@ -1,6 +1,6 @@
 <!-- Header Start -->
 <!--<header class="main-header">-->
-<div class="header-sticky sticky-top header-top">
+<div class="header-sticky sticky-top header-top auto-hide-navbar" id="siteNavbar">
     <nav class="navbar navbar-expand-lg bg-scroll">
         <div class="container-fluid">
             <!-- Logo Start -->
@@ -51,6 +51,7 @@
                                     <ul class="sub-menu flyout-card">
                                         <li class="nav-item"><a class="nav-link" href="{{ route('pelayanan_publik.permintaan_pelayanan_data') }}">Data</a></li>
                                         <li class="nav-item"><a class="nav-link" href="{{ route('pelayanan_publik.permintaan_pelayanan_magang') }}">Magang</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="{{ route('pelayanan_publik.permintaan_pelayanan_advis') }}">Advis</a></li>
                                     </ul>
                                 </li>
                                 <li class="nav-item"><a class="nav-link" href="{{ route('pelayanan_publik.e_ppid') }}">E-PPID</a></li>

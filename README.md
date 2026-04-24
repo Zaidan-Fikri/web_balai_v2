@@ -71,13 +71,14 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 docker compose up --build -d
 ```
 
-### 2. (Optional) Run migration
+Saat startup, container `app` akan otomatis:
+- copy `.env` dari `.env.example` jika belum ada
+- install dependency composer jika belum ada
+- generate `APP_KEY` jika belum ada
+- menunggu MySQL siap
+- menjalankan `php artisan migrate --seed`
 
-```bash
-docker compose exec app php artisan migrate
-```
-
-### 3. Open app
+### 2. Open app
 
 App URL: `http://localhost:8000`
 
