@@ -68,6 +68,7 @@ Route::get('/', function () {
 Route::get('/login', [AdminAuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AdminAuthController::class, 'login'])->name('login.process');
 Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
+Route::view('/peta', 'pages.peta')->name('peta');
 
 Route::prefix('admin')->name('admin.')->middleware('admin.auth')->group(function () {
     Route::view('/dashboard', 'pages.admin.dashboard')->name('dashboard');
