@@ -46,6 +46,64 @@
         text-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
         margin-bottom: 3rem;
     }
+
+    .about-service-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+        margin-top: 16px;
+    }
+
+    .about-service-card {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        min-height: 92px;
+        padding: 18px 22px;
+        border-radius: 16px;
+        background: linear-gradient(135deg, #f4b000 0%, #e7a300 100%);
+        color: #ffffff;
+        text-decoration: none;
+        box-shadow: 0 14px 28px rgba(244, 176, 0, 0.24);
+        transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    .about-service-card:hover {
+        color: #ffffff;
+        background: linear-gradient(135deg, #0b2b5c 0%, #001f45 100%);
+        transform: translateY(-3px);
+        box-shadow: 0 18px 34px rgba(0, 31, 69, 0.28);
+    }
+
+    .about-service-card-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 46px;
+        height: 46px;
+        flex-shrink: 0;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.16);
+    }
+
+    .about-service-card-icon ion-icon {
+        font-size: 26px;
+        color: #ffffff;
+    }
+
+    .about-service-card-title {
+        font-size: 18px;
+        font-weight: 800;
+        line-height: 1.2;
+        letter-spacing: 0;
+        text-transform: uppercase;
+    }
+
+    @media (max-width: 576px) {
+        .about-service-grid {
+            grid-template-columns: 1fr;
+        }
+    }
 </style>
 
 <!-- Preloader Start -->
@@ -153,53 +211,23 @@
 
                     <!-- About Content Body Start -->
                     <div class="about-content-body wow fadeInUp" data-wow-delay="0.5s">
-                        <style>
-                            .about-check-list {
-                                padding: 24px !important;
-                            }
+                        <div class="about-service-grid">
+                            <a href="{{ route('peta') }}" class="about-service-card">
+                                <span class="about-service-card-icon" aria-hidden="true">
+                                    <ion-icon name="map-outline"></ion-icon>
+                                </span>
+                                <span class="about-service-card-title">Advis Teknis</span>
+                            </a>
 
-                            .about-check-list li::before {
-                                display: none !important;
-                                content: none !important;
-                            }
-                        </style>
-                        <ul class="about-check-list" style="list-style:none;margin:0;display:grid;gap:10px;">
-                            <li style="display:flex;align-items:flex-start;gap:10px;">
-                                <ion-icon name="checkmark-circle" style="color:#f4b000;font-size:20px;flex-shrink:0;margin-top:2px;"></ion-icon>
-                                <span>Perumusan dan Pelaksanaan Kebijakan</span>
-                            </li>
-                            <li style="display:flex;align-items:flex-start;gap:10px;">
-                                <ion-icon name="checkmark-circle" style="color:#f4b000;font-size:20px;flex-shrink:0;margin-top:2px;"></ion-icon>
-                                <span>Penyusunan Norma, Standar, Prosedur, dan Kriteria</span>
-                            </li>
-                            <li style="display:flex;align-items:flex-start;gap:10px;">
-                                <ion-icon name="checkmark-circle" style="color:#f4b000;font-size:20px;flex-shrink:0;margin-top:2px;"></ion-icon>
-                                <span>Pemberian Bimbingan Teknis dan Supervisi</span>
-                            </li>
-                            <li style="display:flex;align-items:flex-start;gap:10px;">
-                                <ion-icon name="checkmark-circle" style="color:#f4b000;font-size:20px;flex-shrink:0;margin-top:2px;"></ion-icon>
-                                <span>Pelaksanaan Evaluasi dan Pelaporan serta Administrasi</span>
-                            </li>
-                        </ul>
+                            <a href="https://siatab.sda.pu.go.id/" target="_blank" rel="noopener noreferrer" class="about-service-card">
+                                <span class="about-service-card-icon" aria-hidden="true">
+                                    <ion-icon name="browsers-outline"></ion-icon>
+                                </span>
+                                <span class="about-service-card-title">SIATAB</span>
+                            </a>
+                        </div>
                     </div>
                     <!-- About Content Body End -->
-
-                    <!-- About Content Footer Start -->
-                    <div class="about-content-footer wow fadeInUp" data-wow-delay="0.75s">
-                        <div class="about-footer-btn">
-                            <a href="mailto:balaiairtanah@pu.go.id" class="btn-default" style="text-transform: lowercase;">balaiairtanah@pu.go.id</a>
-                        </div>
-                        <div class="about-contact-support">
-                            {{-- <div class="icon-box">
-                                <img src="https://sda.pu.go.id/web/images/icon-phone.svg" alt="kontak sda">
-                            </div>
-                            <div class="about-support-content">
-                                <p>Kontak Kami</p>
-                                <h3>(021) 158</h3>
-                            </div> --}}
-                        </div>
-                    </div>
-                    <!-- About Content Footer End -->
                 </div>
             </div>
         </div>
