@@ -52,6 +52,3 @@ Build production:
 npm run build
 ```
 
-## Catatan Migrasi Laravel 12
-
-Detail perubahan dari Laravel 8 ke Laravel 12 tersedia di `LARAVEL_12_MIGRATION_REPORT.md`.
