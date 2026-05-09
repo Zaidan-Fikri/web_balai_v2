@@ -14,7 +14,7 @@
 
 
 <!-- Slider Section Start -->
-<div class="hero bg-section hero-slider">
+<div class="hero bg-section hero-slider home-hero">
     <div class="hero-slider-layout">
         <div class="swiper">
             <div class="swiper-wrapper">
@@ -29,22 +29,6 @@
                                 </picture>
                             </div>
 
-                            <div class="container">
-                                <div class="row align-items-center">
-                                    <div class="col-lg-12">
-                                        <div class="hero-content">
-                                            <div class="section-title mb-lg-5">
-                                                <h3 class="hero-kicker wow fadeInUp mt-5 mb-3">
-                                                    {{ !empty($heroThumbnail->title) ? $heroThumbnail->title : 'sigap membangun negeri untuk rakyat' }}
-                                                </h3>
-                                                <h1 class="hero-headline text-anime-style-3 mb-lg-5 pb-lg-5" data-cursor="-opaque" style="font-size: 50px;">
-                                                    {{ !empty($heroThumbnail->description) ? $heroThumbnail->description : '#MengelolaAirUntukNegeri' }}
-                                                </h1>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 @empty
@@ -58,18 +42,6 @@
                                 </picture>
                             </div>
 
-                            <div class="container">
-                                <div class="row align-items-center">
-                                    <div class="col-lg-12">
-                                        <div class="hero-content">
-                                            <div class="section-title mb-lg-5">
-                                                <h3 class="hero-kicker wow fadeInUp mt-5 mb-3">sigap membangun negeri untuk rakyat</h3>
-                                                <h1 class="hero-headline text-anime-style-3 mb-lg-5 pb-lg-5" data-cursor="-opaque">#MengelolaAirUntukNegeri</h1>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 @endforelse
@@ -80,7 +52,7 @@
 </div><!-- Slider Section End -->
 
 <!-- About Section Start -->
-<div class="about-us" style="background-image: url('web/images/damoutline.webp'); background-repeat: no-repeat; background-position: right;">
+<div class="about-us home-about">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-5 col-md-5 col-sm-12">
@@ -101,7 +73,7 @@
                     <!-- Section Title Start -->
                     <div class="section-title">
                         <h3 class="wow fadeInUp">Tentang Kami</h3>
-                        <h2 class="text-anime-style-3" data-cursor="-opaque">Balai Air Tanah</h2>
+                        <h2 class="text-anime-style-3">Balai Air Tanah</h2>
                         <p class="wow fadeInUp" data-wow-delay="0.25s">Balai Air Tanah mempunyai tugas menyelenggarakan perumusan dan pelaksanaan kebijakan di bidang pengelolaan sumber daya air sesuai dengan ketentuan peraturan perudang-undangan.</p>
                     </div>
                     <!-- Section Title End -->
@@ -132,16 +104,17 @@
 </div><!-- About Section End -->
 
 <!-- Berita Section Start -->
-<div class="what-we-do berita-terkini-wrapper" style="padding: 50px 0;">
-    <div class="light-bg-section berita-terkini-section">        <div class="container-fluid">
+<div class="what-we-do berita-terkini-wrapper home-news-section">
+    <div class="light-bg-section berita-terkini-section">
+        <div class="container-fluid">
             <div class="row section-row">
                 <div class="col-lg-12">
                     <!-- Section Title Start -->
                     <div class="section-title">
                         <a href="post">
-                            <h3 class="wow fadeInUp" style="color: #A03A13;">Index Berita</h3>
+                            <h3 class="wow fadeInUp section-label-link">Index Berita</h3>
                         </a>
-                        <h2 class="text-anime-style-3" data-cursor="-opaque">Berita Terkini</h2>
+                        <h2 class="text-anime-style-3">Berita Terkini</h2>
                     </div>
                     <!-- Section Title End -->
                 </div>
@@ -152,7 +125,7 @@
                     <!-- Testimonial Slider Start -->
                     <div class="testimonial-slider">
                         <div class="swiper">
-                            <div class="swiper-wrapper" data-cursor-text="Drag">
+                            <div class="swiper-wrapper">
                                 @forelse ($beritas as $berita)
                                     @php
                                         $firstImage = $berita->images->first();
@@ -168,11 +141,11 @@
                                     @endphp
                                     <div class="swiper-slide">
                                         <div class="blog-item wow fadeInUp" data-wow-delay="0.25s">
-                                            <div class="post-featured-image" data-cursor-text="View">
+                                            <div class="post-featured-image">
                                                 <figure>
                                                     <div class="image-anime">
                                                         <img src="{{ $imageUrl }}" alt="{{ $berita->judul }}">
-                                                        <p style="position: absolute; top: 16px; left: 16px; background-color: #334570; color:#F7F9FC; padding: 0px 15px 0px 14px; gap: 0px; border-radius: 40px;">
+                                                        <p class="news-date-badge">
                                                             {{ $berita->created_at ? $berita->created_at->locale('id')->translatedFormat('l, d F Y') : '-' }}
                                                         </p>
                                                     </div>
@@ -228,7 +201,7 @@
         </div>
         <div class="berita-detail-dots" id="beritaDetailDots"></div>
         <p class="berita-detail-description" id="beritaDetailDescription"></p>
-        <div class="text-end" style="margin-top: 14px;">
+        <div class="text-end berita-detail-actions">
             <button type="button" class="berita-detail-btn" id="closeBeritaDetail">Tutup</button>
         </div>
     </div>
@@ -240,7 +213,7 @@
             <div class="col-lg-12">
                 <div class="section-title">
                     <a href="dokumen"><h3 class="wow fadeInUp">Publikasi</h3></a>
-                    <h2 class="text-anime-style-3" data-cursor="-opaque">Buletin & Buku</h2>
+                    <h2 class="text-anime-style-3">Buletin & Buku</h2>
                 </div>
             </div>
         </div>
@@ -266,7 +239,7 @@
                     @forelse($publikasiKaryaIlmiahs as $item)
                         <div class="col-lg-4 col-md-6 js-publication-item">
                             <div class="bulletin-item wow fadeInUp publication-card" data-wow-delay="0.25s">
-                                <div class="bulletin-image" data-cursor-text="View">
+                                <div class="bulletin-image">
                                     <a href="{{ asset('storage/' . $item->pdf_path) }}" target="_blank" rel="noopener">
                                         <figure>
                                             <img src="{{ $item->thumbnail_path ? asset('storage/' . $item->thumbnail_path) : asset('assets/images/placeholders/publikasi.svg') }}" alt="{{ $item->judul }}">
@@ -296,7 +269,7 @@
                     @forelse($publikasiSnis as $item)
                         <div class="col-lg-4 col-md-6 js-publication-item">
                             <div class="bulletin-item wow fadeInUp publication-card" data-wow-delay="0.25s">
-                                <div class="bulletin-image" data-cursor-text="View">
+                                <div class="bulletin-image">
                                     <a href="{{ asset('storage/' . $item->pdf_path) }}" target="_blank" rel="noopener">
                                         <figure>
                                             <img src="{{ $item->thumbnail_path ? asset('storage/' . $item->thumbnail_path) : asset('assets/images/placeholders/publikasi.svg') }}" alt="{{ $item->judul }}">
@@ -326,7 +299,7 @@
                     @forelse($publikasiLaporanSkms as $item)
                         <div class="col-lg-4 col-md-6 js-publication-item">
                             <div class="bulletin-item wow fadeInUp publication-card" data-wow-delay="0.25s">
-                                <div class="bulletin-image" data-cursor-text="View">
+                                <div class="bulletin-image">
                                     <a href="{{ asset('storage/' . $item->pdf_path) }}" target="_blank" rel="noopener">
                                         <figure>
                                             <img src="{{ $item->thumbnail_path ? asset('storage/' . $item->thumbnail_path) : asset('assets/images/placeholders/publikasi.svg') }}" alt="{{ $item->judul }}">
@@ -364,7 +337,7 @@
                 <!-- Section Title Start -->
                 <div class="section-title">
                     <h3 class="wow fadeInUp">Akun Resmi</h3>
-                    <h2 class="text-anime-style-3" data-cursor="-opaque">Media Sosial & Aplikasi</h2>
+                    <h2 class="text-anime-style-3">Media Sosial & Aplikasi</h2>
                 </div>
                 <!-- Section Title End -->
             </div>
@@ -394,7 +367,7 @@
                                     </svg>
                                 </div>
                                 <div style="padding-top: 8px;">
-                                    <div style=" color:#3897f0; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:550; line-height:18px;">View this profile on Instagram</div>
+                                    <div style=" color:#3897f0; font-family:'DM Sans',sans-serif; font-size:14px; font-style:normal; font-weight:550; line-height:18px;">View this profile on Instagram</div>
                                 </div>
                                 <div style="padding: 12.5% 0;"></div>
                                 <div style="display: flex; flex-direction: row; margin-bottom: 14px; align-items: center;">
@@ -418,8 +391,8 @@
                                     <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 144px;"></div>
                                 </div>
                             </a>
-                            <p style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;"><a href="https://www.instagram.com/pu_sda_balaiairtanah/?utm_source=ig_embed&utm_campaign=loading" style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px;" target="_blank">Ditjen Sumber Daya
-                                    Air</a> (@<a href="https://www.instagram.com/pu_sda_balaiairtanah/?utm_source=ig_embed&utm_campaign=loading" style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px;" target="_blank">pu_sda_balaiairtanah</a>) � Instagram photos and videos</p></div>
+                            <p style=" color:#c9c8cd; font-family:'DM Sans',sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;"><a href="https://www.instagram.com/pu_sda_balaiairtanah/?utm_source=ig_embed&utm_campaign=loading" style=" color:#c9c8cd; font-family:'DM Sans',sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px;" target="_blank">Ditjen Sumber Daya
+                                    Air</a> (@<a href="https://www.instagram.com/pu_sda_balaiairtanah/?utm_source=ig_embed&utm_campaign=loading" style=" color:#c9c8cd; font-family:'DM Sans',sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px;" target="_blank">pu_sda_balaiairtanah</a>) � Instagram photos and videos</p></div>
                     </blockquote>
                     <script async src="//platform.instagram.com/en_US/embeds.js"></script>
                     <a class="siatab-link" href="https://www.instagram.com/pu_sda_balaiairtanah/" target="_blank" rel="noopener noreferrer">
@@ -431,7 +404,7 @@
             <div class="col-lg-4 col-md-6 col-sm-12 col-12">
                 <div class="siatab-widget wow fadeInUp" data-wow-delay="0.8s">
                     <div class="swiper siatab-swiper" id="siatabSwiper">
-                        <div class="swiper-wrapper" data-cursor-text="Drag">
+                        <div class="swiper-wrapper">
                             @php
                                 $hasSiatabSlides = false;
                             @endphp
@@ -523,7 +496,7 @@
                 <div class="col-lg-12">
                     <div class="pengumuman-slider">
                         <div class="swiper">
-                            <div class="swiper-wrapper" data-cursor-text="Drag">
+                            <div class="swiper-wrapper">
                                 @forelse ($pengumumans->chunk(2) as $pengumumanChunk)
                                     <div class="swiper-slide">
                                         <div class="link-item">
@@ -582,7 +555,7 @@
                 <!-- Section Title Start -->
                 <div class="section-title">
                     <h3 class="wow fadeInUp">Galeri</h3>
-                    <h2 class="text-anime-style-3" data-cursor="-opaque">Foto dan Video</h2>
+                    <h2 class="text-anime-style-3">Foto dan Video</h2>
                 </div>
                 <!-- Section Title End -->
             </div>
@@ -592,7 +565,7 @@
             <div class="col-lg-5 col-md-6 wow fadeInUp" data-wow-delay="0.25s">
                 <div class="col-md-12 mb-3">
                     <!-- Intro Video Box Start -->
-                    <div class="intro-video-box" data-cursor-text="Play">
+                    <div class="intro-video-box">
                         <!-- Video Image Start -->
                         <div class="video-image">
                             <a href="https://www.youtube.com/watch?v=CdY1yfqwm5M" class="popup-video">
@@ -658,7 +631,7 @@
 
             <div class="col-lg-5 col-md-6 wow fadeInUp" data-wow-delay="0.25s">
                 <div class="col-md-12">
-                    <div class="intro-video-box" data-cursor-text="Play">
+                    <div class="intro-video-box">
                         <div class="video-image">
                             <a href="https://www.youtube.com/watch?v=ZXjwL82IQAg" class="popup-video">
                                 <figure class="image-anime">
@@ -688,7 +661,7 @@
         <div class="col-lg-12">
             <div class="link-slider">
                 <div class="swiper">
-                    <div class="swiper-wrapper" data-cursor-text="Drag">
+                    <div class="swiper-wrapper">
 
                         <div class="swiper-slide">
                             <div class="link-item">

@@ -20,10 +20,6 @@
     "dest": "public\\assets\\sda\\web\\css\\magnific-popup.css"
   },
   {
-    "url": "https://sda.pu.go.id/web/css/mousecursor.css",
-    "dest": "public\\assets\\sda\\web\\css\\mousecursor.css"
-  },
-  {
     "url": "https://sda.pu.go.id/web/css/custom.css",
     "dest": "public\\assets\\sda\\web\\css\\custom.css"
   },
@@ -74,10 +70,6 @@
   {
     "url": "https://sda.pu.go.id/web/js/gsap.min.js",
     "dest": "public\\assets\\sda\\web\\js\\gsap.min.js"
-  },
-  {
-    "url": "https://sda.pu.go.id/web/js/magiccursor.js",
-    "dest": "public\\assets\\sda\\web\\js\\magiccursor.js"
   },
   {
     "url": "https://sda.pu.go.id/web/js/SplitText.js",

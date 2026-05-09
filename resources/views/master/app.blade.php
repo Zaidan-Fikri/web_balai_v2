@@ -12,7 +12,10 @@
     <title>@yield('title', 'Balai Air Tanah')</title>
     <!-- Favicon Icon -->
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/sda/web/images/favicon.png') }}">
-    <!-- Font memakai fallback lokal/sistem agar tidak bergantung Google Fonts saat local development. -->
+    <!-- Public fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Manrope:wght@500;600;700;800;900&display=swap" rel="stylesheet">
     <!-- Bootstrap Css -->
     <link href="{{ asset('assets/sda/web/css/bootstrap.min.css') }}" rel="stylesheet" media="screen">
     <!-- SlickNav Css -->
@@ -25,8 +28,6 @@
     <link href="{{ asset('assets/sda/web/css/animate.css') }}" rel="stylesheet">
     <!-- Magnific Popup Core Css File -->
     <link rel="stylesheet" href="{{ asset('assets/sda/web/css/magnific-popup.css') }}">
-    <!-- Mouse Cursor Css File -->
-    <link rel="stylesheet" href="{{ asset('assets/sda/web/css/mousecursor.css') }}">
     <!-- Main Custom Css -->
     <link href="{{ asset('assets/sda/web/css/custom.css') }}" rel="stylesheet" media="screen">
     @vite(['resources/css/app.css', 'resources/css/pages.css'])
@@ -70,9 +71,8 @@
 <script src="{{ asset('assets/sda/web/js/SmoothScroll.js') }}"></script>
 <!-- Parallax js -->
 <script src="{{ asset('assets/sda/web/js/parallaxie.js') }}"></script>
-<!-- MagicCursor js file -->
+<!-- Animation helper js file -->
 <script src="{{ asset('assets/sda/web/js/gsap.min.js') }}"></script>
-<script src="{{ asset('assets/sda/web/js/magiccursor.js') }}"></script>
 <!-- Text Effect js file -->
 <script src="{{ asset('assets/sda/web/js/SplitText.js') }}"></script>
 <script src="{{ asset('assets/sda/web/js/ScrollTrigger.min.js') }}"></script>
