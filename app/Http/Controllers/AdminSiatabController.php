@@ -2,15 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Admin\StoreGalleryRequest;
+use App\Http\Requests\Admin\UpdateSiatabRequest;
 use App\Models\Siatab;
-use Illuminate\Http\Request;
+use App\Services\Admin\GalleryService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\ValidationException;
+use Illuminate\View\View;
 
 class AdminSiatabController extends Controller
 {
-    public function index()
+    private const IMAGE_DIR = 'siatab-images';
+
+    /** @var GalleryService */
+    private $gallery;
+
+    public function __construct(GalleryService $gallery)
+    {
+        $this->gallery = $gallery;
+    }
+
+    public function index(): View
     {
         $siatabs = Siatab::query()
             ->with('images')
@@ -20,32 +32,19 @@ class AdminSiatabController extends Controller
         return view('pages.admin.siatab', compact('siatabs'));
     }
 
-    public function store(Request $request)
+    public function store(StoreGalleryRequest $request): RedirectResponse
     {
-        $validated = $request->validate([
-            'judul' => ['required', 'string', 'max:255'],
-            'images' => ['required', 'array', 'min:1'],
-            'images.*' => ['image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
-        ]);
+        $data = $request->validated();
 
-        DB::transaction(function () use ($validated) {
-            $firstPath = $validated['images'][0]->store('siatab-images', 'public');
+        DB::transaction(function () use ($data) {
+            $paths = $this->gallery->storeFiles($data['images'], self::IMAGE_DIR);
 
             $siatab = Siatab::create([
-                'judul' => $validated['judul'],
-                'image_path' => $firstPath,
+                'judul' => $data['judul'],
+                'image_path' => $paths[0],
             ]);
 
-            $siatab->images()->create([
-                'image_path' => $firstPath,
-            ]);
-
-            foreach (array_slice($validated['images'], 1) as $image) {
-                $path = $image->store('siatab-images', 'public');
-                $siatab->images()->create([
-                    'image_path' => $path,
-                ]);
-            }
+            $this->gallery->attachStoredImages($siatab, $paths);
         });
 
         return redirect()
@@ -53,63 +52,22 @@ class AdminSiatabController extends Controller
             ->with('success', 'SIATAB berhasil ditambahkan.');
     }
 
-    public function update(Request $request, Siatab $siatab)
+    public function update(UpdateSiatabRequest $request, Siatab $siatab): RedirectResponse
     {
-        $validated = $request->validate([
-            'judul' => ['required', 'string', 'max:255'],
-            'images' => ['nullable', 'array'],
-            'images.*' => ['image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
-            'remove_image_ids' => ['nullable', 'array'],
-            'remove_image_ids.*' => ['integer', 'exists:siatab_images,id'],
-        ]);
+        $data = $request->validated();
 
-        DB::transaction(function () use ($siatab, $validated) {
+        DB::transaction(function () use ($siatab, $data) {
             $siatab->update([
-                'judul' => $validated['judul'],
+                'judul' => $data['judul'],
             ]);
 
-            $removeIds = collect($validated['remove_image_ids'] ?? [])
-                ->map(fn ($id) => (int) $id)
-                ->all();
-
-            if (!empty($removeIds)) {
-                $imagesToDelete = $siatab->images()
-                    ->whereIn('id', $removeIds)
-                    ->get();
-
-                $paths = $imagesToDelete
-                    ->pluck('image_path')
-                    ->filter()
-                    ->values()
-                    ->all();
-
-                if (!empty($paths)) {
-                    Storage::disk('public')->delete($paths);
-                }
-
-                $siatab->images()->whereIn('id', $removeIds)->delete();
-            }
-
-            foreach ($validated['images'] ?? [] as $image) {
-                $path = $image->store('siatab-images', 'public');
-                $siatab->images()->create([
-                    'image_path' => $path,
-                ]);
-            }
-
-            $latestImages = $siatab->images()
-                ->oldest('id')
-                ->get();
-
-            if ($latestImages->isEmpty()) {
-                throw ValidationException::withMessages([
-                    'images' => 'Minimal harus ada 1 gambar untuk setiap data SIATAB.',
-                ]);
-            }
-
-            $siatab->update([
-                'image_path' => $latestImages->first()->image_path,
-            ]);
+            $this->gallery->syncImages(
+                $siatab,
+                $data['images'] ?? [],
+                $data['remove_image_ids'] ?? [],
+                self::IMAGE_DIR,
+                'Minimal harus ada 1 gambar untuk setiap data SIATAB.'
+            );
         });
 
         return redirect()
@@ -117,24 +75,10 @@ class AdminSiatabController extends Controller
             ->with('success', 'SIATAB berhasil diperbarui.');
     }
 
-    public function destroy(Siatab $siatab)
+    public function destroy(Siatab $siatab): RedirectResponse
     {
         DB::transaction(function () use ($siatab) {
-            $paths = $siatab->images()
-                ->pluck('image_path')
-                ->filter()
-                ->values()
-                ->all();
-
-            if (!empty($siatab->image_path)) {
-                $paths[] = $siatab->image_path;
-            }
-
-            if (!empty($paths)) {
-                Storage::disk('public')->delete(array_values(array_unique($paths)));
-            }
-
-            $siatab->delete();
+            $this->gallery->deleteModelWithImages($siatab);
         });
 
         return redirect()

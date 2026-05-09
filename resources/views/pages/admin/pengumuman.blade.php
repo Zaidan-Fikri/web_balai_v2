@@ -3,35 +3,6 @@
 @section('title', 'Admin Pengumuman')
 
 @section('content')
-    <style>
-        .page-head { display:flex; align-items:center; justify-content:space-between; gap:12px; width:100%; }
-        .page-head h3 { margin:0; font-size:clamp(34px,7vw,40px); line-height:1.15; min-width:0; flex:1; }
-        .btn-plus { width:44px; height:44px; border-radius:12px; border:1px solid #d9d9d9; background:#fff; font-size:30px; line-height:1; color:#14161b; cursor:pointer; transition:background-color .2s ease,color .2s ease,border-color .2s ease; }
-        .btn-plus:hover { background:#111217; color:#fff; border-color:#111217; }
-        .flash-success { margin:12px 0 0; border:1px solid #b8e2c3; background:#eaf9ee; color:#1f6b35; border-radius:10px; padding:10px 12px; font-size:14px; }
-        .flash-error { margin:12px 0 0; border:1px solid #f3c2c2; background:#fff0f0; color:#9c2f2f; border-radius:10px; padding:10px 12px; font-size:14px; }
-        .item-table { width:100%; table-layout:fixed; }
-        .item-table th:nth-child(1), .item-table td:nth-child(1) { width:72%; }
-        .item-table th:nth-child(2), .item-table td:nth-child(2) { width:28%; }
-        .thumb-preview { width:min(100%,280px); border-radius:12px; border:1px solid #dedede; overflow:hidden; background:#f9f9f9; }
-        .thumb-preview img { width:100%; aspect-ratio:16/10; object-fit:cover; display:block; }
-        .action-group { display:flex; gap:6px; flex-wrap:wrap; white-space:nowrap; }
-        .btn-action { border:1px solid #d2d2d2; background:#fff; color:#1a1a1a; border-radius:8px; padding:6px 10px; font-size:12px; font-weight:700; cursor:pointer; }
-        .btn-action.read { border-color:#b9d2ff; background:#ecf3ff; color:#1e4b95; }
-        .btn-action.update { border-color:#cde8cd; background:#ecf8ec; color:#1f6b35; }
-        .btn-action.delete { border-color:#f2c6c6; background:#fff1f1; color:#a72c2c; }
-        .popup-overlay { position:fixed; inset:0; background:rgba(10,12,18,0.45); display:none; align-items:center; justify-content:center; z-index:1400; padding:16px; }
-        .popup-overlay.is-open { display:flex; }
-        .popup-card { width:min(100%,480px); background:#fff; border:1px solid #e5e5e5; border-radius:14px; padding:18px; box-shadow:0 20px 40px rgba(17,18,23,0.18); }
-        .popup-card h4 { margin:0 0 12px; font-size:20px; line-height:1.2; }
-        .popup-input { width:100%; border:1px solid #d4d4d4; border-radius:10px; padding:10px 12px; font:inherit; color:#161616; outline:none; margin-bottom:12px; }
-        .popup-actions { display:flex; justify-content:flex-end; gap:8px; }
-        .btn-primary { border:1px solid #111217; background:#111217; color:#fff; border-radius:10px; padding:9px 16px; font:inherit; font-weight:600; cursor:pointer; }
-        .upload-preview { width:100%; border:1px solid #e4e4e4; border-radius:10px; overflow:hidden; background:#f8f8f8; margin-bottom:12px; }
-        .upload-preview img { width:100%; aspect-ratio:16/10; object-fit:contain; display:block; background:#0f1b30; }
-        .read-image { width:100%; border-radius:12px; border:1px solid #dedede; overflow:hidden; background:#0f1b30; }
-        .read-image img { width:100%; max-height:min(70vh,640px); object-fit:contain; display:block; margin:0 auto; }
-    </style>
 
     <section>
         <div class="panel full-card">
@@ -70,9 +41,11 @@
     <div class="popup-overlay" id="createOverlay" aria-hidden="true"><div class="popup-card"><h4>Tambah Pengumuman</h4><form method="POST" action="{{ route('admin.pengumuman.store') }}" enctype="multipart/form-data">@csrf<input type="hidden" name="form_type" value="create"><input type="file" class="popup-input" id="createInput" name="image" accept=".jpg,.jpeg,.png,.webp,image/*" required><div class="upload-preview" id="createPreview"></div><div class="popup-actions"><button type="submit" class="btn-primary">Tambah</button></div></form></div></div>
     <div class="popup-overlay" id="readOverlay" aria-hidden="true"><div class="popup-card"><h4>Detail Pengumuman</h4><div class="read-image" id="readImage"></div><div class="popup-actions" style="margin-top:12px;"><button type="button" class="btn-primary" data-close-overlay="readOverlay">Tutup</button></div></div></div>
     <div class="popup-overlay" id="updateOverlay" aria-hidden="true"><div class="popup-card"><h4>Update Pengumuman</h4><form method="POST" id="updateForm" enctype="multipart/form-data">@csrf @method('PUT')<div class="upload-preview" id="currentPreview"></div><input type="file" class="popup-input" id="updateInput" name="image" accept=".jpg,.jpeg,.png,.webp,image/*" required><div class="upload-preview" id="updatePreview"></div><div class="popup-actions"><button type="submit" class="btn-primary">Simpan</button></div></form></div></div>
+@endsection
 
-    <script>
-        (function () {
+@push('scripts')
+<script>
+(function () {
             const openButton = document.getElementById('openPopup');
             const createOverlay = document.getElementById('createOverlay');
             const readOverlay = document.getElementById('readOverlay');
@@ -164,5 +137,5 @@
                 openOverlay(createOverlay, createInput);
             @endif
         })();
-    </script>
-@endsection
+</script>
+@endpush

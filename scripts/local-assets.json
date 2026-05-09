@@ -1,0 +1,238 @@
+[
+  {
+    "url": "https://sda.pu.go.id/web/css/bootstrap.min.css",
+    "dest": "public\\assets\\sda\\web\\css\\bootstrap.min.css"
+  },
+  {
+    "url": "https://sda.pu.go.id/web/css/slicknav.min.css",
+    "dest": "public\\assets\\sda\\web\\css\\slicknav.min.css"
+  },
+  {
+    "url": "https://sda.pu.go.id/web/css/swiper-bundle.min.css",
+    "dest": "public\\assets\\sda\\web\\css\\swiper-bundle.min.css"
+  },
+  {
+    "url": "https://sda.pu.go.id/web/css/animate.css",
+    "dest": "public\\assets\\sda\\web\\css\\animate.css"
+  },
+  {
+    "url": "https://sda.pu.go.id/web/css/magnific-popup.css",
+    "dest": "public\\assets\\sda\\web\\css\\magnific-popup.css"
+  },
+  {
+    "url": "https://sda.pu.go.id/web/css/custom.css",
+    "dest": "public\\assets\\sda\\web\\css\\custom.css"
+  },
+  {
+    "url": "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css",
+    "dest": "public\\assets\\vendor\\fontawesome\\css\\all.min.css"
+  },
+  {
+    "url": "https://sda.pu.go.id/web/js/jquery-3.7.1.min.js",
+    "dest": "public\\assets\\sda\\web\\js\\jquery-3.7.1.min.js"
+  },
+  {
+    "url": "https://sda.pu.go.id/web/js/bootstrap.min.js",
+    "dest": "public\\assets\\sda\\web\\js\\bootstrap.min.js"
+  },
+  {
+    "url": "https://sda.pu.go.id/web/js/validator.min.js",
+    "dest": "public\\assets\\sda\\web\\js\\validator.min.js"
+  },
+  {
+    "url": "https://sda.pu.go.id/web/js/jquery.slicknav.js",
+    "dest": "public\\assets\\sda\\web\\js\\jquery.slicknav.js"
+  },
+  {
+    "url": "https://sda.pu.go.id/web/js/swiper-bundle.min.js",
+    "dest": "public\\assets\\sda\\web\\js\\swiper-bundle.min.js"
+  },
+  {
+    "url": "https://sda.pu.go.id/web/js/jquery.waypoints.min.js",
+    "dest": "public\\assets\\sda\\web\\js\\jquery.waypoints.min.js"
+  },
+  {
+    "url": "https://sda.pu.go.id/web/js/jquery.counterup.min.js",
+    "dest": "public\\assets\\sda\\web\\js\\jquery.counterup.min.js"
+  },
+  {
+    "url": "https://sda.pu.go.id/web/js/jquery.magnific-popup.min.js",
+    "dest": "public\\assets\\sda\\web\\js\\jquery.magnific-popup.min.js"
+  },
+  {
+    "url": "https://sda.pu.go.id/web/js/SmoothScroll.js",
+    "dest": "public\\assets\\sda\\web\\js\\SmoothScroll.js"
+  },
+  {
+    "url": "https://sda.pu.go.id/web/js/parallaxie.js",
+    "dest": "public\\assets\\sda\\web\\js\\parallaxie.js"
+  },
+  {
+    "url": "https://sda.pu.go.id/web/js/gsap.min.js",
+    "dest": "public\\assets\\sda\\web\\js\\gsap.min.js"
+  },
+  {
+    "url": "https://sda.pu.go.id/web/js/SplitText.js",
+    "dest": "public\\assets\\sda\\web\\js\\SplitText.js"
+  },
+  {
+    "url": "https://sda.pu.go.id/web/js/ScrollTrigger.min.js",
+    "dest": "public\\assets\\sda\\web\\js\\ScrollTrigger.min.js"
+  },
+  {
+    "url": "https://sda.pu.go.id/web/js/wow.js",
+    "dest": "public\\assets\\sda\\web\\js\\wow.js"
+  },
+  {
+    "url": "https://sda.pu.go.id/web/js/function.js",
+    "dest": "public\\assets\\sda\\web\\js\\function.js"
+  },
+  {
+    "url": "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css",
+    "dest": "public\\assets\\vendor\\leaflet\\leaflet.css"
+  },
+  {
+    "url": "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js",
+    "dest": "public\\assets\\vendor\\leaflet\\leaflet.js"
+  },
+  {
+    "url": "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
+    "dest": "public\\assets\\vendor\\leaflet\\images\\marker-icon.png"
+  },
+  {
+    "url": "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
+    "dest": "public\\assets\\vendor\\leaflet\\images\\marker-icon-2x.png"
+  },
+  {
+    "url": "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+    "dest": "public\\assets\\vendor\\leaflet\\images\\marker-shadow.png"
+  },
+  {
+    "url": "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/webfonts/fa-brands-400.woff2",
+    "dest": "public\\assets\\vendor\\fontawesome\\webfonts\\fa-brands-400.woff2"
+  },
+  {
+    "url": "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/webfonts/fa-regular-400.woff2",
+    "dest": "public\\assets\\vendor\\fontawesome\\webfonts\\fa-regular-400.woff2"
+  },
+  {
+    "url": "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/webfonts/fa-solid-900.woff2",
+    "dest": "public\\assets\\vendor\\fontawesome\\webfonts\\fa-solid-900.woff2"
+  },
+  {
+    "url": "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/webfonts/fa-v4compatibility.woff2",
+    "dest": "public\\assets\\vendor\\fontawesome\\webfonts\\fa-v4compatibility.woff2"
+  },
+  {
+    "url": "https://sda.pu.go.id/web/images/favicon.png",
+    "dest": "public\\assets\\sda\\web\\images\\favicon.png"
+  },
+  {
+    "url": "https://sda.pu.go.id/web/images/slider1.webp",
+    "dest": "public\\assets\\sda\\web\\images\\slider1.webp"
+  },
+  {
+    "url": "https://sda.pu.go.id/web/images/page-header.webp",
+    "dest": "public\\assets\\sda\\web\\images\\page-header.webp"
+  },
+  {
+    "url": "https://sda.pu.go.id/web/images/logopu-white.png",
+    "dest": "public\\assets\\sda\\web\\images\\logopu-white.png"
+  },
+  {
+    "url": "https://sda.pu.go.id/web/images/icon-phone.svg",
+    "dest": "public\\assets\\sda\\web\\images\\icon-phone.svg"
+  },
+  {
+    "url": "https://sda.pu.go.id/web/images/icon-mail.svg",
+    "dest": "public\\assets\\sda\\web\\images\\icon-mail.svg"
+  },
+  {
+    "url": "https://sda.pu.go.id/web/images/loader.svg",
+    "dest": "public\\assets\\sda\\web\\images\\loader.svg"
+  },
+  {
+    "url": "https://sda.pu.go.id/assets/uploads/pengumuman/Imlek-02.webp",
+    "dest": "public\\assets\\sda\\assets\\uploads\\pengumuman\\imlek-02.webp"
+  },
+  {
+    "url": "https://sda.pu.go.id/web/images/ProdukHukum_.webp",
+    "dest": "public\\assets\\sda\\web\\images\\ProdukHukum_.webp"
+  },
+  {
+    "url": "https://sda.pu.go.id/web/images/thumbnail-1.webp",
+    "dest": "public\\assets\\sda\\web\\images\\thumbnail-1.webp"
+  },
+  {
+    "url": "https://sda.pu.go.id/web/images/thumbnail-2.webp",
+    "dest": "public\\assets\\sda\\web\\images\\thumbnail-2.webp"
+  },
+  {
+    "url": "https://sda.pu.go.id/web/images/P1.jpg",
+    "dest": "public\\assets\\sda\\web\\images\\P1.jpg"
+  },
+  {
+    "url": "https://sda.pu.go.id/web/images/P2.jpg",
+    "dest": "public\\assets\\sda\\web\\images\\P2.jpg"
+  },
+  {
+    "url": "https://sda.pu.go.id/web/images/P3.jpg",
+    "dest": "public\\assets\\sda\\web\\images\\P3.jpg"
+  },
+  {
+    "url": "https://sda.pu.go.id/web/images/P4.jpg",
+    "dest": "public\\assets\\sda\\web\\images\\P4.jpg"
+  },
+  {
+    "url": "https://sda.pu.go.id/web/images/link/Logo%20HIMPESDA%20High%20Res1.png",
+    "dest": "public\\assets\\sda\\web\\images\\link\\Logo-HIMPESDA-High-Res1.png"
+  },
+  {
+    "url": "https://sda.pu.go.id/web/images/link/icons-saran.svg",
+    "dest": "public\\assets\\sda\\web\\images\\link\\icons-saran.svg"
+  },
+  {
+    "url": "https://sda.pu.go.id/web/images/link/icons-layanan.svg",
+    "dest": "public\\assets\\sda\\web\\images\\link\\icons-layanan.svg"
+  },
+  {
+    "url": "https://sda.pu.go.id/web/images/link/icons-eppid.svg",
+    "dest": "public\\assets\\sda\\web\\images\\link\\icons-eppid.svg"
+  },
+  {
+    "url": "https://sda.pu.go.id/web/images/link/20201015042055icons-pungli.svg",
+    "dest": "public\\assets\\sda\\web\\images\\link\\20201015042055icons-pungli.svg"
+  },
+  {
+    "url": "https://sda.pu.go.id/web/images/link/icons-wrdc.svg",
+    "dest": "public\\assets\\sda\\web\\images\\link\\icons-wrdc.svg"
+  },
+  {
+    "url": "https://sda.pu.go.id/web/images/link/icons-sihka.svg",
+    "dest": "public\\assets\\sda\\web\\images\\link\\icons-sihka.svg"
+  },
+  {
+    "url": "https://sda.pu.go.id/web/images/link/icons-perizinan.svg",
+    "dest": "public\\assets\\sda\\web\\images\\link\\icons-perizinan.svg"
+  },
+  {
+    "url": "https://sda.pu.go.id/web/images/link/jdih.png",
+    "dest": "public\\assets\\sda\\web\\images\\link\\jdih.png"
+  },
+  {
+    "url": "https://sda.pu.go.id/web/images/link/icons-elhkpn.svg",
+    "dest": "public\\assets\\sda\\web\\images\\link\\icons-elhkpn.svg"
+  },
+  {
+    "url": "https://sda.pu.go.id/assets/uploads/pengumuman/Poster%20Stop%20Gratifikasi%20Ilustratif%20Merah%20dan%20Kuning.jpg",
+    "dest": "public\\assets\\sda\\assets\\uploads\\pengumuman\\poster-stop-gratifikasi.jpg"
+  },
+  {
+    "url": "https://flagcdn.com/w20/id.png",
+    "dest": "public\\assets\\vendor\\flags\\id.png"
+  },
+  {
+    "url": "https://flagcdn.com/w20/us.png",
+    "dest": "public\\assets\\vendor\\flags\\us.png"
+  }
+]

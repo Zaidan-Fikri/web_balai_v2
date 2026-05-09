@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Hash;
 
 class AdminUserSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         AdminUser::updateOrCreate(
             ['email' => 'superadmin@gmail.com'],

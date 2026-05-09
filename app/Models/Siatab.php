@@ -19,6 +19,6 @@ class Siatab extends Model
 
     public function images(): HasMany
     {
-        return $this->hasMany(SiatabImage::class);
+        return $this->hasMany(SiatabImage::class)->oldest('id');
     }
 }

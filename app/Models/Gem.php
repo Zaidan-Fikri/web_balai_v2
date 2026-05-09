@@ -19,6 +19,6 @@ class Gem extends Model
 
     public function images(): HasMany
     {
-        return $this->hasMany(GemImage::class);
+        return $this->hasMany(GemImage::class)->oldest('id');
     }
 }

@@ -9,64 +9,15 @@ use App\Http\Controllers\AdminPengumumanController;
 use App\Http\Controllers\AdminSniController;
 use App\Http\Controllers\AdminSiatabController;
 use App\Http\Controllers\AdminThumbnailController;
-use App\Models\Berita;
-use App\Models\KaryaIlmiah;
-use App\Models\LaporanSkm;
-use App\Models\Pengumuman;
-use App\Models\Siatab;
-use App\Models\Sni;
-use App\Models\Thumbnail;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-Route::get('/', function () {
-    $beritas = Berita::query()
-        ->with(['images' => function ($query) {
-            $query->oldest('id');
-        }])
-        ->latest()
-        ->take(10)
-        ->get();
-
-    $heroThumbnails = Thumbnail::query()
-        ->where('show_on_home', true)
-        ->latest()
-        ->get();
-
-    $publikasiKaryaIlmiahs = KaryaIlmiah::query()->latest()->take(12)->get();
-    $publikasiSnis = Sni::query()->latest()->take(12)->get();
-    $publikasiLaporanSkms = LaporanSkm::query()->latest()->take(12)->get();
-    $pengumumans = Pengumuman::query()->latest()->take(12)->get();
-    $siatabs = Siatab::query()
-        ->with(['images' => function ($query) {
-            $query->oldest('id');
-        }])
-        ->latest()
-        ->get();
-
-    return view('pages.home', compact(
-        'beritas',
-        'heroThumbnails',
-        'publikasiKaryaIlmiahs',
-        'publikasiSnis',
-        'publikasiLaporanSkms',
-        'pengumumans',
-        'siatabs'
-    ));
-})->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/login', [AdminAuthController::class, 'showLogin'])->name('login');
-Route::post('/login', [AdminAuthController::class, 'login'])->name('login.process');
+Route::post('/login', [AdminAuthController::class, 'login'])
+    ->middleware('throttle:5,1')
+    ->name('login.process');
 Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
 Route::view('/peta', 'pages.peta')->name('peta');
 

@@ -17,6 +17,6 @@ class Berita extends Model
 
     public function images(): HasMany
     {
-        return $this->hasMany(BeritaImage::class);
+        return $this->hasMany(BeritaImage::class)->oldest('id');
     }
 }

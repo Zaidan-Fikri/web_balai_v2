@@ -2,14 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Admin\StoreBeritaRequest;
+use App\Http\Requests\Admin\UpdateBeritaRequest;
 use App\Models\Berita;
-use Illuminate\Http\Request;
+use App\Services\Admin\GalleryService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\View\View;
 
 class AdminBeritaController extends Controller
 {
-    public function index()
+    private const IMAGE_DIR = 'berita-images';
+
+    /** @var GalleryService */
+    private $gallery;
+
+    public function __construct(GalleryService $gallery)
+    {
+        $this->gallery = $gallery;
+    }
+
+    public function index(): View
     {
         $beritas = Berita::query()
             ->with('images')
@@ -19,28 +32,18 @@ class AdminBeritaController extends Controller
         return view('pages.admin.berita', compact('beritas'));
     }
 
-    public function store(Request $request)
+    public function store(StoreBeritaRequest $request): RedirectResponse
     {
-        $validated = $request->validate([
-            'judul' => ['required', 'string', 'max:255'],
-            'deskripsi' => ['required', 'string'],
-            'images' => ['required', 'array', 'min:1'],
-            'images.*' => ['image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
-        ]);
+        $data = $request->validated();
 
-        DB::transaction(function () use ($validated) {
+        DB::transaction(function () use ($data) {
             $berita = Berita::create([
-                'judul' => $validated['judul'],
-                'deskripsi' => $validated['deskripsi'],
+                'judul' => $data['judul'],
+                'deskripsi' => $data['deskripsi'],
             ]);
 
-            foreach ($validated['images'] as $image) {
-                $path = $image->store('berita-images', 'public');
-
-                $berita->images()->create([
-                    'image_path' => $path,
-                ]);
-            }
+            $paths = $this->gallery->storeFiles($data['images'], self::IMAGE_DIR);
+            $this->gallery->attachStoredImages($berita, $paths);
         });
 
         return redirect()
@@ -48,52 +51,23 @@ class AdminBeritaController extends Controller
             ->with('success', 'Berita berhasil ditambahkan.');
     }
 
-    public function update(Request $request, Berita $berita)
+    public function update(UpdateBeritaRequest $request, Berita $berita): RedirectResponse
     {
-        $validated = $request->validate([
-            'judul' => ['required', 'string', 'max:255'],
-            'deskripsi' => ['required', 'string'],
-            'images' => ['nullable', 'array'],
-            'images.*' => ['image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
-            'remove_image_ids' => ['nullable', 'array'],
-            'remove_image_ids.*' => ['integer', 'exists:berita_images,id'],
-        ]);
+        $data = $request->validated();
 
-        DB::transaction(function () use ($berita, $validated) {
+        DB::transaction(function () use ($berita, $data) {
             $berita->update([
-                'judul' => $validated['judul'],
-                'deskripsi' => $validated['deskripsi'],
+                'judul' => $data['judul'],
+                'deskripsi' => $data['deskripsi'],
             ]);
 
-            $removeIds = collect($validated['remove_image_ids'] ?? [])
-                ->map(fn ($id) => (int) $id)
-                ->all();
-
-            if (! empty($removeIds)) {
-                $imagesToDelete = $berita->images()
-                    ->whereIn('id', $removeIds)
-                    ->get();
-
-                $paths = $imagesToDelete
-                    ->pluck('image_path')
-                    ->filter()
-                    ->values()
-                    ->all();
-
-                if (! empty($paths)) {
-                    Storage::disk('public')->delete($paths);
-                }
-
-                $berita->images()->whereIn('id', $removeIds)->delete();
-            }
-
-            foreach ($validated['images'] ?? [] as $image) {
-                $path = $image->store('berita-images', 'public');
-
-                $berita->images()->create([
-                    'image_path' => $path,
-                ]);
-            }
+            $this->gallery->syncImages(
+                $berita,
+                $data['images'] ?? [],
+                $data['remove_image_ids'] ?? [],
+                self::IMAGE_DIR,
+                'Minimal harus ada 1 gambar untuk setiap berita.'
+            );
         });
 
         return redirect()
@@ -101,20 +75,10 @@ class AdminBeritaController extends Controller
             ->with('success', 'Berita berhasil diperbarui.');
     }
 
-    public function destroy(Berita $berita)
+    public function destroy(Berita $berita): RedirectResponse
     {
         DB::transaction(function () use ($berita) {
-            $paths = $berita->images()
-                ->pluck('image_path')
-                ->filter()
-                ->values()
-                ->all();
-
-            if (! empty($paths)) {
-                Storage::disk('public')->delete($paths);
-            }
-
-            $berita->delete();
+            $this->gallery->deleteModelWithImages($berita);
         });
 
         return redirect()

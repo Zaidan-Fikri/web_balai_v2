@@ -1,123 +1,20 @@
 @extends('master.app')
 
+@section('title', 'Beranda - Balai Air Tanah')
+
 @section('content')
-<style>
-    .hero-slide {
-        position: relative;
-    }
-
-    .hero-slider-image {
-        position: relative;
-    }
-
-    .hero-slider-image::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.01);
-        pointer-events: none;
-        z-index: 1;
-    }
-
-    .hero-slide .container {
-        position: relative;
-        z-index: 2;
-    }
-
-    .hero-kicker {
-        font-family: "Manrope", "DM Sans", sans-serif;
-        font-weight: 800;
-        font-size: clamp(28px, 5.2vw, 72px);
-        line-height: 1.05;
-        letter-spacing: -0.015em;
-        color: #f7f8fb;
-        text-transform: uppercase;
-        text-shadow: 0 6px 24px rgba(0, 0, 0, 0.28);
-        margin-bottom: 0.6rem;
-    }
-
-    .hero-headline {
-        font-family: "roboto", "DM Sans", sans-serif;
-        font-weight: 800;
-        font-size: clamp(34px, 7vw, 72px);
-        line-height: 1.05;
-        letter-spacing: -0.02em;
-        color: #f6f6f6;
-        text-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
-        margin-bottom: 3rem;
-    }
-
-    .about-service-grid {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 16px;
-        margin-top: 16px;
-    }
-
-    .about-service-card {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        min-height: 92px;
-        padding: 18px 22px;
-        border-radius: 16px;
-        background: linear-gradient(135deg, #f4b000 0%, #e7a300 100%);
-        color: #ffffff;
-        text-decoration: none;
-        box-shadow: 0 14px 28px rgba(244, 176, 0, 0.24);
-        transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-    }
-
-    .about-service-card:hover {
-        color: #ffffff;
-        background: linear-gradient(135deg, #0b2b5c 0%, #001f45 100%);
-        transform: translateY(-3px);
-        box-shadow: 0 18px 34px rgba(0, 31, 69, 0.28);
-    }
-
-    .about-service-card-icon {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 46px;
-        height: 46px;
-        flex-shrink: 0;
-        border-radius: 12px;
-        background: rgba(255, 255, 255, 0.16);
-    }
-
-    .about-service-card-icon ion-icon {
-        font-size: 26px;
-        color: #ffffff;
-    }
-
-    .about-service-card-title {
-        font-size: 18px;
-        font-weight: 800;
-        line-height: 1.2;
-        letter-spacing: 0;
-        text-transform: uppercase;
-    }
-
-    @media (max-width: 576px) {
-        .about-service-grid {
-            grid-template-columns: 1fr;
-        }
-    }
-</style>
-
 <!-- Preloader Start -->
 <!-- <div class="preloader">
 		<div class="loading-container">
 			<div class="loading"></div>
-			<div id="loading-icon"><img src="https://sda.pu.go.id/web/images/loader.svg" alt=""></div>
+			<div id="loading-icon"><img src="{{ asset('assets/sda/web/images/loader.svg') }}" alt=""></div>
 		</div>
 	</div>-->
 <!-- Preloader End -->
 
 
 <!-- Slider Section Start -->
-<div class="hero bg-section hero-slider">
+<div class="hero bg-section hero-slider home-hero">
     <div class="hero-slider-layout">
         <div class="swiper">
             <div class="swiper-wrapper">
@@ -132,22 +29,6 @@
                                 </picture>
                             </div>
 
-                            <div class="container">
-                                <div class="row align-items-center">
-                                    <div class="col-lg-12">
-                                        <div class="hero-content">
-                                            <div class="section-title mb-lg-5">
-                                                <h3 class="hero-kicker wow fadeInUp mt-5 mb-3">
-                                                    {{ !empty($heroThumbnail->title) ? $heroThumbnail->title : 'sigap membangun negeri untuk rakyat' }}
-                                                </h3>
-                                                <h1 class="hero-headline text-anime-style-3 mb-lg-5 pb-lg-5" data-cursor="-opaque" style="font-size: 50px;">
-                                                    {{ !empty($heroThumbnail->description) ? $heroThumbnail->description : '#MengelolaAirUntukNegeri' }}
-                                                </h1>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 @empty
@@ -155,24 +36,12 @@
                         <div class="hero-slide">
                             <div class="hero-slider-image">
                                 <picture>
-                                    <source media="(max-width: 799px)" srcset="https://sda.pu.go.id/assets/uploads/pengumuman/Imlek-02.webp"/>
-                                    <source media="(min-width: 800px)" srcset="https://sda.pu.go.id/assets/uploads/pengumuman/Imlek-02.webp"/>
-                                    <img height="100%" src="https://sda.pu.go.id/assets/uploads/pengumuman/Imlek-02.webp" alt="Balai Air Tanah">
+                                    <source media="(max-width: 799px)" srcset="{{ asset('assets/sda/assets/uploads/pengumuman/imlek-02.webp') }}"/>
+                                    <source media="(min-width: 800px)" srcset="{{ asset('assets/sda/assets/uploads/pengumuman/imlek-02.webp') }}"/>
+                                    <img height="100%" src="{{ asset('assets/sda/assets/uploads/pengumuman/imlek-02.webp') }}" alt="Balai Air Tanah">
                                 </picture>
                             </div>
 
-                            <div class="container">
-                                <div class="row align-items-center">
-                                    <div class="col-lg-12">
-                                        <div class="hero-content">
-                                            <div class="section-title mb-lg-5">
-                                                <h3 class="hero-kicker wow fadeInUp mt-5 mb-3">sigap membangun negeri untuk rakyat</h3>
-                                                <h1 class="hero-headline text-anime-style-3 mb-lg-5 pb-lg-5" data-cursor="-opaque">#MengelolaAirUntukNegeri</h1>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 @endforelse
@@ -183,7 +52,7 @@
 </div><!-- Slider Section End -->
 
 <!-- About Section Start -->
-<div class="about-us" style="background-image: url('web/images/damoutline.webp'); background-repeat: no-repeat; background-position: right;">
+<div class="about-us home-about">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-5 col-md-5 col-sm-12">
@@ -204,7 +73,7 @@
                     <!-- Section Title Start -->
                     <div class="section-title">
                         <h3 class="wow fadeInUp">Tentang Kami</h3>
-                        <h2 class="text-anime-style-3" data-cursor="-opaque">Balai Air Tanah</h2>
+                        <h2 class="text-anime-style-3">Balai Air Tanah</h2>
                         <p class="wow fadeInUp" data-wow-delay="0.25s">Balai Air Tanah mempunyai tugas menyelenggarakan perumusan dan pelaksanaan kebijakan di bidang pengelolaan sumber daya air sesuai dengan ketentuan peraturan perudang-undangan.</p>
                     </div>
                     <!-- Section Title End -->
@@ -235,152 +104,17 @@
 </div><!-- About Section End -->
 
 <!-- Berita Section Start -->
-<div class="what-we-do berita-terkini-wrapper" style="padding: 50px 0;">
+<div class="what-we-do berita-terkini-wrapper home-news-section">
     <div class="light-bg-section berita-terkini-section">
-        <style>
-            .berita-terkini-wrapper {
-                background:
-                    radial-gradient(circle at 78% 14%, rgba(234, 182, 48, 0.16) 0%, rgba(234, 182, 48, 0) 16%),
-                    radial-gradient(circle at 88% 82%, rgba(217, 223, 198, 0.34) 0%, rgba(217, 223, 198, 0) 24%),
-                    radial-gradient(circle at 16% 12%, rgba(75, 92, 132, 0.36) 0%, rgba(75, 92, 132, 0) 30%),
-                    linear-gradient(96deg, #5c6986 0%, #7f8dad 18%, #eef0f4 48%, #f9f8f6 70%, #e4e8d8 100%);
-            }
-
-            .berita-terkini-section {
-                background: transparent !important;
-            }
-
-            .berita-terkini-section .blog-item {
-                background: #f9f8f6;
-                overflow: hidden;
-                border-radius: 40px;
-            }
-
-            .berita-terkini-section .post-item-content,
-            .berita-terkini-section .post-item-body,
-            .berita-terkini-section .post-item-footer {
-                background: #f9f8f6;
-            }
-
-            .berita-terkini-section .post-item-content {
-                border-radius: 0 0 40px 40px;
-            }
-
-            .berita-detail-btn {
-                border: 1px solid #edaa00;
-                background: #fff4d8;
-                color: #d48b00;
-                border-radius: 999px;
-                padding: 8px 14px;
-                font-size: 14px;
-                font-weight: 700;
-                cursor: pointer;
-            }
-
-            .berita-detail-overlay {
-                position: fixed;
-                inset: 0;
-                background: rgba(11, 18, 32, 0.52);
-                display: none;
-                align-items: center;
-                justify-content: center;
-                z-index: 1500;
-                padding: 16px;
-            }
-
-            .berita-detail-overlay.is-open {
-                display: flex;
-            }
-
-            .berita-detail-card {
-                width: min(100%, 980px);
-                max-height: 88vh;
-                overflow: auto;
-                background: #f7fbff;
-                border: 1px solid #d4dfec;
-                border-radius: 22px;
-                padding: 18px;
-            }
-
-            .berita-detail-title {
-                margin: 0 0 8px;
-                color: #374774;
-            }
-
-            .berita-detail-date {
-                margin: 0 0 14px;
-                color: #4c5c73;
-                font-size: 14px;
-                font-weight: 600;
-            }
-
-            .berita-detail-slider {
-                position: relative;
-                overflow: hidden;
-                border-radius: 12px;
-                border: 1px solid #d5dfeb;
-                background: transparent;
-                margin-bottom: 10px;
-            }
-
-            .berita-detail-track {
-                display: flex;
-                transition: transform .28s ease;
-            }
-
-            .berita-detail-slide {
-                min-width: 100%;
-                display: flex;
-                justify-content: center;
-            }
-
-            .berita-detail-slide img {
-                width: auto;
-                max-width: 100%;
-                max-height: min(70vh, 760px);
-                object-fit: contain;
-                display: block;
-                margin: 0 auto;
-            }
-
-            .berita-detail-description {
-                margin: 0;
-                color: #172335;
-                line-height: 1.65;
-                white-space: pre-wrap;
-                word-break: break-word;
-            }
-
-            .berita-detail-dots {
-                display: flex;
-                justify-content: center;
-                gap: 6px;
-                margin: 0 0 14px;
-            }
-
-            .berita-detail-dot {
-                width: 8px;
-                height: 8px;
-                border-radius: 50%;
-                border: 0;
-                background: #b8c5d6;
-                cursor: pointer;
-                padding: 0;
-            }
-
-            .berita-detail-dot.is-active {
-                background: #334570;
-            }
-        </style>
         <div class="container-fluid">
             <div class="row section-row">
                 <div class="col-lg-12">
                     <!-- Section Title Start -->
                     <div class="section-title">
                         <a href="post">
-                            <h3 class="wow fadeInUp" style="color: #A03A13;">Index Berita</h3>
+                            <h3 class="wow fadeInUp section-label-link">Index Berita</h3>
                         </a>
-                        <h2 class="text-anime-style-3" data-cursor="-opaque">Berita Terkini</h2>
+                        <h2 class="text-anime-style-3">Berita Terkini</h2>
                     </div>
                     <!-- Section Title End -->
                 </div>
@@ -391,11 +125,11 @@
                     <!-- Testimonial Slider Start -->
                     <div class="testimonial-slider">
                         <div class="swiper">
-                            <div class="swiper-wrapper" data-cursor-text="Drag">
+                            <div class="swiper-wrapper">
                                 @forelse ($beritas as $berita)
                                     @php
                                         $firstImage = $berita->images->first();
-                                        $imageUrl = $firstImage ? asset('storage/' . $firstImage->image_path) : 'https://placehold.co/800x520/e6edf5/27364a?text=Berita';
+                                        $imageUrl = $firstImage ? asset('storage/' . $firstImage->image_path) : asset('assets/images/placeholders/berita.svg');
                                         $imagePayload = $berita->images
                                             ->map(function ($image) {
                                                 return [
@@ -407,11 +141,11 @@
                                     @endphp
                                     <div class="swiper-slide">
                                         <div class="blog-item wow fadeInUp" data-wow-delay="0.25s">
-                                            <div class="post-featured-image" data-cursor-text="View">
+                                            <div class="post-featured-image">
                                                 <figure>
                                                     <div class="image-anime">
                                                         <img src="{{ $imageUrl }}" alt="{{ $berita->judul }}">
-                                                        <p style="position: absolute; top: 16px; left: 16px; background-color: #334570; color:#F7F9FC; padding: 0px 15px 0px 14px; gap: 0px; border-radius: 40px;">
+                                                        <p class="news-date-badge">
                                                             {{ $berita->created_at ? $berita->created_at->locale('id')->translatedFormat('l, d F Y') : '-' }}
                                                         </p>
                                                     </div>
@@ -467,117 +201,11 @@
         </div>
         <div class="berita-detail-dots" id="beritaDetailDots"></div>
         <p class="berita-detail-description" id="beritaDetailDescription"></p>
-        <div class="text-end" style="margin-top: 14px;">
+        <div class="text-end berita-detail-actions">
             <button type="button" class="berita-detail-btn" id="closeBeritaDetail">Tutup</button>
         </div>
     </div>
 </div>
-
-<script>
-    (function () {
-        const overlay = document.getElementById('beritaDetailOverlay');
-        const title = document.getElementById('beritaDetailTitle');
-        const date = document.getElementById('beritaDetailDate');
-        const description = document.getElementById('beritaDetailDescription');
-        const track = document.getElementById('beritaDetailTrack');
-        const dots = document.getElementById('beritaDetailDots');
-        const closeButton = document.getElementById('closeBeritaDetail');
-        const detailButtons = document.querySelectorAll('.js-berita-detail-btn');
-        let currentIndex = 0;
-        let currentImages = [];
-
-        if (!overlay || !title || !date || !description || !track || !dots || !closeButton || !detailButtons.length) return;
-
-        function decodeHtmlEntities(value) {
-            const textarea = document.createElement('textarea');
-            textarea.innerHTML = value;
-            return textarea.value;
-        }
-
-        function parseImages(raw) {
-            if (!raw) return [];
-            try {
-                const normalized = decodeHtmlEntities(String(raw));
-                const parsed = JSON.parse(normalized);
-                return Array.isArray(parsed) ? parsed : [];
-            } catch (error) {
-                return [];
-            }
-        }
-
-        function renderSlider() {
-            track.innerHTML = '';
-            dots.innerHTML = '';
-
-            if (!currentImages.length) {
-                track.innerHTML = '<div class="berita-detail-slide"><img src="https://placehold.co/800x520/e6edf5/27364a?text=Tidak+ada+gambar" alt="Tidak ada gambar"></div>';
-                track.style.transform = 'translateX(0)';
-                return;
-            }
-
-            currentImages.forEach(function (item, index) {
-                const slide = document.createElement('div');
-                slide.className = 'berita-detail-slide';
-                slide.innerHTML = '<img src="' + item.url + '" alt="Gambar berita ' + (index + 1) + '">';
-                track.appendChild(slide);
-
-                const dot = document.createElement('button');
-                dot.type = 'button';
-                dot.className = 'berita-detail-dot' + (index === currentIndex ? ' is-active' : '');
-                dot.addEventListener('click', function () {
-                    currentIndex = index;
-                    track.style.transform = 'translateX(-' + (currentIndex * 100) + '%)';
-                    dots.querySelectorAll('.berita-detail-dot').forEach(function (dotEl, dotIndex) {
-                        dotEl.classList.toggle('is-active', dotIndex === currentIndex);
-                    });
-                });
-                dots.appendChild(dot);
-            });
-
-            dots.style.display = currentImages.length > 1 ? 'flex' : 'none';
-            track.style.transform = 'translateX(-' + (currentIndex * 100) + '%)';
-        }
-
-        function openOverlay() {
-            overlay.classList.add('is-open');
-            overlay.setAttribute('aria-hidden', 'false');
-        }
-
-        function closeOverlay() {
-            overlay.classList.remove('is-open');
-            overlay.setAttribute('aria-hidden', 'true');
-        }
-
-        detailButtons.forEach(function (button) {
-            button.addEventListener('click', function () {
-                currentImages = parseImages(button.dataset.images);
-                currentIndex = 0;
-
-                title.textContent = button.dataset.judul || 'Detail Berita';
-                date.textContent = button.dataset.tanggal || '-';
-                description.textContent = button.dataset.deskripsi || '-';
-                renderSlider();
-
-                openOverlay();
-            });
-        });
-
-        closeButton.addEventListener('click', closeOverlay);
-
-        overlay.addEventListener('click', function (event) {
-            if (event.target === overlay) {
-                closeOverlay();
-            }
-        });
-
-        document.addEventListener('keydown', function (event) {
-            if (event.key === 'Escape' && overlay.classList.contains('is-open')) {
-                closeOverlay();
-            }
-        });
-    })();
-</script>
-
 <!-- Buletin Section Start -->
 <div class="buletin">
     <div class="container">
@@ -585,7 +213,7 @@
             <div class="col-lg-12">
                 <div class="section-title">
                     <a href="dokumen"><h3 class="wow fadeInUp">Publikasi</h3></a>
-                    <h2 class="text-anime-style-3" data-cursor="-opaque">Buletin & Buku</h2>
+                    <h2 class="text-anime-style-3">Buletin & Buku</h2>
                 </div>
             </div>
         </div>
@@ -595,200 +223,7 @@
                 <div class="publication-menu-box">
                     <div class="publication-menu-head">
                         <h3 class="publication-menu-title">Menu Publikasi</h3>
-                    </div>
-                        <style>
-                            .buletin {
-                                position: relative;
-                                overflow: hidden;
-                                background: none !important;
-                                background-image: none !important;
-                            }
-
-                            .buletin::before {
-                                content: none !important;
-                                background: none !important;
-                                background-image: none !important;
-                            }
-
-                            .buletin::after {
-                                content: "";
-                                position: absolute;
-                                inset: 0;
-                                background-image:
-                                    linear-gradient(90deg, rgba(249, 248, 246, 0.98) 0%, rgba(249, 248, 246, 0.94) 42%, rgba(249, 248, 246, 0.82) 62%, rgba(249, 248, 246, 0.48) 100%),
-                                    url('{{ asset('images/background2.png') }}');
-                                background-repeat: no-repeat, no-repeat;
-                                background-position: center center, right center;
-                                background-size: cover, min(54vw, 880px) auto;
-                                opacity: 0.38;
-                                pointer-events: none;
-                            }
-
-                            .buletin .container {
-                                position: relative;
-                                z-index: 1;
-                            }
-
-                            .publication-menu-box {
-                                background: #0b1f4d;
-                                border-radius: 22px;
-                                padding: 18px 14px;
-                                min-height: 220px;
-                                color: #ffffff;
-                                border: 1px solid rgba(255, 255, 255, 0.14);
-                                box-shadow: 0 14px 28px rgba(8, 15, 36, 0.34);
-                                position: relative;
-                                z-index: 5;
-                            }
-
-                            .publication-menu-title {
-                                margin: 0;
-                                color: #ffffff;
-                                font-size: 18px;
-                                font-weight: 800;
-                                line-height: 1.2;
-                            }
-
-                            .publication-menu-desc {
-                                margin: 10px 0 14px;
-                                color: #dbe7ff;
-                            }
-
-                            .publication-menu-list {
-                                list-style: none;
-                                margin: 0;
-                                padding: 0;
-                                display: grid;
-                                gap: 6px;
-                            }
-
-                            .publication-menu-content {
-                                display: block;
-                            }
-
-                            .publication-menu-link {
-                                width: 100%;
-                                display: flex;
-                                align-items: center;
-                                gap: 8px;
-                                color: #dbe7ff;
-                                text-decoration: none;
-                                cursor: pointer;
-                                border: 1px solid transparent;
-                                background: transparent;
-                                padding: 10px 12px;
-                                border-radius: 12px;
-                                text-align: left;
-                                font: inherit;
-                                font-weight: 700;
-                                font-size: 16px;
-                                line-height: 1.35;
-                            }
-
-                            .publication-menu-link span {
-                                color: inherit;
-                                display: inline-block;
-                            }
-
-                            .publication-menu-link ion-icon {
-                                font-size: 16px;
-                                color: inherit;
-                                flex-shrink: 0;
-                            }
-
-                            .publication-menu-link.is-active {
-                                color: #ffffff;
-                                background: rgba(255, 255, 255, 0.12);
-                                border-color: rgba(255, 255, 255, 0.22);
-                            }
-
-                            .publication-group {
-                                display: none;
-                                min-height: 620px;
-                            }
-
-                            .publication-group.is-active {
-                                display: flex;
-                            }
-
-                            .publication-dots {
-                                width: 100%;
-                                display: none;
-                                justify-content: center;
-                                align-items: center;
-                                gap: 8px;
-                                margin-top: 8px;
-                            }
-
-                            .publication-dot {
-                                width: 10px;
-                                height: 10px;
-                                border: 0;
-                                border-radius: 50%;
-                                background: #b4c2d6;
-                                cursor: pointer;
-                                padding: 0;
-                            }
-
-                            .publication-dot.is-active {
-                                background: #334570;
-                            }
-
-                            .publication-split {
-                                display: grid;
-                                grid-template-columns: 240px minmax(0, 1fr);
-                                gap: 22px;
-                                align-items: start;
-                            }
-
-                            .publication-menu-pane {
-                                min-width: 0;
-                            }
-
-                            .publication-menu-box { width: 100%; }
-
-                            .publication-data-pane {
-                                min-width: 0;
-                            }
-
-                            .publication-card {
-                                max-width: 420px;
-                                margin-left: auto;
-                                margin-right: auto;
-                            }
-
-                            .publication-card .bulletin-image figure {
-                                height: 560px;
-                                overflow: hidden;
-                                border-radius: 30px;
-                            }
-
-                            .publication-card .bulletin-image img {
-                                width: 100%;
-                                height: 100%;
-                                object-fit: cover;
-                            }
-
-                            .publication-card .bulletin-body {
-                                min-height: 210px;
-                            }
-
-                            @media (max-width: 991px) {
-                                .publication-group {
-                                    min-height: 0;
-                                }
-                                .publication-split {
-                                    grid-template-columns: 1fr;
-                                }
-                                .publication-card .bulletin-image figure { height: 420px; }
-                                .publication-menu-box { min-height: 0; }
-                            }
-
-                            @media (max-width: 575px) {
-                                .publication-card .bulletin-image figure { height: 360px; }
-                            }
-                        </style>
-                        <div class="publication-menu-content">
+                    </div>                        <div class="publication-menu-content">
                             <p class="publication-menu-desc">Pilih kategori publikasi:</p>
                             <ul class="publication-menu-list">
                                 <li><button type="button" class="publication-menu-link is-active js-publication-menu" data-target="karya-ilmiah"><ion-icon name="book-outline" aria-hidden="true"></ion-icon><span>Karya Ilmiah</span></button></li>
@@ -804,10 +239,10 @@
                     @forelse($publikasiKaryaIlmiahs as $item)
                         <div class="col-lg-4 col-md-6 js-publication-item">
                             <div class="bulletin-item wow fadeInUp publication-card" data-wow-delay="0.25s">
-                                <div class="bulletin-image" data-cursor-text="View">
+                                <div class="bulletin-image">
                                     <a href="{{ asset('storage/' . $item->pdf_path) }}" target="_blank" rel="noopener">
                                         <figure>
-                                            <img src="{{ $item->thumbnail_path ? asset('storage/' . $item->thumbnail_path) : 'https://placehold.co/500x680/e6edf5/27364a?text=Publikasi' }}" alt="{{ $item->judul }}">
+                                            <img src="{{ $item->thumbnail_path ? asset('storage/' . $item->thumbnail_path) : asset('assets/images/placeholders/publikasi.svg') }}" alt="{{ $item->judul }}">
                                         </figure>
                                     </a>
                                 </div>
@@ -834,10 +269,10 @@
                     @forelse($publikasiSnis as $item)
                         <div class="col-lg-4 col-md-6 js-publication-item">
                             <div class="bulletin-item wow fadeInUp publication-card" data-wow-delay="0.25s">
-                                <div class="bulletin-image" data-cursor-text="View">
+                                <div class="bulletin-image">
                                     <a href="{{ asset('storage/' . $item->pdf_path) }}" target="_blank" rel="noopener">
                                         <figure>
-                                            <img src="{{ $item->thumbnail_path ? asset('storage/' . $item->thumbnail_path) : 'https://placehold.co/500x680/e6edf5/27364a?text=Publikasi' }}" alt="{{ $item->judul }}">
+                                            <img src="{{ $item->thumbnail_path ? asset('storage/' . $item->thumbnail_path) : asset('assets/images/placeholders/publikasi.svg') }}" alt="{{ $item->judul }}">
                                         </figure>
                                     </a>
                                 </div>
@@ -864,10 +299,10 @@
                     @forelse($publikasiLaporanSkms as $item)
                         <div class="col-lg-4 col-md-6 js-publication-item">
                             <div class="bulletin-item wow fadeInUp publication-card" data-wow-delay="0.25s">
-                                <div class="bulletin-image" data-cursor-text="View">
+                                <div class="bulletin-image">
                                     <a href="{{ asset('storage/' . $item->pdf_path) }}" target="_blank" rel="noopener">
                                         <figure>
-                                            <img src="{{ $item->thumbnail_path ? asset('storage/' . $item->thumbnail_path) : 'https://placehold.co/500x680/e6edf5/27364a?text=Publikasi' }}" alt="{{ $item->judul }}">
+                                            <img src="{{ $item->thumbnail_path ? asset('storage/' . $item->thumbnail_path) : asset('assets/images/placeholders/publikasi.svg') }}" alt="{{ $item->judul }}">
                                         </figure>
                                     </a>
                                 </div>
@@ -894,79 +329,6 @@
         </div>
     </div>
 </div><!-- Buletin Section End -->
-
-<script>
-    (function () {
-        const menuButtons = document.querySelectorAll('.js-publication-menu');
-        const groups = document.querySelectorAll('[data-publication-group]');
-        if (!menuButtons.length || !groups.length) return;
-
-        const pageSize = 3;
-
-        function renderGroupPage(group, page) {
-            const items = Array.from(group.querySelectorAll('.js-publication-item'));
-            const dotsWrap = group.querySelector('.js-publication-dots');
-            const totalPages = Math.ceil(items.length / pageSize);
-            const safePage = Math.max(1, Math.min(page, Math.max(totalPages, 1)));
-            group.dataset.currentPage = String(safePage);
-
-            items.forEach(function (item, index) {
-                const start = (safePage - 1) * pageSize;
-                const end = safePage * pageSize;
-                item.style.display = (index >= start && index < end) ? '' : 'none';
-            });
-
-            if (!dotsWrap) return;
-            dotsWrap.innerHTML = '';
-            if (totalPages <= 1) {
-                dotsWrap.style.display = 'none';
-                return;
-            }
-
-            dotsWrap.style.display = 'flex';
-            for (let i = 1; i <= totalPages; i++) {
-                const dot = document.createElement('button');
-                dot.type = 'button';
-                dot.className = 'publication-dot' + (i === safePage ? ' is-active' : '');
-                dot.addEventListener('click', function () {
-                    renderGroupPage(group, i);
-                });
-                dotsWrap.appendChild(dot);
-            }
-        }
-
-        function activateTarget(target) {
-            menuButtons.forEach(function (btn) {
-                btn.classList.toggle('is-active', btn.getAttribute('data-target') === target);
-            });
-
-            groups.forEach(function (group) {
-                const isActive = group.getAttribute('data-publication-group') === target;
-                group.classList.toggle('is-active', isActive);
-                if (isActive) {
-                    renderGroupPage(group, 1);
-                }
-            });
-        }
-
-        menuButtons.forEach(function (button) {
-            button.addEventListener('click', function () {
-                const target = button.getAttribute('data-target');
-                if (!target) return;
-                activateTarget(target);
-            });
-        });
-
-        const activeButton = document.querySelector('.js-publication-menu.is-active') || menuButtons[0];
-        if (activeButton) {
-            const initialTarget = activeButton.getAttribute('data-target');
-            if (initialTarget) {
-                activateTarget(initialTarget);
-            }
-        }
-    })();
-</script>
-
 <!-- Why Choose Us Section Start -->
 <div class="akun">
     <div class="container-fluid px-3 px-lg-4">
@@ -975,179 +337,13 @@
                 <!-- Section Title Start -->
                 <div class="section-title">
                     <h3 class="wow fadeInUp">Akun Resmi</h3>
-                    <h2 class="text-anime-style-3" data-cursor="-opaque">Media Sosial & Aplikasi</h2>
+                    <h2 class="text-anime-style-3">Media Sosial & Aplikasi</h2>
                 </div>
                 <!-- Section Title End -->
             </div>
         </div>
 
-        <div class="row justify-content-center">
-            <style>
-                .akun {
-                    position: relative;
-                    overflow: hidden;
-                    background: none !important;
-                    background-image: none !important;
-                }
-
-                .akun::before {
-                    content: none !important;
-                    background: none !important;
-                    background-image: none !important;
-                }
-
-                .akun::after {
-                    content: "";
-                    position: absolute;
-                    inset: 0;
-                    background-image:
-                        linear-gradient(90deg, rgba(249, 248, 246, 0.78) 0%, rgba(249, 248, 246, 0.86) 28%, rgba(249, 248, 246, 0.92) 52%, rgba(249, 248, 246, 0.98) 100%),
-                        url('{{ asset('images/background1.png') }}');
-                    background-repeat: no-repeat, no-repeat;
-                    background-position: center center, -180px top;
-                    background-size: cover, min(64vw, 1120px) auto;
-                    opacity: 0.62;
-                    pointer-events: none;
-                }
-
-                .akun .container-fluid {
-                    position: relative;
-                    z-index: 1;
-                }
-
-                .siatab-widget {
-                    background: #ffffff;
-                    border: 1px solid #dce4ef;
-                    border-radius: 20px;
-                    padding: 12px 12px 10px;
-                    box-shadow: 0 14px 34px rgba(20, 34, 56, 0.12);
-                    height: 100%;
-                }
-
-                .siatab-swiper {
-                    width: 100%;
-                    overflow: hidden;
-                    border-radius: 14px;
-                }
-
-                .siatab-slide-card {
-                    background: #eef3fb;
-                    border: 1px solid #dbe6f5;
-                    border-radius: 18px;
-                    overflow: hidden;
-                }
-
-                .siatab-link {
-                    display: block;
-                    color: inherit;
-                    text-decoration: none;
-                }
-
-                .siatab-slide-image {
-                    background: linear-gradient(180deg, #edf3fb 0%, #e5edf8 100%);
-                    padding: 6px;
-                    border-bottom: 1px solid #d4dfef;
-                    min-height: 470px;
-                    border-radius: 16px;
-                }
-
-                .siatab-slide-image img {
-                    width: 100%;
-                    height: 458px;
-                    object-fit: contain;
-                    object-position: center;
-                    background: #f7faff;
-                    border-radius: 10px;
-                    display: block;
-                }
-
-                .siatab-slide-title {
-                    padding: 16px 16px 18px;
-                    margin: 0;
-                    color: #12345b;
-                    font-size: 32px;
-                    line-height: 1.2;
-                    font-weight: 700;
-                    min-height: 96px;
-                    display: -webkit-box;
-                    -webkit-line-clamp: 2;
-                    -webkit-box-orient: vertical;
-                    overflow: hidden;
-                    background: #ffffff;
-                    border-top: 1px solid #e7edf6;
-                }
-
-                .siatab-pagination {
-                    margin-top: 8px;
-                    margin-bottom: 2px;
-                    text-align: center;
-                    position: static;
-                }
-
-                .siatab-pagination .swiper-pagination-bullet {
-                    width: 8px;
-                    height: 8px;
-                    background: #99aac2;
-                    opacity: 1;
-                }
-
-                .siatab-pagination .swiper-pagination-bullet-active {
-                    width: 20px;
-                    border-radius: 999px;
-                    background: #2f486c;
-                }
-
-                .instagram-widget .instagram-media {
-                    margin: 0 !important;
-                    max-width: 100% !important;
-                    min-width: 100% !important;
-                    width: 100% !important;
-                    border-radius: 18px !important;
-                    border: 1px solid #dbe6f5 !important;
-                    overflow: hidden !important;
-                    box-shadow: none !important;
-                }
-
-                .instagram-widget .instagram-media iframe {
-                    min-height: 458px !important;
-                }
-
-                .siatab-empty {
-                    min-height: 458px;
-                    border-radius: 10px;
-                    background: #c6ceda;
-                    color: #2b3c55;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    font-size: clamp(30px, 3.2vw, 48px);
-                    font-weight: 700;
-                    line-height: 1.2;
-                    text-align: center;
-                    padding: 20px;
-                }
-
-                @media (max-width: 991px) {
-                    .siatab-slide-image {
-                        min-height: 360px;
-                    }
-
-                    .siatab-slide-image img {
-                        height: 348px;
-                    }
-
-                    .siatab-empty {
-                        min-height: 348px;
-                        font-size: clamp(24px, 6vw, 36px);
-                    }
-
-                    .siatab-slide-title {
-                        font-size: 24px;
-                        min-height: 78px;
-                    }
-                }
-            </style>
-            <div class="col-lg-4 col-md-6 col-sm-12 col-12">
+        <div class="row justify-content-center">            <div class="col-lg-4 col-md-6 col-sm-12 col-12">
                 <div class="siatab-widget instagram-widget wow fadeInUp" data-wow-delay="0.5s">
                     <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/pu_sda_balaiairtanah/?utm_source=ig_embed&utm_campaign=loading" data-instgrm-version="14" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:658px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);">
                         <div style="padding:16px;"><a href="https://www.instagram.com/pu_sda_balaiairtanah/?utm_source=ig_embed&utm_campaign=loading" style=" background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank">
@@ -1171,7 +367,7 @@
                                     </svg>
                                 </div>
                                 <div style="padding-top: 8px;">
-                                    <div style=" color:#3897f0; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:550; line-height:18px;">View this profile on Instagram</div>
+                                    <div style=" color:#3897f0; font-family:'DM Sans',sans-serif; font-size:14px; font-style:normal; font-weight:550; line-height:18px;">View this profile on Instagram</div>
                                 </div>
                                 <div style="padding: 12.5% 0;"></div>
                                 <div style="display: flex; flex-direction: row; margin-bottom: 14px; align-items: center;">
@@ -1195,8 +391,8 @@
                                     <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 144px;"></div>
                                 </div>
                             </a>
-                            <p style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;"><a href="https://www.instagram.com/pu_sda_balaiairtanah/?utm_source=ig_embed&utm_campaign=loading" style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px;" target="_blank">Ditjen Sumber Daya
-                                    Air</a> (@<a href="https://www.instagram.com/pu_sda_balaiairtanah/?utm_source=ig_embed&utm_campaign=loading" style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px;" target="_blank">pu_sda_balaiairtanah</a>) � Instagram photos and videos</p></div>
+                            <p style=" color:#c9c8cd; font-family:'DM Sans',sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;"><a href="https://www.instagram.com/pu_sda_balaiairtanah/?utm_source=ig_embed&utm_campaign=loading" style=" color:#c9c8cd; font-family:'DM Sans',sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px;" target="_blank">Ditjen Sumber Daya
+                                    Air</a> (@<a href="https://www.instagram.com/pu_sda_balaiairtanah/?utm_source=ig_embed&utm_campaign=loading" style=" color:#c9c8cd; font-family:'DM Sans',sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px;" target="_blank">pu_sda_balaiairtanah</a>) � Instagram photos and videos</p></div>
                     </blockquote>
                     <script async src="//platform.instagram.com/en_US/embeds.js"></script>
                     <a class="siatab-link" href="https://www.instagram.com/pu_sda_balaiairtanah/" target="_blank" rel="noopener noreferrer">
@@ -1208,7 +404,7 @@
             <div class="col-lg-4 col-md-6 col-sm-12 col-12">
                 <div class="siatab-widget wow fadeInUp" data-wow-delay="0.8s">
                     <div class="swiper siatab-swiper" id="siatabSwiper">
-                        <div class="swiper-wrapper" data-cursor-text="Drag">
+                        <div class="swiper-wrapper">
                             @php
                                 $hasSiatabSlides = false;
                             @endphp
@@ -1273,7 +469,7 @@
                 <div class="wow fadeInUp" data-wow-delay="0.75s" style="padding: 40px 40px 0;">
                     <a href="https://sda.pu.go.id/dokumen/kategori/produk_hukum">
                         <figure>
-                            <img style="border-radius: 40px" src="https://sda.pu.go.id/web/images/ProdukHukum_.webp" alt="Produk Hukum">
+                            <img style="border-radius: 40px" src="{{ asset('assets/sda/web/images/ProdukHukum_.webp') }}" alt="Produk Hukum">
                         </figure>
                     </a>
                 </div>
@@ -1285,26 +481,7 @@
 
 <!-- Pengumuman Section Start -->
 <div class="what-we-do">
-    <div class="light-bg-section">
-        <style>
-            .pengumuman-card {
-                display: block;
-            }
-
-            .pengumuman-card .image-anime {
-                border-radius: 12px;
-                overflow: hidden;
-                border: 1px solid #d9e0ea;
-            }
-
-            .pengumuman-card img {
-                width: 100%;
-                aspect-ratio: 4 / 5;
-                object-fit: cover;
-                display: block;
-            }
-        </style>
-        <div class="container">
+    <div class="light-bg-section">        <div class="container">
             <div class="row section-row mb-0">
                 <div class="col-lg-12">
                     <div class="section-title">
@@ -1319,7 +496,7 @@
                 <div class="col-lg-12">
                     <div class="pengumuman-slider">
                         <div class="swiper">
-                            <div class="swiper-wrapper" data-cursor-text="Drag">
+                            <div class="swiper-wrapper">
                                 @forelse ($pengumumans->chunk(2) as $pengumumanChunk)
                                     <div class="swiper-slide">
                                         <div class="link-item">
@@ -1351,7 +528,7 @@
                                                 <div class="row text-center align-content-center justify-content-center">
                                                     <div class="col-lg-10 col-md-10 col-sm-12">
                                                         <figure class="image-anime">
-                                                            <img width="100%" src="https://placehold.co/1000x1400/e6edf5/27364a?text=Belum+ada+pengumuman" alt="Belum ada pengumuman">
+                                                            <img width="100%" src="{{ asset('assets/images/placeholders/pengumuman.svg') }}" alt="Belum ada pengumuman">
                                                         </figure>
                                                     </div>
                                                 </div>
@@ -1372,47 +549,13 @@
 </div><!-- Pengumuman Section End -->
 
 <!-- Our Galeri Section Start -->
-<div class="gallery-home">
-    <style>
-        .gallery-home {
-            position: relative;
-            overflow: hidden;
-            background: none !important;
-            background-image: none !important;
-        }
-
-        .gallery-home::before {
-            content: none !important;
-            background: none !important;
-            background-image: none !important;
-        }
-
-        .gallery-home::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background-image:
-                linear-gradient(90deg, rgba(249, 248, 246, 0.96) 0%, rgba(249, 248, 246, 0.90) 28%, rgba(249, 248, 246, 0.82) 52%, rgba(249, 248, 246, 0.62) 100%),
-                url('{{ asset('images/background3.png') }}');
-            background-repeat: no-repeat, no-repeat;
-            background-position: center center, center center;
-            background-size: cover, cover;
-            opacity: 0.48;
-            pointer-events: none;
-        }
-
-        .gallery-home .container {
-            position: relative;
-            z-index: 1;
-        }
-    </style>
-    <div class="container">
+<div class="gallery-home">    <div class="container">
         <div class="row section-row">
             <div class="col-lg-12">
                 <!-- Section Title Start -->
                 <div class="section-title">
                     <h3 class="wow fadeInUp">Galeri</h3>
-                    <h2 class="text-anime-style-3" data-cursor="-opaque">Foto dan Video</h2>
+                    <h2 class="text-anime-style-3">Foto dan Video</h2>
                 </div>
                 <!-- Section Title End -->
             </div>
@@ -1422,12 +565,12 @@
             <div class="col-lg-5 col-md-6 wow fadeInUp" data-wow-delay="0.25s">
                 <div class="col-md-12 mb-3">
                     <!-- Intro Video Box Start -->
-                    <div class="intro-video-box" data-cursor-text="Play">
+                    <div class="intro-video-box">
                         <!-- Video Image Start -->
                         <div class="video-image">
                             <a href="https://www.youtube.com/watch?v=CdY1yfqwm5M" class="popup-video">
                                 <figure class="image-anime">
-                                    <img src="https://sda.pu.go.id/web/images/thumbnail-1.webp" alt="">
+                                    <img src="{{ asset('assets/sda/web/images/thumbnail-1.webp') }}" alt="">
                                 </figure>
                             </a>
                         </div>
@@ -1448,7 +591,7 @@
                 <a href="https://sda.pu.go.id/galeri/detail/bendungan-dan-danau">
                     <div class="why-choose-image">
                         <figure class="image-anime reveal">
-                            <img src="https://sda.pu.go.id/web/images/P4.jpg" alt="Bendungan dan Danau">
+                            <img src="{{ asset('assets/sda/web/images/P4.jpg') }}" alt="Bendungan dan Danau">
                         </figure>
                     </div>
                 </a>
@@ -1458,7 +601,7 @@
                 <a href="https://sda.pu.go.id/galeri/detail/air-tanah-air-baku">
                     <div class="why-choose-image">
                         <figure class="image-anime reveal">
-                            <img src="https://sda.pu.go.id/web/images/P1.jpg" alt="Air Tanah Air Baku">
+                            <img src="{{ asset('assets/sda/web/images/P1.jpg') }}" alt="Air Tanah Air Baku">
                         </figure>
                     </div>
                 </a>
@@ -1469,7 +612,7 @@
                 <a href="https://sda.pu.go.id/galeri/detail/irigasi-dan-rawa">
                     <div class="why-choose-image">
                         <figure class="image-anime reveal">
-                            <img src="https://sda.pu.go.id/web/images/P3.jpg" alt="Irigasi dan Rawa">
+                            <img src="{{ asset('assets/sda/web/images/P3.jpg') }}" alt="Irigasi dan Rawa">
                         </figure>
                     </div>
                 </a>
@@ -1480,7 +623,7 @@
                 <a href="https://sda.pu.go.id/galeri/detail/sungai-dan-pantai">
                     <div class="why-choose-image">
                         <figure class="image-anime reveal">
-                            <img src="https://sda.pu.go.id/web/images/P2.jpg" alt="Sungai dan Pantai">
+                            <img src="{{ asset('assets/sda/web/images/P2.jpg') }}" alt="Sungai dan Pantai">
                         </figure>
                     </div>
                 </a>
@@ -1488,11 +631,11 @@
 
             <div class="col-lg-5 col-md-6 wow fadeInUp" data-wow-delay="0.25s">
                 <div class="col-md-12">
-                    <div class="intro-video-box" data-cursor-text="Play">
+                    <div class="intro-video-box">
                         <div class="video-image">
                             <a href="https://www.youtube.com/watch?v=ZXjwL82IQAg" class="popup-video">
                                 <figure class="image-anime">
-                                    <img src="https://sda.pu.go.id/web/images/thumbnail-2.webp" alt="">
+                                    <img src="{{ asset('assets/sda/web/images/thumbnail-2.webp') }}" alt="">
                                 </figure>
                             </a>
                         </div>
@@ -1518,14 +661,14 @@
         <div class="col-lg-12">
             <div class="link-slider">
                 <div class="swiper">
-                    <div class="swiper-wrapper" data-cursor-text="Drag">
+                    <div class="swiper-wrapper">
 
                         <div class="swiper-slide">
                             <div class="link-item">
                                 <a href="http://himpsda.dev-tunnels.id" title="HIMPESDA">
                                     <div class="link-body">
                                         <figure class="image-anime">
-                                            <img src="https://sda.pu.go.id/web/images/link/Logo HIMPESDA High Res1.png" alt="HIMPESDA">
+                                            <img src="{{ asset('assets/sda/web/images/link/Logo-HIMPESDA-High-Res1.png') }}" alt="HIMPESDA">
                                         </figure>
                                     </div>
                                 </a>
@@ -1537,7 +680,7 @@
                                 <a href="https://www.lapor.go.id/" title="Saran dan Pengaduan">
                                     <div class="link-body">
                                         <figure class="image-anime">
-                                            <img src="https://sda.pu.go.id/web/images/link/icons-saran.svg" alt="Saran dan Pengaduan">
+                                            <img src="{{ asset('assets/sda/web/images/link/icons-saran.svg') }}" alt="Saran dan Pengaduan">
                                         </figure>
                                     </div>
                                 </a>
@@ -1549,7 +692,7 @@
                                 <a href="https://sahabat.pu.go.id/" title="Pelayanan Publik">
                                     <div class="link-body">
                                         <figure class="image-anime">
-                                            <img src="https://sda.pu.go.id/web/images/link/icons-layanan.svg" alt="Pelayanan Publik">
+                                            <img src="{{ asset('assets/sda/web/images/link/icons-layanan.svg') }}" alt="Pelayanan Publik">
                                         </figure>
                                     </div>
                                 </a>
@@ -1561,7 +704,7 @@
                                 <a href="{{ route('informasi_publik.informasi_berkala') }}" title="Layanan Informasi Publik (e-PPID)">
                                     <div class="link-body">
                                         <figure class="image-anime">
-                                            <img src="https://sda.pu.go.id/web/images/link/icons-eppid.svg" alt="Layanan Informasi Publik (e-PPID)">
+                                            <img src="{{ asset('assets/sda/web/images/link/icons-eppid.svg') }}" alt="Layanan Informasi Publik (e-PPID)">
                                         </figure>
                                     </div>
                                 </a>
@@ -1573,7 +716,7 @@
                                 <a href="https://saberpungli.id/" title="Saber Pungli">
                                     <div class="link-body">
                                         <figure class="image-anime">
-                                            <img src="https://sda.pu.go.id/web/images/link/20201015042055icons-pungli.svg" alt="Saber Pungli">
+                                            <img src="{{ asset('assets/sda/web/images/link/20201015042055icons-pungli.svg') }}" alt="Saber Pungli">
                                         </figure>
                                     </div>
                                 </a>
@@ -1585,7 +728,7 @@
                                 <a href="https://pdsda.sda.pu.go.id/" title="Pusat Data Sumber Daya Air">
                                     <div class="link-body">
                                         <figure class="image-anime">
-                                            <img src="https://sda.pu.go.id/web/images/link/icons-wrdc.svg" alt="Pusat Data Sumber Daya Air">
+                                            <img src="{{ asset('assets/sda/web/images/link/icons-wrdc.svg') }}" alt="Pusat Data Sumber Daya Air">
                                         </figure>
                                     </div>
                                 </a>
@@ -1597,7 +740,7 @@
                                 <a href="https://sihka.sda.pu.go.id/" title="Sistem Informasi Hidrologi dan Kualitas Air">
                                     <div class="link-body">
                                         <figure class="image-anime">
-                                            <img src="https://sda.pu.go.id/web/images/link/icons-sihka.svg" alt="Sistem Informasi Hidrologi dan Kualitas Air">
+                                            <img src="{{ asset('assets/sda/web/images/link/icons-sihka.svg') }}" alt="Sistem Informasi Hidrologi dan Kualitas Air">
                                         </figure>
                                     </div>
                                 </a>
@@ -1609,7 +752,7 @@
                                 <a href="{{ route('pelayanan_publik.standar_pelayanan') }}" title="Perizinan SDA">
                                     <div class="link-body">
                                         <figure class="image-anime">
-                                            <img src="https://sda.pu.go.id/web/images/link/icons-perizinan.svg" alt="Perizinan SDA">
+                                            <img src="{{ asset('assets/sda/web/images/link/icons-perizinan.svg') }}" alt="Perizinan SDA">
                                         </figure>
                                     </div>
                                 </a>
@@ -1621,7 +764,7 @@
                                 <a href="https://jdih.pu.go.id/" title="Jaringan Dokumentasi dan Informasi Hukum Kementerian PU">
                                     <div class="link-body">
                                         <figure class="image-anime">
-                                            <img src="https://sda.pu.go.id/web/images/link/jdih.png" alt="Jaringan Dokumentasi dan Informasi Hukum Kementerian PU">
+                                            <img src="{{ asset('assets/sda/web/images/link/jdih.png') }}" alt="Jaringan Dokumentasi dan Informasi Hukum Kementerian PU">
                                         </figure>
                                     </div>
                                 </a>
@@ -1633,7 +776,7 @@
                                 <a href="https://elhkpn.kpk.go.id/" title="e-LKHPN">
                                     <div class="link-body">
                                         <figure class="image-anime">
-                                            <img src="https://sda.pu.go.id/web/images/link/icons-elhkpn.svg" alt="e-LKHPN">
+                                            <img src="{{ asset('assets/sda/web/images/link/icons-elhkpn.svg') }}" alt="e-LKHPN">
                                         </figure>
                                     </div>
                                 </a>
@@ -1646,31 +789,7 @@
         </div>
     </div>
 </div>
-<!-- Link Terkait Section End-->
-
-<style>
-    #popup {
-        display: none; /* Awalnya disembunyikan */
-        position: fixed;
-        z-index: 9999;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0,0,0,0.5); /* Latar transparan */
-    }
-
-    #popup-content {
-        /*background: white;*/
-        padding: 10px;
-        width: 450px;
-        margin: 100px auto;
-        border-radius: 8px;
-        text-align: center;
-    }
-
-</style>
-<!--start: floating ads-->
+<!-- Link Terkait Section End--><!--start: floating ads-->
 {{-- <div id="popup">
     <div id="popup-content">
         <div class="text-end"><a id='close-floatads' onclick='document.getElementById(&apos;popup&apos;).style.display = &apos;none&apos;;' style=' cursor:pointer;'>
@@ -1678,76 +797,14 @@
         </div>
         <!--Script iklan-->
         <a href='#' title='Integritas Hentikan Gratifikasi'>
-            <img style='max-width:400px;height:auto; left:0;' alt='Integritas Hentikan Gratifikasi' src='https://sda.pu.go.id/assets/uploads/pengumuman/Poster Stop Gratifikasi Ilustratif Merah dan Kuning.jpg'/>
+            <img style='max-width:400px;height:auto; left:0;' alt='Integritas Hentikan Gratifikasi' src='{{ asset('assets/sda/assets/uploads/pengumuman/poster-stop-gratifikasi.jpg') }}'/>
         </a>
         <!--Akhir script iklan-->
     </div>
 </div> --}}
 <!--end: floating ads-->
 
-<script>
-    window.addEventListener('load', function () {
-        const popup = document.getElementById('popup');
-        if (popup) {
-            setTimeout(function () {
-                popup.style.display = 'block';
-                setTimeout(function () {
-                    popup.style.display = 'none';
-                }, 8000);
-            }, 0);
-        }
-
-        const siatabSlider = document.getElementById('siatabSwiper');
-        const siatabPagination = document.getElementById('siatabPagination');
-        const siatabActiveTitle = document.getElementById('siatabActiveTitle');
-        if (!siatabSlider || typeof Swiper === 'undefined') {
-            return;
-        }
-
-        const slideCount = siatabSlider.querySelectorAll('.swiper-slide').length;
-        const useLoop = slideCount > 1;
-
-        if (siatabPagination) {
-            siatabPagination.style.display = useLoop ? 'block' : 'none';
-        }
-
-        function updateSiatabTitle(swiper) {
-            if (!siatabActiveTitle || !swiper || !swiper.slides || !swiper.slides.length) return;
-            const slide = swiper.slides[swiper.activeIndex];
-            const title = slide ? slide.getAttribute('data-title') : '';
-            siatabActiveTitle.textContent = title || 'SIATAB';
-        }
-
-        const siatabSwiper = new Swiper('#siatabSwiper', {
-            slidesPerView: 1,
-            spaceBetween: 10,
-            loop: useLoop,
-            speed: 700,
-            grabCursor: true,
-            allowTouchMove: useLoop,
-            autoplay: useLoop ? {
-                delay: 3500,
-                disableOnInteraction: false,
-                pauseOnMouseEnter: true
-            } : false,
-            pagination: {
-                el: '#siatabPagination',
-                clickable: true
-            },
-            on: {
-                init: function () {
-                    updateSiatabTitle(this);
-                },
-                slideChange: function () {
-                    updateSiatabTitle(this);
-                }
-            }
-        });
-
-        updateSiatabTitle(siatabSwiper);
-    });
-</script>
-
-
 <!-- Jquery Library File -->
 @endsection
+
+
