@@ -15,4 +15,8 @@ class Thumbnail extends Model
         'description',
         'show_on_home',
     ];
+
+    protected $casts = [
+        'show_on_home' => 'boolean',
+    ];
 }

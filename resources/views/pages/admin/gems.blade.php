@@ -3,48 +3,6 @@
 @section('title', 'Admin GEMS')
 
 @section('content')
-    <style>
-        .head { display:flex; align-items:center; justify-content:space-between; gap:12px; width:100%; }
-        .head h3 { margin:0; font-size:clamp(34px,7vw,40px); line-height:1.15; min-width:0; flex:1; }
-        .btn-plus { width:44px; height:44px; border-radius:12px; border:1px solid #d9d9d9; background:#fff; font-size:30px; line-height:1; color:#14161b; cursor:pointer; transition:background-color .2s ease,color .2s ease,border-color .2s ease; }
-        .btn-plus:hover { background:#111217; color:#fff; border-color:#111217; }
-        .flash-success { margin:12px 0 0; border:1px solid #b8e2c3; background:#eaf9ee; color:#1f6b35; border-radius:10px; padding:10px 12px; font-size:14px; }
-        .flash-error { margin:12px 0 0; border:1px solid #f3c2c2; background:#fff0f0; color:#9c2f2f; border-radius:10px; padding:10px 12px; font-size:14px; }
-        .table-item { width:100%; table-layout:fixed; }
-        .table-item th:nth-child(1), .table-item td:nth-child(1) { width:45%; }
-        .table-item th:nth-child(2), .table-item td:nth-child(2) { width:15%; }
-        .table-item th:nth-child(3), .table-item td:nth-child(3) { width:15%; }
-        .table-item th:nth-child(4), .table-item td:nth-child(4) { width:25%; }
-        .action-group { display:flex; gap:6px; flex-wrap:wrap; white-space:nowrap; }
-        .btn-action { border:1px solid #d2d2d2; background:#fff; color:#1a1a1a; border-radius:8px; padding:6px 10px; font-size:12px; font-weight:700; cursor:pointer; }
-        .btn-action.read { border-color:#b9d2ff; background:#ecf3ff; color:#1e4b95; }
-        .btn-action.update { border-color:#cde8cd; background:#ecf8ec; color:#1f6b35; }
-        .btn-action.delete { border-color:#f2c6c6; background:#fff1f1; color:#a72c2c; }
-        .popup-overlay { position:fixed; inset:0; background:rgba(10,12,18,0.45); display:none; align-items:center; justify-content:center; z-index:1400; padding:16px; }
-        .popup-overlay.is-open { display:flex; }
-        .popup-card { width:min(100%,520px); background:#fff; border:1px solid #e5e5e5; border-radius:14px; padding:18px; box-shadow:0 20px 40px rgba(17,18,23,0.18); }
-        .popup-card h4 { margin:0 0 12px; font-size:20px; line-height:1.2; }
-        .popup-input { width:100%; border:1px solid #d4d4d4; border-radius:10px; padding:10px 12px; font:inherit; color:#161616; outline:none; margin-bottom:12px; }
-        .popup-input:focus { border-color:#111217; box-shadow:0 0 0 3px rgba(17,18,23,0.08); }
-        .popup-help { display:block; margin:-4px 0 10px; color:#666; font-size:12px; }
-        .popup-actions { display:flex; justify-content:flex-end; gap:8px; }
-        .btn-primary { border:1px solid #111217; background:#111217; color:#fff; border-radius:10px; padding:9px 16px; font:inherit; font-weight:600; cursor:pointer; }
-        .read-images { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:8px; margin-top:12px; }
-        .read-images img { width:100%; aspect-ratio:16 / 10; object-fit:cover; border-radius:10px; border:1px solid #e4e4e4; }
-        .existing-image-list { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:8px; margin:0 0 12px; }
-        .existing-image-item { border:1px solid #e4e4e4; border-radius:10px; padding:8px; }
-        .existing-image-item img { width:100%; aspect-ratio:16 / 10; object-fit:cover; border-radius:8px; margin-bottom:6px; }
-        .existing-image-item label { font-size:12px; color:#4a4a4a; }
-        .image-input-list { display:grid; gap:8px; margin-bottom:8px; }
-        .image-input-row { display:flex; gap:8px; align-items:center; }
-        .image-input-row .popup-input { margin-bottom:0; }
-        .btn-remove-image-input { border:1px solid #f2c6c6; background:#fff1f1; color:#a72c2c; border-radius:10px; padding:8px 10px; font:inherit; font-size:12px; font-weight:700; cursor:pointer; white-space:nowrap; }
-        .btn-remove-image-input:disabled { opacity:0.45; cursor:not-allowed; }
-        .btn-add-image-input { border:1px solid #b9d2ff; background:#ecf3ff; color:#1e4b95; border-radius:10px; padding:8px 12px; font:inherit; font-size:12px; font-weight:700; cursor:pointer; margin-bottom:10px; }
-        .upload-preview-list { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:8px; margin:0 0 10px; }
-        .upload-preview-item { border:1px solid #e4e4e4; border-radius:10px; overflow:hidden; background:#f8f8f8; }
-        .upload-preview-item img { width:100%; aspect-ratio:1 / 1; object-fit:cover; display:block; }
-    </style>
 
     <section>
         <div class="panel full-card">
@@ -134,9 +92,11 @@
             </form>
         </div>
     </div>
+@endsection
 
-    <script>
-        (function () {
+@push('scripts')
+<script>
+(function () {
             const openButton = document.getElementById('openPopup');
             const createOverlay = document.getElementById('createOverlay');
             const createTitleInput = document.getElementById('createTitleInput');
@@ -372,5 +332,5 @@
                 openOverlay(createOverlay, createTitleInput);
             @endif
         })();
-    </script>
-@endsection
+</script>
+@endpush

@@ -2,13 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Admin\StoreThumbnailRequest;
+use App\Http\Requests\Admin\ThumbnailVisibilityRequest;
+use App\Http\Requests\Admin\UpdateThumbnailRequest;
 use App\Models\Thumbnail;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use App\Services\FileUploadService;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\DB;
+use Illuminate\View\View;
 
 class AdminThumbnailController extends Controller
 {
-    public function index()
+    private const IMAGE_DIR = 'thumbnails';
+
+    /** @var FileUploadService */
+    private $files;
+
+    public function __construct(FileUploadService $files)
+    {
+        $this->files = $files;
+    }
+
+    public function index(): View
     {
         $thumbnails = Thumbnail::query()
             ->latest()
@@ -17,20 +32,14 @@ class AdminThumbnailController extends Controller
         return view('pages.admin.thumbnail', compact('thumbnails'));
     }
 
-    public function store(Request $request)
+    public function store(StoreThumbnailRequest $request): RedirectResponse
     {
-        $validated = $request->validate([
-            'image' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:10240'],
-            'title' => ['nullable', 'string', 'max:255'],
-            'description' => ['nullable', 'string', 'max:500'],
-        ]);
-
-        $path = $validated['image']->store('thumbnails', 'public');
+        $data = $request->validated();
 
         Thumbnail::create([
-            'image_path' => $path,
-            'title' => $validated['title'] ?? null,
-            'description' => $validated['description'] ?? null,
+            'image_path' => $this->files->store($data['image'], self::IMAGE_DIR),
+            'title' => $data['title'] ?? null,
+            'description' => $data['description'] ?? null,
         ]);
 
         return redirect()
@@ -38,24 +47,19 @@ class AdminThumbnailController extends Controller
             ->with('success', 'Thumbnail berhasil ditambahkan.');
     }
 
-    public function update(Request $request, Thumbnail $thumbnail)
+    public function update(UpdateThumbnailRequest $request, Thumbnail $thumbnail): RedirectResponse
     {
-        $validated = $request->validate([
-            'image' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:10240'],
-            'title' => ['nullable', 'string', 'max:255'],
-            'description' => ['nullable', 'string', 'max:500'],
-        ]);
+        $data = $request->validated();
+        $imagePath = $thumbnail->image_path;
 
-        if (! empty($thumbnail->image_path)) {
-            Storage::disk('public')->delete($thumbnail->image_path);
+        if (! empty($data['image'])) {
+            $imagePath = $this->files->replace($thumbnail->image_path, $data['image'], self::IMAGE_DIR);
         }
 
-        $path = $validated['image']->store('thumbnails', 'public');
-
         $thumbnail->update([
-            'image_path' => $path,
-            'title' => $validated['title'] ?? null,
-            'description' => $validated['description'] ?? null,
+            'image_path' => $imagePath,
+            'title' => $data['title'] ?? null,
+            'description' => $data['description'] ?? null,
         ]);
 
         return redirect()
@@ -63,12 +67,9 @@ class AdminThumbnailController extends Controller
             ->with('success', 'Thumbnail berhasil diperbarui.');
     }
 
-    public function destroy(Thumbnail $thumbnail)
+    public function destroy(Thumbnail $thumbnail): RedirectResponse
     {
-        if (! empty($thumbnail->image_path)) {
-            Storage::disk('public')->delete($thumbnail->image_path);
-        }
-
+        $this->files->delete($thumbnail->image_path);
         $thumbnail->delete();
 
         return redirect()
@@ -76,26 +77,25 @@ class AdminThumbnailController extends Controller
             ->with('success', 'Thumbnail berhasil dihapus.');
     }
 
-    public function updateVisibility(Request $request)
+    public function updateVisibility(ThumbnailVisibilityRequest $request): RedirectResponse
     {
-        $validated = $request->validate([
-            'selected_thumbnail_ids' => ['nullable', 'array'],
-            'selected_thumbnail_ids.*' => ['integer', 'exists:thumbnails,id'],
-        ]);
-
-        $selectedIds = collect($validated['selected_thumbnail_ids'] ?? [])
-            ->map(fn ($id) => (int) $id)
+        $selectedIds = collect($request->validated()['selected_thumbnail_ids'] ?? [])
+            ->map(function ($id) {
+                return (int) $id;
+            })
             ->unique()
             ->values()
             ->all();
 
-        Thumbnail::query()->update(['show_on_home' => false]);
+        DB::transaction(function () use ($selectedIds) {
+            Thumbnail::query()->update(['show_on_home' => false]);
 
-        if (! empty($selectedIds)) {
-            Thumbnail::query()
-                ->whereIn('id', $selectedIds)
-                ->update(['show_on_home' => true]);
-        }
+            if (! empty($selectedIds)) {
+                Thumbnail::query()
+                    ->whereIn('id', $selectedIds)
+                    ->update(['show_on_home' => true]);
+            }
+        });
 
         return redirect()
             ->route('admin.thumbnail')

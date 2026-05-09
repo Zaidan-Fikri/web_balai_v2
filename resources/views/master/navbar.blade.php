@@ -74,11 +74,11 @@
                         </li>
                         <li class="nav-item submenu">
                             <a class="nav-link" href="#">
-                                <img src="https://flagcdn.com/w20/id.png" width="20" style="max-width: 20px"  alt="Indonesia"> <ion-icon name="chevron-down-outline" class="menu-caret" aria-hidden="true"></ion-icon>
+                                <img src="{{ asset('assets/vendor/flags/id.png') }}" width="20" style="max-width: 20px"  alt="Indonesia"> <ion-icon name="chevron-down-outline" class="menu-caret" aria-hidden="true"></ion-icon>
                             </a>
                             <ul class="sub-menu">
-                                <li class="nav-item"><a class="nav-link" href="https://sda.pu.go.id/lang/id"><img src="https://flagcdn.com/w20/id.png" alt="Indonesia" width="20" style="max-width: 20px"> Indonesia</a></li>
-                                <li class="nav-item"><a class="nav-link" href="https://sda.pu.go.id/lang/en"><img src="https://flagcdn.com/w20/us.png" alt="English" width="20" style="max-width: 20px"> English</a></li>
+                                <li class="nav-item"><a class="nav-link" href="https://sda.pu.go.id/lang/id"><img src="{{ asset('assets/vendor/flags/id.png') }}" alt="Indonesia" width="20" style="max-width: 20px"> Indonesia</a></li>
+                                <li class="nav-item"><a class="nav-link" href="https://sda.pu.go.id/lang/en"><img src="{{ asset('assets/vendor/flags/us.png') }}" alt="English" width="20" style="max-width: 20px"> English</a></li>
                             </ul>
                         </li>
                     </ul>

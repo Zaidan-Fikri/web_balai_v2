@@ -12,7 +12,7 @@ services:
       DB_CONNECTION: mysql
       DB_HOST: db
       DB_PORT: 3306
-      DB_DATABASE: laravel
+      DB_DATABASE: web_balai_v2
       DB_USERNAME: laravel
       DB_PASSWORD: laravel
     command: >
@@ -27,6 +27,7 @@ services:
         echo 'Waiting for database...';
         sleep 2;
       done &&
+      php artisan storage:link || true &&
       php artisan migrate --force --seed &&
       php-fpm
       "
@@ -54,7 +55,7 @@ services:
     image: mysql:8.0
     container_name: web_balai_db
     environment:
-      MYSQL_DATABASE: laravel
+      MYSQL_DATABASE: web_balai_v2
       MYSQL_ROOT_PASSWORD: root
       MYSQL_USER: laravel
       MYSQL_PASSWORD: laravel

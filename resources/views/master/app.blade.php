@@ -9,265 +9,80 @@
     <meta name="keywords" content="Balai Air Tanah">
     <meta name="author" content="Balai Air Tanah">
     <!-- Page Title -->
-    <title>Beranda - Balai Air Tanah</title>
+    <title>@yield('title', 'Balai Air Tanah')</title>
     <!-- Favicon Icon -->
-    <link rel="shortcut icon" type="image/x-icon" href="https://sda.pu.go.id/web/images/favicon.png">
-    <!-- Google Fonts Css-->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Manrope:wght@200..800&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/sda/web/images/favicon.png') }}">
+    <!-- Font memakai fallback lokal/sistem agar tidak bergantung Google Fonts saat local development. -->
     <!-- Bootstrap Css -->
-    <link href="https://sda.pu.go.id/web/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="{{ asset('assets/sda/web/css/bootstrap.min.css') }}" rel="stylesheet" media="screen">
     <!-- SlickNav Css -->
-    <link href="https://sda.pu.go.id/web/css/slicknav.min.css" rel="stylesheet">
+    <link href="{{ asset('assets/sda/web/css/slicknav.min.css') }}" rel="stylesheet">
     <!-- Swiper Css -->
-    <link rel="stylesheet" href="https://sda.pu.go.id/web/css/swiper-bundle.min.css">
+    <link rel="stylesheet" href="{{ asset('assets/sda/web/css/swiper-bundle.min.css') }}">
     <!-- Font Awesome Icon Css-->
-    <link href="https://sda.pu.go.id/web/css/all.css" rel="stylesheet" media="screen">
+    <link href="{{ asset('assets/vendor/fontawesome/css/all.min.css') }}" rel="stylesheet" media="screen">
     <!-- Animated Css -->
-    <link href="https://sda.pu.go.id/web/css/animate.css" rel="stylesheet">
+    <link href="{{ asset('assets/sda/web/css/animate.css') }}" rel="stylesheet">
     <!-- Magnific Popup Core Css File -->
-    <link rel="stylesheet" href="https://sda.pu.go.id/web/css/magnific-popup.css">
+    <link rel="stylesheet" href="{{ asset('assets/sda/web/css/magnific-popup.css') }}">
     <!-- Mouse Cursor Css File -->
-    <link rel="stylesheet" href="https://sda.pu.go.id/web/css/mousecursor.css">
+    <link rel="stylesheet" href="{{ asset('assets/sda/web/css/mousecursor.css') }}">
     <!-- Main Custom Css -->
-    <link href="https://sda.pu.go.id/web/css/custom.css" rel="stylesheet" media="screen">
-    <style>
-        .navbar .nav-item .nav-link::after {
-            display: none !important;
-            content: none !important;
-        }
-    
-        .navbar .nav-item.submenu > .nav-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
+    <link href="{{ asset('assets/sda/web/css/custom.css') }}" rel="stylesheet" media="screen">
+    @vite(['resources/css/app.css', 'resources/css/pages.css'])
+    @stack('styles')
+    <link rel="preload" href="{{ asset('assets/sda/web/images/slider1.webp') }}" as="image">
 
-        .navbar .nav-item.submenu > .nav-link .menu-caret {
-            margin-left: 2px;
-        }
-        .navbar .navbar-nav > li.menu-home {
-            margin-left: 14px;
-        }
-        .publication-menu-link {
-            color: #ffffff;
-            transition: color 0.2s ease;
-        }
+    @production
+        <!-- Google tag hanya dimuat di production, tidak di local development. -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-HZX91843N9"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
 
-        .publication-menu-link:hover {
-            color: #ffd84d !important;
-        }
-
-        .navbar .submenu.flyout-parent {
-            position: relative;
-        }
-
-        .navbar .submenu > .sub-menu {
-            overflow: visible !important;
-        }
-
-        .navbar .submenu.flyout-parent::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            right: -14px;
-            width: 14px;
-            height: 100%;
-        }
-
-        .navbar .submenu.flyout-parent > .flyout-card {
-            position: absolute !important;
-            display: block !important;
-            left: 100% !important;
-            top: 0 !important;
-            margin-left: 8px;
-            min-width: 220px;
-            padding: 10px 0;
-            border-radius: 22px;
-            background: #f7b500;
-            border: 0;
-            box-shadow: 0 18px 36px rgba(8, 22, 43, 0.22);
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-            transform: translateY(8px);
-            transition: all 0.2s ease;
-            z-index: 999;
-        }
-
-        .navbar .submenu.flyout-parent:hover > .flyout-card {
-            opacity: 1;
-            visibility: visible;
-            pointer-events: auto;
-            transform: translateY(0);
-        }
-
-        .navbar .submenu.flyout-parent:focus-within > .flyout-card {
-            opacity: 1;
-            visibility: visible;
-            pointer-events: auto;
-            transform: translateY(0);
-        }
-
-        .navbar .submenu.flyout-parent > .flyout-card .nav-link {
-            color: #ffffff !important;
-            font-weight: 500;
-            padding: 12px 20px !important;
-            display: block;
-        }
-
-        .navbar .submenu.flyout-parent > .flyout-card .nav-link:hover {
-            color: #000000 !important;
-            background: transparent;
-        }
-
-        @media only screen and (max-width: 991px) {
-            .navbar .submenu.flyout-parent::after {
-                display: none;
+            function gtag() {
+                dataLayer.push(arguments);
             }
 
-            .navbar .submenu.flyout-parent > .flyout-card {
-                position: static;
-                left: auto;
-                top: auto;
-                margin-left: 0;
-                min-width: 100%;
-                padding: 0 0 0 14px;
-                border: 0;
-                border-radius: 0;
-                box-shadow: none;
-                background: transparent;
-                opacity: 1;
-                visibility: visible;
-                transform: none;
-                transition: none;
-            }
-
-            .navbar .submenu.flyout-parent > .flyout-card .nav-link {
-                color: inherit !important;
-                font-weight: 500;
-                padding: 8px 0 !important;
-            }
-
-            .navbar .submenu.flyout-parent > .flyout-card .nav-link:hover {
-                background: transparent;
-            }
-        }
-
-        .auto-hide-navbar {
-            transition: transform 0.3s ease, opacity 0.3s ease;
-            will-change: transform;
-            z-index: 1030;
-        }
-
-        .auto-hide-navbar.is-hidden {
-            transform: translateY(calc(-100% - 16px));
-            opacity: 0.98;
-        }
-
-        .auto-hide-navbar.is-visible {
-            transform: translateY(0);
-            opacity: 1;
-        }
-    </style>
-    <link rel="preload" href="https://sda.pu.go.id/web/images/slider1.webp" as="image">
-
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HZX91843N9"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-
-        gtag('js', new Date());
-        gtag('config', 'G-HZX91843N9');
-    </script>
+            gtag('js', new Date());
+            gtag('config', 'G-HZX91843N9');
+        </script>
+    @endproduction
 </head>
 <body>
 @include('master.navbar')
 @yield('content')
 @include('master.footer')
-<script src="https://sda.pu.go.id/web/js/jquery-3.7.1.min.js"></script>
+<script src="{{ asset('assets/sda/web/js/jquery-3.7.1.min.js') }}"></script>
 <!-- Bootstrap js file -->
-<script src="https://sda.pu.go.id/web/js/bootstrap.min.js"></script>
+<script src="{{ asset('assets/sda/web/js/bootstrap.min.js') }}"></script>
 <!-- Validator js file -->
-<script src="https://sda.pu.go.id/web/js/validator.min.js"></script>
+<script src="{{ asset('assets/sda/web/js/validator.min.js') }}"></script>
 <!-- SlickNav js file -->
-<script src="https://sda.pu.go.id/web/js/jquery.slicknav.js"></script>
+<script src="{{ asset('assets/sda/web/js/jquery.slicknav.js') }}"></script>
 <!-- Swiper js file -->
-<script src="https://sda.pu.go.id/web/js/swiper-bundle.min.js"></script>
+<script src="{{ asset('assets/sda/web/js/swiper-bundle.min.js') }}"></script>
 <!-- Counter js file -->
-<script src="https://sda.pu.go.id/web/js/jquery.waypoints.min.js"></script>
-<script src="https://sda.pu.go.id/web/js/jquery.counterup.min.js"></script>
+<script src="{{ asset('assets/sda/web/js/jquery.waypoints.min.js') }}"></script>
+<script src="{{ asset('assets/sda/web/js/jquery.counterup.min.js') }}"></script>
 <!-- Magnific js file -->
-<script src="https://sda.pu.go.id/web/js/jquery.magnific-popup.min.js"></script>
+<script src="{{ asset('assets/sda/web/js/jquery.magnific-popup.min.js') }}"></script>
 <!-- SmoothScroll -->
-<script src="https://sda.pu.go.id/web/js/SmoothScroll.js"></script>
+<script src="{{ asset('assets/sda/web/js/SmoothScroll.js') }}"></script>
 <!-- Parallax js -->
-<script src="https://sda.pu.go.id/web/js/parallaxie.js"></script>
+<script src="{{ asset('assets/sda/web/js/parallaxie.js') }}"></script>
 <!-- MagicCursor js file -->
-<script src="https://sda.pu.go.id/web/js/gsap.min.js"></script>
-<script src="https://sda.pu.go.id/web/js/magiccursor.js"></script>
+<script src="{{ asset('assets/sda/web/js/gsap.min.js') }}"></script>
+<script src="{{ asset('assets/sda/web/js/magiccursor.js') }}"></script>
 <!-- Text Effect js file -->
-<script src="https://sda.pu.go.id/web/js/SplitText.js"></script>
-<script src="https://sda.pu.go.id/web/js/ScrollTrigger.min.js"></script>
+<script src="{{ asset('assets/sda/web/js/SplitText.js') }}"></script>
+<script src="{{ asset('assets/sda/web/js/ScrollTrigger.min.js') }}"></script>
 <!-- Wow js file -->
-<script src="https://sda.pu.go.id/web/js/wow.js"></script>
+<script src="{{ asset('assets/sda/web/js/wow.js') }}"></script>
 <!-- Main Custom js file -->
-<script src="https://sda.pu.go.id/web/js/function.js"></script>
+<script src="{{ asset('assets/sda/web/js/function.js') }}"></script>
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var navbar = document.getElementById('siteNavbar');
-
-        if (!navbar) {
-            return;
-        }
-
-        var lastScrollY = window.scrollY;
-        var revealZone = 100;
-        var hideThreshold = 140;
-
-        function showNavbar() {
-            navbar.classList.remove('is-hidden');
-            navbar.classList.add('is-visible');
-        }
-
-        function hideNavbar() {
-            if (window.scrollY <= hideThreshold) {
-                return;
-            }
-
-            navbar.classList.remove('is-visible');
-            navbar.classList.add('is-hidden');
-        }
-
-        showNavbar();
-
-        window.addEventListener('scroll', function () {
-            var currentScrollY = window.scrollY;
-
-            if (currentScrollY <= hideThreshold || currentScrollY < lastScrollY) {
-                showNavbar();
-            } else if (currentScrollY > lastScrollY) {
-                hideNavbar();
-            }
-
-            lastScrollY = currentScrollY;
-        }, { passive: true });
-
-        document.addEventListener('mousemove', function (event) {
-            if (event.clientY <= revealZone) {
-                showNavbar();
-            }
-        });
-
-        navbar.addEventListener('mouseenter', showNavbar);
-    });
-</script>
+@vite(['resources/js/app.js', 'resources/js/pages.js'])
+@stack('scripts')
 </body>
 </html>

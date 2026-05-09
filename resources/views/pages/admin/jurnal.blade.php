@@ -3,42 +3,6 @@
 @section('title', 'Admin Jurnal')
 
 @section('content')
-    <style>
-        .berita-head {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            width: 100%;
-        }
-
-        .berita-head h3 {
-            margin: 0;
-            font-size: clamp(34px, 7vw, 40px);
-            line-height: 1.15;
-            min-width: 0;
-            flex: 1;
-        }
-
-        .btn-plus {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            border: 1px solid #d9d9d9;
-            background: #fff;
-            font-size: 30px;
-            line-height: 1;
-            color: #14161b;
-            cursor: pointer;
-            transition: background-color .2s ease, color .2s ease, border-color .2s ease;
-        }
-
-        .btn-plus:hover {
-            background: #111217;
-            color: #fff;
-            border-color: #111217;
-        }
-    </style>
 
     <section>
         <div class="panel full-card">
