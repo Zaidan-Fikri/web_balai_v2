@@ -4,26 +4,44 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     const navbar = document.getElementById('siteNavbar');
-
-    if (!navbar) {
-        return;
-    }
+    const scrollTopBtn = document.getElementById('scrollTopBtn');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
     let lastScrollY = window.scrollY;
-    const revealZone = 100;
-    const hideThreshold = 140;
+    let ticking = false;
 
-    function updateScrolledState() {
-        navbar.classList.toggle('is-scrolled', window.scrollY > 24);
+    const revealZone = 96;
+    const hideThreshold = 150;
+    const minDelta = 8;
+
+    function setScrollButtonState(isVisible) {
+        if (!scrollTopBtn) {
+            return;
+        }
+
+        scrollTopBtn.classList.toggle('is-visible', isVisible);
+        scrollTopBtn.setAttribute('aria-hidden', isVisible ? 'false' : 'true');
+    }
+
+    function updateScrolledState(currentScrollY) {
+        if (!navbar) {
+            return;
+        }
+
+        navbar.classList.toggle('is-scrolled', currentScrollY > 24);
     }
 
     function showNavbar() {
+        if (!navbar) {
+            return;
+        }
+
         navbar.classList.remove('is-hidden');
         navbar.classList.add('is-visible');
     }
 
-    function hideNavbar() {
-        if (window.scrollY <= hideThreshold) {
+    function hideNavbar(currentScrollY) {
+        if (!navbar || currentScrollY <= hideThreshold) {
             return;
         }
 
@@ -31,22 +49,51 @@ document.addEventListener('DOMContentLoaded', () => {
         navbar.classList.add('is-hidden');
     }
 
-    showNavbar();
-    updateScrolledState();
+    function updateScrollUi() {
+        const currentScrollY = Math.max(window.scrollY, 0);
+        const delta = currentScrollY - lastScrollY;
 
-    window.addEventListener('scroll', () => {
-        const currentScrollY = window.scrollY;
+        updateScrolledState(currentScrollY);
+        setScrollButtonState(currentScrollY > 420);
 
-        updateScrolledState();
-
-        if (currentScrollY <= hideThreshold || currentScrollY < lastScrollY) {
-            showNavbar();
-        } else if (currentScrollY > lastScrollY) {
-            hideNavbar();
+        if (!navbar) {
+            ticking = false;
+            lastScrollY = currentScrollY;
+            return;
         }
 
-        lastScrollY = currentScrollY;
-    }, { passive: true });
+        if (currentScrollY <= hideThreshold) {
+            showNavbar();
+            lastScrollY = currentScrollY;
+            ticking = false;
+            return;
+        }
+
+        if (delta > minDelta) {
+            hideNavbar(currentScrollY);
+            lastScrollY = currentScrollY;
+        } else if (delta < -minDelta) {
+            showNavbar();
+            lastScrollY = currentScrollY;
+        }
+
+        ticking = false;
+    }
+
+    function requestScrollUpdate() {
+        if (ticking) {
+            return;
+        }
+
+        ticking = true;
+        window.requestAnimationFrame(updateScrollUi);
+    }
+
+    showNavbar();
+    updateScrolledState(window.scrollY);
+    setScrollButtonState(window.scrollY > 420);
+
+    window.addEventListener('scroll', requestScrollUpdate, { passive: true });
 
     document.addEventListener('mousemove', (event) => {
         if (event.clientY <= revealZone) {
@@ -54,7 +101,86 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    navbar.addEventListener('mouseenter', showNavbar);
+    if (navbar) {
+        navbar.addEventListener('mouseenter', showNavbar);
+    }
+
+    if (scrollTopBtn) {
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: reduceMotion.matches ? 'auto' : 'smooth',
+            });
+
+            showNavbar();
+        });
+    }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const textItems = Array.from(document.querySelectorAll('.bat-text-anime'));
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (!textItems.length || reduceMotion) {
+        textItems.forEach((item) => item.classList.add('is-visible'));
+        return;
+    }
+
+    if (!window.gsap || !window.SplitText) {
+        textItems.forEach((item) => item.classList.add('is-visible'));
+        return;
+    }
+
+    textItems.forEach((item) => {
+        if (item.dataset.batSplitReady === 'true') {
+            return;
+        }
+
+        item.dataset.batSplitReady = 'true';
+
+        const isHeroTitle = item.dataset.batAnime === 'hero';
+        const split = new window.SplitText(item, {
+            type: 'lines,words,chars',
+            linesClass: 'split-line',
+        });
+
+        window.gsap.set(item, {
+            opacity: 1,
+            perspective: 400,
+            visibility: 'visible',
+        });
+
+        window.gsap.set(split.chars, {
+            opacity: 0,
+            x: 50,
+        });
+
+        item.classList.add('is-ready');
+
+        const config = {
+            x: 0,
+            y: 0,
+            rotateX: 0,
+            opacity: 1,
+            duration: 1,
+            ease: window.Back ? window.Back.easeOut : 'back.out(1.7)',
+            stagger: 0.02,
+            delay: isHeroTitle ? 1.25 : 0,
+            onComplete: () => {
+                item.classList.remove('is-ready');
+                item.classList.add('is-visible');
+            },
+        };
+
+        if (!isHeroTitle && window.ScrollTrigger) {
+            config.scrollTrigger = {
+                trigger: item,
+                start: 'top 90%',
+            };
+        }
+
+        window.gsap.to(split.chars, config);
+    });
 });
 
 document.addEventListener('DOMContentLoaded', () => {

@@ -20,6 +20,8 @@ Route::post('/login', [AdminAuthController::class, 'login'])
     ->name('login.process');
 Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
 Route::view('/peta', 'pages.peta')->name('peta');
+Route::view('/gems', 'pages.menu_detail', ['menuGroup' => 'Layanan Unggulan', 'pageTitle' => 'GEMS'])->name('gems');
+Route::view('/laboratorium', 'pages.menu_detail', ['menuGroup' => 'Layanan Unggulan', 'pageTitle' => 'Laboratorium'])->name('laboratorium');
 
 Route::prefix('admin')->name('admin.')->middleware('admin.auth')->group(function () {
     Route::view('/dashboard', 'pages.admin.dashboard')->name('dashboard');
@@ -60,6 +62,10 @@ Route::prefix('admin')->name('admin.')->middleware('admin.auth')->group(function
 });
 
 Route::prefix('profil')->name('profil.')->group(function () {
+    Route::view('/', 'pages.menu_detail', [
+        'menuGroup' => 'Profil',
+        'pageTitle' => 'Profil Balai Air Tanah',
+    ])->name('index');
     Route::view('/tugas_dan_fungsi', 'pages.menu_detail', ['menuGroup' => 'Profil', 'pageTitle' => 'Tugas dan Fungsi'])->name('tugas_dan_fungsi');
     Route::view('/visi_misi', 'pages.menu_detail', ['menuGroup' => 'Profil', 'pageTitle' => 'Visi & Misi'])->name('visi_misi');
     Route::view('/struktur_organisasi', 'pages.menu_detail', ['menuGroup' => 'Profil', 'pageTitle' => 'Struktur Organisasi'])->name('struktur_organisasi');

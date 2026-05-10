@@ -53,6 +53,9 @@
 @include('master.navbar')
 @yield('content')
 @include('master.footer')
+<button type="button" class="scroll-top-btn" id="scrollTopBtn" aria-label="Kembali ke atas" aria-hidden="true">
+    <ion-icon name="chevron-up-outline" aria-hidden="true"></ion-icon>
+</button>
 <script src="{{ asset('assets/sda/web/js/jquery-3.7.1.min.js') }}"></script>
 <!-- Bootstrap js file -->
 <script src="{{ asset('assets/sda/web/js/bootstrap.min.js') }}"></script>
