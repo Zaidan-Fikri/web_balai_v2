@@ -14,12 +14,8 @@ class AdminSiatabController extends Controller
 {
     private const IMAGE_DIR = 'siatab-images';
 
-    /** @var GalleryService */
-    private $gallery;
-
-    public function __construct(GalleryService $gallery)
+    public function __construct(private readonly GalleryService $gallery)
     {
-        $this->gallery = $gallery;
     }
 
     public function index(): View
@@ -48,7 +44,7 @@ class AdminSiatabController extends Controller
         });
 
         return redirect()
-            ->route('admin.siatab')
+            ->route('admin.siatab.index')
             ->with('success', 'SIATAB berhasil ditambahkan.');
     }
 
@@ -71,7 +67,7 @@ class AdminSiatabController extends Controller
         });
 
         return redirect()
-            ->route('admin.siatab')
+            ->route('admin.siatab.index')
             ->with('success', 'SIATAB berhasil diperbarui.');
     }
 
@@ -82,7 +78,7 @@ class AdminSiatabController extends Controller
         });
 
         return redirect()
-            ->route('admin.siatab')
+            ->route('admin.siatab.index')
             ->with('success', 'SIATAB berhasil dihapus.');
     }
 }

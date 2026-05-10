@@ -5,11 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Peta Indonesia - Balai Air Tanah</title>
-    <!-- Font memakai fallback lokal/sistem agar tidak bergantung Google Fonts saat local development. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Manrope:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/fontawesome/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendor/leaflet/leaflet.css') }}">
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-    @vite(['resources/css/pages.css'])
+    @vite(['resources/css/map.css'])
 </head>
 <body>
     <div class="map-shell">
@@ -17,7 +18,7 @@
             <h1 class="map-title">Peta Indonesia</h1>
             <div class="map-actions">
                 <a href="{{ route('home') }}" class="map-back-btn">
-                    <ion-icon name="arrow-back-outline" aria-hidden="true"></ion-icon>
+                    <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
                     <span>Kembali</span>
                 </a>
             </div>
@@ -25,7 +26,8 @@
         <div id="indonesiaMap" aria-label="Peta Indonesia dari OpenStreetMap"></div>
     </div>
 
+    <script type="application/json" id="indonesia-map-config">@json($mapConfig)</script>
     <script src="{{ asset('assets/vendor/leaflet/leaflet.js') }}"></script>
-    @vite(['resources/js/pages.js'])
+    @vite(['resources/js/map.js'])
 </body>
 </html>

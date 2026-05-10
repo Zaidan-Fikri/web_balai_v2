@@ -65,21 +65,34 @@
                                 </a>
                                 <ul class="sub-menu">
                                     <li class="nav-item"><a class="nav-link" href="{{ route('profil.tugas_dan_fungsi') }}">Tugas dan Fungsi</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="{{ route('profil.visi_misi') }}">Visi & Misi</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{{ route('profil.visi_misi') }}">Visi dan Misi</a></li>
                                     <li class="nav-item"><a class="nav-link" href="{{ route('profil.struktur_organisasi') }}">Struktur Organisasi</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="#">Informasi Pejabat</a></li>
                                     <li class="nav-item"><a class="nav-link" href="{{ route('profil.lokasi_dan_kontak') }}">Lokasi dan Kontak</a></li>
                                 </ul>
                             </li>
                             <li class="nav-item submenu">
                                 <a class="nav-link" href="#">
-                                    Publikasi
+                                    Pelayanan Publik
                                     <span class="menu-caret" aria-hidden="true">&gt;</span>
                                 </a>
                                 <ul class="sub-menu">
-                                    <li class="nav-item"><a class="nav-link" href="{{ route('publikasi.berita') }}">Berita</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="{{ route('publikasi.pengumuman') }}">Pengumuman</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="{{ route('publikasi.infografis') }}">Infografis</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="{{ route('publikasi.galeri') }}">Galeri</a></li>
+                                    <li class="nav-item submenu flyout-parent">
+                                        <a class="nav-link" href="{{ route('pelayanan_publik.permintaan_pelayanan') }}">
+                                            Layanan Terpadu
+                                            <span class="menu-caret menu-caret-flyout" aria-hidden="true">&gt;</span>
+                                        </a>
+                                        <ul class="sub-menu flyout-card">
+                                            <li class="nav-item"><a class="nav-link" href="{{ route('pelayanan_publik.permintaan_pelayanan_advis') }}">Layanan Advis</a></li>
+                                            <li class="nav-item"><a class="nav-link" href="{{ route('pelayanan_publik.permintaan_pelayanan_data') }}">Permintaan Data</a></li>
+                                            <li class="nav-item"><a class="nav-link" href="#">Peminjaman Ruangan</a></li>
+                                            <li class="nav-item"><a class="nav-link" href="{{ route('pelayanan_publik.permintaan_pelayanan_magang') }}">Permintaan Magang</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item"><a class="nav-link" target="_blank" rel="noopener noreferrer" href="https://sahabat.pu.go.id/">E-PPID</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{{ route('pelayanan_publik.layanan_pengaduan') }}">Layanan Pengaduan</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{{ route('pelayanan_publik.standar_pelayanan') }}">Standar Pelayanan</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{{ route('pelayanan_publik.maklumat_pelayanan') }}">Maklumat Pelayanan</a></li>
                                 </ul>
                             </li>
                             <li class="nav-item submenu">
@@ -95,25 +108,15 @@
                             </li>
                             <li class="nav-item submenu submenu-end">
                                 <a class="nav-link" href="#">
-                                    Pelayanan Publik
+                                    Publikasi
                                     <span class="menu-caret" aria-hidden="true">&gt;</span>
                                 </a>
                                 <ul class="sub-menu">
-                                    <li class="nav-item"><a class="nav-link" href="{{ route('pelayanan_publik.standar_pelayanan') }}">Standar Pelayanan</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="{{ route('pelayanan_publik.maklumat_pelayanan') }}">Maklumat Pelayanan</a></li>
-                                    <li class="nav-item submenu flyout-parent">
-                                        <a class="nav-link" href="{{ route('pelayanan_publik.permintaan_pelayanan') }}">
-                                            Permintaan Pelayanan
-                                            <span class="menu-caret menu-caret-flyout" aria-hidden="true">&gt;</span>
-                                        </a>
-                                        <ul class="sub-menu flyout-card">
-                                            <li class="nav-item"><a class="nav-link" href="{{ route('pelayanan_publik.permintaan_pelayanan_data') }}">Data</a></li>
-                                            <li class="nav-item"><a class="nav-link" href="{{ route('pelayanan_publik.permintaan_pelayanan_magang') }}">Magang</a></li>
-                                            <li class="nav-item"><a class="nav-link" href="{{ route('pelayanan_publik.permintaan_pelayanan_advis') }}">Advis</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="nav-item"><a class="nav-link" href="{{ route('pelayanan_publik.e_ppid') }}">E-PPID</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="{{ route('pelayanan_publik.layanan_pengaduan') }}">Layanan Pengaduan</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{{ route('publikasi.berita') }}">Berita</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{{ route('publikasi.buletin.index') }}">Buletin</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{{ route('publikasi.pengumuman') }}">Pengumuman</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{{ route('publikasi.infografis') }}">Infografis</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{{ route('publikasi.galeri') }}">Galeri</a></li>
                                 </ul>
                             </li>
                         </ul>

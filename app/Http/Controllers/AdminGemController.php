@@ -14,12 +14,8 @@ class AdminGemController extends Controller
 {
     private const IMAGE_DIR = 'gem-images';
 
-    /** @var GalleryService */
-    private $gallery;
-
-    public function __construct(GalleryService $gallery)
+    public function __construct(private readonly GalleryService $gallery)
     {
-        $this->gallery = $gallery;
     }
 
     public function index(): View
@@ -48,7 +44,7 @@ class AdminGemController extends Controller
         });
 
         return redirect()
-            ->route('admin.gems')
+            ->route('admin.gems.index')
             ->with('success', 'GEMS berhasil ditambahkan.');
     }
 
@@ -71,7 +67,7 @@ class AdminGemController extends Controller
         });
 
         return redirect()
-            ->route('admin.gems')
+            ->route('admin.gems.index')
             ->with('success', 'GEMS berhasil diperbarui.');
     }
 
@@ -82,7 +78,7 @@ class AdminGemController extends Controller
         });
 
         return redirect()
-            ->route('admin.gems')
+            ->route('admin.gems.index')
             ->with('success', 'GEMS berhasil dihapus.');
     }
 }

@@ -16,4 +16,14 @@ class AdminUser extends Model
     protected $hidden = [
         'password',
     ];
+
+    /**
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'password' => 'hashed',
+        ];
+    }
 }

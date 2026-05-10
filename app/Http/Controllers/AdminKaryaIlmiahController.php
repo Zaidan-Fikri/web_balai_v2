@@ -14,12 +14,8 @@ class AdminKaryaIlmiahController extends Controller
     private const PDF_DIR = 'karya-ilmiah-pdf';
     private const THUMBNAIL_DIR = 'karya-ilmiah-thumbnail';
 
-    /** @var DocumentService */
-    private $documents;
-
-    public function __construct(DocumentService $documents)
+    public function __construct(private readonly DocumentService $documents)
     {
-        $this->documents = $documents;
     }
 
     public function index(): View
@@ -41,7 +37,7 @@ class AdminKaryaIlmiahController extends Controller
         );
 
         return redirect()
-            ->route('admin.karya-ilmiah')
+            ->route('admin.karya-ilmiah.index')
             ->with('success', 'Karya ilmiah berhasil ditambahkan.');
     }
 
@@ -55,7 +51,7 @@ class AdminKaryaIlmiahController extends Controller
         );
 
         return redirect()
-            ->route('admin.karya-ilmiah')
+            ->route('admin.karya-ilmiah.index')
             ->with('success', 'Karya ilmiah berhasil diperbarui.');
     }
 
@@ -64,7 +60,7 @@ class AdminKaryaIlmiahController extends Controller
         $this->documents->delete($karyaIlmiah);
 
         return redirect()
-            ->route('admin.karya-ilmiah')
+            ->route('admin.karya-ilmiah.index')
             ->with('success', 'Karya ilmiah berhasil dihapus.');
     }
 }

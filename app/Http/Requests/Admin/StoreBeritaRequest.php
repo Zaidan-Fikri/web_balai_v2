@@ -10,7 +10,7 @@ class StoreBeritaRequest extends BaseAdminRequest
             'judul' => ['required', 'string', 'max:255'],
             'deskripsi' => ['required', 'string'],
             'images' => ['required', 'array', 'min:1'],
-            'images.*' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
+            'images.*' => $this->imageRules(),
         ];
     }
 }

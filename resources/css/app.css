@@ -23,8 +23,8 @@
     --bat-radius-pill: 999px;
     --bat-header-x: clamp(16px, 6vw, 84px);
     --bat-topbar-h: 40px;
-    --bat-font-title: "Manrope", sans-serif;
-    --bat-font-body: "DM Sans", sans-serif;
+    --bat-font-title: "Manrope", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --bat-font-body: "DM Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     --bat-brand-text-w: clamp(182px, 15vw, 220px);
     --bat-brand-h: clamp(36px, 2.8vw, 44px);
     --bat-flyout-gap: 18px;
@@ -45,11 +45,18 @@ body,
 p,
 li,
 small,
+figcaption,
+.caption,
+.text-muted,
 label,
 input,
 select,
 textarea,
-button {
+button,
+legend,
+table,
+td,
+th {
     font-family: var(--bat-font-body);
 }
 
@@ -70,6 +77,13 @@ h6,
 .btn,
 .readmore-btn {
     font-family: var(--bat-font-title);
+}
+
+.section-title p,
+.card-text,
+.news-excerpt,
+.about-desc {
+    font-family: var(--bat-font-body);
 }
 
 .site-header {
@@ -279,8 +293,8 @@ h6,
 .site-header.is-scrolled .site-navbar-wrap,
 .site-navbar.scrolled {
     background: transparent !important;
-    border-bottom: 1px solid var(--bat-nav-border);
-    box-shadow: 0 18px 46px rgba(3, 17, 38, 0.24);
+    border-bottom: 0;
+    box-shadow: none;
     backdrop-filter: blur(14px);
 }
 
@@ -915,7 +929,7 @@ h6,
     transform: translate3d(0, -3px, 0) scale(1.02);
 }
 
-.scroll-top-btn ion-icon {
+.scroll-top-btn i {
     width: 22px;
     height: 22px;
     stroke-width: 42px;

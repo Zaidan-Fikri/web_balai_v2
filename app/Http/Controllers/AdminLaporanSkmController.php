@@ -14,12 +14,8 @@ class AdminLaporanSkmController extends Controller
     private const PDF_DIR = 'laporan-skm-pdf';
     private const THUMBNAIL_DIR = 'laporan-skm-thumbnail';
 
-    /** @var DocumentService */
-    private $documents;
-
-    public function __construct(DocumentService $documents)
+    public function __construct(private readonly DocumentService $documents)
     {
-        $this->documents = $documents;
     }
 
     public function index(): View
@@ -41,7 +37,7 @@ class AdminLaporanSkmController extends Controller
         );
 
         return redirect()
-            ->route('admin.laporan-skm')
+            ->route('admin.laporan-skm.index')
             ->with('success', 'Laporan SKM berhasil ditambahkan.');
     }
 
@@ -55,7 +51,7 @@ class AdminLaporanSkmController extends Controller
         );
 
         return redirect()
-            ->route('admin.laporan-skm')
+            ->route('admin.laporan-skm.index')
             ->with('success', 'Laporan SKM berhasil diperbarui.');
     }
 
@@ -64,7 +60,7 @@ class AdminLaporanSkmController extends Controller
         $this->documents->delete($laporanSkm);
 
         return redirect()
-            ->route('admin.laporan-skm')
+            ->route('admin.laporan-skm.index')
             ->with('success', 'Laporan SKM berhasil dihapus.');
     }
 }

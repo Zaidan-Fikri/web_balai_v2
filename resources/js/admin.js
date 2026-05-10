@@ -111,3 +111,29 @@
             }
         });
     })();
+
+(function () {
+    const searchInput = document.querySelector('.topbar .search input');
+
+    if (!searchInput) {
+        return;
+    }
+
+    searchInput.addEventListener('input', function () {
+        const keyword = searchInput.value.trim().toLowerCase();
+
+        document.querySelectorAll('.table-wrap tbody').forEach(function (tbody) {
+            tbody.querySelectorAll('tr').forEach(function (row) {
+                const isEmptyRow = row.querySelector('td[colspan]');
+
+                if (isEmptyRow) {
+                    row.classList.remove('is-hidden-row');
+                    return;
+                }
+
+                const rowText = row.textContent.toLowerCase();
+                row.classList.toggle('is-hidden-row', keyword !== '' && !rowText.includes(keyword));
+            });
+        });
+    });
+})();

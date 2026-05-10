@@ -32,7 +32,7 @@
                                     <h1 class="hero-title bat-text-anime" data-bat-anime="hero">BALAI AIR TANAH</h1>
                                     <div class="hero-actions" aria-label="Navigasi cepat halaman utama">
                                         <a href="#tentang-kami" class="hero-btn hero-btn-primary">Tentang Kami</a>
-                                        <a href="#publikasi" class="hero-btn hero-btn-outline">Publikasi</a>
+                                        <a href="#publikasi" class="hero-btn hero-btn-outline">Informasi Publik</a>
                                     </div>
                                 </div>
                             </div>
@@ -53,7 +53,7 @@
                                     <h1 class="hero-title bat-text-anime" data-bat-anime="hero">BALAI AIR TANAH</h1>
                                     <div class="hero-actions" aria-label="Navigasi cepat halaman utama">
                                         <a href="#tentang-kami" class="hero-btn hero-btn-primary">Tentang Kami</a>
-                                        <a href="#publikasi" class="hero-btn hero-btn-outline">Publikasi</a>
+                                        <a href="#publikasi" class="hero-btn hero-btn-outline">Informasi Publik</a>
                                     </div>
                                 </div>
                             </div>
@@ -86,35 +86,35 @@
                 <div class="about-actions">
                     <a href="{{ route('profil.index') }}" class="about-more-link">
                         <span>Selengkapnya</span>
-                        <ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>
+                        <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
                     </a>
                 </div>
 
                 <div class="about-service-grid" aria-label="Informasi unggulan Balai Air Tanah">
                     <a href="{{ route('pelayanan_publik.permintaan_pelayanan_advis') }}" class="about-service-card">
                         <span class="about-service-card-icon" aria-hidden="true">
-                            <ion-icon name="construct-outline"></ion-icon>
+                            <i class="fa-solid fa-screwdriver-wrench" aria-hidden="true"></i>
                         </span>
                         <span class="about-service-card-title">Advis Teknis</span>
                     </a>
 
                     <a href="https://siatab.sda.pu.go.id/" target="_blank" rel="noopener noreferrer" class="about-service-card">
                         <span class="about-service-card-icon" aria-hidden="true">
-                            <ion-icon name="browsers-outline"></ion-icon>
+                            <i class="fa-solid fa-window-restore" aria-hidden="true"></i>
                         </span>
                         <span class="about-service-card-title">SIATAB</span>
                     </a>
 
                     <a href="{{ route('gems') }}" class="about-service-card">
                         <span class="about-service-card-icon" aria-hidden="true">
-                            <ion-icon name="diamond-outline"></ion-icon>
+                            <i class="fa-regular fa-gem" aria-hidden="true"></i>
                         </span>
                         <span class="about-service-card-title">GEMS</span>
                     </a>
 
                     <a href="{{ route('laboratorium') }}" class="about-service-card">
                         <span class="about-service-card-icon" aria-hidden="true">
-                            <ion-icon name="flask-outline"></ion-icon>
+                            <i class="fa-solid fa-flask" aria-hidden="true"></i>
                         </span>
                         <span class="about-service-card-title">Laboratorium</span>
                     </a>
@@ -232,27 +232,27 @@
     <div class="container">
         <header class="publication-head">
             <div class="section-title publication-title">
-                <a href="dokumen"><h3 class="wow fadeInUp">Publikasi</h3></a>
-                <h2 class="text-anime-style-3" id="publicationTitle">Buletin &amp; Buku</h2>
+                <a href="dokumen"><h3 class="wow fadeInUp">Informasi Publik</h3></a>
+                <h2 class="text-anime-style-3" id="publicationTitle">Buku &amp; Laporan</h2>
             </div>
 
             <nav class="publication-menu-box" aria-label="Kategori publikasi">
                 <ul class="publication-menu-list">
                     <li>
                         <button type="button" class="publication-menu-link is-active js-publication-menu" data-target="karya-ilmiah">
-                            <ion-icon name="book-outline" aria-hidden="true"></ion-icon>
+                            <i class="fa-solid fa-book-open" aria-hidden="true"></i>
                             <span>Karya Ilmiah</span>
                         </button>
                     </li>
                     <li>
                         <button type="button" class="publication-menu-link js-publication-menu" data-target="sni">
-                            <ion-icon name="library-outline" aria-hidden="true"></ion-icon>
+                            <i class="fa-solid fa-building-columns" aria-hidden="true"></i>
                             <span>SNI</span>
                         </button>
                     </li>
                     <li>
                         <button type="button" class="publication-menu-link js-publication-menu" data-target="laporan-skm">
-                            <ion-icon name="document-text-outline" aria-hidden="true"></ion-icon>
+                            <i class="fa-solid fa-file-lines" aria-hidden="true"></i>
                             <span>Laporan SKM</span>
                         </button>
                     </li>

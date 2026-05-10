@@ -47,36 +47,3 @@
     <div class="popup-overlay" id="readOverlay" aria-hidden="true"><div class="popup-card"><h4 id="readTitle">Detail SNI</h4><div class="read-thumb" id="readThumb"></div><p class="read-desc" id="readDesc"></p><p class="read-meta">PDF: <a class="pdf-link" id="readPdf" href="#" target="_blank" rel="noopener">-</a></p><div class="popup-actions"><button type="button" class="btn-primary" data-close-overlay="readOverlay">Tutup</button></div></div></div>
     <div class="popup-overlay" id="updateOverlay" aria-hidden="true"><div class="popup-card"><h4>Update SNI</h4><form method="POST" id="updateForm" enctype="multipart/form-data">@csrf @method('PUT')<input type="hidden" name="form_type" value="update"><input type="text" class="popup-input" id="updateJudul" name="judul" required><textarea class="popup-textarea" id="updateDeskripsi" name="deskripsi" required></textarea><p class="read-meta">Thumbnail saat ini:</p><div class="thumb-preview" id="updateCurrentThumb"></div><input type="file" class="popup-input" name="thumbnail" accept=".jpg,.jpeg,.png,.webp,image/*"><span class="popup-help">Kosongkan jika tidak ingin mengganti thumbnail.</span><p class="read-meta">PDF saat ini: <a class="pdf-link" id="updateCurrentPdf" href="#" target="_blank" rel="noopener">-</a></p><input type="file" class="popup-input" name="pdf" accept=".pdf,application/pdf"><span class="popup-help">Kosongkan jika tidak ingin mengganti PDF.</span><div class="popup-actions"><button type="submit" class="btn-primary">Simpan</button></div></form></div></div>
 @endsection
-
-@push('scripts')
-<script>
-(function () {
-            const openButton = document.getElementById('openItemPopup');
-            const createOverlay = document.getElementById('createOverlay');
-            const createJudul = document.getElementById('createJudul');
-            const readOverlay = document.getElementById('readOverlay');
-            const readTitle = document.getElementById('readTitle');
-            const readThumb = document.getElementById('readThumb');
-            const readDesc = document.getElementById('readDesc');
-            const readPdf = document.getElementById('readPdf');
-            const updateOverlay = document.getElementById('updateOverlay');
-            const updateForm = document.getElementById('updateForm');
-            const updateJudul = document.getElementById('updateJudul');
-            const updateDeskripsi = document.getElementById('updateDeskripsi');
-            const updateCurrentThumb = document.getElementById('updateCurrentThumb');
-            const updateCurrentPdf = document.getElementById('updateCurrentPdf');
-            if (!openButton || !createOverlay) return;
-            function openOverlay(el, focusTarget){ if(!el) return; el.classList.add('is-open'); el.setAttribute('aria-hidden','false'); if(focusTarget){ setTimeout(function(){focusTarget.focus();},0);} }
-            function closeOverlay(el){ if(!el) return; el.classList.remove('is-open'); el.setAttribute('aria-hidden','true'); }
-            function closeAll(){ document.querySelectorAll('.popup-overlay.is-open').forEach(function(el){ closeOverlay(el); }); }
-            openButton.addEventListener('click', function(){ openOverlay(createOverlay, createJudul); });
-            document.querySelectorAll('.js-read-btn').forEach(function(btn){ btn.addEventListener('click', function(){ readTitle.textContent = btn.dataset.judul || 'Detail SNI'; readThumb.innerHTML = btn.dataset.thumbnailUrl ? '<img src="'+btn.dataset.thumbnailUrl+'" alt="Thumbnail">' : '<p class="read-meta" style="margin:8px 10px;">Thumbnail belum tersedia.</p>'; readDesc.textContent = btn.dataset.deskripsi || '-'; readPdf.textContent = btn.dataset.pdfName || '-'; readPdf.href = btn.dataset.pdfUrl || '#'; openOverlay(readOverlay); }); });
-            document.querySelectorAll('.js-update-btn').forEach(function(btn){ btn.addEventListener('click', function(){ updateForm.action = btn.dataset.updateUrl || ''; updateJudul.value = btn.dataset.judul || ''; updateDeskripsi.value = btn.dataset.deskripsi || ''; updateCurrentThumb.innerHTML = btn.dataset.thumbnailUrl ? '<img src="'+btn.dataset.thumbnailUrl+'" alt="Thumbnail saat ini">' : '<p class="read-meta" style="margin:8px 10px;">Thumbnail belum tersedia.</p>'; updateCurrentPdf.textContent = btn.dataset.pdfName || '-'; updateCurrentPdf.href = btn.dataset.pdfUrl || '#'; openOverlay(updateOverlay, updateJudul); }); });
-            document.querySelectorAll('.js-delete-form').forEach(function(form){ form.addEventListener('submit', function(e){ if(!window.confirm('Hapus data SNI ini?')) e.preventDefault(); }); });
-            document.querySelectorAll('.popup-overlay').forEach(function(overlay){ overlay.addEventListener('click', function(e){ if(e.target===overlay) closeOverlay(overlay); }); });
-            document.querySelectorAll('[data-close-overlay]').forEach(function(btn){ btn.addEventListener('click', function(){ const id = btn.getAttribute('data-close-overlay'); if(id) closeOverlay(document.getElementById(id)); }); });
-            document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeAll(); });
-            @if ($errors->any() && old('form_type') === 'create') openOverlay(createOverlay, createJudul); @endif
-        })();
-</script>
-@endpush
