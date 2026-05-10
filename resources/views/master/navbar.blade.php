@@ -1,15 +1,39 @@
 <div class="site-topbar">
     <div class="container-fluid site-topbar-inner">
-        <a
-            class="sda-net-link"
-            href="https://sda.pu.go.id/"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Buka website SDA-net"
-        >
-            <i class="fa-solid fa-house" aria-hidden="true"></i>
-            <span>SDA-net</span>
-        </a>
+        <div class="site-topbar-left">
+            <a
+                class="sda-net-link"
+                href="https://sda.pu.go.id/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Buka website SDA-net"
+            >
+                <i class="fa-solid fa-house" aria-hidden="true"></i>
+                <span>SDA-net</span>
+            </a>
+        </div>
+
+        <div class="site-topbar-right">
+            <a class="topbar-contact" href="tel:+622220463967" aria-label="Hubungi Balai Air Tanah melalui nomor (022) 20463967">
+                <i class="fa-solid fa-phone" aria-hidden="true"></i>
+                <span>(022) 20463967</span>
+            </a>
+
+            <nav class="topbar-social" aria-label="Media sosial Balai Air Tanah">
+                <a href="https://x.com/pupr_sda" target="_blank" rel="noopener noreferrer" aria-label="X Balai Air Tanah">
+                    <i class="fa-brands fa-x-twitter" aria-hidden="true"></i>
+                </a>
+                <a href="https://www.instagram.com/pu_sda_balaiairtanah/" target="_blank" rel="noopener noreferrer" aria-label="Instagram Balai Air Tanah">
+                    <i class="fa-brands fa-instagram" aria-hidden="true"></i>
+                </a>
+                <a href="https://www.facebook.com/p/balaiairtanah-100063971832730/" target="_blank" rel="noopener noreferrer" aria-label="Facebook Balai Air Tanah">
+                    <i class="fa-brands fa-facebook-f" aria-hidden="true"></i>
+                </a>
+                <a href="https://www.youtube.com/@pu_sda" target="_blank" rel="noopener noreferrer" aria-label="YouTube Balai Air Tanah">
+                    <i class="fa-brands fa-youtube" aria-hidden="true"></i>
+                </a>
+            </nav>
+        </div>
     </div>
 </div>
 

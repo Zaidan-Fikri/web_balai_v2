@@ -16,10 +16,10 @@
                 </p>
                 <div class="footer-social-links" aria-label="Media sosial Balai Air Tanah">
                     <ul>
-                        <li><a href="https://www.instagram.com/pu_sda_balaiairtanah/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a></li>
-                        <li><a href="https://x.com/pupr_sda" target="_blank" rel="noopener noreferrer" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a></li>
-                        <li><a href="https://www.youtube.com/@pu_sda" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a></li>
-                        <li><a href="https://www.tiktok.com/@pu_sda" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a></li>
+                        <li><a href="https://x.com/pupr_sda" target="_blank" rel="noopener noreferrer" aria-label="X"><i class="fa-brands fa-x-twitter" aria-hidden="true"></i></a></li>
+                        <li><a href="https://www.instagram.com/pu_sda_balaiairtanah/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a></li>
+                        <li><a href="https://www.facebook.com/p/balaiairtanah-100063971832730/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i></a></li>
+                        <li><a href="https://www.youtube.com/@pu_sda" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><i class="fa-brands fa-youtube" aria-hidden="true"></i></a></li>
                     </ul>
                 </div>
             </div>

@@ -65,6 +65,8 @@ h6,
 .site-navbar .navbar-nav > .nav-item > .nav-link,
 .main-menu ul li > .sub-menu li a,
 .sda-net-link,
+.topbar-contact,
+.topbar-social a,
 .btn,
 .readmore-btn {
     font-family: var(--bat-font-title);
@@ -123,11 +125,31 @@ h6,
 .site-topbar-inner {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: space-between;
+    gap: 14px;
     min-height: var(--bat-topbar-h);
 }
 
-.sda-net-link {
+.site-topbar-left,
+.site-topbar-right {
+    display: inline-flex;
+    align-items: center;
+    min-width: 0;
+}
+
+.site-topbar-left {
+    gap: clamp(12px, 2vw, 22px);
+}
+
+.site-topbar-right {
+    justify-content: flex-end;
+    gap: clamp(12px, 1.8vw, 20px);
+    margin-left: auto;
+    text-align: right;
+}
+
+.sda-net-link,
+.topbar-contact {
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -137,6 +159,7 @@ h6,
     font-size: 13px;
     font-weight: 800;
     line-height: 1;
+    white-space: nowrap;
     text-decoration: none;
     letter-spacing: 0.02em;
     border: 0;
@@ -145,8 +168,17 @@ h6,
     transition: color 0.2s ease;
 }
 
+.topbar-contact {
+    justify-content: flex-end;
+    color: rgba(255, 255, 255, 0.82);
+    font-weight: 700;
+    text-align: right;
+}
+
 .sda-net-link:hover,
-.sda-net-link:active {
+.sda-net-link:active,
+.topbar-contact:hover,
+.topbar-contact:active {
     color: var(--bat-accent) !important;
     background: transparent !important;
     outline: 0 !important;
@@ -154,18 +186,59 @@ h6,
     transform: none !important;
 }
 
-.sda-net-link:focus {
+.sda-net-link:focus,
+.topbar-contact:focus {
     color: var(--bat-white);
     background: transparent !important;
     outline: 0 !important;
     box-shadow: none !important;
 }
 
-.sda-net-link:focus-visible {
+.sda-net-link:focus-visible,
+.topbar-contact:focus-visible {
     color: var(--bat-accent) !important;
 }
 
+.topbar-social {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    flex: 0 0 auto;
+}
+
+.topbar-social a {
+    display: inline-grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    color: rgba(255, 255, 255, 0.84);
+    font-size: 13px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.06);
+    text-decoration: none;
+    transition:
+        color 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.topbar-social a:hover,
+.topbar-social a:active,
+.topbar-social a:focus-visible {
+    color: #081839;
+    border-color: var(--bat-accent);
+    background: var(--bat-accent);
+    outline: 0;
+    transform: translateY(-1px);
+}
+
 .site-navbar-wrap {
+    position: relative;
+    isolation: isolate;
+    overflow: visible;
     width: 100%;
     padding-top: 12px;
     border: 0;
@@ -181,12 +254,46 @@ h6,
         backdrop-filter 0.34s ease;
 }
 
+.site-navbar-wrap::before,
+.site-navbar-wrap::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.34s ease;
+}
+
+.site-navbar-wrap::before {
+    background:
+        radial-gradient(circle at 12% 24%, rgba(74, 144, 226, 0.3), rgba(74, 144, 226, 0) 32%),
+        radial-gradient(circle at 86% 0%, rgba(31, 91, 178, 0.34), rgba(31, 91, 178, 0) 38%),
+        linear-gradient(135deg, rgba(4, 21, 54, 0.98) 0%, rgba(8, 42, 96, 0.97) 52%, rgba(6, 30, 74, 0.98) 100%);
+}
+
+.site-navbar-wrap::after {
+    display: none;
+}
+
 .site-header.is-scrolled .site-navbar-wrap,
 .site-navbar.scrolled {
-    background: var(--bat-nav-bg) !important;
+    background: transparent !important;
     border-bottom: 1px solid var(--bat-nav-border);
     box-shadow: 0 18px 46px rgba(3, 17, 38, 0.24);
     backdrop-filter: blur(14px);
+}
+
+.site-header.is-scrolled .site-navbar-wrap::before,
+.site-header.is-scrolled .site-navbar-wrap::after,
+.site-navbar.scrolled .site-navbar-wrap::before,
+.site-navbar.scrolled .site-navbar-wrap::after {
+    opacity: 1;
+}
+
+.site-header.is-scrolled .site-navbar-wrap::after,
+.site-navbar.scrolled .site-navbar-wrap::after {
+    opacity: 0;
 }
 
 .site-header.is-scrolled .site-navbar-wrap {
@@ -198,8 +305,18 @@ h6,
 }
 
 .site-navbar.navbar {
+    position: relative;
+    z-index: 1;
     padding: 0;
     background: transparent !important;
+}
+
+.site-navbar-inner,
+.site-menu,
+.main-menu,
+.nav-menu-wrapper,
+.main-menu .nav-menu-wrapper > ul {
+    overflow: visible !important;
 }
 
 .site-navbar-inner {
@@ -946,9 +1063,38 @@ h6,
 }
 
 @media only screen and (max-width: 576px) {
-    .sda-net-link {
+    .site-topbar-inner {
+        gap: 10px;
+    }
+
+    .site-topbar-left,
+    .site-topbar-right {
+        gap: 10px;
+    }
+
+    .sda-net-link,
+    .topbar-contact {
         min-height: 30px;
-        padding: 6px 10px;
+        padding: 6px 0;
+        font-size: 12px;
+    }
+
+    .topbar-contact span {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+    }
+
+    .topbar-social {
+        gap: 6px;
+    }
+
+    .topbar-social a {
+        width: 26px;
+        height: 26px;
         font-size: 12px;
     }
 
