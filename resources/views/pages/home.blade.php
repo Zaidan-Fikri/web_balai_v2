@@ -91,7 +91,7 @@
                 </div>
 
                 <div class="about-service-grid" aria-label="Informasi unggulan Balai Air Tanah">
-                    <a href="{{ route('pelayanan_publik.permintaan_pelayanan_advis') }}" class="about-service-card">
+                    <a href="{{ route('peta') }}" class="about-service-card">
                         <span class="about-service-card-icon" aria-hidden="true">
                             <i class="fa-solid fa-screwdriver-wrench" aria-hidden="true"></i>
                         </span>
@@ -126,22 +126,39 @@
 
 <!-- Berita Section Start -->
 <div class="what-we-do berita-terkini-wrapper home-news-section">
-    <div class="light-bg-section berita-terkini-section">
+    <div class="light-bg-section berita-terkini-section news-tabs js-publication-tabs">
         <div class="container-fluid">
             <div class="row section-row">
                 <div class="col-lg-12">
                     <!-- Section Title Start -->
                     <div class="section-title">
                         <a href="post">
-                            <h3 class="wow fadeInUp section-label-link">Index Berita</h3>
+                            <h3 class="wow fadeInUp section-label-link">Publikasi</h3>
                         </a>
-                        <h2 class="text-anime-style-3">Berita Terkini</h2>
+                        <h2 class="text-anime-style-3">Berita dan Buletin</h2>
                     </div>
                     <!-- Section Title End -->
                 </div>
             </div>
 
-            <div class="row">
+            <nav class="publication-menu-box news-tabs-menu" aria-label="Kategori berita dan buletin">
+                <ul class="publication-menu-list">
+                    <li>
+                        <button type="button" class="publication-menu-link is-active js-publication-menu" data-target="home-berita">
+                            <i class="fa-regular fa-newspaper" aria-hidden="true"></i>
+                            <span>Berita</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button type="button" class="publication-menu-link js-publication-menu" data-target="home-buletin">
+                            <i class="fa-solid fa-file-lines" aria-hidden="true"></i>
+                            <span>Buletin</span>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="row publication-group is-active" data-publication-group="home-berita">
                 <div class="col-lg-12">
                     <!-- Testimonial Slider Start -->
                     <div class="testimonial-slider">
@@ -209,6 +226,48 @@
                     <!-- Testimonial Slider End -->
                 </div>
             </div>
+
+            <div class="row publication-group" data-publication-group="home-buletin">
+                @forelse($publikasiBuletins as $item)
+                    @php
+                        $firstImage = $item->images->first();
+                        $imageUrl = $firstImage ? asset('storage/' . $firstImage->image_path) : asset('assets/images/placeholders/publikasi.svg');
+                    @endphp
+                    <div class="col-lg-4 col-md-6 js-publication-item">
+                        <div class="bulletin-item wow fadeInUp publication-card" data-wow-delay="0.25s">
+                            <div class="bulletin-image">
+                                <a href="{{ route('publikasi.buletin.show', $item->slug) }}">
+                                    <figure>
+                                        <img src="{{ $imageUrl }}" alt="{{ $item->judul }}">
+                                    </figure>
+                                </a>
+                            </div>
+                            <div class="bulletin-body mb-3">
+                                <div class="bulletin-body-title">
+                                    <h3>{{ $item->judul }}</h3>
+                                </div>
+                                <div class="bulletin-content">
+                                    <p>{{ \Illuminate\Support\Str::limit(strip_tags($item->isi), 110) }}</p>
+                                    <div class="bulletin-content-footer">
+                                        <a href="{{ route('publikasi.buletin.show', $item->slug) }}" class="readmore-btn">Selengkapnya</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @empty
+                    <div class="col-12">
+                        <div class="blog-item wow fadeInUp" data-wow-delay="0.25s">
+                            <div class="post-item-content">
+                                <div class="post-item-body">
+                                    <h2>Belum ada data buletin.</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforelse
+                <div class="col-12"><div class="publication-dots js-publication-dots"></div></div>
+            </div>
         </div>
     </div>
 </div><!-- Berita Section End -->
@@ -228,7 +287,7 @@
     </div>
 </div>
 <!-- Buletin Section Start -->
-<section class="buletin" id="publikasi" aria-labelledby="publicationTitle">
+<section class="buletin document-tabs js-publication-tabs" id="publikasi" aria-labelledby="publicationTitle">
     <div class="container">
         <header class="publication-head">
             <div class="section-title publication-title">
@@ -236,7 +295,7 @@
                 <h2 class="text-anime-style-3" id="publicationTitle">Buku &amp; Laporan</h2>
             </div>
 
-            <nav class="publication-menu-box" aria-label="Kategori publikasi">
+            <nav class="publication-menu-box document-tabs-menu" aria-label="Kategori publikasi">
                 <ul class="publication-menu-list">
                     <li>
                         <button type="button" class="publication-menu-link is-active js-publication-menu" data-target="karya-ilmiah">

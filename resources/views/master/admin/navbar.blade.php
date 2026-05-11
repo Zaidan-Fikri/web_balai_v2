@@ -11,6 +11,7 @@
         request()->routeIs('admin.siatab.*') => 'SIATAB',
         request()->routeIs('admin.gems.*') => 'GEMS',
         request()->routeIs('admin.laporan-skm.*') => 'Laporan SKM',
+        request()->routeIs('admin.geolistrik-1d.*') => 'Geolistrik 1D',
         default => 'Admin Panel',
     };
     $adminEmail = session('admin_user_email', 'admin@bat.local');

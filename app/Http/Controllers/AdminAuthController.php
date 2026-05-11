@@ -36,16 +36,17 @@ class AdminAuthController extends Controller
         $request->session()->regenerate();
         $request->session()->put('admin_user_id', $user->id);
         $request->session()->put('admin_user_email', $user->email);
+        $request->session()->put('admin_user_role', $user->role);
 
         return redirect()->route('admin.dashboard');
     }
 
     public function logout(Request $request): RedirectResponse
     {
-        $request->session()->forget(['admin_user_id', 'admin_user_email']);
+        $request->session()->forget(['admin_user_id', 'admin_user_email', 'admin_user_role']);
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('home');
+        return redirect()->route('login');
     }
 }

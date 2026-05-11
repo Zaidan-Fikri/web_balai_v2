@@ -107,9 +107,8 @@
     })();
 
 (function () {
-        const menuButtons = document.querySelectorAll('.js-publication-menu');
-        const groups = document.querySelectorAll('[data-publication-group]');
-        if (!menuButtons.length || !groups.length) return;
+        const containers = document.querySelectorAll('.js-publication-tabs');
+        if (!containers.length) return;
 
         const pageSize = 3;
 
@@ -145,7 +144,12 @@
             }
         }
 
-        function activateTarget(target) {
+        function initContainer(container) {
+            const menuButtons = container.querySelectorAll('.js-publication-menu');
+            const groups = container.querySelectorAll('[data-publication-group]');
+            if (!menuButtons.length || !groups.length) return;
+
+            function activateTarget(target) {
             menuButtons.forEach(function (btn) {
                 btn.classList.toggle('is-active', btn.getAttribute('data-target') === target);
             });
@@ -157,23 +161,26 @@
                     renderGroupPage(group, 1);
                 }
             });
-        }
+            }
 
-        menuButtons.forEach(function (button) {
+            menuButtons.forEach(function (button) {
             button.addEventListener('click', function () {
                 const target = button.getAttribute('data-target');
                 if (!target) return;
                 activateTarget(target);
             });
-        });
+            });
 
-        const activeButton = document.querySelector('.js-publication-menu.is-active') || menuButtons[0];
-        if (activeButton) {
+            const activeButton = container.querySelector('.js-publication-menu.is-active') || menuButtons[0];
+            if (activeButton) {
             const initialTarget = activeButton.getAttribute('data-target');
             if (initialTarget) {
                 activateTarget(initialTarget);
             }
+            }
         }
+
+        containers.forEach(initContainer);
     })();
 
 window.addEventListener('load', function () {

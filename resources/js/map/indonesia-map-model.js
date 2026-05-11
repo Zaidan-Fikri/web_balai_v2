@@ -27,6 +27,7 @@ const DEFAULT_MAP_CONFIG = {
         },
     },
     tileLayers: [],
+    markers: {},
 };
 
 function parseMapConfig(rawConfig) {
@@ -65,5 +66,6 @@ export function readIndonesiaMapConfig(configElementId = 'indonesia-map-config')
             layers: mergeObject(DEFAULT_MAP_CONFIG.controls.layers, customConfig.controls?.layers),
         },
         tileLayers: Array.isArray(customConfig.tileLayers) ? customConfig.tileLayers : DEFAULT_MAP_CONFIG.tileLayers,
+        markers: mergeObject(DEFAULT_MAP_CONFIG.markers, customConfig.markers),
     };
 }

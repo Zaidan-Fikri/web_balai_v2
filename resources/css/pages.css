@@ -560,6 +560,19 @@
                 background: transparent !important;
             }
 
+            .news-tabs {
+                position: relative;
+            }
+
+            .news-tabs-menu {
+                width: fit-content;
+                margin: -52px clamp(16px, 2.5vw, 34px) 30px auto;
+            }
+
+            .news-tabs .publication-group {
+                min-height: 0;
+            }
+
             .berita-terkini-section .blog-item {
                 background: #f9f8f6;
                 overflow: hidden;
@@ -811,11 +824,15 @@
 
 .publication-group {
     display: none;
-    min-height: 620px;
+    min-height: 0;
 }
 
 .publication-group.is-active {
     display: flex;
+}
+
+.document-tabs .publication-group {
+    min-height: 620px;
 }
 
 .publication-dots {
@@ -859,11 +876,30 @@
     object-fit: cover;
 }
 
+.publication-card-media-btn {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+}
+
+.publication-card .readmore-btn {
+    border: 0;
+    cursor: pointer;
+}
+
 .publication-card .bulletin-body {
     min-height: 210px;
 }
 
 @media (max-width: 991px) {
+    .news-tabs-menu {
+        width: 100%;
+        margin: 0 0 28px;
+    }
+
     .publication-head {
         grid-template-columns: 1fr;
     }
