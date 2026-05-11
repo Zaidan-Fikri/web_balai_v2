@@ -1,6 +1,106 @@
 /* Admin page interactions extracted from Blade templates. */
 
 /* =========================================================
+   resources/views/pages/admin/geolistrik-1d.blade.php
+   ========================================================= */
+(function () {
+            const openButton = document.getElementById('openGeolistrikPopup');
+            const createOverlay = document.getElementById('geolistrikCreateOverlay');
+            const createNama = document.getElementById('createGeolistrikNama');
+            const readOverlay = document.getElementById('geolistrikReadOverlay');
+            const readNama = document.getElementById('readGeolistrikNama');
+            const readLatitude = document.getElementById('readGeolistrikLatitude');
+            const readLongitude = document.getElementById('readGeolistrikLongitude');
+            const updateOverlay = document.getElementById('geolistrikUpdateOverlay');
+            const updateForm = document.getElementById('geolistrikUpdateForm');
+            const updateNama = document.getElementById('updateGeolistrikNama');
+            const updateLatitude = document.getElementById('updateGeolistrikLatitude');
+            const updateLongitude = document.getElementById('updateGeolistrikLongitude');
+
+            if (!openButton || !createOverlay || !createNama) return;
+
+            function openOverlay(overlay, focusTarget) {
+                if (!overlay) return;
+                overlay.classList.add('is-open');
+                overlay.setAttribute('aria-hidden', 'false');
+                if (focusTarget) {
+                    window.setTimeout(function () {
+                        focusTarget.focus();
+                    }, 0);
+                }
+            }
+
+            function closeOverlay(overlay) {
+                if (!overlay) return;
+                overlay.classList.remove('is-open');
+                overlay.setAttribute('aria-hidden', 'true');
+            }
+
+            function closeAllOverlays() {
+                document.querySelectorAll('.popup-overlay.is-open').forEach(function (overlay) {
+                    closeOverlay(overlay);
+                });
+            }
+
+            openButton.addEventListener('click', function () {
+                openOverlay(createOverlay, createNama);
+            });
+
+            document.querySelectorAll('.js-geolistrik-read-btn').forEach(function (button) {
+                button.addEventListener('click', function () {
+                    readNama.textContent = button.dataset.nama || 'Detail Geolistrik 1D';
+                    readLatitude.textContent = button.dataset.latitude || '-';
+                    readLongitude.textContent = button.dataset.longitude || '-';
+                    openOverlay(readOverlay);
+                });
+            });
+
+            document.querySelectorAll('.js-geolistrik-update-btn').forEach(function (button) {
+                button.addEventListener('click', function () {
+                    updateForm.action = button.dataset.updateUrl || '';
+                    updateNama.value = button.dataset.nama || '';
+                    updateLatitude.value = button.dataset.latitude || '';
+                    updateLongitude.value = button.dataset.longitude || '';
+                    openOverlay(updateOverlay, updateNama);
+                });
+            });
+
+            document.querySelectorAll('.js-geolistrik-delete-form').forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!window.confirm('Hapus data Geolistrik 1D ini?')) {
+                        event.preventDefault();
+                    }
+                });
+            });
+
+            document.querySelectorAll('.popup-overlay').forEach(function (overlay) {
+                overlay.addEventListener('click', function (event) {
+                    if (event.target === overlay) {
+                        closeOverlay(overlay);
+                    }
+                });
+            });
+
+            document.querySelectorAll('[data-close-overlay]').forEach(function (button) {
+                button.addEventListener('click', function () {
+                    const overlayId = button.getAttribute('data-close-overlay');
+                    if (!overlayId) return;
+                    closeOverlay(document.getElementById(overlayId));
+                });
+            });
+
+            document.addEventListener('keydown', function (event) {
+                if (event.key === 'Escape') {
+                    closeAllOverlays();
+                }
+            });
+
+            if (document.body.dataset.openCreatePopup === 'true') {
+                openOverlay(createOverlay, createNama);
+            }
+        })();
+
+/* =========================================================
    resources/views/pages/admin/berita.blade.php
    ========================================================= */
 (function () {

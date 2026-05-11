@@ -555,6 +555,44 @@ select:focus-visible {
     min-height: 0;
 }
 
+.empty-state {
+    display: grid;
+    min-height: 280px;
+    place-items: center;
+    align-content: center;
+    gap: 10px;
+    padding: 32px;
+    border: 1px dashed var(--line-strong);
+    border-radius: 22px;
+    background: var(--surface-solid);
+    text-align: center;
+}
+
+.empty-state i {
+    display: inline-grid;
+    width: 58px;
+    height: 58px;
+    place-items: center;
+    border-radius: 18px;
+    background: var(--blue-light);
+    color: var(--blue-bright);
+    font-size: 24px;
+}
+
+.empty-state h4 {
+    margin: 6px 0 0;
+    color: var(--navy-dark);
+    font-size: 22px;
+    font-weight: 900;
+}
+
+.empty-state p {
+    max-width: 440px;
+    margin: 0;
+    color: var(--text-muted);
+    line-height: 1.7;
+}
+
 table {
     width: 100%;
     min-width: 860px;

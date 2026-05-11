@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Berita;
+use App\Models\Buletin;
 use App\Models\KaryaIlmiah;
 use App\Models\LaporanSkm;
 use App\Models\Pengumuman;
@@ -29,6 +30,12 @@ class HomeController extends Controller
         $publikasiKaryaIlmiahs = KaryaIlmiah::query()->latest()->take(12)->get();
         $publikasiSnis = Sni::query()->latest()->take(12)->get();
         $publikasiLaporanSkms = LaporanSkm::query()->latest()->take(12)->get();
+        $publikasiBuletins = Buletin::query()
+            ->with('images')
+            ->published()
+            ->latest('published_at')
+            ->take(12)
+            ->get();
         $pengumumans = Pengumuman::query()->latest()->take(12)->get();
         $siatabs = Siatab::query()
             ->with('images')
@@ -41,6 +48,7 @@ class HomeController extends Controller
             'publikasiKaryaIlmiahs',
             'publikasiSnis',
             'publikasiLaporanSkms',
+            'publikasiBuletins',
             'pengumumans',
             'siatabs'
         ));

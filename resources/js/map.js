@@ -18,6 +18,38 @@ function createBounds(leaflet, bounds) {
     );
 }
 
+function addGeolistrikMarkers(leaflet, map, markers) {
+    const items = Array.isArray(markers) ? markers : [];
+
+    if (!items.length) {
+        return;
+    }
+
+    const markerLayer = leaflet.layerGroup();
+
+    items.forEach((item) => {
+        const lat = Number(item.lat);
+        const lng = Number(item.lng);
+
+        if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
+            return;
+        }
+
+        const title = item.title || 'Geolistrik 1D';
+        const marker = leaflet.marker([lat, lng], { title });
+
+        marker.bindPopup(
+            '<strong>' + title + '</strong><br>' +
+            'Latitude: ' + lat.toFixed(7) + '<br>' +
+            'Longitude: ' + lng.toFixed(7),
+        );
+
+        marker.addTo(markerLayer);
+    });
+
+    markerLayer.addTo(map);
+}
+
 function initIndonesiaMap() {
     const config = readIndonesiaMapConfig();
     const mapElement = document.getElementById(config.elementId);
@@ -43,6 +75,7 @@ function initIndonesiaMap() {
     }, {});
 
     L.control.layers(layerControlItems, null, config.controls.layers).addTo(map);
+    addGeolistrikMarkers(L, map, config.markers.geolistrik1d);
 
     map.fitBounds(createBounds(L, config.bounds), config.fitBoundsOptions);
 }

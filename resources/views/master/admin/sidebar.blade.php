@@ -1,3 +1,9 @@
+@php
+    $adminRole = session('admin_user_role', 'kompu');
+    $canSeeKompuMenu = in_array($adminRole, ['superadmin', 'kompu'], true);
+    $canSeeLayananTeknisMenu = in_array($adminRole, ['superadmin', 'layanan_teknis'], true);
+@endphp
+
 <aside class="sidebar">
     <div class="sidebar-inner">
         <div class="brand">
@@ -14,36 +20,43 @@
             <a class="menu-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
                 <i class="fa-solid fa-gauge-high"></i><span>Dashboard</span>
             </a>
-            <a class="menu-item {{ request()->routeIs('admin.berita.*') ? 'active' : '' }}" href="{{ route('admin.berita.index') }}">
-                <i class="fa-regular fa-lightbulb"></i><span>Berita</span>
-            </a>
-            <a class="menu-item {{ request()->routeIs('admin.thumbnail.*') ? 'active' : '' }}" href="{{ route('admin.thumbnail.index') }}">
-                <i class="fa-regular fa-file-lines"></i><span>Thumbnail</span>
-            </a>
-            <a class="menu-item {{ request()->routeIs('admin.pengumuman.*') ? 'active' : '' }}" href="{{ route('admin.pengumuman.index') }}">
-                <i class="fa-regular fa-bell"></i><span>Pengumuman</span>
-            </a>
-            <a class="menu-item {{ request()->routeIs('admin.buletin.*') ? 'active' : '' }}" href="{{ route('admin.buletin.index') }}">
-                <i class="fa-regular fa-newspaper"></i><span>Buletin</span>
-            </a>
-            <a class="menu-item {{ request()->routeIs('admin.jurnal') ? 'active' : '' }}" href="{{ route('admin.jurnal') }}">
-                <i class="fa-solid fa-diagram-project"></i><span>Jurnal</span>
-            </a>
-            <a class="menu-item {{ request()->routeIs('admin.karya-ilmiah.*') ? 'active' : '' }}" href="{{ route('admin.karya-ilmiah.index') }}">
-                <i class="fa-solid fa-book-open"></i><span>Karya Ilmiah</span>
-            </a>
-            <a class="menu-item {{ request()->routeIs('admin.sni.*') ? 'active' : '' }}" href="{{ route('admin.sni.index') }}">
-                <i class="fa-solid fa-ruler-combined"></i><span>SNI</span>
-            </a>
-            <a class="menu-item {{ request()->routeIs('admin.siatab.*') ? 'active' : '' }}" href="{{ route('admin.siatab.index') }}">
-                <i class="fa-solid fa-images"></i><span>SIATAB</span>
-            </a>
-            <a class="menu-item {{ request()->routeIs('admin.gems.*') ? 'active' : '' }}" href="{{ route('admin.gems.index') }}">
-                <i class="fa-solid fa-gem"></i><span>GEMS</span>
-            </a>
-            <a class="menu-item {{ request()->routeIs('admin.laporan-skm.*') ? 'active' : '' }}" href="{{ route('admin.laporan-skm.index') }}">
-                <i class="fa-solid fa-chart-column"></i><span>Laporan SKM</span>
-            </a>
+            @if ($canSeeKompuMenu)
+                <a class="menu-item {{ request()->routeIs('admin.berita.*') ? 'active' : '' }}" href="{{ route('admin.berita.index') }}">
+                    <i class="fa-regular fa-lightbulb"></i><span>Berita</span>
+                </a>
+                <a class="menu-item {{ request()->routeIs('admin.thumbnail.*') ? 'active' : '' }}" href="{{ route('admin.thumbnail.index') }}">
+                    <i class="fa-regular fa-file-lines"></i><span>Thumbnail</span>
+                </a>
+                <a class="menu-item {{ request()->routeIs('admin.pengumuman.*') ? 'active' : '' }}" href="{{ route('admin.pengumuman.index') }}">
+                    <i class="fa-regular fa-bell"></i><span>Pengumuman</span>
+                </a>
+                <a class="menu-item {{ request()->routeIs('admin.buletin.*') ? 'active' : '' }}" href="{{ route('admin.buletin.index') }}">
+                    <i class="fa-regular fa-newspaper"></i><span>Buletin</span>
+                </a>
+                <a class="menu-item {{ request()->routeIs('admin.jurnal') ? 'active' : '' }}" href="{{ route('admin.jurnal') }}">
+                    <i class="fa-solid fa-diagram-project"></i><span>Jurnal</span>
+                </a>
+                <a class="menu-item {{ request()->routeIs('admin.karya-ilmiah.*') ? 'active' : '' }}" href="{{ route('admin.karya-ilmiah.index') }}">
+                    <i class="fa-solid fa-book-open"></i><span>Karya Ilmiah</span>
+                </a>
+                <a class="menu-item {{ request()->routeIs('admin.sni.*') ? 'active' : '' }}" href="{{ route('admin.sni.index') }}">
+                    <i class="fa-solid fa-ruler-combined"></i><span>SNI</span>
+                </a>
+                <a class="menu-item {{ request()->routeIs('admin.siatab.*') ? 'active' : '' }}" href="{{ route('admin.siatab.index') }}">
+                    <i class="fa-solid fa-images"></i><span>SIATAB</span>
+                </a>
+                <a class="menu-item {{ request()->routeIs('admin.gems.*') ? 'active' : '' }}" href="{{ route('admin.gems.index') }}">
+                    <i class="fa-solid fa-gem"></i><span>GEMS</span>
+                </a>
+                <a class="menu-item {{ request()->routeIs('admin.laporan-skm.*') ? 'active' : '' }}" href="{{ route('admin.laporan-skm.index') }}">
+                    <i class="fa-solid fa-chart-column"></i><span>Laporan SKM</span>
+                </a>
+            @endif
+            @if ($canSeeLayananTeknisMenu)
+                <a class="menu-item {{ request()->routeIs('admin.geolistrik-1d.*') ? 'active' : '' }}" href="{{ route('admin.geolistrik-1d.index') }}">
+                    <i class="fa-solid fa-wave-square"></i><span>Geolistrik 1D</span>
+                </a>
+            @endif
         </div>
 
         <div class="sidebar-footer">

@@ -6,6 +6,17 @@ final class IndonesiaMap
 {
     public static function config(): array
     {
+        $geolistrikMarkers = Geolistrik1d::query()
+            ->orderBy('nama')
+            ->get(['nama', 'latitude', 'longitude'])
+            ->map(fn (Geolistrik1d $item): array => [
+                'title' => $item->nama,
+                'lat' => $item->latitude,
+                'lng' => $item->longitude,
+            ])
+            ->values()
+            ->all();
+
         return [
             'elementId' => 'indonesiaMap',
             'mapOptions' => [
@@ -55,6 +66,9 @@ final class IndonesiaMap
                         'attribution' => 'Tiles &copy; Esri',
                     ],
                 ],
+            ],
+            'markers' => [
+                'geolistrik1d' => $geolistrikMarkers,
             ],
         ];
     }
