@@ -14,12 +14,8 @@ class AdminBeritaController extends Controller
 {
     private const IMAGE_DIR = 'berita-images';
 
-    /** @var GalleryService */
-    private $gallery;
-
-    public function __construct(GalleryService $gallery)
+    public function __construct(private readonly GalleryService $gallery)
     {
-        $this->gallery = $gallery;
     }
 
     public function index(): View
@@ -47,7 +43,7 @@ class AdminBeritaController extends Controller
         });
 
         return redirect()
-            ->route('admin.berita')
+            ->route('admin.berita.index')
             ->with('success', 'Berita berhasil ditambahkan.');
     }
 
@@ -71,7 +67,7 @@ class AdminBeritaController extends Controller
         });
 
         return redirect()
-            ->route('admin.berita')
+            ->route('admin.berita.index')
             ->with('success', 'Berita berhasil diperbarui.');
     }
 
@@ -82,7 +78,7 @@ class AdminBeritaController extends Controller
         });
 
         return redirect()
-            ->route('admin.berita')
+            ->route('admin.berita.index')
             ->with('success', 'Berita berhasil dihapus.');
     }
 }

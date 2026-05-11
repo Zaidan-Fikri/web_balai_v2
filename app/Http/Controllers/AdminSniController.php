@@ -14,12 +14,8 @@ class AdminSniController extends Controller
     private const PDF_DIR = 'sni-pdf';
     private const THUMBNAIL_DIR = 'sni-thumbnail';
 
-    /** @var DocumentService */
-    private $documents;
-
-    public function __construct(DocumentService $documents)
+    public function __construct(private readonly DocumentService $documents)
     {
-        $this->documents = $documents;
     }
 
     public function index(): View
@@ -41,7 +37,7 @@ class AdminSniController extends Controller
         );
 
         return redirect()
-            ->route('admin.sni')
+            ->route('admin.sni.index')
             ->with('success', 'Data SNI berhasil ditambahkan.');
     }
 
@@ -55,7 +51,7 @@ class AdminSniController extends Controller
         );
 
         return redirect()
-            ->route('admin.sni')
+            ->route('admin.sni.index')
             ->with('success', 'Data SNI berhasil diperbarui.');
     }
 
@@ -64,7 +60,7 @@ class AdminSniController extends Controller
         $this->documents->delete($sni);
 
         return redirect()
-            ->route('admin.sni')
+            ->route('admin.sni.index')
             ->with('success', 'Data SNI berhasil dihapus.');
     }
 }

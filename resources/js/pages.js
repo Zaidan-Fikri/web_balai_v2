@@ -237,57 +237,74 @@ window.addEventListener('load', function () {
         updateSiatabTitle(siatabSwiper);
     });
 
-/* =========================================================
-   Map page interactions
-   Source: public/js/peta.js
-   ========================================================= */
+(function () {
+    const slider = document.querySelector('.js-buletin-slider');
+    if (!slider) return;
 
-document.addEventListener('DOMContentLoaded', function () {
-            if (typeof L === 'undefined') {
-                return;
-            }
+    const track = slider.querySelector('.js-buletin-slider-track');
+    const prevButton = slider.querySelector('.js-buletin-slider-prev');
+    const nextButton = slider.querySelector('.js-buletin-slider-next');
+    const dotsWrap = slider.querySelector('.js-buletin-slider-dots');
+    const slides = Array.from(slider.querySelectorAll('.buletin-slider-slide'));
+    let index = 0;
 
-            var map = L.map('indonesiaMap', {
-                zoomControl: false,
-                scrollWheelZoom: true
+    if (!track || !slides.length) return;
+
+    function renderDots() {
+        if (!dotsWrap) return;
+        dotsWrap.innerHTML = '';
+        if (slides.length <= 1) {
+            dotsWrap.style.display = 'none';
+            return;
+        }
+
+        dotsWrap.style.display = 'flex';
+        slides.forEach(function (_, dotIndex) {
+            const dot = document.createElement('button');
+            dot.type = 'button';
+            dot.className = 'buletin-slider-dot' + (dotIndex === index ? ' is-active' : '');
+            dot.setAttribute('aria-label', 'Tampilkan gambar ' + (dotIndex + 1));
+            dot.addEventListener('click', function () {
+                index = dotIndex;
+                updateSlider();
             });
-
-            var osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                maxZoom: 19,
-                attribution: '&copy; OpenStreetMap contributors'
-            });
-
-            var satelliteLayer = L.tileLayer(
-                'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-                {
-                    maxZoom: 19,
-                    attribution: 'Tiles &copy; Esri'
-                }
-            );
-
-            osmLayer.addTo(map);
-
-            L.control.zoom({
-                position: 'bottomleft'
-            }).addTo(map);
-
-            var baseLayers = {
-                'OpenStreetMap': osmLayer,
-                'Satellite': satelliteLayer
-            };
-
-            L.control.layers(baseLayers, null, {
-                position: 'bottomright',
-                collapsed: true
-            }).addTo(map);
-
-            var indonesiaBounds = L.latLngBounds(
-                L.latLng(-11.2, 94.6),
-                L.latLng(6.2, 141.1)
-            );
-
-            map.fitBounds(indonesiaBounds, {
-                padding: [24, 24]
-            });
-
+            dotsWrap.appendChild(dot);
         });
+    }
+
+    function updateSlider() {
+        track.style.transform = 'translateX(-' + (index * 100) + '%)';
+        if (dotsWrap) {
+            dotsWrap.querySelectorAll('.buletin-slider-dot').forEach(function (dot, dotIndex) {
+                dot.classList.toggle('is-active', dotIndex === index);
+            });
+        }
+    }
+
+    function move(direction) {
+        index += direction;
+        if (index < 0) index = slides.length - 1;
+        if (index >= slides.length) index = 0;
+        updateSlider();
+    }
+
+    if (slides.length <= 1) {
+        if (prevButton) prevButton.style.display = 'none';
+        if (nextButton) nextButton.style.display = 'none';
+    }
+
+    if (prevButton) {
+        prevButton.addEventListener('click', function () {
+            move(-1);
+        });
+    }
+
+    if (nextButton) {
+        nextButton.addEventListener('click', function () {
+            move(1);
+        });
+    }
+
+    renderDots();
+    updateSlider();
+})();

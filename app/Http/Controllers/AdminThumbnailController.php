@@ -15,12 +15,8 @@ class AdminThumbnailController extends Controller
 {
     private const IMAGE_DIR = 'thumbnails';
 
-    /** @var FileUploadService */
-    private $files;
-
-    public function __construct(FileUploadService $files)
+    public function __construct(private readonly FileUploadService $files)
     {
-        $this->files = $files;
     }
 
     public function index(): View
@@ -43,7 +39,7 @@ class AdminThumbnailController extends Controller
         ]);
 
         return redirect()
-            ->route('admin.thumbnail')
+            ->route('admin.thumbnail.index')
             ->with('success', 'Thumbnail berhasil ditambahkan.');
     }
 
@@ -63,7 +59,7 @@ class AdminThumbnailController extends Controller
         ]);
 
         return redirect()
-            ->route('admin.thumbnail')
+            ->route('admin.thumbnail.index')
             ->with('success', 'Thumbnail berhasil diperbarui.');
     }
 
@@ -73,7 +69,7 @@ class AdminThumbnailController extends Controller
         $thumbnail->delete();
 
         return redirect()
-            ->route('admin.thumbnail')
+            ->route('admin.thumbnail.index')
             ->with('success', 'Thumbnail berhasil dihapus.');
     }
 
@@ -98,7 +94,7 @@ class AdminThumbnailController extends Controller
         });
 
         return redirect()
-            ->route('admin.thumbnail')
+            ->route('admin.thumbnail.index')
             ->with('success', 'Pilihan thumbnail untuk halaman utama berhasil disimpan.');
     }
 }

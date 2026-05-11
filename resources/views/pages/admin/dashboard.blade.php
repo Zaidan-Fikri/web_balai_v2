@@ -5,39 +5,68 @@
 @section('content')
     <section>
         <div class="panel full-card">
-            <h3 style="margin:0;font-size:40px;line-height:1.15;">Dashboard</h3>
+            <div class="section-head">
+                <div>
+                    <p class="page-kicker">Ringkasan CMS</p>
+                    <h3>Dashboard</h3>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="stat-card">
+                    <span>Konten</span>
+                    <strong>10</strong>
+                    <small>Menu CMS aktif</small>
+                </div>
+                <div class="stat-card">
+                    <span>Akses</span>
+                    <strong>Admin</strong>
+                    <small>Session server-side</small>
+                </div>
+                <div class="stat-card">
+                    <span>Asset</span>
+                    <strong>Vite</strong>
+                    <small>CSS dan JS eksternal</small>
+                </div>
+                <div class="stat-card">
+                    <span>Status</span>
+                    <strong>Ready</strong>
+                    <small>Panel pengelolaan data</small>
+                </div>
+            </div>
+
             <div class="table-wrap">
                 <table>
                     <thead>
                     <tr>
-                        <th>AI Task</th>
-                        <th>Date</th>
-                        <th>Accuracy</th>
-                        <th>Duration</th>
+                        <th>Area</th>
+                        <th>Fungsi</th>
+                        <th>Validasi</th>
+                        <th>Asset</th>
                         <th>Status</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
-                        <td>Chat Analysis</td>
-                        <td>12 Dec, 2025</td>
-                        <td>97%</td>
-                        <td>1.8m</td>
-                        <td class="status good">Success</td>
+                        <td>Berita & Galeri</td>
+                        <td>Kelola judul, deskripsi, dan gambar</td>
+                        <td>Form Request Laravel</td>
+                        <td>CSS/JS Admin</td>
+                        <td class="status good">Aktif</td>
                     </tr>
                     <tr>
-                        <td>Fraud Detection</td>
-                        <td>13 Dec, 2025</td>
-                        <td>86%</td>
-                        <td>1.2m</td>
-                        <td class="status warn">Warning</td>
+                        <td>Publikasi Dokumen</td>
+                        <td>Karya Ilmiah, SNI, Laporan SKM</td>
+                        <td>Upload thumbnail dan PDF</td>
+                        <td>CSS/JS Admin</td>
+                        <td class="status good">Aktif</td>
                     </tr>
                     <tr>
-                        <td>Data Processing</td>
-                        <td>14 Dec, 2025</td>
-                        <td>74%</td>
-                        <td>2.8s</td>
-                        <td class="status bad">Failed</td>
+                        <td>Pengumuman</td>
+                        <td>Kelola gambar pengumuman</td>
+                        <td>Validasi upload server-side</td>
+                        <td>CSS/JS Admin</td>
+                        <td class="status good">Aktif</td>
                     </tr>
                     </tbody>
                 </table>

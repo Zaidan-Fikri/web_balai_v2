@@ -12,7 +12,6 @@
     <title>@yield('title', 'Balai Air Tanah')</title>
     <!-- Favicon Icon -->
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/sda/web/images/favicon.png') }}">
-    <!-- Public fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Manrope:wght@500;600;700;800;900&display=swap" rel="stylesheet">
@@ -53,6 +52,9 @@
 @include('master.navbar')
 @yield('content')
 @include('master.footer')
+<button type="button" class="scroll-top-btn" id="scrollTopBtn" aria-label="Kembali ke atas" aria-hidden="true">
+    <i class="fa-solid fa-chevron-up" aria-hidden="true"></i>
+</button>
 <script src="{{ asset('assets/sda/web/js/jquery-3.7.1.min.js') }}"></script>
 <!-- Bootstrap js file -->
 <script src="{{ asset('assets/sda/web/js/bootstrap.min.js') }}"></script>
@@ -80,8 +82,6 @@
 <script src="{{ asset('assets/sda/web/js/wow.js') }}"></script>
 <!-- Main Custom js file -->
 <script src="{{ asset('assets/sda/web/js/function.js') }}"></script>
-<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 @vite(['resources/js/app.js', 'resources/js/pages.js'])
 @stack('scripts')
 </body>

@@ -7,7 +7,7 @@ class UpdateThumbnailRequest extends BaseAdminRequest
     public function rules(): array
     {
         return [
-            'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:10240'],
+            'image' => $this->imageRules('nullable', self::MAX_HERO_IMAGE_KB),
             'title' => ['nullable', 'string', 'max:255'],
             'description' => ['nullable', 'string', 'max:500'],
         ];

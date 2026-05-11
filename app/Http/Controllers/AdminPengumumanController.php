@@ -6,18 +6,15 @@ use App\Http\Requests\Admin\ImageUploadRequest;
 use App\Models\Pengumuman;
 use App\Services\FileUploadService;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class AdminPengumumanController extends Controller
 {
     private const IMAGE_DIR = 'pengumuman-images';
 
-    /** @var FileUploadService */
-    private $files;
-
-    public function __construct(FileUploadService $files)
+    public function __construct(private readonly FileUploadService $files)
     {
-        $this->files = $files;
     }
 
     public function index(): View
@@ -33,12 +30,14 @@ class AdminPengumumanController extends Controller
     {
         $data = $request->validated();
 
-        Pengumuman::create([
-            'image_path' => $this->files->store($data['image'], self::IMAGE_DIR),
-        ]);
+        DB::transaction(function () use ($data): void {
+            Pengumuman::create([
+                'image_path' => $this->files->store($data['image'], self::IMAGE_DIR),
+            ]);
+        });
 
         return redirect()
-            ->route('admin.pengumuman')
+            ->route('admin.pengumuman.index')
             ->with('success', 'Pengumuman berhasil ditambahkan.');
     }
 
@@ -46,22 +45,26 @@ class AdminPengumumanController extends Controller
     {
         $data = $request->validated();
 
-        $pengumuman->update([
-            'image_path' => $this->files->replace($pengumuman->image_path, $data['image'], self::IMAGE_DIR),
-        ]);
+        DB::transaction(function () use ($pengumuman, $data): void {
+            $pengumuman->update([
+                'image_path' => $this->files->replace($pengumuman->image_path, $data['image'], self::IMAGE_DIR),
+            ]);
+        });
 
         return redirect()
-            ->route('admin.pengumuman')
+            ->route('admin.pengumuman.index')
             ->with('success', 'Pengumuman berhasil diperbarui.');
     }
 
     public function destroy(Pengumuman $pengumuman): RedirectResponse
     {
-        $this->files->delete($pengumuman->image_path);
-        $pengumuman->delete();
+        DB::transaction(function () use ($pengumuman): void {
+            $this->files->delete($pengumuman->image_path);
+            $pengumuman->delete();
+        });
 
         return redirect()
-            ->route('admin.pengumuman')
+            ->route('admin.pengumuman.index')
             ->with('success', 'Pengumuman berhasil dihapus.');
     }
 }

@@ -13,7 +13,7 @@ class UpdateSiatabRequest extends BaseAdminRequest
         return [
             'judul' => ['required', 'string', 'max:255'],
             'images' => ['nullable', 'array'],
-            'images.*' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
+            'images.*' => $this->imageRules(),
             'remove_image_ids' => ['nullable', 'array'],
             'remove_image_ids.*' => [
                 'integer',

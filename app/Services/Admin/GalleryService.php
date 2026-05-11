@@ -8,20 +8,14 @@ use Illuminate\Validation\ValidationException;
 
 class GalleryService
 {
-    /** @var FileUploadService */
-    private $files;
-
-    public function __construct(FileUploadService $files)
+    public function __construct(private readonly FileUploadService $files)
     {
-        $this->files = $files;
     }
 
     public function storeFiles(array $images, string $directory): array
     {
         return collect($images)
-            ->map(function ($image) use ($directory) {
-                return $this->files->store($image, $directory);
-            })
+            ->map(fn ($image) => $this->files->store($image, $directory))
             ->all();
     }
 
@@ -36,6 +30,9 @@ class GalleryService
 
     public function syncImages(Model $model, array $newImages, array $removeIds, string $directory, string $emptyMessage): void
     {
+        $removeIds = $this->normalizeIds($removeIds);
+        $this->ensureGalleryWillNotBeEmpty($model, $newImages, $removeIds, $emptyMessage);
+
         $this->deleteSelectedImages($model, $removeIds);
         $this->attachStoredImages($model, $this->storeFiles($newImages, $directory));
 
@@ -72,16 +69,21 @@ class GalleryService
         $model->delete();
     }
 
+    private function ensureGalleryWillNotBeEmpty(Model $model, array $newImages, array $removeIds, string $emptyMessage): void
+    {
+        $remainingImages = $model->images()
+            ->when(! empty($removeIds), fn ($query) => $query->whereNotIn('id', $removeIds))
+            ->count();
+
+        if (($remainingImages + count($newImages)) < 1) {
+            throw ValidationException::withMessages([
+                'images' => $emptyMessage,
+            ]);
+        }
+    }
+
     private function deleteSelectedImages(Model $model, array $ids): void
     {
-        $ids = collect($ids)
-            ->map(function ($id) {
-                return (int) $id;
-            })
-            ->unique()
-            ->values()
-            ->all();
-
         if (empty($ids)) {
             return;
         }
@@ -92,5 +94,14 @@ class GalleryService
 
         $this->files->deleteMany($images->pluck('image_path')->all());
         $model->images()->whereIn('id', $ids)->delete();
+    }
+
+    private function normalizeIds(array $ids): array
+    {
+        return collect($ids)
+            ->map(fn ($id) => (int) $id)
+            ->unique()
+            ->values()
+            ->all();
     }
 }

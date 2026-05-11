@@ -27,6 +27,14 @@
                                     <source media="(min-width: 800px)" srcset="{{ asset('storage/' . $heroThumbnail->image_path) }}"/>
                                     <img height="100%" src="{{ asset('storage/' . $heroThumbnail->image_path) }}" alt="Hero Thumbnail {{ $heroThumbnail->id }}">
                                 </picture>
+                                <div class="hero-slide-content">
+                                    <p class="hero-kicker">Selamat Datang di</p>
+                                    <h1 class="hero-title bat-text-anime" data-bat-anime="hero">BALAI AIR TANAH</h1>
+                                    <div class="hero-actions" aria-label="Navigasi cepat halaman utama">
+                                        <a href="#tentang-kami" class="hero-btn hero-btn-primary">Tentang Kami</a>
+                                        <a href="#publikasi" class="hero-btn hero-btn-outline">Informasi Publik</a>
+                                    </div>
+                                </div>
                             </div>
 
                         </div>
@@ -40,6 +48,14 @@
                                     <source media="(min-width: 800px)" srcset="{{ asset('assets/sda/assets/uploads/pengumuman/imlek-02.webp') }}"/>
                                     <img height="100%" src="{{ asset('assets/sda/assets/uploads/pengumuman/imlek-02.webp') }}" alt="Balai Air Tanah">
                                 </picture>
+                                <div class="hero-slide-content">
+                                    <p class="hero-kicker">Selamat Datang di</p>
+                                    <h1 class="hero-title bat-text-anime" data-bat-anime="hero">BALAI AIR TANAH</h1>
+                                    <div class="hero-actions" aria-label="Navigasi cepat halaman utama">
+                                        <a href="#tentang-kami" class="hero-btn hero-btn-primary">Tentang Kami</a>
+                                        <a href="#publikasi" class="hero-btn hero-btn-outline">Informasi Publik</a>
+                                    </div>
+                                </div>
                             </div>
 
                         </div>
@@ -52,56 +68,61 @@
 </div><!-- Slider Section End -->
 
 <!-- About Section Start -->
-<div class="about-us home-about">
+<section class="about-us home-about" id="tentang-kami">
     <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-5 col-md-5 col-sm-12">
-                <!-- About Us Image Start -->
-                <div class="about-image">
-                    <div class="about-img">
-                        <figure class="reveal">
-                            <img src="{{ asset('images/cp.png') }}" alt="Balai Air Tanah">
-                        </figure>
-                    </div>
+        <div class="section-title home-about-title">
+            <h3 class="wow fadeInUp">Tentang Kami</h3>
+        </div>
+
+        <div class="home-about-grid">
+            <figure class="about-image reveal">
+                <img src="{{ asset('images/cp.png') }}" alt="Balai Air Tanah">
+            </figure>
+
+            <div class="about-content">
+                <h2 class="about-name bat-text-anime" data-bat-anime="scroll">Balai Air Tanah</h2>
+                <p class="about-desc">Balai Air Tanah merupakan unit pelaksana teknis di lingkungan Direktorat Jenderal Sumber Daya Air, Kementerian Pekerjaan Umum, yang berperan dalam mendukung pengelolaan sumber daya air tanah di Indonesia. Kegiatannya meliputi pengembangan, perekayasaan, pelayanan teknis, pengujian, pengkajian, serta inspeksi terkait air tanah. Balai Air Tanah mendukung perencanaan, pemanfaatan, pengendalian, dan konservasi air tanah agar dapat digunakan secara optimal, berkelanjutan, serta tetap menjaga kelestarian lingkungan.</p>
+
+                <div class="about-actions">
+                    <a href="{{ route('profil.index') }}" class="about-more-link">
+                        <span>Selengkapnya</span>
+                        <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                    </a>
                 </div>
-                <!-- About Us Image End -->
-            </div>
 
-            <div class="col-lg-7 col-md-7 col-sm-12">
-                <!-- About Content Start -->
-                <div class="about-content">
-                    <!-- Section Title Start -->
-                    <div class="section-title">
-                        <h3 class="wow fadeInUp">Tentang Kami</h3>
-                        <h2 class="text-anime-style-3">Balai Air Tanah</h2>
-                        <p class="wow fadeInUp" data-wow-delay="0.25s">Balai Air Tanah mempunyai tugas menyelenggarakan perumusan dan pelaksanaan kebijakan di bidang pengelolaan sumber daya air sesuai dengan ketentuan peraturan perudang-undangan.</p>
-                    </div>
-                    <!-- Section Title End -->
+                <div class="about-service-grid" aria-label="Informasi unggulan Balai Air Tanah">
+                    <a href="{{ route('pelayanan_publik.permintaan_pelayanan_advis') }}" class="about-service-card">
+                        <span class="about-service-card-icon" aria-hidden="true">
+                            <i class="fa-solid fa-screwdriver-wrench" aria-hidden="true"></i>
+                        </span>
+                        <span class="about-service-card-title">Advis Teknis</span>
+                    </a>
 
-                    <!-- About Content Body Start -->
-                    <div class="about-content-body wow fadeInUp" data-wow-delay="0.5s">
-                        <div class="about-service-grid">
-                            <a href="{{ route('peta') }}" class="about-service-card">
-                                <span class="about-service-card-icon" aria-hidden="true">
-                                    <ion-icon name="map-outline"></ion-icon>
-                                </span>
-                                <span class="about-service-card-title">Advis Teknis</span>
-                            </a>
+                    <a href="https://siatab.sda.pu.go.id/" target="_blank" rel="noopener noreferrer" class="about-service-card">
+                        <span class="about-service-card-icon" aria-hidden="true">
+                            <i class="fa-solid fa-window-restore" aria-hidden="true"></i>
+                        </span>
+                        <span class="about-service-card-title">SIATAB</span>
+                    </a>
 
-                            <a href="https://siatab.sda.pu.go.id/" target="_blank" rel="noopener noreferrer" class="about-service-card">
-                                <span class="about-service-card-icon" aria-hidden="true">
-                                    <ion-icon name="browsers-outline"></ion-icon>
-                                </span>
-                                <span class="about-service-card-title">SIATAB</span>
-                            </a>
-                        </div>
-                    </div>
-                    <!-- About Content Body End -->
+                    <a href="{{ route('gems') }}" class="about-service-card">
+                        <span class="about-service-card-icon" aria-hidden="true">
+                            <i class="fa-regular fa-gem" aria-hidden="true"></i>
+                        </span>
+                        <span class="about-service-card-title">GEMS</span>
+                    </a>
+
+                    <a href="{{ route('laboratorium') }}" class="about-service-card">
+                        <span class="about-service-card-icon" aria-hidden="true">
+                            <i class="fa-solid fa-flask" aria-hidden="true"></i>
+                        </span>
+                        <span class="about-service-card-title">Laboratorium</span>
+                    </a>
                 </div>
             </div>
         </div>
     </div>
-</div><!-- About Section End -->
+</section><!-- About Section End -->
 
 <!-- Berita Section Start -->
 <div class="what-we-do berita-terkini-wrapper home-news-section">
@@ -207,128 +228,131 @@
     </div>
 </div>
 <!-- Buletin Section Start -->
-<div class="buletin">
+<section class="buletin" id="publikasi" aria-labelledby="publicationTitle">
     <div class="container">
-        <div class="row section-row">
-            <div class="col-lg-12">
-                <div class="section-title">
-                    <a href="dokumen"><h3 class="wow fadeInUp">Publikasi</h3></a>
-                    <h2 class="text-anime-style-3">Buletin & Buku</h2>
-                </div>
-            </div>
-        </div>
-
-                <div class="publication-split">
-            <aside class="publication-menu-pane">
-                <div class="publication-menu-box">
-                    <div class="publication-menu-head">
-                        <h3 class="publication-menu-title">Menu Publikasi</h3>
-                    </div>                        <div class="publication-menu-content">
-                            <p class="publication-menu-desc">Pilih kategori publikasi:</p>
-                            <ul class="publication-menu-list">
-                                <li><button type="button" class="publication-menu-link is-active js-publication-menu" data-target="karya-ilmiah"><ion-icon name="book-outline" aria-hidden="true"></ion-icon><span>Karya Ilmiah</span></button></li>
-                                <li><button type="button" class="publication-menu-link js-publication-menu" data-target="sni"><ion-icon name="library-outline" aria-hidden="true"></ion-icon><span>SNI</span></button></li>
-                                <li><button type="button" class="publication-menu-link js-publication-menu" data-target="laporan-skm"><ion-icon name="document-text-outline" aria-hidden="true"></ion-icon><span>Laporan SKM</span></button></li>
-                                {{-- <li><a class="publication-menu-link" href="dokumen">Dokumen</a></li> --}}
-                            </ul>
-                        </div>
-                </div>
-            </aside>
-            <div class="publication-data-pane">
-                <div class="row publication-group is-active" data-publication-group="karya-ilmiah">
-                    @forelse($publikasiKaryaIlmiahs as $item)
-                        <div class="col-lg-4 col-md-6 js-publication-item">
-                            <div class="bulletin-item wow fadeInUp publication-card" data-wow-delay="0.25s">
-                                <div class="bulletin-image">
-                                    <a href="{{ asset('storage/' . $item->pdf_path) }}" target="_blank" rel="noopener">
-                                        <figure>
-                                            <img src="{{ $item->thumbnail_path ? asset('storage/' . $item->thumbnail_path) : asset('assets/images/placeholders/publikasi.svg') }}" alt="{{ $item->judul }}">
-                                        </figure>
-                                    </a>
-                                </div>
-                                <div class="bulletin-body mb-3">
-                                    <div class="bulletin-body-title">
-                                        <h3>{{ $item->judul }}</h3>
-                                    </div>
-                                    <div class="bulletin-content">
-                                        <p>{{ \Illuminate\Support\Str::limit($item->deskripsi, 110) }}</p>
-                                        <div class="bulletin-content-footer">
-                                            <a href="{{ asset('storage/' . $item->pdf_path) }}" target="_blank" rel="noopener" class="readmore-btn">Selengkapnya</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @empty
-                        <div class="col-12"><p>Belum ada data Karya Ilmiah.</p></div>
-                    @endforelse
-                    <div class="col-12"><div class="publication-dots js-publication-dots"></div></div>
-                </div>
-
-                <div class="row publication-group" data-publication-group="sni">
-                    @forelse($publikasiSnis as $item)
-                        <div class="col-lg-4 col-md-6 js-publication-item">
-                            <div class="bulletin-item wow fadeInUp publication-card" data-wow-delay="0.25s">
-                                <div class="bulletin-image">
-                                    <a href="{{ asset('storage/' . $item->pdf_path) }}" target="_blank" rel="noopener">
-                                        <figure>
-                                            <img src="{{ $item->thumbnail_path ? asset('storage/' . $item->thumbnail_path) : asset('assets/images/placeholders/publikasi.svg') }}" alt="{{ $item->judul }}">
-                                        </figure>
-                                    </a>
-                                </div>
-                                <div class="bulletin-body mb-3">
-                                    <div class="bulletin-body-title">
-                                        <h3>{{ $item->judul }}</h3>
-                                    </div>
-                                    <div class="bulletin-content">
-                                        <p>{{ \Illuminate\Support\Str::limit($item->deskripsi, 110) }}</p>
-                                        <div class="bulletin-content-footer">
-                                            <a href="{{ asset('storage/' . $item->pdf_path) }}" target="_blank" rel="noopener" class="readmore-btn">Selengkapnya</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @empty
-                        <div class="col-12"><p>Belum ada data SNI.</p></div>
-                    @endforelse
-                    <div class="col-12"><div class="publication-dots js-publication-dots"></div></div>
-                </div>
-
-                <div class="row publication-group" data-publication-group="laporan-skm">
-                    @forelse($publikasiLaporanSkms as $item)
-                        <div class="col-lg-4 col-md-6 js-publication-item">
-                            <div class="bulletin-item wow fadeInUp publication-card" data-wow-delay="0.25s">
-                                <div class="bulletin-image">
-                                    <a href="{{ asset('storage/' . $item->pdf_path) }}" target="_blank" rel="noopener">
-                                        <figure>
-                                            <img src="{{ $item->thumbnail_path ? asset('storage/' . $item->thumbnail_path) : asset('assets/images/placeholders/publikasi.svg') }}" alt="{{ $item->judul }}">
-                                        </figure>
-                                    </a>
-                                </div>
-                                <div class="bulletin-body mb-3">
-                                    <div class="bulletin-body-title">
-                                        <h3>{{ $item->judul }}</h3>
-                                    </div>
-                                    <div class="bulletin-content">
-                                        <p>{{ \Illuminate\Support\Str::limit($item->deskripsi, 110) }}</p>
-                                        <div class="bulletin-content-footer">
-                                            <a href="{{ asset('storage/' . $item->pdf_path) }}" target="_blank" rel="noopener" class="readmore-btn">Selengkapnya</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @empty
-                        <div class="col-12"><p>Belum ada data Laporan SKM.</p></div>
-                    @endforelse
-                    <div class="col-12"><div class="publication-dots js-publication-dots"></div></div>
-                </div>
+        <header class="publication-head">
+            <div class="section-title publication-title">
+                <a href="dokumen"><h3 class="wow fadeInUp">Informasi Publik</h3></a>
+                <h2 class="text-anime-style-3" id="publicationTitle">Buku &amp; Laporan</h2>
             </div>
 
+            <nav class="publication-menu-box" aria-label="Kategori publikasi">
+                <ul class="publication-menu-list">
+                    <li>
+                        <button type="button" class="publication-menu-link is-active js-publication-menu" data-target="karya-ilmiah">
+                            <i class="fa-solid fa-book-open" aria-hidden="true"></i>
+                            <span>Karya Ilmiah</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button type="button" class="publication-menu-link js-publication-menu" data-target="sni">
+                            <i class="fa-solid fa-building-columns" aria-hidden="true"></i>
+                            <span>SNI</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button type="button" class="publication-menu-link js-publication-menu" data-target="laporan-skm">
+                            <i class="fa-solid fa-file-lines" aria-hidden="true"></i>
+                            <span>Laporan SKM</span>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+
+        <div class="publication-data-pane">
+            <div class="row publication-group is-active" data-publication-group="karya-ilmiah">
+                @forelse($publikasiKaryaIlmiahs as $item)
+                    <div class="col-lg-4 col-md-6 js-publication-item">
+                        <div class="bulletin-item wow fadeInUp publication-card" data-wow-delay="0.25s">
+                            <div class="bulletin-image">
+                                <a href="{{ asset('storage/' . $item->pdf_path) }}" target="_blank" rel="noopener">
+                                    <figure>
+                                        <img src="{{ $item->thumbnail_path ? asset('storage/' . $item->thumbnail_path) : asset('assets/images/placeholders/publikasi.svg') }}" alt="{{ $item->judul }}">
+                                    </figure>
+                                </a>
+                            </div>
+                            <div class="bulletin-body mb-3">
+                                <div class="bulletin-body-title">
+                                    <h3>{{ $item->judul }}</h3>
+                                </div>
+                                <div class="bulletin-content">
+                                    <p>{{ \Illuminate\Support\Str::limit($item->deskripsi, 110) }}</p>
+                                    <div class="bulletin-content-footer">
+                                        <a href="{{ asset('storage/' . $item->pdf_path) }}" target="_blank" rel="noopener" class="readmore-btn">Selengkapnya</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @empty
+                    <div class="col-12"><p>Belum ada data Karya Ilmiah.</p></div>
+                @endforelse
+                <div class="col-12"><div class="publication-dots js-publication-dots"></div></div>
+            </div>
+
+            <div class="row publication-group" data-publication-group="sni">
+                @forelse($publikasiSnis as $item)
+                    <div class="col-lg-4 col-md-6 js-publication-item">
+                        <div class="bulletin-item wow fadeInUp publication-card" data-wow-delay="0.25s">
+                            <div class="bulletin-image">
+                                <a href="{{ asset('storage/' . $item->pdf_path) }}" target="_blank" rel="noopener">
+                                    <figure>
+                                        <img src="{{ $item->thumbnail_path ? asset('storage/' . $item->thumbnail_path) : asset('assets/images/placeholders/publikasi.svg') }}" alt="{{ $item->judul }}">
+                                    </figure>
+                                </a>
+                            </div>
+                            <div class="bulletin-body mb-3">
+                                <div class="bulletin-body-title">
+                                    <h3>{{ $item->judul }}</h3>
+                                </div>
+                                <div class="bulletin-content">
+                                    <p>{{ \Illuminate\Support\Str::limit($item->deskripsi, 110) }}</p>
+                                    <div class="bulletin-content-footer">
+                                        <a href="{{ asset('storage/' . $item->pdf_path) }}" target="_blank" rel="noopener" class="readmore-btn">Selengkapnya</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @empty
+                    <div class="col-12"><p>Belum ada data SNI.</p></div>
+                @endforelse
+                <div class="col-12"><div class="publication-dots js-publication-dots"></div></div>
+            </div>
+
+            <div class="row publication-group" data-publication-group="laporan-skm">
+                @forelse($publikasiLaporanSkms as $item)
+                    <div class="col-lg-4 col-md-6 js-publication-item">
+                        <div class="bulletin-item wow fadeInUp publication-card" data-wow-delay="0.25s">
+                            <div class="bulletin-image">
+                                <a href="{{ asset('storage/' . $item->pdf_path) }}" target="_blank" rel="noopener">
+                                    <figure>
+                                        <img src="{{ $item->thumbnail_path ? asset('storage/' . $item->thumbnail_path) : asset('assets/images/placeholders/publikasi.svg') }}" alt="{{ $item->judul }}">
+                                    </figure>
+                                </a>
+                            </div>
+                            <div class="bulletin-body mb-3">
+                                <div class="bulletin-body-title">
+                                    <h3>{{ $item->judul }}</h3>
+                                </div>
+                                <div class="bulletin-content">
+                                    <p>{{ \Illuminate\Support\Str::limit($item->deskripsi, 110) }}</p>
+                                    <div class="bulletin-content-footer">
+                                        <a href="{{ asset('storage/' . $item->pdf_path) }}" target="_blank" rel="noopener" class="readmore-btn">Selengkapnya</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @empty
+                    <div class="col-12"><p>Belum ada data Laporan SKM.</p></div>
+                @endforelse
+                <div class="col-12"><div class="publication-dots js-publication-dots"></div></div>
+            </div>
         </div>
     </div>
-</div><!-- Buletin Section End -->
+</section><!-- Buletin Section End -->
 <!-- Why Choose Us Section Start -->
 <div class="akun">
     <div class="container-fluid px-3 px-lg-4">

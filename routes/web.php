@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminBeritaController;
+use App\Http\Controllers\AdminBuletinController;
 use App\Http\Controllers\AdminGemController;
 use App\Http\Controllers\AdminKaryaIlmiahController;
 use App\Http\Controllers\AdminLaporanSkmController;
@@ -10,7 +11,10 @@ use App\Http\Controllers\AdminSniController;
 use App\Http\Controllers\AdminSiatabController;
 use App\Http\Controllers\AdminThumbnailController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\BuletinController;
+use App\Models\IndonesiaMap;
 use Illuminate\Support\Facades\Route;
+use Illuminate\View\View;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -19,47 +23,61 @@ Route::post('/login', [AdminAuthController::class, 'login'])
     ->middleware('throttle:5,1')
     ->name('login.process');
 Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
-Route::view('/peta', 'pages.peta')->name('peta');
+Route::get('/peta', function (): View {
+    return view('pages.peta', [
+        'mapConfig' => IndonesiaMap::config(),
+    ]);
+})->name('peta');
+Route::view('/gems', 'pages.menu_detail', ['menuGroup' => 'Layanan Unggulan', 'pageTitle' => 'GEMS'])->name('gems');
+Route::view('/laboratorium', 'pages.menu_detail', ['menuGroup' => 'Layanan Unggulan', 'pageTitle' => 'Laboratorium'])->name('laboratorium');
 
 Route::prefix('admin')->name('admin.')->middleware('admin.auth')->group(function () {
     Route::view('/dashboard', 'pages.admin.dashboard')->name('dashboard');
-    Route::get('/berita', [AdminBeritaController::class, 'index'])->name('berita');
+    Route::get('/berita', [AdminBeritaController::class, 'index'])->name('berita.index');
+    Route::get('/buletin', [AdminBuletinController::class, 'index'])->name('buletin.index');
+    Route::post('/buletin', [AdminBuletinController::class, 'store'])->name('buletin.store');
+    Route::put('/buletin/{buletin}', [AdminBuletinController::class, 'update'])->name('buletin.update');
+    Route::delete('/buletin/{buletin}', [AdminBuletinController::class, 'destroy'])->name('buletin.destroy');
     Route::post('/berita', [AdminBeritaController::class, 'store'])->name('berita.store');
     Route::put('/berita/{berita}', [AdminBeritaController::class, 'update'])->name('berita.update');
     Route::delete('/berita/{berita}', [AdminBeritaController::class, 'destroy'])->name('berita.destroy');
-    Route::get('/thumbnail', [AdminThumbnailController::class, 'index'])->name('thumbnail');
+    Route::get('/thumbnail', [AdminThumbnailController::class, 'index'])->name('thumbnail.index');
     Route::post('/thumbnail', [AdminThumbnailController::class, 'store'])->name('thumbnail.store');
     Route::put('/thumbnail/{thumbnail}', [AdminThumbnailController::class, 'update'])->name('thumbnail.update');
     Route::delete('/thumbnail/{thumbnail}', [AdminThumbnailController::class, 'destroy'])->name('thumbnail.destroy');
     Route::post('/thumbnail/visibility', [AdminThumbnailController::class, 'updateVisibility'])->name('thumbnail.visibility');
-    Route::get('/pengumuman', [AdminPengumumanController::class, 'index'])->name('pengumuman');
+    Route::get('/pengumuman', [AdminPengumumanController::class, 'index'])->name('pengumuman.index');
     Route::post('/pengumuman', [AdminPengumumanController::class, 'store'])->name('pengumuman.store');
     Route::put('/pengumuman/{pengumuman}', [AdminPengumumanController::class, 'update'])->name('pengumuman.update');
     Route::delete('/pengumuman/{pengumuman}', [AdminPengumumanController::class, 'destroy'])->name('pengumuman.destroy');
     Route::view('/jurnal', 'pages.admin.jurnal')->name('jurnal');
-    Route::get('/karya-ilmiah', [AdminKaryaIlmiahController::class, 'index'])->name('karya-ilmiah');
+    Route::get('/karya-ilmiah', [AdminKaryaIlmiahController::class, 'index'])->name('karya-ilmiah.index');
     Route::post('/karya-ilmiah', [AdminKaryaIlmiahController::class, 'store'])->name('karya-ilmiah.store');
     Route::put('/karya-ilmiah/{karyaIlmiah}', [AdminKaryaIlmiahController::class, 'update'])->name('karya-ilmiah.update');
     Route::delete('/karya-ilmiah/{karyaIlmiah}', [AdminKaryaIlmiahController::class, 'destroy'])->name('karya-ilmiah.destroy');
-    Route::get('/sni', [AdminSniController::class, 'index'])->name('sni');
+    Route::get('/sni', [AdminSniController::class, 'index'])->name('sni.index');
     Route::post('/sni', [AdminSniController::class, 'store'])->name('sni.store');
     Route::put('/sni/{sni}', [AdminSniController::class, 'update'])->name('sni.update');
     Route::delete('/sni/{sni}', [AdminSniController::class, 'destroy'])->name('sni.destroy');
-    Route::get('/siatab', [AdminSiatabController::class, 'index'])->name('siatab');
+    Route::get('/siatab', [AdminSiatabController::class, 'index'])->name('siatab.index');
     Route::post('/siatab', [AdminSiatabController::class, 'store'])->name('siatab.store');
     Route::put('/siatab/{siatab}', [AdminSiatabController::class, 'update'])->name('siatab.update');
     Route::delete('/siatab/{siatab}', [AdminSiatabController::class, 'destroy'])->name('siatab.destroy');
-    Route::get('/gems', [AdminGemController::class, 'index'])->name('gems');
+    Route::get('/gems', [AdminGemController::class, 'index'])->name('gems.index');
     Route::post('/gems', [AdminGemController::class, 'store'])->name('gems.store');
     Route::put('/gems/{gem}', [AdminGemController::class, 'update'])->name('gems.update');
     Route::delete('/gems/{gem}', [AdminGemController::class, 'destroy'])->name('gems.destroy');
-    Route::get('/laporan-skm', [AdminLaporanSkmController::class, 'index'])->name('laporan-skm');
+    Route::get('/laporan-skm', [AdminLaporanSkmController::class, 'index'])->name('laporan-skm.index');
     Route::post('/laporan-skm', [AdminLaporanSkmController::class, 'store'])->name('laporan-skm.store');
     Route::put('/laporan-skm/{laporanSkm}', [AdminLaporanSkmController::class, 'update'])->name('laporan-skm.update');
     Route::delete('/laporan-skm/{laporanSkm}', [AdminLaporanSkmController::class, 'destroy'])->name('laporan-skm.destroy');
 });
 
 Route::prefix('profil')->name('profil.')->group(function () {
+    Route::view('/', 'pages.menu_detail', [
+        'menuGroup' => 'Profil',
+        'pageTitle' => 'Profil Balai Air Tanah',
+    ])->name('index');
     Route::view('/tugas_dan_fungsi', 'pages.menu_detail', ['menuGroup' => 'Profil', 'pageTitle' => 'Tugas dan Fungsi'])->name('tugas_dan_fungsi');
     Route::view('/visi_misi', 'pages.menu_detail', ['menuGroup' => 'Profil', 'pageTitle' => 'Visi & Misi'])->name('visi_misi');
     Route::view('/struktur_organisasi', 'pages.menu_detail', ['menuGroup' => 'Profil', 'pageTitle' => 'Struktur Organisasi'])->name('struktur_organisasi');
@@ -68,6 +86,8 @@ Route::prefix('profil')->name('profil.')->group(function () {
 
 Route::prefix('publikasi')->name('publikasi.')->group(function () {
     Route::view('/berita', 'pages.menu_detail', ['menuGroup' => 'Publikasi', 'pageTitle' => 'Berita'])->name('berita');
+    Route::get('/buletin', [BuletinController::class, 'index'])->name('buletin.index');
+    Route::get('/buletin/{buletin:slug}', [BuletinController::class, 'show'])->name('buletin.show');
     Route::view('/pengumuman', 'pages.menu_detail', ['menuGroup' => 'Publikasi', 'pageTitle' => 'Pengumuman'])->name('pengumuman');
     Route::view('/infografis', 'pages.menu_detail', ['menuGroup' => 'Publikasi', 'pageTitle' => 'Infografis'])->name('infografis');
     Route::view('/galeri', 'pages.menu_detail', ['menuGroup' => 'Publikasi', 'pageTitle' => 'Galeri'])->name('galeri');
