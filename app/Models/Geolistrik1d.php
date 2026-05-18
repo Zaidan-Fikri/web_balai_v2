@@ -10,8 +10,20 @@ class Geolistrik1d extends Model
 
     protected $fillable = [
         'nama',
+        'kode',
+        'kab_kota',
+        'kecamatan',
+        'desa_kelurahan',
+        'upt',
         'latitude',
         'longitude',
+        'elevasi',
+        'tanggal_akusisi_data',
+        'geologi',
+        'cekungan_air_tanah',
+        'hidrogeologi',
+        'lapisan_pembawa_air',
+        'pdf_path',
     ];
 
 }

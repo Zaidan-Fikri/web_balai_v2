@@ -484,7 +484,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-4 col-md-6 col-sm-12 col-12">
+            {{-- <div class="col-lg-4 col-md-6 col-sm-12 col-12">
                 <div class="siatab-widget wow fadeInUp" data-wow-delay="0.8s">
                     <div class="swiper siatab-swiper" id="siatabSwiper">
                         <div class="swiper-wrapper">
@@ -536,7 +536,7 @@
                         <h5 class="siatab-slide-title" id="siatabActiveTitle">Belum ada data SIATAB.</h5>
                     </a>
                 </div>
-            </div>
+            </div> --}}
 
         </div>
     </div>

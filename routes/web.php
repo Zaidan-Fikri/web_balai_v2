@@ -29,6 +29,13 @@ Route::get('/peta', function (): View {
         'mapConfig' => IndonesiaMap::config(),
     ]);
 })->name('peta');
+Route::prefix('admin')->name('admin.')->middleware('admin.auth')->group(function () {
+    Route::get('/peta', function (): View {
+        return view('pages.petaAdmin', [
+            'mapConfig' => IndonesiaMap::adminConfig(),
+        ]);
+    })->name('peta');
+});
 Route::view('/gems', 'pages.menu_detail', ['menuGroup' => 'Layanan Unggulan', 'pageTitle' => 'GEMS'])->name('gems');
 Route::view('/laboratorium', 'pages.menu_detail', ['menuGroup' => 'Layanan Unggulan', 'pageTitle' => 'Laboratorium'])->name('laboratorium');
 
@@ -79,6 +86,8 @@ Route::prefix('admin')->name('admin.')->middleware('admin.auth')->group(function
     Route::middleware('admin.role:layanan_teknis')->group(function () {
         Route::get('/geolistrik-1d', [AdminGeolistrik1dController::class, 'index'])->name('geolistrik-1d.index');
         Route::post('/geolistrik-1d', [AdminGeolistrik1dController::class, 'store'])->name('geolistrik-1d.store');
+        Route::post('/geolistrik-1d/import-preview', [AdminGeolistrik1dController::class, 'importPreview'])->name('geolistrik-1d.import-preview');
+        Route::post('/geolistrik-1d/import-store', [AdminGeolistrik1dController::class, 'importStore'])->name('geolistrik-1d.import-store');
         Route::put('/geolistrik-1d/{geolistrik1d}', [AdminGeolistrik1dController::class, 'update'])->name('geolistrik-1d.update');
         Route::delete('/geolistrik-1d/{geolistrik1d}', [AdminGeolistrik1dController::class, 'destroy'])->name('geolistrik-1d.destroy');
     });

@@ -33,9 +33,8 @@
     </div>
 
     <div class="topbar-actions">
-        <a class="topbar-link" href="{{ route('home') }}">
-            <i class="fa-solid fa-arrow-up-right-from-square"></i>
-            <span>Lihat Situs</span>
+        <a class="topbar-link icon-only" href="{{ route('admin.peta') }}" aria-label="Lihat peta" title="Lihat peta">
+            <i class="fa-solid fa-map-location-dot" aria-hidden="true"></i>
         </a>
         <div class="admin-pill" title="{{ $adminEmail }}">
             <i class="fa-solid fa-user-shield"></i>
