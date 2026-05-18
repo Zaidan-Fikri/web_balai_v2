@@ -12,7 +12,10 @@
     @vite(['resources/css/admin.css'])
     @stack('styles')
 </head>
-<body data-open-create-popup="{{ $errors->any() && old('form_type') === 'create' ? 'true' : 'false' }}">
+<body
+    data-open-create-popup="{{ $errors->any() && old('form_type') === 'create' ? 'true' : 'false' }}"
+    data-open-import-preview="{{ session('geolistrik_import_preview') ? 'true' : 'false' }}"
+>
 <div class="admin-shell" id="adminShell">
     @include('master.admin.sidebar')
     <div class="sidebar-backdrop" id="sidebarBackdrop"></div>

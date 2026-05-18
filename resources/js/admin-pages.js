@@ -5,19 +5,47 @@
    ========================================================= */
 (function () {
             const openButton = document.getElementById('openGeolistrikPopup');
+            const importButton = document.getElementById('openGeolistrikImportPopup');
+            const importOverlay = document.getElementById('geolistrikImportOverlay');
+            const importFile = document.getElementById('geolistrikImportFile');
+            const importPreviewOverlay = document.getElementById('geolistrikImportPreviewOverlay');
             const createOverlay = document.getElementById('geolistrikCreateOverlay');
-            const createNama = document.getElementById('createGeolistrikNama');
+            const createKode = document.getElementById('createGeolistrikKode');
             const readOverlay = document.getElementById('geolistrikReadOverlay');
             const readNama = document.getElementById('readGeolistrikNama');
+            const readKode = document.getElementById('readGeolistrikKode');
+            const readKabKota = document.getElementById('readGeolistrikKabKota');
+            const readKecamatan = document.getElementById('readGeolistrikKecamatan');
+            const readDesaKelurahan = document.getElementById('readGeolistrikDesaKelurahan');
+            const readUpt = document.getElementById('readGeolistrikUpt');
             const readLatitude = document.getElementById('readGeolistrikLatitude');
             const readLongitude = document.getElementById('readGeolistrikLongitude');
+            const readElevasi = document.getElementById('readGeolistrikElevasi');
+            const readTanggalAkusisiData = document.getElementById('readGeolistrikTanggalAkusisiData');
+            const readGeologi = document.getElementById('readGeolistrikGeologi');
+            const readCekunganAirTanah = document.getElementById('readGeolistrikCekunganAirTanah');
+            const readHidrogeologi = document.getElementById('readGeolistrikHidrogeologi');
+            const readLapisanPembawaAir = document.getElementById('readGeolistrikLapisanPembawaAir');
+            const readPdf = document.getElementById('readGeolistrikPdf');
             const updateOverlay = document.getElementById('geolistrikUpdateOverlay');
             const updateForm = document.getElementById('geolistrikUpdateForm');
-            const updateNama = document.getElementById('updateGeolistrikNama');
+            const updateKode = document.getElementById('updateGeolistrikKode');
+            const updateKabKota = document.getElementById('updateGeolistrikKabKota');
+            const updateKecamatan = document.getElementById('updateGeolistrikKecamatan');
+            const updateDesaKelurahan = document.getElementById('updateGeolistrikDesaKelurahan');
+            const updateUpt = document.getElementById('updateGeolistrikUpt');
             const updateLatitude = document.getElementById('updateGeolistrikLatitude');
             const updateLongitude = document.getElementById('updateGeolistrikLongitude');
+            const updateElevasi = document.getElementById('updateGeolistrikElevasi');
+            const updateTanggalAkusisiData = document.getElementById('updateGeolistrikTanggalAkusisiData');
+            const updateGeologi = document.getElementById('updateGeolistrikGeologi');
+            const updateCekunganAirTanah = document.getElementById('updateGeolistrikCekunganAirTanah');
+            const updateHidrogeologi = document.getElementById('updateGeolistrikHidrogeologi');
+            const updateLapisanPembawaAir = document.getElementById('updateGeolistrikLapisanPembawaAir');
+            const updatePdfCurrent = document.getElementById('updateGeolistrikPdfCurrent');
+            const updatePdfFile = document.getElementById('updateGeolistrikPdfFile');
 
-            if (!openButton || !createOverlay || !createNama) return;
+            if (!openButton || !createOverlay || !createKode) return;
 
             function openOverlay(overlay, focusTarget) {
                 if (!overlay) return;
@@ -43,14 +71,39 @@
             }
 
             openButton.addEventListener('click', function () {
-                openOverlay(createOverlay, createNama);
+                openOverlay(createOverlay, createKode);
             });
+
+            if (importButton && importOverlay && importFile) {
+                importButton.addEventListener('click', function () {
+                    importFile.value = '';
+                    openOverlay(importOverlay, importFile);
+                });
+            }
 
             document.querySelectorAll('.js-geolistrik-read-btn').forEach(function (button) {
                 button.addEventListener('click', function () {
                     readNama.textContent = button.dataset.nama || 'Detail Geolistrik 1D';
+                    readKode.textContent = button.dataset.kode || '-';
+                    readKabKota.textContent = button.dataset.kabKota || '-';
+                    readKecamatan.textContent = button.dataset.kecamatan || '-';
+                    readDesaKelurahan.textContent = button.dataset.desaKelurahan || '-';
+                    readUpt.textContent = button.dataset.upt || '-';
                     readLatitude.textContent = button.dataset.latitude || '-';
                     readLongitude.textContent = button.dataset.longitude || '-';
+                    readElevasi.textContent = button.dataset.elevasi || '-';
+                    readTanggalAkusisiData.textContent = button.dataset.tanggalAkusisiData || '-';
+                    readGeologi.textContent = button.dataset.geologi || '-';
+                    readCekunganAirTanah.textContent = button.dataset.cekunganAirTanah || '-';
+                    readHidrogeologi.textContent = button.dataset.hidrogeologi || '-';
+                    readLapisanPembawaAir.textContent = button.dataset.lapisanPembawaAir || '-';
+                    if (readPdf) {
+                        if (button.dataset.pdfUrl) {
+                            readPdf.innerHTML = '<a href="' + button.dataset.pdfUrl + '" target="_blank" rel="noopener">' + (button.dataset.pdfName || 'PDF') + '</a>';
+                        } else {
+                            readPdf.textContent = '-';
+                        }
+                    }
                     openOverlay(readOverlay);
                 });
             });
@@ -58,10 +111,28 @@
             document.querySelectorAll('.js-geolistrik-update-btn').forEach(function (button) {
                 button.addEventListener('click', function () {
                     updateForm.action = button.dataset.updateUrl || '';
-                    updateNama.value = button.dataset.nama || '';
+                    updateKode.value = button.dataset.kode || '';
+                    updateKabKota.value = button.dataset.kabKota || '';
+                    updateKecamatan.value = button.dataset.kecamatan || '';
+                    updateDesaKelurahan.value = button.dataset.desaKelurahan || '';
+                    updateUpt.value = button.dataset.upt || '';
                     updateLatitude.value = button.dataset.latitude || '';
                     updateLongitude.value = button.dataset.longitude || '';
-                    openOverlay(updateOverlay, updateNama);
+                    updateElevasi.value = button.dataset.elevasi || '';
+                    updateTanggalAkusisiData.value = button.dataset.tanggalAkusisiData || '';
+                    updateGeologi.value = button.dataset.geologi || '';
+                    updateCekunganAirTanah.value = button.dataset.cekunganAirTanah || '';
+                    updateHidrogeologi.value = button.dataset.hidrogeologi || '';
+                    updateLapisanPembawaAir.value = button.dataset.lapisanPembawaAir || '';
+                    if (updatePdfFile) updatePdfFile.value = '';
+                    if (updatePdfCurrent) {
+                        if (button.dataset.pdfUrl) {
+                            updatePdfCurrent.innerHTML = '<a href="' + button.dataset.pdfUrl + '" target="_blank" rel="noopener">' + (button.dataset.pdfName || 'PDF') + '</a>';
+                        } else {
+                            updatePdfCurrent.textContent = '-';
+                        }
+                    }
+                    openOverlay(updateOverlay, updateKode);
                 });
             });
 
@@ -96,7 +167,11 @@
             });
 
             if (document.body.dataset.openCreatePopup === 'true') {
-                openOverlay(createOverlay, createNama);
+                openOverlay(createOverlay, createKode);
+            }
+
+            if (document.body.dataset.openImportPreview === 'true' && importPreviewOverlay) {
+                openOverlay(importPreviewOverlay);
             }
         })();
 
