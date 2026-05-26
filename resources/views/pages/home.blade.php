@@ -158,7 +158,7 @@
 
 <!-- Berita Section Start -->
 <div class="what-we-do berita-terkini-wrapper home-news-section">
-    <div class="light-bg-section berita-terkini-section news-tabs js-publication-tabs">
+    <div class="light-bg-section berita-terkini-section news-tabs js-publication-tabs">g
         <div class="container-fluid">
             <div class="row section-row">
                 <div class="col-lg-12">

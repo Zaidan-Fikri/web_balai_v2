@@ -54,7 +54,6 @@ document.addEventListener('DOMContentLoaded', () => {
         window.requestAnimationFrame(updateScrollUi);
     }
 
-    showNavbar();
     updateScrolledState(window.scrollY);
     setScrollButtonState(window.scrollY > 420);
 
@@ -70,8 +69,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 top: 0,
                 behavior: reduceMotion.matches ? 'auto' : 'smooth',
             });
-
-            showNavbar();
         });
     }
 });
