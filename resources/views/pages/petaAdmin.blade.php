@@ -22,7 +22,6 @@
                     <div class="map-info-body">
                         <div class="map-info-empty" id="geolistrikInfoEmpty">Klik marker untuk melihat detail.</div>
                         <div class="map-info-list" id="geolistrikInfoList" hidden>
-                            <div><span>Nama</span><strong data-field="title">-</strong></div>
                             <div><span>Kode</span><strong data-field="kode">-</strong></div>
                             <div><span>Kab/Kota</span><strong data-field="kabKota">-</strong></div>
                             <div><span>Kecamatan</span><strong data-field="kecamatan">-</strong></div>

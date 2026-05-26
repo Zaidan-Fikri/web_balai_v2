@@ -121,7 +121,6 @@ class AdminGeolistrik1dController extends Controller
         $records = collect($previewRows)
             ->map(function (array $row): array {
                 $data = $row['data'];
-                $data['nama'] = $data['kode'];
                 $data['created_at'] = now();
                 $data['updated_at'] = now();
 
@@ -142,8 +141,6 @@ class AdminGeolistrik1dController extends Controller
     private function validatedData(Request $request, ?Geolistrik1d $geolistrik1d = null): array
     {
         $data = $request->validate($this->rules());
-
-        $data['nama'] = $data['kode'];
 
         if ($request->hasFile('pdf_file')) {
             $data['pdf_path'] = $geolistrik1d

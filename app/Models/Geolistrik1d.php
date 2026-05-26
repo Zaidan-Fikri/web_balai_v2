@@ -9,7 +9,6 @@ class Geolistrik1d extends Model
     protected $table = 'geolistrik_1ds';
 
     protected $fillable = [
-        'nama',
         'kode',
         'kab_kota',
         'kecamatan',

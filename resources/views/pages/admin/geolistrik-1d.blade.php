@@ -39,7 +39,6 @@
                 <table class="item-table geolistrik-table">
                     <thead>
                     <tr>
-                        <th>Nama</th>
                         <th>Kode</th>
                         <th>Kab/Kota</th>
                         <th>Kecamatan</th>
@@ -60,7 +59,6 @@
                     <tbody>
                     @forelse ($geolistrik1ds as $item)
                         <tr>
-                            <td>{{ $item->nama }}</td>
                             <td>{{ $item->kode ?? '-' }}</td>
                             <td>{{ $item->kab_kota ?? '-' }}</td>
                             <td>{{ $item->kecamatan ?? '-' }}</td>
@@ -86,7 +84,6 @@
                                     <button
                                         type="button"
                                         class="btn-action read js-geolistrik-read-btn"
-                                        data-nama="{{ $item->nama }}"
                                         data-kode="{{ $item->kode }}"
                                         data-kab-kota="{{ $item->kab_kota }}"
                                         data-kecamatan="{{ $item->kecamatan }}"
@@ -107,7 +104,6 @@
                                         type="button"
                                         class="btn-action update js-geolistrik-update-btn"
                                         data-update-url="{{ route('admin.geolistrik-1d.update', $item->id) }}"
-                                        data-nama="{{ $item->nama }}"
                                         data-kode="{{ $item->kode }}"
                                         data-kab-kota="{{ $item->kab_kota }}"
                                         data-kecamatan="{{ $item->kecamatan }}"
@@ -133,7 +129,7 @@
                             </td>
                         </tr>
                     @empty
-                        <tr><td colspan="16">Belum ada data Geolistrik 1D.</td></tr>
+                        <tr><td colspan="15">Belum ada data Geolistrik 1D.</td></tr>
                     @endforelse
                     </tbody>
                 </table>

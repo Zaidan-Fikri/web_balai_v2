@@ -122,7 +122,6 @@ function createDetailsPanelRenderer(config) {
     }
 
     const fields = {
-        title: list.querySelector('[data-field="title"]'),
         kode: list.querySelector('[data-field="kode"]'),
         kabKota: list.querySelector('[data-field="kabKota"]'),
         kecamatan: list.querySelector('[data-field="kecamatan"]'),

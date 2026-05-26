@@ -83,7 +83,7 @@
 
             document.querySelectorAll('.js-geolistrik-read-btn').forEach(function (button) {
                 button.addEventListener('click', function () {
-                    readNama.textContent = button.dataset.nama || 'Detail Geolistrik 1D';
+                    readNama.textContent = button.dataset.kode ? 'Detail Geolistrik 1D - ' + button.dataset.kode : 'Detail Geolistrik 1D';
                     readKode.textContent = button.dataset.kode || '-';
                     readKabKota.textContent = button.dataset.kabKota || '-';
                     readKecamatan.textContent = button.dataset.kecamatan || '-';

@@ -7,12 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const scrollTopBtn = document.getElementById('scrollTopBtn');
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-    let lastScrollY = window.scrollY;
     let ticking = false;
-
-    const revealZone = 96;
-    const hideThreshold = 150;
-    const minDelta = 8;
 
     function setScrollButtonState(isVisible) {
         if (!scrollTopBtn) {
@@ -40,42 +35,12 @@ document.addEventListener('DOMContentLoaded', () => {
         navbar.classList.add('is-visible');
     }
 
-    function hideNavbar(currentScrollY) {
-        if (!navbar || currentScrollY <= hideThreshold) {
-            return;
-        }
-
-        navbar.classList.remove('is-visible');
-        navbar.classList.add('is-hidden');
-    }
-
     function updateScrollUi() {
         const currentScrollY = Math.max(window.scrollY, 0);
-        const delta = currentScrollY - lastScrollY;
 
         updateScrolledState(currentScrollY);
         setScrollButtonState(currentScrollY > 420);
-
-        if (!navbar) {
-            ticking = false;
-            lastScrollY = currentScrollY;
-            return;
-        }
-
-        if (currentScrollY <= hideThreshold) {
-            showNavbar();
-            lastScrollY = currentScrollY;
-            ticking = false;
-            return;
-        }
-
-        if (delta > minDelta) {
-            hideNavbar(currentScrollY);
-            lastScrollY = currentScrollY;
-        } else if (delta < -minDelta) {
-            showNavbar();
-            lastScrollY = currentScrollY;
-        }
+        showNavbar();
 
         ticking = false;
     }
@@ -95,12 +60,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.addEventListener('scroll', requestScrollUpdate, { passive: true });
 
-    document.addEventListener('mousemove', (event) => {
-        if (event.clientY <= revealZone) {
-            showNavbar();
-        }
-    });
-
     if (navbar) {
         navbar.addEventListener('mouseenter', showNavbar);
     }
@@ -115,6 +74,57 @@ document.addEventListener('DOMContentLoaded', () => {
             showNavbar();
         });
     }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const searchItem = document.querySelector('.nav-search-item');
+    const searchToggle = document.getElementById('navbarSearchToggle');
+    const searchForm = document.getElementById('navbarSearchForm');
+    const searchInput = document.getElementById('navbarSearchInput');
+
+    if (!searchItem || !searchToggle || !searchForm || !searchInput) {
+        return;
+    }
+
+    function openSearch() {
+        searchItem.classList.add('is-open');
+        searchToggle.setAttribute('aria-expanded', 'true');
+        window.requestAnimationFrame(() => searchInput.focus());
+    }
+
+    function closeSearch() {
+        searchItem.classList.remove('is-open');
+        searchToggle.setAttribute('aria-expanded', 'false');
+    }
+
+    searchToggle.addEventListener('click', () => {
+        if (searchItem.classList.contains('is-open')) {
+            closeSearch();
+            return;
+        }
+
+        openSearch();
+    });
+
+    searchForm.addEventListener('submit', (event) => {
+        if (searchInput.value.trim() === '') {
+            event.preventDefault();
+            openSearch();
+        }
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+            closeSearch();
+            searchToggle.focus();
+        }
+    });
+
+    document.addEventListener('click', (event) => {
+        if (!searchItem.contains(event.target)) {
+            closeSearch();
+        }
+    });
 });
 
 document.addEventListener('DOMContentLoaded', () => {

@@ -13,11 +13,13 @@ use App\Http\Controllers\AdminSiatabController;
 use App\Http\Controllers\AdminThumbnailController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\BuletinController;
+use App\Http\Controllers\SearchController;
 use App\Models\IndonesiaMap;
 use Illuminate\Support\Facades\Route;
 use Illuminate\View\View;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/search', SearchController::class)->name('search');
 
 Route::get('/login', [AdminAuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AdminAuthController::class, 'login'])

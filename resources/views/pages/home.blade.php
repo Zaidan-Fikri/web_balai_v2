@@ -25,14 +25,23 @@
                                 <picture>
                                     <source media="(max-width: 799px)" srcset="{{ asset('storage/' . $heroThumbnail->image_path) }}"/>
                                     <source media="(min-width: 800px)" srcset="{{ asset('storage/' . $heroThumbnail->image_path) }}"/>
-                                    <img height="100%" src="{{ asset('storage/' . $heroThumbnail->image_path) }}" alt="Hero Thumbnail {{ $heroThumbnail->id }}">
+                                    <img height="100%" src="{{ asset('storage/' . $heroThumbnail->image_path) }}" alt="{{ $heroThumbnail->title ?: 'Hero Thumbnail ' . $heroThumbnail->id }}">
                                 </picture>
                                 <div class="hero-slide-content">
                                     <p class="hero-kicker">Selamat Datang di</p>
-                                    <h1 class="hero-title bat-text-anime" data-bat-anime="hero">BALAI AIR TANAH</h1>
+                                    <h1 class="hero-title bat-text-anime" data-bat-anime="hero">{{ $heroThumbnail->title ?: 'BALAI AIR TANAH' }}</h1>
+                                    @if ($heroThumbnail->description)
+                                        <p class="hero-description">{{ $heroThumbnail->description }}</p>
+                                    @endif
                                     <div class="hero-actions" aria-label="Navigasi cepat halaman utama">
-                                        <a href="#tentang-kami" class="hero-btn hero-btn-primary">Tentang Kami</a>
-                                        <a href="#publikasi" class="hero-btn hero-btn-outline">Informasi Publik</a>
+                                        <a href="#tentang-kami" class="hero-btn hero-btn-primary">
+                                            <span>Tentang Kami</span>
+                                            <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                                        </a>
+                                        <a href="#publikasi" class="hero-btn hero-btn-outline">
+                                            <span>Informasi Publik</span>
+                                            <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -51,9 +60,16 @@
                                 <div class="hero-slide-content">
                                     <p class="hero-kicker">Selamat Datang di</p>
                                     <h1 class="hero-title bat-text-anime" data-bat-anime="hero">BALAI AIR TANAH</h1>
+                                    <p class="hero-description">Mengelola air tanah secara berkelanjutan untuk mendukung ketahanan air dan kesejahteraan masyarakat.</p>
                                     <div class="hero-actions" aria-label="Navigasi cepat halaman utama">
-                                        <a href="#tentang-kami" class="hero-btn hero-btn-primary">Tentang Kami</a>
-                                        <a href="#publikasi" class="hero-btn hero-btn-outline">Informasi Publik</a>
+                                        <a href="#tentang-kami" class="hero-btn hero-btn-primary">
+                                            <span>Tentang Kami</span>
+                                            <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                                        </a>
+                                        <a href="#publikasi" class="hero-btn hero-btn-outline">
+                                            <span>Informasi Publik</span>
+                                            <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -70,18 +86,11 @@
 <!-- About Section Start -->
 <section class="about-us home-about" id="tentang-kami">
     <div class="container">
-        <div class="section-title home-about-title">
-            <h3 class="wow fadeInUp">Tentang Kami</h3>
-        </div>
-
         <div class="home-about-grid">
-            <figure class="about-image reveal">
-                <img src="{{ asset('images/cp.png') }}" alt="Balai Air Tanah">
-            </figure>
-
             <div class="about-content">
+                <p class="about-kicker">Tentang Kami</p>
                 <h2 class="about-name bat-text-anime" data-bat-anime="scroll">Balai Air Tanah</h2>
-                <p class="about-desc">Balai Air Tanah merupakan unit pelaksana teknis di lingkungan Direktorat Jenderal Sumber Daya Air, Kementerian Pekerjaan Umum, yang berperan dalam mendukung pengelolaan sumber daya air tanah di Indonesia. Kegiatannya meliputi pengembangan, perekayasaan, pelayanan teknis, pengujian, pengkajian, serta inspeksi terkait air tanah. Balai Air Tanah mendukung perencanaan, pemanfaatan, pengendalian, dan konservasi air tanah agar dapat digunakan secara optimal, berkelanjutan, serta tetap menjaga kelestarian lingkungan.</p>
+                <p class="about-desc">Balai Air Tanah merupakan unit pelaksana teknis di lingkungan Direktorat Jenderal Sumber Daya Air, Kementerian Pekerjaan Umum, yang berperan dalam mendukung pengelolaan sumber daya air tanah di Indonesia. Kegiatannya meliputi pengembangan, perekayasaan, pelayanan teknis, pengujian, pengkajian, serta inspeksi terkait air tanah.</p>
 
                 <div class="about-actions">
                     <a href="{{ route('profil.index') }}" class="about-more-link">
@@ -89,37 +98,60 @@
                         <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
                     </a>
                 </div>
+            </div>
 
+            <figure class="about-image reveal">
+                <img src="{{ asset('images/cp.png') }}" alt="Balai Air Tanah">
+            </figure>
+
+            <aside class="about-service-panel" aria-labelledby="aboutServiceTitle">
+                <h3 id="aboutServiceTitle">Akses Layanan</h3>
                 <div class="about-service-grid" aria-label="Informasi unggulan Balai Air Tanah">
                     <a href="{{ route('peta') }}" class="about-service-card">
                         <span class="about-service-card-icon" aria-hidden="true">
-                            <i class="fa-solid fa-screwdriver-wrench" aria-hidden="true"></i>
+                            <i class="fa-solid fa-headset" aria-hidden="true"></i>
                         </span>
-                        <span class="about-service-card-title">Advis Teknis</span>
+                        <span class="about-service-card-copy">
+                            <span class="about-service-card-title">Advis Teknis</span>
+                            <span class="about-service-card-desc">Konsultasi dan rekomendasi teknis air tanah</span>
+                        </span>
+                        <i class="fa-solid fa-arrow-right about-service-card-arrow" aria-hidden="true"></i>
                     </a>
 
                     <a href="https://siatab.sda.pu.go.id/" target="_blank" rel="noopener noreferrer" class="about-service-card">
                         <span class="about-service-card-icon" aria-hidden="true">
-                            <i class="fa-solid fa-window-restore" aria-hidden="true"></i>
+                            <i class="fa-solid fa-database" aria-hidden="true"></i>
                         </span>
-                        <span class="about-service-card-title">SIATAB</span>
+                        <span class="about-service-card-copy">
+                            <span class="about-service-card-title">SIATAB</span>
+                            <span class="about-service-card-desc">Sistem Informasi Air Tanah dan Air Baku</span>
+                        </span>
+                        <i class="fa-solid fa-arrow-right about-service-card-arrow" aria-hidden="true"></i>
                     </a>
 
                     <a href="{{ route('gems') }}" class="about-service-card">
                         <span class="about-service-card-icon" aria-hidden="true">
-                            <i class="fa-regular fa-gem" aria-hidden="true"></i>
+                            <i class="fa-regular fa-map" aria-hidden="true"></i>
                         </span>
-                        <span class="about-service-card-title">GEMS</span>
+                        <span class="about-service-card-copy">
+                            <span class="about-service-card-title">GEMS</span>
+                            <span class="about-service-card-desc">Groundwater Monitoring System</span>
+                        </span>
+                        <i class="fa-solid fa-arrow-right about-service-card-arrow" aria-hidden="true"></i>
                     </a>
 
                     <a href="{{ route('laboratorium') }}" class="about-service-card">
                         <span class="about-service-card-icon" aria-hidden="true">
                             <i class="fa-solid fa-flask" aria-hidden="true"></i>
                         </span>
-                        <span class="about-service-card-title">Laboratorium</span>
+                        <span class="about-service-card-copy">
+                            <span class="about-service-card-title">Layanan Data</span>
+                            <span class="about-service-card-desc">Layanan data Balai Air Tanah</span>
+                        </span>
+                        <i class="fa-solid fa-arrow-right about-service-card-arrow" aria-hidden="true"></i>
                     </a>
                 </div>
-            </div>
+            </aside>
         </div>
     </div>
 </section><!-- About Section End -->

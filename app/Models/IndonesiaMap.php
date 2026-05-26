@@ -17,9 +17,8 @@ final class IndonesiaMap
     private static function baseConfig(bool $withDetails): array
     {
         $geolistrikMarkers = Geolistrik1d::query()
-            ->orderBy('nama')
+            ->orderBy('kode')
             ->get([
-                'nama',
                 'kode',
                 'kab_kota',
                 'kecamatan',
@@ -102,7 +101,7 @@ final class IndonesiaMap
     private static function markerData(Geolistrik1d $item, bool $withDetails): array
     {
         $marker = [
-            'title' => $item->nama,
+            'title' => $item->kode ?: 'Geolistrik 1D',
             'lat' => $item->latitude,
             'lng' => $item->longitude,
         ];
