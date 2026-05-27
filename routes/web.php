@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminBeritaController;
 use App\Http\Controllers\AdminBuletinController;
 use App\Http\Controllers\AdminGemController;
 use App\Http\Controllers\AdminGeolistrik1dController;
+use App\Http\Controllers\AdminInfografisController;
 use App\Http\Controllers\AdminKaryaIlmiahController;
 use App\Http\Controllers\AdminLaporanSkmController;
 use App\Http\Controllers\AdminPengumumanController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\AdminSiatabController;
 use App\Http\Controllers\AdminThumbnailController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\BuletinController;
+use App\Http\Controllers\InfografisController;
 use App\Http\Controllers\SearchController;
 use App\Models\IndonesiaMap;
 use Illuminate\Support\Facades\Route;
@@ -50,6 +52,10 @@ Route::prefix('admin')->name('admin.')->middleware('admin.auth')->group(function
         Route::post('/buletin', [AdminBuletinController::class, 'store'])->name('buletin.store');
         Route::put('/buletin/{buletin}', [AdminBuletinController::class, 'update'])->name('buletin.update');
         Route::delete('/buletin/{buletin}', [AdminBuletinController::class, 'destroy'])->name('buletin.destroy');
+        Route::get('/infografis', [AdminInfografisController::class, 'index'])->name('infografis.index');
+        Route::post('/infografis', [AdminInfografisController::class, 'store'])->name('infografis.store');
+        Route::put('/infografis/{infografis}', [AdminInfografisController::class, 'update'])->name('infografis.update');
+        Route::delete('/infografis/{infografis}', [AdminInfografisController::class, 'destroy'])->name('infografis.destroy');
         Route::post('/berita', [AdminBeritaController::class, 'store'])->name('berita.store');
         Route::put('/berita/{berita}', [AdminBeritaController::class, 'update'])->name('berita.update');
         Route::delete('/berita/{berita}', [AdminBeritaController::class, 'destroy'])->name('berita.destroy');
@@ -111,7 +117,7 @@ Route::prefix('publikasi')->name('publikasi.')->group(function () {
     Route::get('/buletin', [BuletinController::class, 'index'])->name('buletin.index');
     Route::get('/buletin/{buletin:slug}', [BuletinController::class, 'show'])->name('buletin.show');
     Route::view('/pengumuman', 'pages.menu_detail', ['menuGroup' => 'Publikasi', 'pageTitle' => 'Pengumuman'])->name('pengumuman');
-    Route::view('/infografis', 'pages.menu_detail', ['menuGroup' => 'Publikasi', 'pageTitle' => 'Infografis'])->name('infografis');
+    Route::get('/infografis', [InfografisController::class, 'index'])->name('infografis');
     Route::view('/galeri', 'pages.menu_detail', ['menuGroup' => 'Publikasi', 'pageTitle' => 'Galeri'])->name('galeri');
 });
 

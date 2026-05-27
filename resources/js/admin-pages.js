@@ -196,6 +196,9 @@
 
             if (!createOpenButton || !createOverlay || !createInput) return;
 
+            const itemLabel = createOpenButton.dataset.itemLabel || 'Berita';
+            const itemLabelLower = itemLabel.toLowerCase();
+
             function openOverlay(overlay, focusTarget) {
                 if (!overlay) return;
                 overlay.classList.add('is-open');
@@ -351,7 +354,7 @@
             document.querySelectorAll('.js-read-btn').forEach(function (button) {
                 button.addEventListener('click', function () {
                     const images = parseImages(button.dataset.images);
-                    readTitle.textContent = button.dataset.judul || 'Detail Berita';
+                    readTitle.textContent = button.dataset.judul || ('Detail ' + itemLabel);
                     readCreated.textContent = 'Tanggal dibuat: ' + (button.dataset.created || '-');
                     readDescription.textContent = button.dataset.deskripsi || '-';
 
@@ -362,7 +365,7 @@
                         images.forEach(function (image) {
                             const img = document.createElement('img');
                             img.src = image.url;
-                            img.alt = button.dataset.judul || 'Gambar berita';
+                            img.alt = button.dataset.judul || ('Gambar ' + itemLabelLower);
                             readImages.appendChild(img);
                         });
                     }
@@ -400,7 +403,7 @@
 
             document.querySelectorAll('.js-delete-form').forEach(function (form) {
                 form.addEventListener('submit', function (event) {
-                    if (!window.confirm('Hapus berita ini beserta semua gambarnya?')) {
+                    if (!window.confirm('Hapus ' + itemLabelLower + ' ini beserta semua gambarnya?')) {
                         event.preventDefault();
                     }
                 });
@@ -1542,7 +1545,7 @@
     document.querySelectorAll('.js-buletin-read-btn').forEach(function (button) {
         button.addEventListener('click', function () {
             const images = parseImages(button.dataset.images);
-            readTitle.textContent = button.dataset.judul || 'Detail Buletin';
+            readTitle.textContent = button.dataset.judul || 'Detail Edukasi';
             readMeta.textContent = 'Status: ' + (button.dataset.status || '-') + ' | Publish: ' + (button.dataset.published || '-') + ' | Views: ' + (button.dataset.views || '0') + ' | User: ' + (button.dataset.author || '-');
             readIsi.textContent = button.dataset.isi || '-';
 
@@ -1553,7 +1556,7 @@
                 images.forEach(function (image) {
                     const img = document.createElement('img');
                     img.src = image.url;
-                    img.alt = button.dataset.judul || 'Gambar buletin';
+                    img.alt = button.dataset.judul || 'Gambar edukasi';
                     readImages.appendChild(img);
                 });
             }
@@ -1593,7 +1596,7 @@
 
     document.querySelectorAll('.js-buletin-delete-form').forEach(function (form) {
         form.addEventListener('submit', function (event) {
-            if (!window.confirm('Hapus buletin ini?')) {
+            if (!window.confirm('Hapus edukasi ini?')) {
                 event.preventDefault();
             }
         });

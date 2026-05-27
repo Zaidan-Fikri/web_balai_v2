@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Berita;
 use App\Models\Buletin;
+use App\Models\Infografis;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -20,6 +21,7 @@ class SearchController extends Controller
             $results = $this->menuResults($query)
                 ->merge($this->beritaResults($query))
                 ->merge($this->buletinResults($query))
+                ->merge($this->infografisResults($query))
                 ->sortBy('title', SORT_NATURAL | SORT_FLAG_CASE)
                 ->values();
         }
@@ -49,7 +51,7 @@ class SearchController extends Controller
             ['title' => 'Informasi Serta Merta', 'category' => 'Informasi Publik', 'url' => route('informasi_publik.informasi_serta_merta'), 'excerpt' => 'Daftar informasi publik serta merta.'],
             ['title' => 'Informasi Tersedia Setiap Saat', 'category' => 'Informasi Publik', 'url' => route('informasi_publik.informasi_tersedia_setiap_saat'), 'excerpt' => 'Informasi publik yang tersedia setiap saat.'],
             ['title' => 'Berita', 'category' => 'Publikasi', 'url' => route('publikasi.berita'), 'excerpt' => 'Publikasi berita Balai Air Tanah.'],
-            ['title' => 'Buletin', 'category' => 'Publikasi', 'url' => route('publikasi.buletin.index'), 'excerpt' => 'Daftar buletin Balai Air Tanah.'],
+            ['title' => 'Edukasi', 'category' => 'Publikasi', 'url' => route('publikasi.buletin.index'), 'excerpt' => 'Materi edukasi Balai Air Tanah.'],
             ['title' => 'Pengumuman', 'category' => 'Publikasi', 'url' => route('publikasi.pengumuman'), 'excerpt' => 'Pengumuman resmi Balai Air Tanah.'],
             ['title' => 'Infografis', 'category' => 'Publikasi', 'url' => route('publikasi.infografis'), 'excerpt' => 'Publikasi infografis.'],
             ['title' => 'Galeri', 'category' => 'Publikasi', 'url' => route('publikasi.galeri'), 'excerpt' => 'Galeri kegiatan Balai Air Tanah.'],
@@ -95,9 +97,26 @@ class SearchController extends Controller
             ->map(fn (Buletin $buletin): array => [
                 'title' => $buletin->judul,
                 'category' => 'Publikasi',
-                'type' => 'Buletin',
+                'type' => 'Edukasi',
                 'url' => route('publikasi.buletin.show', $buletin),
                 'excerpt' => Str::limit(strip_tags($buletin->isi), 180),
+            ]);
+    }
+
+    private function infografisResults(string $query): Collection
+    {
+        return Infografis::query()
+            ->where('judul', 'like', "%{$query}%")
+            ->orWhere('deskripsi', 'like', "%{$query}%")
+            ->latest()
+            ->limit(8)
+            ->get()
+            ->map(fn (Infografis $infografis): array => [
+                'title' => $infografis->judul,
+                'category' => 'Publikasi',
+                'type' => 'Infografis',
+                'url' => route('publikasi.infografis'),
+                'excerpt' => Str::limit(strip_tags($infografis->deskripsi), 180),
             ]);
     }
 

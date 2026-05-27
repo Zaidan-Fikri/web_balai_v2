@@ -1,6 +1,6 @@
 @extends('master.admin.app')
 
-@section('title', 'Admin Buletin')
+@section('title', 'Admin Edukasi')
 
 @section('content')
     <section>
@@ -8,9 +8,9 @@
             <div class="berita-head">
                 <div>
                     <p class="page-kicker">Publikasi</p>
-                    <h3>Buletin</h3>
+                    <h3>Edukasi</h3>
                 </div>
-                <button type="button" class="btn-plus" id="openBuletinPopup" aria-label="Tambah buletin">+</button>
+                <button type="button" class="btn-plus" id="openBuletinPopup" aria-label="Tambah edukasi">+</button>
             </div>
 
             @if (session('success'))
@@ -95,7 +95,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7">Belum ada data buletin.</td>
+                            <td colspan="7">Belum ada data edukasi.</td>
                         </tr>
                     @endforelse
                     </tbody>
@@ -106,12 +106,12 @@
 
     <div class="popup-overlay" id="buletinPopupOverlay" aria-hidden="true">
         <div class="popup-card" role="dialog" aria-modal="true" aria-labelledby="buletinPopupTitle">
-            <h4 id="buletinPopupTitle">Tambah Buletin</h4>
+            <h4 id="buletinPopupTitle">Tambah Edukasi</h4>
             <form method="POST" action="{{ route('admin.buletin.store') }}" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="form_type" value="create">
-                <input type="text" class="popup-input" id="buletinPopupInput" name="judul" value="{{ old('judul') }}" placeholder="Masukkan judul buletin" required>
-                <textarea class="popup-textarea" name="isi" placeholder="Masukkan isi buletin" required>{{ old('isi') }}</textarea>
+                <input type="text" class="popup-input" id="buletinPopupInput" name="judul" value="{{ old('judul') }}" placeholder="Masukkan judul edukasi" required>
+                <textarea class="popup-textarea" name="isi" placeholder="Masukkan isi edukasi" required>{{ old('isi') }}</textarea>
                 <select class="popup-input js-buletin-status" name="status" required>
                     <option value="draft" @selected(old('status', 'draft') === 'draft')>Draft</option>
                     <option value="published" @selected(old('status') === 'published')>Publish</option>
@@ -131,7 +131,7 @@
 
     <div class="popup-overlay" id="readBuletinOverlay" aria-hidden="true">
         <div class="popup-card" role="dialog" aria-modal="true" aria-labelledby="readBuletinTitle">
-            <h4 id="readBuletinTitle">Detail Buletin</h4>
+            <h4 id="readBuletinTitle">Detail Edukasi</h4>
             <p class="read-meta" id="readBuletinMeta">-</p>
             <div class="read-images" id="readBuletinImages"></div>
             <p class="read-desc" id="readBuletinIsi"></p>
@@ -143,14 +143,14 @@
 
     <div class="popup-overlay" id="updateBuletinOverlay" aria-hidden="true">
         <div class="popup-card" role="dialog" aria-modal="true" aria-labelledby="updateBuletinTitle">
-            <h4 id="updateBuletinTitle">Update Buletin</h4>
+            <h4 id="updateBuletinTitle">Update Edukasi</h4>
             <form method="POST" id="updateBuletinForm" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <input type="hidden" name="form_type" value="update">
                 <input type="hidden" name="buletin_id" id="updateBuletinId">
-                <input type="text" class="popup-input" id="updateBuletinJudul" name="judul" placeholder="Masukkan judul buletin" required>
-                <textarea class="popup-textarea" id="updateBuletinIsi" name="isi" placeholder="Masukkan isi buletin" required></textarea>
+                <input type="text" class="popup-input" id="updateBuletinJudul" name="judul" placeholder="Masukkan judul edukasi" required>
+                <textarea class="popup-textarea" id="updateBuletinIsi" name="isi" placeholder="Masukkan isi edukasi" required></textarea>
                 <select class="popup-input js-buletin-status" id="updateBuletinStatus" name="status" required>
                     <option value="draft">Draft</option>
                     <option value="published">Publish</option>

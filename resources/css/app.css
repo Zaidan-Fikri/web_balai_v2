@@ -19,7 +19,10 @@
     --bat-menu-text: #061d3f;
     --bat-menu-hover: #ffb703;
     --bat-menu-shadow: 0 24px 55px rgba(3, 17, 38, 0.25);
-    --bat-radius-md: 16px;
+    --bat-radius-xs: 4px;
+    --bat-radius-sm: 6px;
+    --bat-radius-md: 8px;
+    --bat-radius-lg: 10px;
     --bat-radius-pill: 999px;
     --bat-header-x: clamp(16px, 6vw, 84px);
     --bat-topbar-h: 0px;

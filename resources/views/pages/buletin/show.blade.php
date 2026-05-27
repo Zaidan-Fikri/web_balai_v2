@@ -1,16 +1,16 @@
 @extends('master.app')
 
-@section('title', $buletin->judul . ' - Buletin Balai Air Tanah')
+@section('title', $buletin->judul . ' - Edukasi Balai Air Tanah')
 
 @section('content')
     <section class="content-page-hero buletin-detail-hero">
         <div class="container">
-            <p class="content-page-kicker">Buletin</p>
+            <p class="content-page-kicker">Edukasi</p>
             <h1>{{ $buletin->judul }}</h1>
             <div class="content-page-breadcrumb">
                 <a href="{{ route('home') }}">Beranda</a>
                 <span>/</span>
-                <a href="{{ route('publikasi.buletin.index') }}">Buletin</a>
+                <a href="{{ route('publikasi.buletin.index') }}">Edukasi</a>
                 <span>/</span>
                 <span>Detail</span>
             </div>
@@ -29,7 +29,7 @@
                     </div>
                 </header>
 
-                <div class="buletin-slider js-buletin-slider" aria-label="Slide-show gambar buletin">
+                <div class="buletin-slider js-buletin-slider" aria-label="Slide-show gambar edukasi">
                     <div class="buletin-slider-track js-buletin-slider-track">
                         @forelse ($buletin->images as $image)
                             <div class="buletin-slider-slide">
