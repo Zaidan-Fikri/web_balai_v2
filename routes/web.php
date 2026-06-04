@@ -12,9 +12,11 @@ use App\Http\Controllers\AdminPengumumanController;
 use App\Http\Controllers\AdminSniController;
 use App\Http\Controllers\AdminSiatabController;
 use App\Http\Controllers\AdminThumbnailController;
+use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\BuletinController;
 use App\Http\Controllers\InfografisController;
+use App\Http\Controllers\LaporanSkmController;
 use App\Http\Controllers\SearchController;
 use App\Models\IndonesiaMap;
 use Illuminate\Support\Facades\Route;
@@ -113,7 +115,8 @@ Route::prefix('profil')->name('profil.')->group(function () {
 });
 
 Route::prefix('publikasi')->name('publikasi.')->group(function () {
-    Route::view('/berita', 'pages.menu_detail', ['menuGroup' => 'Publikasi', 'pageTitle' => 'Berita'])->name('berita');
+    Route::get('/berita', [BeritaController::class, 'index'])->name('berita');
+    Route::get('/berita/{berita}', [BeritaController::class, 'show'])->name('berita.show');
     Route::get('/buletin', [BuletinController::class, 'index'])->name('buletin.index');
     Route::get('/buletin/{buletin:slug}', [BuletinController::class, 'show'])->name('buletin.show');
     Route::view('/pengumuman', 'pages.menu_detail', ['menuGroup' => 'Publikasi', 'pageTitle' => 'Pengumuman'])->name('pengumuman');
@@ -136,4 +139,5 @@ Route::prefix('pelayanan_publik')->name('pelayanan_publik.')->group(function () 
     Route::view('/permintaan_pelayanan/advis', 'pages.menu_detail', ['menuGroup' => 'Pelayanan Publik', 'pageTitle' => 'Permintaan Pelayanan Advis'])->name('permintaan_pelayanan_advis');
     Route::view('/e_ppid', 'pages.menu_detail', ['menuGroup' => 'Pelayanan Publik', 'pageTitle' => 'E-PPID'])->name('e_ppid');
     Route::view('/layanan_pengaduan', 'pages.menu_detail', ['menuGroup' => 'Pelayanan Publik', 'pageTitle' => 'Layanan Pengaduan'])->name('layanan_pengaduan');
+    Route::get('/laporan_skm', [LaporanSkmController::class, 'index'])->name('laporan_skm');
 });

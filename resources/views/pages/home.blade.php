@@ -1,5 +1,9 @@
 @extends('master.app')
 
+@php
+    $nilaiSkm = '98,10%'; // Nilai dummy untuk SKM
+@endphp
+
 @section('title', 'Beranda - Balai Air Tanah')
 
 @php
@@ -205,38 +209,22 @@
                     @php
                         $firstImage = $berita->images->first();
                         $imageUrl = $firstImage ? asset('storage/' . $firstImage->image_path) : asset('assets/images/placeholders/berita.svg');
-                        $imagePayload = $berita->images
-                            ->map(function ($image) {
-                                return [
-                                    'url' => asset('storage/' . $image->image_path),
-                                ];
-                            })
-                            ->values()
-                            ->toJson();
+                        $beritaUrl = route('publikasi.berita.show', $berita);
                     @endphp
                     <div class="col-xl-3 col-lg-3 col-md-6 js-publication-item">
                         <article class="blog-item wow fadeInUp" data-wow-delay="0.25s">
-                            <div class="post-featured-image">
+                            <a class="post-featured-image post-featured-link" href="{{ $beritaUrl }}">
                                 <img src="{{ $imageUrl }}" alt="{{ $berita->judul }}" decoding="async" loading="lazy">
                                 <p class="news-date-badge">
                                     {{ $berita->created_at ? $berita->created_at->locale('id')->translatedFormat('l, d F Y') : '-' }}
                                 </p>
-                            </div>
+                            </a>
                             <div class="post-item-content">
                                 <div class="post-item-body">
                                     <h2>{{ $berita->judul }}</h2>
                                 </div>
                                 <div class="post-item-footer text-end">
-                                    <button
-                                        type="button"
-                                        class="publication-detail-btn js-publication-detail-btn"
-                                        data-judul="{{ $berita->judul }}"
-                                        data-tanggal="{{ $berita->created_at ? $berita->created_at->locale('id')->translatedFormat('l, d F Y') : '-' }}"
-                                        data-deskripsi="{{ e($berita->deskripsi) }}"
-                                        data-images="{{ e($imagePayload) }}"
-                                    >
-                                        Selengkapnya
-                                    </button>
+                                    <a href="{{ $beritaUrl }}" class="publication-detail-btn">Selengkapnya</a>
                                 </div>
                             </div>
                         </article>
@@ -374,9 +362,11 @@
             </div>
         </div>
 
-        <div class="row justify-content-center">            <div class="col-lg-4 col-md-6 col-sm-12 col-12">
-                <div class="siatab-widget instagram-widget wow fadeInUp" data-wow-delay="0.5s">
-                    <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/pu_sda_balaiairtanah/?utm_source=ig_embed&utm_campaign=loading" data-instgrm-version="14" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:658px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);">
+        <div class="row justify-content-center g-4">
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12">
+                <div class="social-embed-card instagram-card instagram-widget wow fadeInUp" data-wow-delay="0.5s">
+                    <div class="social-embed-frame">
+                        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/pu_sda_balaiairtanah/?utm_source=ig_embed&utm_campaign=loading" data-instgrm-version="14" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:658px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);">
                         <div style="padding:16px;"><a href="https://www.instagram.com/pu_sda_balaiairtanah/?utm_source=ig_embed&utm_campaign=loading" style=" background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank">
                                 <div style=" display: flex; flex-direction: row; align-items: center;">
                                     <div style="background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 40px; margin-right: 14px; width: 40px;"></div>
@@ -398,7 +388,7 @@
                                     </svg>
                                 </div>
                                 <div style="padding-top: 8px;">
-                                    <div style=" color:#3897f0; font-family:'DM Sans',sans-serif; font-size:14px; font-style:normal; font-weight:550; line-height:18px;">View this profile on Instagram</div>
+                                    <div style=" color:#3897f0; font-size:14px; font-style:normal; font-weight:550; line-height:18px;">View this profile on Instagram</div>
                                 </div>
                                 <div style="padding: 12.5% 0;"></div>
                                 <div style="display: flex; flex-direction: row; margin-bottom: 14px; align-items: center;">
@@ -422,73 +412,157 @@
                                     <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 144px;"></div>
                                 </div>
                             </a>
-                            <p style=" color:#c9c8cd; font-family:'DM Sans',sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;"><a href="https://www.instagram.com/pu_sda_balaiairtanah/?utm_source=ig_embed&utm_campaign=loading" style=" color:#c9c8cd; font-family:'DM Sans',sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px;" target="_blank">Ditjen Sumber Daya
-                                    Air</a> (@<a href="https://www.instagram.com/pu_sda_balaiairtanah/?utm_source=ig_embed&utm_campaign=loading" style=" color:#c9c8cd; font-family:'DM Sans',sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px;" target="_blank">pu_sda_balaiairtanah</a>) � Instagram photos and videos</p></div>
-                    </blockquote>
+                            <p style=" color:#c9c8cd; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;"><a href="https://www.instagram.com/pu_sda_balaiairtanah/?utm_source=ig_embed&utm_campaign=loading" style=" color:#c9c8cd; font-size:14px; font-style:normal; font-weight:normal; line-height:17px;" target="_blank">Ditjen Sumber Daya
+                                    Air</a> (@<a href="https://www.instagram.com/pu_sda_balaiairtanah/?utm_source=ig_embed&utm_campaign=loading" style=" color:#c9c8cd; font-size:14px; font-style:normal; font-weight:normal; line-height:17px;" target="_blank">pu_sda_balaiairtanah</a>) - Instagram photos and videos</p></div>
+                        </blockquote>
+                    </div>
                     <script async src="//platform.instagram.com/en_US/embeds.js"></script>
-                    <a class="siatab-link" href="https://www.instagram.com/pu_sda_balaiairtanah/" target="_blank" rel="noopener noreferrer">
-                        <h5 class="siatab-slide-title">Instagram Balai Air Tanah</h5>
+                    <a class="social-embed-footer instagram-link" href="https://www.instagram.com/pu_sda_balaiairtanah/" target="_blank" rel="noopener noreferrer">
+                        <span class="social-embed-kicker">Instagram</span>
+                        <span class="social-embed-title">pu_sda_balaiairtanah</span>
                     </a>
                 </div>
             </div>
 
-            {{-- <div class="col-lg-4 col-md-6 col-sm-12 col-12">
-                <div class="siatab-widget wow fadeInUp" data-wow-delay="0.8s">
-                    <div class="swiper siatab-swiper" id="siatabSwiper">
-                        <div class="swiper-wrapper">
-                            @php
-                                $hasSiatabSlides = false;
-                            @endphp
-                            @foreach ($siatabs as $siatab)
-                                @if ($siatab->images->isNotEmpty())
-                                    @php $hasSiatabSlides = true; @endphp
-                                    @foreach ($siatab->images as $siatabImage)
-                                        <div class="swiper-slide" data-title="{{ $siatab->judul }}">
-                                            <article class="siatab-slide-card">
-                                                <div class="siatab-slide-image">
-                                                    <a class="siatab-link" href="https://siatab.sda.pu.go.id/" target="_blank" rel="noopener noreferrer">
-                                                        <img src="{{ asset('storage/' . $siatabImage->image_path) }}" alt="{{ $siatab->judul }}">
-                                                    </a>
-                                                </div>
-                                            </article>
-                                        </div>
-                                    @endforeach
-                                @elseif ($siatab->image_path)
-                                    @php $hasSiatabSlides = true; @endphp
-                                    <div class="swiper-slide" data-title="{{ $siatab->judul }}">
-                                        <article class="siatab-slide-card">
-                                            <div class="siatab-slide-image">
-                                                <a class="siatab-link" href="https://siatab.sda.pu.go.id/" target="_blank" rel="noopener noreferrer">
-                                                    <img src="{{ asset('storage/' . $siatab->image_path) }}" alt="{{ $siatab->judul }}">
-                                                </a>
-                                            </div>
-                                        </article>
-                                    </div>
-                                @endif
-                            @endforeach
-                            @if (!$hasSiatabSlides)
-                                <div class="swiper-slide" data-title="Belum ada data SIATAB.">
-                                    <article class="siatab-slide-card">
-                                        <div class="siatab-slide-image">
-                                            <a class="siatab-link" href="https://siatab.sda.pu.go.id/" target="_blank" rel="noopener noreferrer">
-                                                <div class="siatab-empty">Belum ada SIATAB</div>
-                                            </a>
-                                        </div>
-                                    </article>
-                                </div>
-                            @endif
-                        </div>
-                        <div class="swiper-pagination siatab-pagination" id="siatabPagination"></div>
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12">
+                <div class="social-embed-card youtube-card wow fadeInUp" data-wow-delay="0.65s">
+                    <div class="social-embed-frame">
+                        <iframe
+                            src="https://www.youtube.com/embed/videoseries?list=UULwA6GMkzfPwzCbDYIszIHA"
+                            title="YouTube Balai Air Tanah"
+                            loading="lazy"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerpolicy="strict-origin-when-cross-origin"
+                            allowfullscreen>
+                        </iframe>
                     </div>
-                    <a class="siatab-link" href="https://siatab.sda.pu.go.id/" target="_blank" rel="noopener noreferrer">
-                        <h5 class="siatab-slide-title" id="siatabActiveTitle">Belum ada data SIATAB.</h5>
+                    <a class="social-embed-footer" href="https://www.youtube.com/@pu_sda_balaiairtanah" target="_blank" rel="noopener noreferrer">
+                        <span class="social-embed-kicker">YouTube</span>
+                        <span class="social-embed-title">Balai Air Tanah</span>
                     </a>
                 </div>
-            </div> --}}
+            </div>
+
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12">
+                <div class="social-link-stack wow fadeInUp" data-wow-delay="0.8s" aria-label="Akun media sosial Balai Air Tanah">
+                    <a class="social-profile-card facebook-card" href="https://www.facebook.com/pupr.sda.balaiairtanah" target="_blank" rel="noopener noreferrer">
+                        <span class="social-profile-logo">
+                            <img src="{{ asset('images/logo-sosmed-bat.jpg') }}" alt="Logo Sosmed BAT">
+                        </span>
+                        <span class="social-profile-copy">
+                            <span class="social-profile-name">pupr.sda.balaiairtanah</span>
+                            <span class="social-profile-desc">Akun Resmi Balai Air Tanah Kementerian Pekerjaan Umum</span>
+                            <span class="social-profile-url">facebook.com</span>
+                        </span>
+                        <span class="social-profile-icon" aria-hidden="true">
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </span>
+                    </a>
+
+                    <a class="social-profile-card x-card" href="https://x.com/pu_sda_bat?s=20" target="_blank" rel="noopener noreferrer">
+                        <span class="social-profile-logo">
+                            <img src="{{ asset('images/logo-sosmed-bat.jpg') }}" alt="Logo Sosmed BAT">
+                        </span>
+                        <span class="social-profile-copy">
+                            <span class="social-profile-name">pu_sda_bat</span>
+                            <span class="social-profile-desc">Informasi resmi Balai Air Tanah melalui X</span>
+                            <span class="social-profile-url">x.com</span>
+                        </span>
+                        <span class="social-profile-icon" aria-hidden="true">
+                            <i class="fa-brands fa-x-twitter"></i>
+                        </span>
+                    </a>
+
+                    <a class="social-profile-card threads-card" href="https://www.threads.com/@pu_sda_balaiairtanah" target="_blank" rel="noopener noreferrer">
+                        <span class="social-profile-logo">
+                            <img src="{{ asset('images/logo-sosmed-bat.jpg') }}" alt="Logo Sosmed BAT">
+                        </span>
+                        <span class="social-profile-copy">
+                            <span class="social-profile-name">pu_sda_balaiairtanah</span>
+                            <span class="social-profile-desc">Ruang informasi Balai Air Tanah di Threads</span>
+                            <span class="social-profile-url">threads.com</span>
+                        </span>
+                        <span class="social-profile-icon" aria-hidden="true">
+                            <i class="fa-brands fa-threads"></i>
+                        </span>
+                    </a>
+                </div>
+            </div>
 
         </div>
     </div>
 </div><!-- Why Choose Us Section End -->
+
+<!-- Complaint Survey Section Start -->
+<section class="complaint-survey-section">
+    <div class="container-fluid px-3 px-lg-4">
+        <div class="row section-row">
+            <div class="col-lg-12">
+                <div class="section-title">
+                    <h3 class="wow fadeInUp">Survei Publik</h3>
+                    <h2 class="text-anime-style-3">Layanan Pengaduan Dan Survei Kepuasan Masyarakat</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="complaint-survey-grid">
+            <article class="complaint-survey-panel wow fadeInUp" data-wow-delay="0.2s">
+                <header class="complaint-survey-head">
+                    <span class="complaint-survey-icon" aria-hidden="true">
+                        <i class="fa-solid fa-headset"></i>
+                    </span>
+                    <div>
+                        <p>Layanan Pengaduan</p>
+                        <h3>Layanan Pengaduan</h3>
+                    </div>
+                </header>
+
+                <div class="complaint-survey-items">
+                    <div class="complaint-survey-metric">
+                        <span class="complaint-survey-label">Jumlah Pengaduan</span>
+                        <strong>{{ $jumlahPengaduan ? number_format($jumlahPengaduan) : '0' }}</strong>
+                        <small>Data pengaduan terdata</small>
+                    </div>
+                    <a class="complaint-survey-link" href="https://www.lapor.go.id/" target="_blank" rel="noopener noreferrer">
+                        <span>
+                            <strong>SP4N LAPOR!</strong>
+                            <small>Kanal resmi pengaduan pelayanan publik nasional</small>
+                        </span>
+                        <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </article>
+
+            <article class="complaint-survey-panel complaint-survey-panel-skm wow fadeInUp" data-wow-delay="0.35s">
+                <header class="complaint-survey-head">
+                    <span class="complaint-survey-icon" aria-hidden="true">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </span>
+                    <div>
+                        <p>Survei Kepuasan Masyarakat</p>
+                        <h3>Survei Kepuasan Masyarakat</h3>
+                    </div>
+                </header>
+
+                <div class="complaint-survey-items">
+                    <div class="complaint-survey-metric">
+                        <span class="complaint-survey-label">Nilai SKM</span>
+                        <strong>{{ $nilaiSkm ?? '0%' }}</strong>
+                        <small>Persentase kepuasan masyarakat</small>
+                    </div>
+                    <a class="complaint-survey-link" href="{{ route('pelayanan_publik.laporan_skm') }}">
+                        <span>
+                            <strong>Laporan Kepuasan Masyarakat</strong>
+                            <small>{{ number_format($jumlahLaporanSkm) }} dokumen laporan tersedia</small>
+                        </span>
+                        <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
+<!-- Complaint Survey Section End -->
 
 <!-- Pengumuman Section Start -->
 <!-- <div class="what-we-do">

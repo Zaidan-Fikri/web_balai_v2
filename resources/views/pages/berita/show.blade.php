@@ -1,27 +1,25 @@
 @extends('master.app')
 
-@section('title', $buletin->judul . ' - Edukasi Balai Air Tanah')
+@section('title', $berita->judul . ' - Berita Balai Air Tanah')
 
 @section('content')
-    @include('pages.partials.menu_detail_hero', ['menuGroup' => 'Edukasi', 'pageTitle' => $buletin->judul])
+    @include('pages.partials.menu_detail_hero', ['menuGroup' => 'Berita', 'pageTitle' => $berita->judul])
 
     <section class="buletin-detail-section">
         <div class="container">
             <article class="buletin-detail-card">
                 <header class="buletin-detail-head">
-                    <h2>{{ $buletin->judul }}</h2>
+                    <h2>{{ $berita->judul }}</h2>
                     <div class="buletin-detail-meta">
-                        <span><i class="fa-regular fa-calendar" aria-hidden="true"></i>{{ $buletin->published_at ? $buletin->published_at->locale('id')->translatedFormat('d F Y') : '-' }}</span>
-                        <span><i class="fa-regular fa-eye" aria-hidden="true"></i>{{ number_format($buletin->views) }} Views</span>
-                        <span><i class="fa-regular fa-user" aria-hidden="true"></i>{{ $buletin->author?->email ?? 'Admin BAT' }}</span>
+                        <span><i class="fa-regular fa-calendar" aria-hidden="true"></i>{{ $berita->created_at ? $berita->created_at->locale('id')->translatedFormat('d F Y') : '-' }}</span>
                     </div>
                 </header>
 
-                <div class="buletin-slider js-buletin-slider" aria-label="Slide-show gambar edukasi">
+                <div class="buletin-slider js-buletin-slider" aria-label="Slide-show gambar berita">
                     <div class="buletin-slider-track js-buletin-slider-track">
-                        @forelse ($buletin->images as $image)
+                        @forelse ($berita->images as $image)
                             <div class="buletin-slider-slide">
-                                <img src="{{ asset('storage/' . $image->image_path) }}" alt="{{ $buletin->judul }} - gambar {{ $loop->iteration }}">
+                                <img src="{{ asset('storage/' . $image->image_path) }}" alt="{{ $berita->judul }} - gambar {{ $loop->iteration }}">
                             </div>
                         @empty
                             <div class="buletin-slider-slide">
@@ -39,7 +37,7 @@
                 </div>
 
                 <div class="buletin-detail-content">
-                    {!! nl2br(e($buletin->isi)) !!}
+                    {!! nl2br(e($berita->deskripsi)) !!}
                 </div>
             </article>
         </div>

@@ -204,55 +204,6 @@ window.addEventListener('load', function () {
                 }, 8000);
             }, 0);
         }
-
-        const siatabSlider = document.getElementById('siatabSwiper');
-        const siatabPagination = document.getElementById('siatabPagination');
-        const siatabActiveTitle = document.getElementById('siatabActiveTitle');
-        if (!siatabSlider || typeof Swiper === 'undefined') {
-            return;
-        }
-
-        const slideCount = siatabSlider.querySelectorAll('.swiper-slide').length;
-        const useLoop = slideCount > 1;
-
-        if (siatabPagination) {
-            siatabPagination.style.display = useLoop ? 'block' : 'none';
-        }
-
-        function updateSiatabTitle(swiper) {
-            if (!siatabActiveTitle || !swiper || !swiper.slides || !swiper.slides.length) return;
-            const slide = swiper.slides[swiper.activeIndex];
-            const title = slide ? slide.getAttribute('data-title') : '';
-            siatabActiveTitle.textContent = title || 'SIATAB';
-        }
-
-        const siatabSwiper = new Swiper('#siatabSwiper', {
-            slidesPerView: 1,
-            spaceBetween: 10,
-            loop: useLoop,
-            speed: 700,
-            grabCursor: true,
-            allowTouchMove: useLoop,
-            autoplay: useLoop ? {
-                delay: 3500,
-                disableOnInteraction: false,
-                pauseOnMouseEnter: true
-            } : false,
-            pagination: {
-                el: '#siatabPagination',
-                clickable: true
-            },
-            on: {
-                init: function () {
-                    updateSiatabTitle(this);
-                },
-                slideChange: function () {
-                    updateSiatabTitle(this);
-                }
-            }
-        });
-
-        updateSiatabTitle(siatabSwiper);
     });
 
 (function () {

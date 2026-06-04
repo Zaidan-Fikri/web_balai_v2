@@ -45,6 +45,7 @@ class SearchController extends Controller
             ['title' => 'Permintaan Data', 'category' => 'Pelayanan Publik', 'url' => route('pelayanan_publik.permintaan_pelayanan_data'), 'excerpt' => 'Permintaan data air tanah.'],
             ['title' => 'Permintaan Magang', 'category' => 'Pelayanan Publik', 'url' => route('pelayanan_publik.permintaan_pelayanan_magang'), 'excerpt' => 'Informasi dan formulir permintaan magang.'],
             ['title' => 'Layanan Pengaduan', 'category' => 'Pelayanan Publik', 'url' => route('pelayanan_publik.layanan_pengaduan'), 'excerpt' => 'Kanal layanan pengaduan masyarakat.'],
+            ['title' => 'Laporan SKM', 'category' => 'Pelayanan Publik', 'url' => route('pelayanan_publik.laporan_skm'), 'excerpt' => 'Himpunan laporan survei kepuasan masyarakat.'],
             ['title' => 'Standar Pelayanan', 'category' => 'Pelayanan Publik', 'url' => route('pelayanan_publik.standar_pelayanan'), 'excerpt' => 'Standar pelayanan publik Balai Air Tanah.'],
             ['title' => 'Maklumat Pelayanan', 'category' => 'Pelayanan Publik', 'url' => route('pelayanan_publik.maklumat_pelayanan'), 'excerpt' => 'Maklumat pelayanan publik.'],
             ['title' => 'Informasi Berkala', 'category' => 'Informasi Publik', 'url' => route('informasi_publik.informasi_berkala'), 'excerpt' => 'Daftar informasi publik berkala.'],
@@ -77,7 +78,7 @@ class SearchController extends Controller
                 'title' => $berita->judul,
                 'category' => 'Publikasi',
                 'type' => 'Berita',
-                'url' => route('publikasi.berita'),
+                'url' => route('publikasi.berita.show', $berita),
                 'excerpt' => Str::limit(strip_tags($berita->deskripsi), 180),
             ]);
     }

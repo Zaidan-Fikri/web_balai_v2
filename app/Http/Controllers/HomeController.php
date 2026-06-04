@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Berita;
 use App\Models\Buletin;
 use App\Models\Infografis;
+use App\Models\LaporanSkm;
 use App\Models\Pengumuman;
-use App\Models\Siatab;
 use App\Models\Thumbnail;
 use Illuminate\View\View;
 
@@ -43,10 +43,9 @@ class HomeController extends Controller
             ->take(12)
             ->get();
         $pengumumans = Pengumuman::query()->latest()->take(12)->get();
-        $siatabs = Siatab::query()
-            ->with('images')
-            ->latest()
-            ->get();
+        $jumlahPengaduan = 0;
+        $nilaiSkm = '0%';
+        $jumlahLaporanSkm = LaporanSkm::query()->count();
 
         return view('pages.home', compact(
             'publikasiBeritas',
@@ -54,7 +53,9 @@ class HomeController extends Controller
             'publikasiEdukasi',
             'publikasiInfografis',
             'pengumumans',
-            'siatabs'
+            'jumlahPengaduan',
+            'nilaiSkm',
+            'jumlahLaporanSkm'
         ));
     }
 }

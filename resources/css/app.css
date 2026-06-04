@@ -63,6 +63,22 @@ th {
     font-family: var(--bat-font-body);
 }
 
+body {
+    font-weight: 400;
+    letter-spacing: 0;
+}
+
+p,
+li,
+figcaption,
+.caption,
+.text-muted,
+.card-text {
+    font-weight: 400;
+    line-height: 1.72;
+    letter-spacing: 0;
+}
+
 h1,
 h2,
 h3,
@@ -80,6 +96,7 @@ h6,
 .btn,
 .readmore-btn {
     font-family: var(--bat-font-title);
+    letter-spacing: 0;
 }
 
 .section-title p,
@@ -177,7 +194,7 @@ h6,
     line-height: 1;
     white-space: nowrap;
     text-decoration: none;
-    letter-spacing: 0.02em;
+    letter-spacing: 0;
     border: 0;
     border-radius: 0;
     background: transparent;
@@ -848,7 +865,7 @@ h6,
     color: rgba(255, 255, 255, 0.66);
     font-size: 13px;
     font-weight: 700;
-    letter-spacing: 0.08em;
+    letter-spacing: 0;
     text-transform: uppercase;
 }
 
@@ -859,7 +876,7 @@ h6,
     font-family: var(--bat-font-title);
     font-size: 16px;
     font-weight: 900;
-    letter-spacing: 0.05em;
+    letter-spacing: 0;
     text-transform: uppercase;
 }
 

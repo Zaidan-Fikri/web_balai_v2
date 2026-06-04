@@ -3,17 +3,7 @@
 @section('title', 'Edukasi - Balai Air Tanah')
 
 @section('content')
-    <section class="content-page-hero">
-        <div class="container">
-            <p class="content-page-kicker">Publikasi</p>
-            <h1>Edukasi</h1>
-            <div class="content-page-breadcrumb">
-                <a href="{{ route('home') }}">Beranda</a>
-                <span>/</span>
-                <span>Edukasi</span>
-            </div>
-        </div>
-    </section>
+    @include('pages.partials.menu_detail_hero', ['menuGroup' => 'Publikasi', 'pageTitle' => 'Edukasi'])
 
     <section class="buletin-list-section">
         <div class="container">
