@@ -31,7 +31,10 @@
                     <i class="fa-regular fa-bell"></i><span>Pengumuman</span>
                 </a>
                 <a class="menu-item {{ request()->routeIs('admin.buletin.*') ? 'active' : '' }}" href="{{ route('admin.buletin.index') }}">
-                    <i class="fa-regular fa-newspaper"></i><span>Buletin</span>
+                    <i class="fa-regular fa-newspaper"></i><span>Edukasi</span>
+                </a>
+                <a class="menu-item {{ request()->routeIs('admin.infografis.*') ? 'active' : '' }}" href="{{ route('admin.infografis.index') }}">
+                    <i class="fa-solid fa-chart-pie"></i><span>Infografis</span>
                 </a>
                 <a class="menu-item {{ request()->routeIs('admin.jurnal') ? 'active' : '' }}" href="{{ route('admin.jurnal') }}">
                     <i class="fa-solid fa-diagram-project"></i><span>Jurnal</span>

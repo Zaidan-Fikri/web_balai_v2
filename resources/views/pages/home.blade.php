@@ -1,6 +1,21 @@
 @extends('master.app')
 
+@php
+    $nilaiSkm = '98,10%'; // Nilai dummy untuk SKM
+@endphp
+
 @section('title', 'Beranda - Balai Air Tanah')
+
+@php
+    $heroContent = $heroThumbnails->first();
+    $heroTitle = $heroContent?->title ?: 'BALAI AIR TANAH';
+    $heroDescription = $heroContent?->description ?: 'Mengelola air tanah secara berkelanjutan untuk mendukung ketahanan air dan kesejahteraan masyarakat.';
+    $heroPreloadImage = $heroContent?->image_url ?: asset('assets/sda/assets/uploads/pengumuman/imlek-02.webp');
+@endphp
+
+@push('head')
+    <link rel="preload" href="{{ $heroPreloadImage }}" as="image" fetchpriority="high">
+@endpush
 
 @section('content')
 <!-- Preloader Start -->
@@ -19,31 +34,24 @@
         <div class="swiper">
             <div class="swiper-wrapper">
                 @forelse ($heroThumbnails as $heroThumbnail)
+                    @php
+                        $heroImageUrl = $heroThumbnail->image_url;
+                    @endphp
                     <div class="swiper-slide">
                         <div class="hero-slide">
                             <div class="hero-slider-image">
                                 <picture>
-                                    <source media="(max-width: 799px)" srcset="{{ asset('storage/' . $heroThumbnail->image_path) }}"/>
-                                    <source media="(min-width: 800px)" srcset="{{ asset('storage/' . $heroThumbnail->image_path) }}"/>
-                                    <img height="100%" src="{{ asset('storage/' . $heroThumbnail->image_path) }}" alt="{{ $heroThumbnail->title ?: 'Hero Thumbnail ' . $heroThumbnail->id }}">
+                                    <source media="(max-width: 799px)" srcset="{{ $heroImageUrl }}"/>
+                                    <source media="(min-width: 800px)" srcset="{{ $heroImageUrl }}"/>
+                                    <img
+                                        height="100%"
+                                        src="{{ $heroImageUrl }}"
+                                        alt="{{ $heroThumbnail->title ?: 'Hero Thumbnail ' . $heroThumbnail->id }}"
+                                        decoding="async"
+                                        loading="{{ $loop->first ? 'eager' : 'lazy' }}"
+                                        fetchpriority="{{ $loop->first ? 'high' : 'low' }}"
+                                    >
                                 </picture>
-                                <div class="hero-slide-content">
-                                    <p class="hero-kicker">Selamat Datang di</p>
-                                    <h1 class="hero-title bat-text-anime" data-bat-anime="hero">{{ $heroThumbnail->title ?: 'BALAI AIR TANAH' }}</h1>
-                                    @if ($heroThumbnail->description)
-                                        <p class="hero-description">{{ $heroThumbnail->description }}</p>
-                                    @endif
-                                    <div class="hero-actions" aria-label="Navigasi cepat halaman utama">
-                                        <a href="#tentang-kami" class="hero-btn hero-btn-primary">
-                                            <span>Tentang Kami</span>
-                                            <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
-                                        </a>
-                                        <a href="#publikasi" class="hero-btn hero-btn-outline">
-                                            <span>Informasi Publik</span>
-                                            <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
-                                        </a>
-                                    </div>
-                                </div>
                             </div>
 
                         </div>
@@ -55,23 +63,8 @@
                                 <picture>
                                     <source media="(max-width: 799px)" srcset="{{ asset('assets/sda/assets/uploads/pengumuman/imlek-02.webp') }}"/>
                                     <source media="(min-width: 800px)" srcset="{{ asset('assets/sda/assets/uploads/pengumuman/imlek-02.webp') }}"/>
-                                    <img height="100%" src="{{ asset('assets/sda/assets/uploads/pengumuman/imlek-02.webp') }}" alt="Balai Air Tanah">
+                                    <img height="100%" src="{{ asset('assets/sda/assets/uploads/pengumuman/imlek-02.webp') }}" alt="Balai Air Tanah" decoding="async" loading="eager" fetchpriority="high">
                                 </picture>
-                                <div class="hero-slide-content">
-                                    <p class="hero-kicker">Selamat Datang di</p>
-                                    <h1 class="hero-title bat-text-anime" data-bat-anime="hero">BALAI AIR TANAH</h1>
-                                    <p class="hero-description">Mengelola air tanah secara berkelanjutan untuk mendukung ketahanan air dan kesejahteraan masyarakat.</p>
-                                    <div class="hero-actions" aria-label="Navigasi cepat halaman utama">
-                                        <a href="#tentang-kami" class="hero-btn hero-btn-primary">
-                                            <span>Tentang Kami</span>
-                                            <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
-                                        </a>
-                                        <a href="#publikasi" class="hero-btn hero-btn-outline">
-                                            <span>Informasi Publik</span>
-                                            <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
-                                        </a>
-                                    </div>
-                                </div>
                             </div>
 
                         </div>
@@ -79,6 +72,21 @@
                 @endforelse
             </div>
             <div class="swiper-pagination"></div>
+        </div>
+    </div>
+    <div class="hero-slide-content">
+        <p class="hero-kicker">Selamat Datang di</p>
+        <h1 class="hero-title bat-text-anime" data-bat-anime="hero">{{ $heroTitle }}</h1>
+        <p class="hero-description">{{ $heroDescription }}</p>
+        <div class="hero-actions" aria-label="Navigasi cepat halaman utama">
+            <a href="#tentang-kami" class="hero-btn hero-btn-primary">
+                <span>Tentang Kami</span>
+                <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+            </a>
+            <a href="#publikasi" class="hero-btn hero-btn-outline">
+                <span>Informasi Publik</span>
+                <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+            </a>
         </div>
     </div>
 </div><!-- Slider Section End -->
@@ -90,7 +98,7 @@
             <div class="about-content">
                 <p class="about-kicker">Tentang Kami</p>
                 <h2 class="about-name bat-text-anime" data-bat-anime="scroll">Balai Air Tanah</h2>
-                <p class="about-desc">Balai Air Tanah merupakan unit pelaksana teknis di lingkungan Direktorat Jenderal Sumber Daya Air, Kementerian Pekerjaan Umum, yang berperan dalam mendukung pengelolaan sumber daya air tanah di Indonesia. Kegiatannya meliputi pengembangan, perekayasaan, pelayanan teknis, pengujian, pengkajian, serta inspeksi terkait air tanah.</p>
+                <p class="about-desc">Balai Air Tanah merupakan unit kerja di lingkungan Direktorat Jenderal Sumber Daya Air, Kementerian Pekerjaan Umum, yang mendukung pengelolaan air tanah secara berkelanjutan melalui pelaksanaan tugas teknis sesuai kewenangannya, meliputi pelayanan teknis air tanah, pengembangan dan penerapan teknologi, pengelolaan data dan informasi, serta pengelolaan laboratorium.</p>
 
                 <div class="about-actions">
                     <a href="{{ route('profil.index') }}" class="about-more-link">
@@ -101,11 +109,11 @@
             </div>
 
             <figure class="about-image reveal">
-                <img src="{{ asset('images/cp.png') }}" alt="Balai Air Tanah">
+                <img src="{{ asset('images/cp.png') }}" alt="Balai Air Tanah" decoding="async" loading="eager" fetchpriority="high">
             </figure>
 
             <aside class="about-service-panel" aria-labelledby="aboutServiceTitle">
-                <h3 id="aboutServiceTitle">Akses Layanan</h3>
+                <h3 id="aboutServiceTitle">Akses Cepat</h3>
                 <div class="about-service-grid" aria-label="Informasi unggulan Balai Air Tanah">
                     <a href="{{ route('peta') }}" class="about-service-card">
                         <span class="about-service-card-icon" aria-hidden="true">
@@ -129,24 +137,24 @@
                         <i class="fa-solid fa-arrow-right about-service-card-arrow" aria-hidden="true"></i>
                     </a>
 
-                    <a href="{{ route('gems') }}" class="about-service-card">
+                    <a href="https://siatab.sda.pu.go.id/" class="about-service-card">
                         <span class="about-service-card-icon" aria-hidden="true">
                             <i class="fa-regular fa-map" aria-hidden="true"></i>
                         </span>
                         <span class="about-service-card-copy">
                             <span class="about-service-card-title">GEMS</span>
-                            <span class="about-service-card-desc">Groundwater Monitoring System</span>
+                            <span class="about-service-card-desc">Sistem geospasial untuk mendukung pengelolaan air tanah</span>
                         </span>
                         <i class="fa-solid fa-arrow-right about-service-card-arrow" aria-hidden="true"></i>
                     </a>
 
-                    <a href="{{ route('laboratorium') }}" class="about-service-card">
+                    <a href="http://168.110.204.252/" class="about-service-card">
                         <span class="about-service-card-icon" aria-hidden="true">
                             <i class="fa-solid fa-flask" aria-hidden="true"></i>
                         </span>
                         <span class="about-service-card-copy">
-                            <span class="about-service-card-title">Layanan Data</span>
-                            <span class="about-service-card-desc">Layanan data Balai Air Tanah</span>
+                            <span class="about-service-card-title">Laboratorium</span>
+                            <span class="about-service-card-desc">Layanan pengujian kualitas air tanah</span>
                         </span>
                         <i class="fa-solid fa-arrow-right about-service-card-arrow" aria-hidden="true"></i>
                     </a>
@@ -156,9 +164,9 @@
     </div>
 </section><!-- About Section End -->
 
-<!-- Berita Section Start -->
-<div class="what-we-do berita-terkini-wrapper home-news-section">
-    <div class="light-bg-section berita-terkini-section news-tabs js-publication-tabs">
+<!-- Publikasi Section Start -->
+<div class="what-we-do home-publication-wrapper home-publication-spacing">
+    <div class="light-bg-section home-publication-section home-publication-tabs js-publication-tabs" data-page-size="4">
         <div class="container-fluid">
             <div class="row section-row">
                 <div class="col-lg-12">
@@ -167,13 +175,13 @@
                         <a href="post">
                             <h3 class="wow fadeInUp section-label-link">Publikasi</h3>
                         </a>
-                        <h2 class="text-anime-style-3">Berita dan Buletin</h2>
+                        <h2 class="text-anime-style-3">Informasi dan Edukasi Air Tanah</h2>
                     </div>
                     <!-- Section Title End -->
                 </div>
             </div>
 
-            <nav class="publication-menu-box news-tabs-menu" aria-label="Kategori berita dan buletin">
+            <nav class="publication-menu-box home-publication-menu" aria-label="Kategori publikasi landing page">
                 <ul class="publication-menu-list">
                     <li>
                         <button type="button" class="publication-menu-link is-active js-publication-menu" data-target="home-berita">
@@ -182,117 +190,138 @@
                         </button>
                     </li>
                     <li>
-                        <button type="button" class="publication-menu-link js-publication-menu" data-target="home-buletin">
+                        <button type="button" class="publication-menu-link js-publication-menu" data-target="home-edukasi">
                             <i class="fa-solid fa-file-lines" aria-hidden="true"></i>
-                            <span>Buletin</span>
+                            <span>Edukasi</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button type="button" class="publication-menu-link js-publication-menu" data-target="home-infografis">
+                            <i class="fa-solid fa-chart-pie" aria-hidden="true"></i>
+                            <span>Infografis</span>
                         </button>
                     </li>
                 </ul>
             </nav>
 
             <div class="row publication-group is-active" data-publication-group="home-berita">
-                <div class="col-lg-12">
-                    <!-- Testimonial Slider Start -->
-                    <div class="testimonial-slider">
-                        <div class="swiper">
-                            <div class="swiper-wrapper">
-                                @forelse ($beritas as $berita)
-                                    @php
-                                        $firstImage = $berita->images->first();
-                                        $imageUrl = $firstImage ? asset('storage/' . $firstImage->image_path) : asset('assets/images/placeholders/berita.svg');
-                                        $imagePayload = $berita->images
-                                            ->map(function ($image) {
-                                                return [
-                                                    'url' => asset('storage/' . $image->image_path),
-                                                ];
-                                            })
-                                            ->values()
-                                            ->toJson();
-                                    @endphp
-                                    <div class="swiper-slide">
-                                        <div class="blog-item wow fadeInUp" data-wow-delay="0.25s">
-                                            <div class="post-featured-image">
-                                                <figure>
-                                                    <div class="image-anime">
-                                                        <img src="{{ $imageUrl }}" alt="{{ $berita->judul }}">
-                                                        <p class="news-date-badge">
-                                                            {{ $berita->created_at ? $berita->created_at->locale('id')->translatedFormat('l, d F Y') : '-' }}
-                                                        </p>
-                                                    </div>
-                                                </figure>
-                                            </div>
-                                            <div class="post-item-content">
-                                                <div class="post-item-body">
-                                                    <h2>{{ $berita->judul }}</h2>
-                                                </div>
-                                                <div class="post-item-footer text-end">
-                                                    <button
-                                                        type="button"
-                                                        class="berita-detail-btn js-berita-detail-btn"
-                                                        data-judul="{{ $berita->judul }}"
-                                                        data-tanggal="{{ $berita->created_at ? $berita->created_at->locale('id')->translatedFormat('l, d F Y') : '-' }}"
-                                                        data-deskripsi="{{ e($berita->deskripsi) }}"
-                                                        data-images="{{ e($imagePayload) }}"
-                                                    >
-                                                        Selengkapnya
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @empty
-                                    <div class="swiper-slide">
-                                        <div class="blog-item wow fadeInUp" data-wow-delay="0.25s">
-                                            <div class="post-item-content">
-                                                <div class="post-item-body">
-                                                    <h2>Belum ada data berita.</h2>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforelse
-                            </div>
-                            <div class="swiper-pagination"></div>
-                        </div>
-                    </div>
-                    <!-- Testimonial Slider End -->
-                </div>
-            </div>
-
-            <div class="row publication-group" data-publication-group="home-buletin">
-                @forelse($publikasiBuletins as $item)
+                @forelse ($publikasiBeritas as $berita)
                     @php
-                        $firstImage = $item->images->first();
-                        $imageUrl = $firstImage ? asset('storage/' . $firstImage->image_path) : asset('assets/images/placeholders/publikasi.svg');
+                        $firstImage = $berita->images->first();
+                        $imageUrl = $firstImage ? asset('storage/' . $firstImage->image_path) : asset('assets/images/placeholders/berita.svg');
+                        $beritaUrl = route('publikasi.berita.show', $berita);
                     @endphp
-                    <div class="col-lg-4 col-md-6 js-publication-item">
-                        <div class="bulletin-item wow fadeInUp publication-card" data-wow-delay="0.25s">
-                            <div class="bulletin-image">
-                                <a href="{{ route('publikasi.buletin.show', $item->slug) }}">
-                                    <figure>
-                                        <img src="{{ $imageUrl }}" alt="{{ $item->judul }}">
-                                    </figure>
-                                </a>
-                            </div>
-                            <div class="bulletin-body mb-3">
-                                <div class="bulletin-body-title">
-                                    <h3>{{ $item->judul }}</h3>
+                    <div class="col-xl-3 col-lg-3 col-md-6 js-publication-item">
+                        <article class="blog-item wow fadeInUp" data-wow-delay="0.25s">
+                            <a class="post-featured-image post-featured-link" href="{{ $beritaUrl }}">
+                                <img src="{{ $imageUrl }}" alt="{{ $berita->judul }}" decoding="async" loading="lazy">
+                                <p class="news-date-badge">
+                                    {{ $berita->created_at ? $berita->created_at->locale('id')->translatedFormat('l, d F Y') : '-' }}
+                                </p>
+                            </a>
+                            <div class="post-item-content">
+                                <div class="post-item-body">
+                                    <h2>{{ $berita->judul }}</h2>
                                 </div>
-                                <div class="bulletin-content">
-                                    <p>{{ \Illuminate\Support\Str::limit(strip_tags($item->isi), 110) }}</p>
-                                    <div class="bulletin-content-footer">
-                                        <a href="{{ route('publikasi.buletin.show', $item->slug) }}" class="readmore-btn">Selengkapnya</a>
-                                    </div>
+                                <div class="post-item-footer text-end">
+                                    <a href="{{ $beritaUrl }}" class="publication-detail-btn">Selengkapnya</a>
                                 </div>
                             </div>
-                        </div>
+                        </article>
                     </div>
                 @empty
                     <div class="col-12">
                         <div class="blog-item wow fadeInUp" data-wow-delay="0.25s">
                             <div class="post-item-content">
                                 <div class="post-item-body">
-                                    <h2>Belum ada data buletin.</h2>
+                                    <h2>Belum ada data berita.</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforelse
+                <div class="col-12"><div class="publication-dots js-publication-dots"></div></div>
+            </div>
+
+            <div class="row publication-group" data-publication-group="home-edukasi">
+                @forelse($publikasiEdukasi as $item)
+                    @php
+                        $firstImage = $item->images->first();
+                        $imageUrl = $firstImage ? asset('storage/' . $firstImage->image_path) : asset('assets/images/placeholders/publikasi.svg');
+                    @endphp
+                    <div class="col-xl-3 col-lg-3 col-md-6 js-publication-item">
+                        <article class="blog-item wow fadeInUp" data-wow-delay="0.25s">
+                            <a class="post-featured-image post-featured-link" href="{{ route('publikasi.buletin.show', $item->slug) }}">
+                                <img src="{{ $imageUrl }}" alt="{{ $item->judul }}" decoding="async" loading="lazy">
+                                <p class="news-date-badge">
+                                    {{ $item->published_at ? $item->published_at->locale('id')->translatedFormat('l, d F Y') : '-' }}
+                                </p>
+                            </a>
+                            <div class="post-item-content">
+                                <div class="post-item-body">
+                                    <h2>{{ $item->judul }}</h2>
+                                </div>
+                                <div class="post-item-footer text-end">
+                                    <a href="{{ route('publikasi.buletin.show', $item->slug) }}" class="publication-detail-btn">Selengkapnya</a>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                @empty
+                    <div class="col-12">
+                        <div class="blog-item wow fadeInUp" data-wow-delay="0.25s">
+                            <div class="post-item-content">
+                                <div class="post-item-body">
+                                    <h2>Belum ada data edukasi.</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforelse
+                <div class="col-12"><div class="publication-dots js-publication-dots"></div></div>
+            </div>
+
+            <div class="row publication-group" data-publication-group="home-infografis">
+                @forelse($publikasiInfografis as $item)
+                    @php
+                        $firstImage = $item->images->first();
+                        $imageUrl = $firstImage ? asset('storage/' . $firstImage->image_path) : asset('assets/images/placeholders/publikasi.svg');
+                        $imagePayload = $item->images
+                            ->map(function ($image) {
+                                return [
+                                    'url' => asset('storage/' . $image->image_path),
+                                ];
+                            })
+                            ->values()
+                            ->toJson();
+                    @endphp
+                    <div class="col-xl-3 col-lg-3 col-md-6 js-publication-item">
+                        <article class="blog-item publication-image-card wow fadeInUp" data-wow-delay="0.25s">
+                            <button
+                                type="button"
+                                class="post-featured-image publication-image-btn js-publication-detail-btn"
+                                data-judul="{{ $item->judul }}"
+                                data-tanggal="{{ $item->created_at ? $item->created_at->locale('id')->translatedFormat('l, d F Y') : '-' }}"
+                                data-deskripsi="{{ e($item->deskripsi) }}"
+                                data-images="{{ e($imagePayload) }}"
+                            >
+                                <img src="{{ $imageUrl }}" alt="{{ $item->judul }}" decoding="async" loading="lazy">
+                                <span class="news-date-badge">
+                                    {{ $item->created_at ? $item->created_at->locale('id')->translatedFormat('l, d F Y') : '-' }}
+                                </span>
+                                <span class="publication-image-caption">
+                                    <span class="publication-image-title">{{ $item->judul }}</span>
+                                    <span class="publication-image-action">Selengkapnya</span>
+                                </span>
+                            </button>
+                        </article>
+                    </div>
+                @empty
+                    <div class="col-12">
+                        <div class="blog-item wow fadeInUp" data-wow-delay="0.25s">
+                            <div class="post-item-content">
+                                <div class="post-item-body">
+                                    <h2>Belum ada data infografis.</h2>
                                 </div>
                             </div>
                         </div>
@@ -302,148 +331,23 @@
             </div>
         </div>
     </div>
-</div><!-- Berita Section End -->
+</div><!-- Publikasi Section End -->
 
-<div class="berita-detail-overlay" id="beritaDetailOverlay" aria-hidden="true">
-    <div class="berita-detail-card" role="dialog" aria-modal="true" aria-labelledby="beritaDetailTitle">
-        <h2 class="berita-detail-title" id="beritaDetailTitle">Detail Berita</h2>
-        <p class="berita-detail-date" id="beritaDetailDate">-</p>
-        <div class="berita-detail-slider">
-            <div class="berita-detail-track" id="beritaDetailTrack"></div>
+<div class="publication-detail-overlay" id="publicationDetailOverlay" aria-hidden="true">
+    <div class="publication-detail-card" role="dialog" aria-modal="true" aria-labelledby="publicationDetailTitle">
+        <h2 class="publication-detail-title" id="publicationDetailTitle">Detail Publikasi</h2>
+        <p class="publication-detail-date" id="publicationDetailDate">-</p>
+        <div class="publication-detail-slider">
+            <div class="publication-detail-track" id="publicationDetailTrack"></div>
         </div>
-        <div class="berita-detail-dots" id="beritaDetailDots"></div>
-        <p class="berita-detail-description" id="beritaDetailDescription"></p>
-        <div class="text-end berita-detail-actions">
-            <button type="button" class="berita-detail-btn" id="closeBeritaDetail">Tutup</button>
+        <div class="publication-detail-dots" id="publicationDetailDots"></div>
+        <p class="publication-detail-description" id="publicationDetailDescription"></p>
+        <div class="text-end publication-detail-actions">
+            <button type="button" class="publication-detail-btn" id="closePublicationDetail">Tutup</button>
         </div>
     </div>
 </div>
-<!-- Buletin Section Start -->
-<section class="buletin document-tabs js-publication-tabs" id="publikasi" aria-labelledby="publicationTitle">
-    <div class="container">
-        <header class="publication-head">
-            <div class="section-title publication-title">
-                <a href="dokumen"><h3 class="wow fadeInUp">Informasi Publik</h3></a>
-                <h2 class="text-anime-style-3" id="publicationTitle">Buku &amp; Laporan</h2>
-            </div>
 
-            <nav class="publication-menu-box document-tabs-menu" aria-label="Kategori publikasi">
-                <ul class="publication-menu-list">
-                    <li>
-                        <button type="button" class="publication-menu-link is-active js-publication-menu" data-target="karya-ilmiah">
-                            <i class="fa-solid fa-book-open" aria-hidden="true"></i>
-                            <span>Karya Ilmiah</span>
-                        </button>
-                    </li>
-                    <li>
-                        <button type="button" class="publication-menu-link js-publication-menu" data-target="sni">
-                            <i class="fa-solid fa-building-columns" aria-hidden="true"></i>
-                            <span>SNI</span>
-                        </button>
-                    </li>
-                    <li>
-                        <button type="button" class="publication-menu-link js-publication-menu" data-target="laporan-skm">
-                            <i class="fa-solid fa-file-lines" aria-hidden="true"></i>
-                            <span>Laporan SKM</span>
-                        </button>
-                    </li>
-                </ul>
-            </nav>
-        </header>
-
-        <div class="publication-data-pane">
-            <div class="row publication-group is-active" data-publication-group="karya-ilmiah">
-                @forelse($publikasiKaryaIlmiahs as $item)
-                    <div class="col-lg-4 col-md-6 js-publication-item">
-                        <div class="bulletin-item wow fadeInUp publication-card" data-wow-delay="0.25s">
-                            <div class="bulletin-image">
-                                <a href="{{ asset('storage/' . $item->pdf_path) }}" target="_blank" rel="noopener">
-                                    <figure>
-                                        <img src="{{ $item->thumbnail_path ? asset('storage/' . $item->thumbnail_path) : asset('assets/images/placeholders/publikasi.svg') }}" alt="{{ $item->judul }}">
-                                    </figure>
-                                </a>
-                            </div>
-                            <div class="bulletin-body mb-3">
-                                <div class="bulletin-body-title">
-                                    <h3>{{ $item->judul }}</h3>
-                                </div>
-                                <div class="bulletin-content">
-                                    <p>{{ \Illuminate\Support\Str::limit($item->deskripsi, 110) }}</p>
-                                    <div class="bulletin-content-footer">
-                                        <a href="{{ asset('storage/' . $item->pdf_path) }}" target="_blank" rel="noopener" class="readmore-btn">Selengkapnya</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @empty
-                    <div class="col-12"><p>Belum ada data Karya Ilmiah.</p></div>
-                @endforelse
-                <div class="col-12"><div class="publication-dots js-publication-dots"></div></div>
-            </div>
-
-            <div class="row publication-group" data-publication-group="sni">
-                @forelse($publikasiSnis as $item)
-                    <div class="col-lg-4 col-md-6 js-publication-item">
-                        <div class="bulletin-item wow fadeInUp publication-card" data-wow-delay="0.25s">
-                            <div class="bulletin-image">
-                                <a href="{{ asset('storage/' . $item->pdf_path) }}" target="_blank" rel="noopener">
-                                    <figure>
-                                        <img src="{{ $item->thumbnail_path ? asset('storage/' . $item->thumbnail_path) : asset('assets/images/placeholders/publikasi.svg') }}" alt="{{ $item->judul }}">
-                                    </figure>
-                                </a>
-                            </div>
-                            <div class="bulletin-body mb-3">
-                                <div class="bulletin-body-title">
-                                    <h3>{{ $item->judul }}</h3>
-                                </div>
-                                <div class="bulletin-content">
-                                    <p>{{ \Illuminate\Support\Str::limit($item->deskripsi, 110) }}</p>
-                                    <div class="bulletin-content-footer">
-                                        <a href="{{ asset('storage/' . $item->pdf_path) }}" target="_blank" rel="noopener" class="readmore-btn">Selengkapnya</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @empty
-                    <div class="col-12"><p>Belum ada data SNI.</p></div>
-                @endforelse
-                <div class="col-12"><div class="publication-dots js-publication-dots"></div></div>
-            </div>
-
-            <div class="row publication-group" data-publication-group="laporan-skm">
-                @forelse($publikasiLaporanSkms as $item)
-                    <div class="col-lg-4 col-md-6 js-publication-item">
-                        <div class="bulletin-item wow fadeInUp publication-card" data-wow-delay="0.25s">
-                            <div class="bulletin-image">
-                                <a href="{{ asset('storage/' . $item->pdf_path) }}" target="_blank" rel="noopener">
-                                    <figure>
-                                        <img src="{{ $item->thumbnail_path ? asset('storage/' . $item->thumbnail_path) : asset('assets/images/placeholders/publikasi.svg') }}" alt="{{ $item->judul }}">
-                                    </figure>
-                                </a>
-                            </div>
-                            <div class="bulletin-body mb-3">
-                                <div class="bulletin-body-title">
-                                    <h3>{{ $item->judul }}</h3>
-                                </div>
-                                <div class="bulletin-content">
-                                    <p>{{ \Illuminate\Support\Str::limit($item->deskripsi, 110) }}</p>
-                                    <div class="bulletin-content-footer">
-                                        <a href="{{ asset('storage/' . $item->pdf_path) }}" target="_blank" rel="noopener" class="readmore-btn">Selengkapnya</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @empty
-                    <div class="col-12"><p>Belum ada data Laporan SKM.</p></div>
-                @endforelse
-                <div class="col-12"><div class="publication-dots js-publication-dots"></div></div>
-            </div>
-        </div>
-    </div>
-</section><!-- Buletin Section End -->
 <!-- Why Choose Us Section Start -->
 <div class="akun">
     <div class="container-fluid px-3 px-lg-4">
@@ -452,15 +356,17 @@
                 <!-- Section Title Start -->
                 <div class="section-title">
                     <h3 class="wow fadeInUp">Akun Resmi</h3>
-                    <h2 class="text-anime-style-3">Media Sosial & Aplikasi</h2>
+                    <h2 class="text-anime-style-3">Media Sosial</h2>
                 </div>
                 <!-- Section Title End -->
             </div>
         </div>
 
-        <div class="row justify-content-center">            <div class="col-lg-4 col-md-6 col-sm-12 col-12">
-                <div class="siatab-widget instagram-widget wow fadeInUp" data-wow-delay="0.5s">
-                    <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/pu_sda_balaiairtanah/?utm_source=ig_embed&utm_campaign=loading" data-instgrm-version="14" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:658px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);">
+        <div class="row justify-content-center g-4">
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12">
+                <div class="social-embed-card instagram-card instagram-widget wow fadeInUp" data-wow-delay="0.5s">
+                    <div class="social-embed-frame">
+                        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/pu_sda_balaiairtanah/?utm_source=ig_embed&utm_campaign=loading" data-instgrm-version="14" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:658px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);">
                         <div style="padding:16px;"><a href="https://www.instagram.com/pu_sda_balaiairtanah/?utm_source=ig_embed&utm_campaign=loading" style=" background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank">
                                 <div style=" display: flex; flex-direction: row; align-items: center;">
                                     <div style="background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 40px; margin-right: 14px; width: 40px;"></div>
@@ -482,7 +388,7 @@
                                     </svg>
                                 </div>
                                 <div style="padding-top: 8px;">
-                                    <div style=" color:#3897f0; font-family:'DM Sans',sans-serif; font-size:14px; font-style:normal; font-weight:550; line-height:18px;">View this profile on Instagram</div>
+                                    <div style=" color:#3897f0; font-size:14px; font-style:normal; font-weight:550; line-height:18px;">View this profile on Instagram</div>
                                 </div>
                                 <div style="padding: 12.5% 0;"></div>
                                 <div style="display: flex; flex-direction: row; margin-bottom: 14px; align-items: center;">
@@ -506,97 +412,162 @@
                                     <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 144px;"></div>
                                 </div>
                             </a>
-                            <p style=" color:#c9c8cd; font-family:'DM Sans',sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;"><a href="https://www.instagram.com/pu_sda_balaiairtanah/?utm_source=ig_embed&utm_campaign=loading" style=" color:#c9c8cd; font-family:'DM Sans',sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px;" target="_blank">Ditjen Sumber Daya
-                                    Air</a> (@<a href="https://www.instagram.com/pu_sda_balaiairtanah/?utm_source=ig_embed&utm_campaign=loading" style=" color:#c9c8cd; font-family:'DM Sans',sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px;" target="_blank">pu_sda_balaiairtanah</a>) � Instagram photos and videos</p></div>
-                    </blockquote>
+                            <p style=" color:#c9c8cd; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;"><a href="https://www.instagram.com/pu_sda_balaiairtanah/?utm_source=ig_embed&utm_campaign=loading" style=" color:#c9c8cd; font-size:14px; font-style:normal; font-weight:normal; line-height:17px;" target="_blank">Ditjen Sumber Daya
+                                    Air</a> (@<a href="https://www.instagram.com/pu_sda_balaiairtanah/?utm_source=ig_embed&utm_campaign=loading" style=" color:#c9c8cd; font-size:14px; font-style:normal; font-weight:normal; line-height:17px;" target="_blank">pu_sda_balaiairtanah</a>) - Instagram photos and videos</p></div>
+                        </blockquote>
+                    </div>
                     <script async src="//platform.instagram.com/en_US/embeds.js"></script>
-                    <a class="siatab-link" href="https://www.instagram.com/pu_sda_balaiairtanah/" target="_blank" rel="noopener noreferrer">
-                        <h5 class="siatab-slide-title">Instagram Balai Air Tanah</h5>
+                    <a class="social-embed-footer instagram-link" href="https://www.instagram.com/pu_sda_balaiairtanah/" target="_blank" rel="noopener noreferrer">
+                        <span class="social-embed-kicker">Instagram</span>
+                        <span class="social-embed-title">pu_sda_balaiairtanah</span>
                     </a>
                 </div>
             </div>
 
-            {{-- <div class="col-lg-4 col-md-6 col-sm-12 col-12">
-                <div class="siatab-widget wow fadeInUp" data-wow-delay="0.8s">
-                    <div class="swiper siatab-swiper" id="siatabSwiper">
-                        <div class="swiper-wrapper">
-                            @php
-                                $hasSiatabSlides = false;
-                            @endphp
-                            @foreach ($siatabs as $siatab)
-                                @if ($siatab->images->isNotEmpty())
-                                    @php $hasSiatabSlides = true; @endphp
-                                    @foreach ($siatab->images as $siatabImage)
-                                        <div class="swiper-slide" data-title="{{ $siatab->judul }}">
-                                            <article class="siatab-slide-card">
-                                                <div class="siatab-slide-image">
-                                                    <a class="siatab-link" href="https://siatab.sda.pu.go.id/" target="_blank" rel="noopener noreferrer">
-                                                        <img src="{{ asset('storage/' . $siatabImage->image_path) }}" alt="{{ $siatab->judul }}">
-                                                    </a>
-                                                </div>
-                                            </article>
-                                        </div>
-                                    @endforeach
-                                @elseif ($siatab->image_path)
-                                    @php $hasSiatabSlides = true; @endphp
-                                    <div class="swiper-slide" data-title="{{ $siatab->judul }}">
-                                        <article class="siatab-slide-card">
-                                            <div class="siatab-slide-image">
-                                                <a class="siatab-link" href="https://siatab.sda.pu.go.id/" target="_blank" rel="noopener noreferrer">
-                                                    <img src="{{ asset('storage/' . $siatab->image_path) }}" alt="{{ $siatab->judul }}">
-                                                </a>
-                                            </div>
-                                        </article>
-                                    </div>
-                                @endif
-                            @endforeach
-                            @if (!$hasSiatabSlides)
-                                <div class="swiper-slide" data-title="Belum ada data SIATAB.">
-                                    <article class="siatab-slide-card">
-                                        <div class="siatab-slide-image">
-                                            <a class="siatab-link" href="https://siatab.sda.pu.go.id/" target="_blank" rel="noopener noreferrer">
-                                                <div class="siatab-empty">Belum ada SIATAB</div>
-                                            </a>
-                                        </div>
-                                    </article>
-                                </div>
-                            @endif
-                        </div>
-                        <div class="swiper-pagination siatab-pagination" id="siatabPagination"></div>
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12">
+                <div class="social-embed-card youtube-card wow fadeInUp" data-wow-delay="0.65s">
+                    <div class="social-embed-frame">
+                        <iframe
+                            src="https://www.youtube.com/embed/videoseries?list=UULwA6GMkzfPwzCbDYIszIHA"
+                            title="YouTube Balai Air Tanah"
+                            loading="lazy"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerpolicy="strict-origin-when-cross-origin"
+                            allowfullscreen>
+                        </iframe>
                     </div>
-                    <a class="siatab-link" href="https://siatab.sda.pu.go.id/" target="_blank" rel="noopener noreferrer">
-                        <h5 class="siatab-slide-title" id="siatabActiveTitle">Belum ada data SIATAB.</h5>
+                    <a class="social-embed-footer" href="https://www.youtube.com/@pu_sda_balaiairtanah" target="_blank" rel="noopener noreferrer">
+                        <span class="social-embed-kicker">YouTube</span>
+                        <span class="social-embed-title">Balai Air Tanah</span>
                     </a>
                 </div>
-            </div> --}}
+            </div>
+
+            <div class="col-lg-4 col-md-6 col-sm-12 col-12">
+                <div class="social-link-stack wow fadeInUp" data-wow-delay="0.8s" aria-label="Akun media sosial Balai Air Tanah">
+                    <a class="social-profile-card facebook-card" href="https://www.facebook.com/pupr.sda.balaiairtanah" target="_blank" rel="noopener noreferrer">
+                        <span class="social-profile-logo">
+                            <img src="{{ asset('images/logo-sosmed-bat.jpg') }}" alt="Logo Sosmed BAT">
+                        </span>
+                        <span class="social-profile-copy">
+                            <span class="social-profile-name">pupr.sda.balaiairtanah</span>
+                            <span class="social-profile-desc">Akun Resmi Balai Air Tanah Kementerian Pekerjaan Umum</span>
+                            <span class="social-profile-url">facebook.com</span>
+                        </span>
+                        <span class="social-profile-icon" aria-hidden="true">
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </span>
+                    </a>
+
+                    <a class="social-profile-card x-card" href="https://x.com/pu_sda_bat?s=20" target="_blank" rel="noopener noreferrer">
+                        <span class="social-profile-logo">
+                            <img src="{{ asset('images/logo-sosmed-bat.jpg') }}" alt="Logo Sosmed BAT">
+                        </span>
+                        <span class="social-profile-copy">
+                            <span class="social-profile-name">pu_sda_bat</span>
+                            <span class="social-profile-desc">Informasi resmi Balai Air Tanah melalui X</span>
+                            <span class="social-profile-url">x.com</span>
+                        </span>
+                        <span class="social-profile-icon" aria-hidden="true">
+                            <i class="fa-brands fa-x-twitter"></i>
+                        </span>
+                    </a>
+
+                    <a class="social-profile-card threads-card" href="https://www.threads.com/@pu_sda_balaiairtanah" target="_blank" rel="noopener noreferrer">
+                        <span class="social-profile-logo">
+                            <img src="{{ asset('images/logo-sosmed-bat.jpg') }}" alt="Logo Sosmed BAT">
+                        </span>
+                        <span class="social-profile-copy">
+                            <span class="social-profile-name">pu_sda_balaiairtanah</span>
+                            <span class="social-profile-desc">Ruang informasi Balai Air Tanah di Threads</span>
+                            <span class="social-profile-url">threads.com</span>
+                        </span>
+                        <span class="social-profile-icon" aria-hidden="true">
+                            <i class="fa-brands fa-threads"></i>
+                        </span>
+                    </a>
+                </div>
+            </div>
 
         </div>
     </div>
 </div><!-- Why Choose Us Section End -->
 
-{{-- <!-- Cta Box Section Start -->
-<div class="" style="background: linear-gradient(180deg, #F7C95F 0%, #FDB235 100%);">
-    <div class="container-fluid">
-        <div class="row justify-content-center">
+<!-- Complaint Survey Section Start -->
+<section class="complaint-survey-section">
+    <div class="container-fluid px-3 px-lg-4">
+        <div class="row section-row">
             <div class="col-lg-12">
-                <h3 class="mt-5 mb-3 text-center">Produk Hukum <br>Balai Air Tanah</h3>
-
-                <div class="wow fadeInUp" data-wow-delay="0.75s" style="padding: 40px 40px 0;">
-                    <a href="https://sda.pu.go.id/dokumen/kategori/produk_hukum">
-                        <figure>
-                            <img style="border-radius: 40px" src="{{ asset('assets/sda/web/images/ProdukHukum_.webp') }}" alt="Produk Hukum">
-                        </figure>
-                    </a>
+                <div class="section-title">
+                    <h3 class="wow fadeInUp">Survei Publik</h3>
+                    <h2 class="text-anime-style-3">Layanan Pengaduan Dan Survei Kepuasan Masyarakat</h2>
                 </div>
             </div>
         </div>
 
+        <div class="complaint-survey-grid">
+            <article class="complaint-survey-panel wow fadeInUp" data-wow-delay="0.2s">
+                <header class="complaint-survey-head">
+                    <span class="complaint-survey-icon" aria-hidden="true">
+                        <i class="fa-solid fa-headset"></i>
+                    </span>
+                    <div>
+                        <p>Layanan Pengaduan</p>
+                        <h3>Layanan Pengaduan</h3>
+                    </div>
+                </header>
+
+                <div class="complaint-survey-items">
+                    <div class="complaint-survey-metric">
+                        <span class="complaint-survey-label">Jumlah Pengaduan</span>
+                        <strong>{{ $jumlahPengaduan ? number_format($jumlahPengaduan) : '0' }}</strong>
+                        <small>Data pengaduan terdata</small>
+                    </div>
+                    <a class="complaint-survey-link" href="https://www.lapor.go.id/" target="_blank" rel="noopener noreferrer">
+                        <span>
+                            <strong>SP4N LAPOR!</strong>
+                            <small>Kanal resmi pengaduan pelayanan publik nasional</small>
+                        </span>
+                        <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </article>
+
+            <article class="complaint-survey-panel complaint-survey-panel-skm wow fadeInUp" data-wow-delay="0.35s">
+                <header class="complaint-survey-head">
+                    <span class="complaint-survey-icon" aria-hidden="true">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </span>
+                    <div>
+                        <p>Survei Kepuasan Masyarakat</p>
+                        <h3>Survei Kepuasan Masyarakat</h3>
+                    </div>
+                </header>
+
+                <div class="complaint-survey-items">
+                    <div class="complaint-survey-metric">
+                        <span class="complaint-survey-label">Nilai SKM</span>
+                        <strong>{{ $nilaiSkm ?? '0%' }}</strong>
+                        <small>Persentase kepuasan masyarakat</small>
+                    </div>
+                    <a class="complaint-survey-link" href="{{ route('pelayanan_publik.laporan_skm') }}">
+                        <span>
+                            <strong>Laporan Kepuasan Masyarakat</strong>
+                            <small>{{ number_format($jumlahLaporanSkm) }} dokumen laporan tersedia</small>
+                        </span>
+                        <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </article>
+        </div>
     </div>
-</div><!-- Cta Box Section End --> --}}
+</section>
+<!-- Complaint Survey Section End -->
 
 <!-- Pengumuman Section Start -->
-<div class="what-we-do">
-    <div class="light-bg-section">        <div class="container">
+<!-- <div class="what-we-do">
+    <div class="light-bg-section">
+        <div class="container">
             <div class="row section-row mb-0">
                 <div class="col-lg-12">
                     <div class="section-title">
@@ -624,7 +595,7 @@
                                                         <div class="col-6">
                                                             <a href="{{ $pengumumanImage }}" class="pengumuman-card" target="_blank" rel="noopener noreferrer">
                                                                 <figure class="image-anime mb-0">
-                                                                    <img src="{{ $pengumumanImage }}" alt="Pengumuman {{ $pengumuman->id }}">
+                                                                    <img src="{{ $pengumumanImage }}" alt="Pengumuman {{ $pengumuman->id }}" decoding="async" loading="lazy">
                                                                 </figure>
                                                             </a>
                                                         </div>
@@ -643,7 +614,7 @@
                                                 <div class="row text-center align-content-center justify-content-center">
                                                     <div class="col-lg-10 col-md-10 col-sm-12">
                                                         <figure class="image-anime">
-                                                            <img width="100%" src="{{ asset('assets/images/placeholders/pengumuman.svg') }}" alt="Belum ada pengumuman">
+                                                            <img width="100%" src="{{ asset('assets/images/placeholders/pengumuman.svg') }}" alt="Belum ada pengumuman" decoding="async" loading="lazy">
                                                         </figure>
                                                     </div>
                                                 </div>
@@ -661,7 +632,8 @@
 
         </div>
     </div>
-</div><!-- Pengumuman Section End -->
+</div> -->
+<!-- Pengumuman Section End -->
 
 <!-- Our Galeri Section Start -->
 <div class="gallery-home">    <div class="container">
@@ -685,7 +657,7 @@
                         <div class="video-image">
                             <a href="https://www.youtube.com/watch?v=CdY1yfqwm5M" class="popup-video">
                                 <figure class="image-anime">
-                                    <img src="{{ asset('assets/sda/web/images/thumbnail-1.webp') }}" alt="">
+                                    <img src="{{ asset('assets/sda/web/images/thumbnail-1.webp') }}" alt="" decoding="async" loading="lazy">
                                 </figure>
                             </a>
                         </div>
@@ -706,7 +678,7 @@
                 <a href="https://sda.pu.go.id/galeri/detail/bendungan-dan-danau">
                     <div class="why-choose-image">
                         <figure class="image-anime reveal">
-                            <img src="{{ asset('assets/sda/web/images/P4.jpg') }}" alt="Bendungan dan Danau">
+                            <img src="{{ asset('assets/sda/web/images/P4.jpg') }}" alt="Bendungan dan Danau" decoding="async" loading="lazy">
                         </figure>
                     </div>
                 </a>
@@ -716,7 +688,7 @@
                 <a href="https://sda.pu.go.id/galeri/detail/air-tanah-air-baku">
                     <div class="why-choose-image">
                         <figure class="image-anime reveal">
-                            <img src="{{ asset('assets/sda/web/images/P1.jpg') }}" alt="Air Tanah Air Baku">
+                            <img src="{{ asset('assets/sda/web/images/P1.jpg') }}" alt="Air Tanah Air Baku" decoding="async" loading="lazy">
                         </figure>
                     </div>
                 </a>
@@ -727,7 +699,7 @@
                 <a href="https://sda.pu.go.id/galeri/detail/irigasi-dan-rawa">
                     <div class="why-choose-image">
                         <figure class="image-anime reveal">
-                            <img src="{{ asset('assets/sda/web/images/P3.jpg') }}" alt="Irigasi dan Rawa">
+                            <img src="{{ asset('assets/sda/web/images/P3.jpg') }}" alt="Irigasi dan Rawa" decoding="async" loading="lazy">
                         </figure>
                     </div>
                 </a>
@@ -738,7 +710,7 @@
                 <a href="https://sda.pu.go.id/galeri/detail/sungai-dan-pantai">
                     <div class="why-choose-image">
                         <figure class="image-anime reveal">
-                            <img src="{{ asset('assets/sda/web/images/P2.jpg') }}" alt="Sungai dan Pantai">
+                            <img src="{{ asset('assets/sda/web/images/P2.jpg') }}" alt="Sungai dan Pantai" decoding="async" loading="lazy">
                         </figure>
                     </div>
                 </a>
@@ -750,7 +722,7 @@
                         <div class="video-image">
                             <a href="https://www.youtube.com/watch?v=ZXjwL82IQAg" class="popup-video">
                                 <figure class="image-anime">
-                                    <img src="{{ asset('assets/sda/web/images/thumbnail-2.webp') }}" alt="">
+                                    <img src="{{ asset('assets/sda/web/images/thumbnail-2.webp') }}" alt="" decoding="async" loading="lazy">
                                 </figure>
                             </a>
                         </div>
@@ -783,7 +755,7 @@
                                 <a href="http://himpsda.dev-tunnels.id" title="HIMPESDA">
                                     <div class="link-body">
                                         <figure class="image-anime">
-                                            <img src="{{ asset('assets/sda/web/images/link/Logo-HIMPESDA-High-Res1.png') }}" alt="HIMPESDA">
+                                            <img src="{{ asset('assets/sda/web/images/link/Logo-HIMPESDA-High-Res1.png') }}" alt="HIMPESDA" decoding="async" loading="lazy">
                                         </figure>
                                     </div>
                                 </a>
@@ -795,7 +767,7 @@
                                 <a href="https://www.lapor.go.id/" title="Saran dan Pengaduan">
                                     <div class="link-body">
                                         <figure class="image-anime">
-                                            <img src="{{ asset('assets/sda/web/images/link/icons-saran.svg') }}" alt="Saran dan Pengaduan">
+                                            <img src="{{ asset('assets/sda/web/images/link/icons-saran.svg') }}" alt="Saran dan Pengaduan" decoding="async" loading="lazy">
                                         </figure>
                                     </div>
                                 </a>
@@ -807,7 +779,7 @@
                                 <a href="https://sahabat.pu.go.id/" title="Pelayanan Publik">
                                     <div class="link-body">
                                         <figure class="image-anime">
-                                            <img src="{{ asset('assets/sda/web/images/link/icons-layanan.svg') }}" alt="Pelayanan Publik">
+                                            <img src="{{ asset('assets/sda/web/images/link/icons-layanan.svg') }}" alt="Pelayanan Publik" decoding="async" loading="lazy">
                                         </figure>
                                     </div>
                                 </a>
@@ -819,7 +791,7 @@
                                 <a href="{{ route('informasi_publik.informasi_berkala') }}" title="Layanan Informasi Publik (e-PPID)">
                                     <div class="link-body">
                                         <figure class="image-anime">
-                                            <img src="{{ asset('assets/sda/web/images/link/icons-eppid.svg') }}" alt="Layanan Informasi Publik (e-PPID)">
+                                            <img src="{{ asset('assets/sda/web/images/link/icons-eppid.svg') }}" alt="Layanan Informasi Publik (e-PPID)" decoding="async" loading="lazy">
                                         </figure>
                                     </div>
                                 </a>
@@ -831,7 +803,7 @@
                                 <a href="https://saberpungli.id/" title="Saber Pungli">
                                     <div class="link-body">
                                         <figure class="image-anime">
-                                            <img src="{{ asset('assets/sda/web/images/link/20201015042055icons-pungli.svg') }}" alt="Saber Pungli">
+                                            <img src="{{ asset('assets/sda/web/images/link/20201015042055icons-pungli.svg') }}" alt="Saber Pungli" decoding="async" loading="lazy">
                                         </figure>
                                     </div>
                                 </a>
@@ -843,7 +815,7 @@
                                 <a href="https://pdsda.sda.pu.go.id/" title="Pusat Data Sumber Daya Air">
                                     <div class="link-body">
                                         <figure class="image-anime">
-                                            <img src="{{ asset('assets/sda/web/images/link/icons-wrdc.svg') }}" alt="Pusat Data Sumber Daya Air">
+                                            <img src="{{ asset('assets/sda/web/images/link/icons-wrdc.svg') }}" alt="Pusat Data Sumber Daya Air" decoding="async" loading="lazy">
                                         </figure>
                                     </div>
                                 </a>
@@ -855,7 +827,7 @@
                                 <a href="https://sihka.sda.pu.go.id/" title="Sistem Informasi Hidrologi dan Kualitas Air">
                                     <div class="link-body">
                                         <figure class="image-anime">
-                                            <img src="{{ asset('assets/sda/web/images/link/icons-sihka.svg') }}" alt="Sistem Informasi Hidrologi dan Kualitas Air">
+                                            <img src="{{ asset('assets/sda/web/images/link/icons-sihka.svg') }}" alt="Sistem Informasi Hidrologi dan Kualitas Air" decoding="async" loading="lazy">
                                         </figure>
                                     </div>
                                 </a>
@@ -867,7 +839,7 @@
                                 <a href="{{ route('pelayanan_publik.standar_pelayanan') }}" title="Perizinan SDA">
                                     <div class="link-body">
                                         <figure class="image-anime">
-                                            <img src="{{ asset('assets/sda/web/images/link/icons-perizinan.svg') }}" alt="Perizinan SDA">
+                                            <img src="{{ asset('assets/sda/web/images/link/icons-perizinan.svg') }}" alt="Perizinan SDA" decoding="async" loading="lazy">
                                         </figure>
                                     </div>
                                 </a>
@@ -879,7 +851,7 @@
                                 <a href="https://jdih.pu.go.id/" title="Jaringan Dokumentasi dan Informasi Hukum Kementerian PU">
                                     <div class="link-body">
                                         <figure class="image-anime">
-                                            <img src="{{ asset('assets/sda/web/images/link/jdih.png') }}" alt="Jaringan Dokumentasi dan Informasi Hukum Kementerian PU">
+                                            <img src="{{ asset('assets/sda/web/images/link/jdih.png') }}" alt="Jaringan Dokumentasi dan Informasi Hukum Kementerian PU" decoding="async" loading="lazy">
                                         </figure>
                                     </div>
                                 </a>
@@ -891,7 +863,7 @@
                                 <a href="https://elhkpn.kpk.go.id/" title="e-LKHPN">
                                     <div class="link-body">
                                         <figure class="image-anime">
-                                            <img src="{{ asset('assets/sda/web/images/link/icons-elhkpn.svg') }}" alt="e-LKHPN">
+                                            <img src="{{ asset('assets/sda/web/images/link/icons-elhkpn.svg') }}" alt="e-LKHPN" decoding="async" loading="lazy">
                                         </figure>
                                     </div>
                                 </a>
@@ -904,20 +876,7 @@
         </div>
     </div>
 </div>
-<!-- Link Terkait Section End--><!--start: floating ads-->
-{{-- <div id="popup">
-    <div id="popup-content">
-        <div class="text-end"><a id='close-floatads' onclick='document.getElementById(&apos;popup&apos;).style.display = &apos;none&apos;;' style=' cursor:pointer;'>
-                <i class="fa fa-2x fa-window-close"></i></a>
-        </div>
-        <!--Script iklan-->
-        <a href='#' title='Integritas Hentikan Gratifikasi'>
-            <img style='max-width:400px;height:auto; left:0;' alt='Integritas Hentikan Gratifikasi' src='{{ asset('assets/sda/assets/uploads/pengumuman/poster-stop-gratifikasi.jpg') }}'/>
-        </a>
-        <!--Akhir script iklan-->
-    </div>
-</div> --}}
-<!--end: floating ads-->
+<!-- Link Terkait Section End-->
 
 <!-- Jquery Library File -->
 @endsection

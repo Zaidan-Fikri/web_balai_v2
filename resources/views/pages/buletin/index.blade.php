@@ -1,19 +1,9 @@
 @extends('master.app')
 
-@section('title', 'Buletin - Balai Air Tanah')
+@section('title', 'Edukasi - Balai Air Tanah')
 
 @section('content')
-    <section class="content-page-hero">
-        <div class="container">
-            <p class="content-page-kicker">Publikasi</p>
-            <h1>Buletin</h1>
-            <div class="content-page-breadcrumb">
-                <a href="{{ route('home') }}">Beranda</a>
-                <span>/</span>
-                <span>Buletin</span>
-            </div>
-        </div>
-    </section>
+    @include('pages.partials.menu_detail_hero', ['menuGroup' => 'Publikasi', 'pageTitle' => 'Edukasi'])
 
     <section class="buletin-list-section">
         <div class="container">
@@ -42,7 +32,7 @@
                     </article>
                 @empty
                     <div class="buletin-empty">
-                        <h2>Belum ada buletin yang dipublish.</h2>
+                        <h2>Belum ada edukasi yang dipublish.</h2>
                         <p>Silakan cek kembali halaman ini secara berkala.</p>
                     </div>
                 @endforelse

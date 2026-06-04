@@ -50,7 +50,7 @@ class AdminBuletinController extends Controller
 
         return redirect()
             ->route('admin.buletin.index')
-            ->with('success', 'Buletin berhasil ditambahkan.');
+            ->with('success', 'Edukasi berhasil ditambahkan.');
     }
 
     public function update(UpdateBuletinRequest $request, Buletin $buletin): RedirectResponse
@@ -71,13 +71,13 @@ class AdminBuletinController extends Controller
                 $data['images'] ?? [],
                 $data['remove_image_ids'] ?? [],
                 self::IMAGE_DIR,
-                'Minimal harus ada 1 gambar untuk setiap buletin.'
+                'Minimal harus ada 1 gambar untuk setiap edukasi.'
             );
         });
 
         return redirect()
             ->route('admin.buletin.index')
-            ->with('success', 'Buletin berhasil diperbarui.');
+            ->with('success', 'Edukasi berhasil diperbarui.');
     }
 
     public function destroy(Buletin $buletin): RedirectResponse
@@ -88,7 +88,7 @@ class AdminBuletinController extends Controller
 
         return redirect()
             ->route('admin.buletin.index')
-            ->with('success', 'Buletin berhasil dihapus.');
+            ->with('success', 'Edukasi berhasil dihapus.');
     }
 
     private function resolvePublishedAt(array $data): ?Carbon
@@ -106,7 +106,7 @@ class AdminBuletinController extends Controller
 
     private function uniqueSlug(string $judul, ?int $ignoreId = null): string
     {
-        $baseSlug = Str::slug($judul) ?: 'buletin';
+        $baseSlug = Str::slug($judul) ?: 'edukasi';
         $slug = $baseSlug;
         $index = 2;
 

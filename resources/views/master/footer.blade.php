@@ -56,6 +56,10 @@
                         <a href="tel:+622220463967">(022) 20463967</a>
                     </li>
                     <li>
+                        <i class="fa-solid fa-phone" aria-hidden="true"></i>
+                        <a href="tel:+6281913009001">0819 1300 9001</a>
+                    </li>
+                    <li>
                         <i class="fa-solid fa-envelope" aria-hidden="true"></i>
                         <a href="mailto:balaiairtanah@pu.go.id">balaiairtanah@pu.go.id</a>
                     </li>

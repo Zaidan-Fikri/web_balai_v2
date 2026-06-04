@@ -4,14 +4,14 @@
    ========================================================= */
 
 (function () {
-        const overlay = document.getElementById('beritaDetailOverlay');
-        const title = document.getElementById('beritaDetailTitle');
-        const date = document.getElementById('beritaDetailDate');
-        const description = document.getElementById('beritaDetailDescription');
-        const track = document.getElementById('beritaDetailTrack');
-        const dots = document.getElementById('beritaDetailDots');
-        const closeButton = document.getElementById('closeBeritaDetail');
-        const detailButtons = document.querySelectorAll('.js-berita-detail-btn');
+        const overlay = document.getElementById('publicationDetailOverlay');
+        const title = document.getElementById('publicationDetailTitle');
+        const date = document.getElementById('publicationDetailDate');
+        const description = document.getElementById('publicationDetailDescription');
+        const track = document.getElementById('publicationDetailTrack');
+        const dots = document.getElementById('publicationDetailDots');
+        const closeButton = document.getElementById('closePublicationDetail');
+        const detailButtons = document.querySelectorAll('.js-publication-detail-btn');
         let currentIndex = 0;
         let currentImages = [];
 
@@ -39,24 +39,24 @@
             dots.innerHTML = '';
 
             if (!currentImages.length) {
-                track.innerHTML = '<div class="berita-detail-slide"><img src="/assets/images/placeholders/no-image.svg" alt="Tidak ada gambar"></div>';
+                track.innerHTML = '<div class="publication-detail-slide"><img src="/assets/images/placeholders/no-image.svg" alt="Tidak ada gambar"></div>';
                 track.style.transform = 'translateX(0)';
                 return;
             }
 
             currentImages.forEach(function (item, index) {
                 const slide = document.createElement('div');
-                slide.className = 'berita-detail-slide';
-                slide.innerHTML = '<img src="' + item.url + '" alt="Gambar berita ' + (index + 1) + '">';
+                slide.className = 'publication-detail-slide';
+                slide.innerHTML = '<img src="' + item.url + '" alt="Gambar publikasi ' + (index + 1) + '">';
                 track.appendChild(slide);
 
                 const dot = document.createElement('button');
                 dot.type = 'button';
-                dot.className = 'berita-detail-dot' + (index === currentIndex ? ' is-active' : '');
+                dot.className = 'publication-detail-dot' + (index === currentIndex ? ' is-active' : '');
                 dot.addEventListener('click', function () {
                     currentIndex = index;
                     track.style.transform = 'translateX(-' + (currentIndex * 100) + '%)';
-                    dots.querySelectorAll('.berita-detail-dot').forEach(function (dotEl, dotIndex) {
+                    dots.querySelectorAll('.publication-detail-dot').forEach(function (dotEl, dotIndex) {
                         dotEl.classList.toggle('is-active', dotIndex === currentIndex);
                     });
                 });
@@ -82,7 +82,7 @@
                 currentImages = parseImages(button.dataset.images);
                 currentIndex = 0;
 
-                title.textContent = button.dataset.judul || 'Detail Berita';
+                title.textContent = button.dataset.judul || 'Detail Publikasi';
                 date.textContent = button.dataset.tanggal || '-';
                 description.textContent = button.dataset.deskripsi || '-';
                 renderSlider();
@@ -110,9 +110,12 @@
         const containers = document.querySelectorAll('.js-publication-tabs');
         if (!containers.length) return;
 
-        const pageSize = 3;
+        function getPageSize(container) {
+            const value = Number.parseInt(container.dataset.pageSize || '3', 10);
+            return Number.isFinite(value) && value > 0 ? value : 3;
+        }
 
-        function renderGroupPage(group, page) {
+        function renderGroupPage(group, page, pageSize) {
             const items = Array.from(group.querySelectorAll('.js-publication-item'));
             const dotsWrap = group.querySelector('.js-publication-dots');
             const totalPages = Math.ceil(items.length / pageSize);
@@ -138,15 +141,20 @@
                 dot.type = 'button';
                 dot.className = 'publication-dot' + (i === safePage ? ' is-active' : '');
                 dot.addEventListener('click', function () {
-                    renderGroupPage(group, i);
+                    renderGroupPage(group, i, pageSize);
                 });
                 dotsWrap.appendChild(dot);
+            }
+
+            if (window.BatRefreshAnimations) {
+                window.BatRefreshAnimations(group);
             }
         }
 
         function initContainer(container) {
             const menuButtons = container.querySelectorAll('.js-publication-menu');
             const groups = container.querySelectorAll('[data-publication-group]');
+            const pageSize = getPageSize(container);
             if (!menuButtons.length || !groups.length) return;
 
             function activateTarget(target) {
@@ -158,7 +166,10 @@
                 const isActive = group.getAttribute('data-publication-group') === target;
                 group.classList.toggle('is-active', isActive);
                 if (isActive) {
-                    renderGroupPage(group, 1);
+                    renderGroupPage(group, 1, pageSize);
+                    if (window.BatRefreshAnimations) {
+                        window.BatRefreshAnimations(group);
+                    }
                 }
             });
             }
@@ -193,55 +204,6 @@ window.addEventListener('load', function () {
                 }, 8000);
             }, 0);
         }
-
-        const siatabSlider = document.getElementById('siatabSwiper');
-        const siatabPagination = document.getElementById('siatabPagination');
-        const siatabActiveTitle = document.getElementById('siatabActiveTitle');
-        if (!siatabSlider || typeof Swiper === 'undefined') {
-            return;
-        }
-
-        const slideCount = siatabSlider.querySelectorAll('.swiper-slide').length;
-        const useLoop = slideCount > 1;
-
-        if (siatabPagination) {
-            siatabPagination.style.display = useLoop ? 'block' : 'none';
-        }
-
-        function updateSiatabTitle(swiper) {
-            if (!siatabActiveTitle || !swiper || !swiper.slides || !swiper.slides.length) return;
-            const slide = swiper.slides[swiper.activeIndex];
-            const title = slide ? slide.getAttribute('data-title') : '';
-            siatabActiveTitle.textContent = title || 'SIATAB';
-        }
-
-        const siatabSwiper = new Swiper('#siatabSwiper', {
-            slidesPerView: 1,
-            spaceBetween: 10,
-            loop: useLoop,
-            speed: 700,
-            grabCursor: true,
-            allowTouchMove: useLoop,
-            autoplay: useLoop ? {
-                delay: 3500,
-                disableOnInteraction: false,
-                pauseOnMouseEnter: true
-            } : false,
-            pagination: {
-                el: '#siatabPagination',
-                clickable: true
-            },
-            on: {
-                init: function () {
-                    updateSiatabTitle(this);
-                },
-                slideChange: function () {
-                    updateSiatabTitle(this);
-                }
-            }
-        });
-
-        updateSiatabTitle(siatabSwiper);
     });
 
 (function () {

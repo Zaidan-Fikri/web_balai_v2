@@ -54,7 +54,6 @@ document.addEventListener('DOMContentLoaded', () => {
         window.requestAnimationFrame(updateScrollUi);
     }
 
-    showNavbar();
     updateScrolledState(window.scrollY);
     setScrollButtonState(window.scrollY > 420);
 
@@ -70,8 +69,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 top: 0,
                 behavior: reduceMotion.matches ? 'auto' : 'smooth',
             });
-
-            showNavbar();
         });
     }
 });
@@ -190,6 +187,58 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         window.gsap.to(split.chars, config);
+    });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const animatedItems = document.querySelectorAll('.wow, .reveal, .text-anime-style-3, .bat-text-anime');
+
+    if (!animatedItems.length) {
+        return;
+    }
+
+    let refreshTimer = null;
+
+    function revealVisibleItems(scope = document) {
+        const items = Array.from(scope.querySelectorAll('.wow, .reveal'));
+
+        items.forEach((item) => {
+            const rect = item.getBoundingClientRect();
+            const isVisibleArea = rect.bottom >= 0 && rect.top <= window.innerHeight;
+
+            if (isVisibleArea && window.getComputedStyle(item).visibility === 'hidden') {
+                item.style.visibility = 'visible';
+            }
+        });
+    }
+
+    function refreshAnimations(scope = document) {
+        window.clearTimeout(refreshTimer);
+        refreshTimer = window.setTimeout(() => {
+            revealVisibleItems(scope);
+
+            if (window.ScrollTrigger) {
+                window.ScrollTrigger.refresh(true);
+            }
+
+            window.dispatchEvent(new Event('scroll'));
+        }, 80);
+    }
+
+    window.BatRefreshAnimations = refreshAnimations;
+
+    refreshAnimations();
+    window.addEventListener('load', () => refreshAnimations(), { once: true });
+    window.setTimeout(() => refreshAnimations(), 600);
+    window.setTimeout(() => refreshAnimations(), 1400);
+
+    Array.from(document.images).forEach((image) => {
+        if (image.complete) {
+            return;
+        }
+
+        image.addEventListener('load', () => refreshAnimations(), { once: true });
+        image.addEventListener('error', () => refreshAnimations(), { once: true });
     });
 });
 

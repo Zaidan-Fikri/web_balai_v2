@@ -3,11 +3,11 @@
 @section('title', 'Pencarian - Balai Air Tanah')
 
 @section('content')
+@include('pages.partials.menu_detail_hero', ['menuGroup' => 'Pencarian', 'pageTitle' => 'Hasil Pencarian'])
+
 <section class="search-page-section">
     <div class="search-page-wrap">
         <div class="search-page-heading">
-            <p class="content-page-kicker">Pencarian</p>
-            <h1>Hasil Pencarian</h1>
             <form class="search-page-form" action="{{ route('search') }}" method="GET" role="search">
                 <label class="visually-hidden" for="searchPageInput">Cari</label>
                 <input

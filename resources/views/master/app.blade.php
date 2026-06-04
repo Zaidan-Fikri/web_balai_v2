@@ -29,9 +29,9 @@
     <link rel="stylesheet" href="{{ asset('assets/sda/web/css/magnific-popup.css') }}">
     <!-- Main Custom Css -->
     <link href="{{ asset('assets/sda/web/css/custom.css') }}" rel="stylesheet" media="screen">
+    @stack('head')
     @vite(['resources/css/app.css', 'resources/css/pages.css'])
     @stack('styles')
-    <link rel="preload" href="{{ asset('assets/sda/web/images/slider1.webp') }}" as="image">
 
     @production
         <!-- Google tag hanya dimuat di production, tidak di local development. -->
