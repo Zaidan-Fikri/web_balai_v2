@@ -25,11 +25,12 @@
                                     <span class="menu-caret" aria-hidden="true">&gt;</span>
                                 </a>
                                 <ul class="sub-menu">
-                                    <li class="nav-item"><a class="nav-link" href="#">Tentang Balai Air Tanah</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="#">Tentang Kami</a></li>
                                     <li class="nav-item"><a class="nav-link" href="{{ route('profil.tugas_dan_fungsi') }}">Tugas dan Fungsi</a></li>
                                     <li class="nav-item"><a class="nav-link" href="{{ route('profil.visi_misi') }}">Visi dan Misi</a></li>
                                     <li class="nav-item"><a class="nav-link" href="{{ route('profil.struktur_organisasi') }}">Struktur Organisasi</a></li>
                                     <li class="nav-item"><a class="nav-link" href="#">Informasi Pejabat</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="#">Zona Integritas</a></li>
                                     <li class="nav-item"><a class="nav-link" href="{{ route('profil.lokasi_dan_kontak') }}">Lokasi dan Kontak</a></li>
                                 </ul>
                             </li>
@@ -46,9 +47,9 @@
                                         </a>
                                         <ul class="sub-menu flyout-card">
                                             <li class="nav-item"><a class="nav-link" href="{{ route('pelayanan_publik.permintaan_pelayanan_advis') }}">Layanan Advis Teknis</a></li>
-                                            <li class="nav-item"><a class="nav-link" href="{{ route('pelayanan_publik.permintaan_pelayanan_data') }}">Permohonan Data dan Informasi</a></li>
-                                            <li class="nav-item"><a class="nav-link" href="#">Permohonan Magang/Kunjungan</a></li>
-                                            <li class="nav-item"><a class="nav-link" href="{{ route('pelayanan_publik.permintaan_pelayanan_magang') }}">Permohonan Peminjaman Ruangan</a></li>
+                                            <li class="nav-item"><a class="nav-link" href="{{ route('pelayanan_publik.permintaan_pelayanan_data') }}">Layanan Data dan Informasi</a></li>
+                                            <li class="nav-item"><a class="nav-link" href="#">Magang/Kunjungan</a></li>
+                                            <li class="nav-item"><a class="nav-link" href="{{ route('pelayanan_publik.permintaan_pelayanan_magang') }}">Peminjaman Ruangan</a></li>
                                         </ul>
                                     </li>
                                     <li class="nav-item"><a class="nav-link" target="_blank" rel="noopener noreferrer" href="https://sahabat.pu.go.id/">E-PPID</a></li>
