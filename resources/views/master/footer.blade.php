@@ -10,10 +10,9 @@
                         <small>Direktorat Jenderal Sumber Daya Air</small>
                     </span>
                 </a>
-                <p>
-                    Pusat layanan teknis air tanah untuk mendukung pengelolaan, pengujian, pengkajian,
-                    dan konservasi air tanah secara berkelanjutan.
-                </p>
+                <!-- <p>
+                    Unit kerja di lingkungan Direktorat Jenderal Sumber Daya Air, Kementerian Pekerjaan Umum, yang mendukung pengelolaan air tanah secara berkelanjutan.
+                </p> -->
                 <div class="footer-social-links" aria-label="Media sosial Balai Air Tanah">
                     <ul>
                         <li><a href="https://x.com/pupr_sda" target="_blank" rel="noopener noreferrer" aria-label="X"><i class="fa-brands fa-x-twitter" aria-hidden="true"></i></a></li>
@@ -49,7 +48,7 @@
                 <ul>
                     <li>
                         <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
-                        <span>Jl. Ir. H. Juanda No.193, Dago, Coblong, Kota Bandung, Jawa Barat 40135</span>
+                        <span>Jl. Ir. H. Juanda No.193, Kelurahan Dago, Kecamatan Coblong, Kota Bandung, Provinsi Jawa Barat 40135</span>
                     </li>
                     <li>
                         <i class="fa-solid fa-phone" aria-hidden="true"></i>

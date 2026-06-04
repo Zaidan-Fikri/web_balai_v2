@@ -75,10 +75,10 @@
         </div>
     </div>
     <div class="hero-slide-content">
-        <p class="hero-kicker">Selamat Datang di</p>
+        <p class="hero-kicker">Selamat Datang</p>
         <h1 class="hero-title bat-text-anime" data-bat-anime="hero">{{ $heroTitle }}</h1>
         <p class="hero-description">{{ $heroDescription }}</p>
-        <div class="hero-actions" aria-label="Navigasi cepat halaman utama">
+        <!-- <div class="hero-actions" aria-label="Navigasi cepat halaman utama">
             <a href="#tentang-kami" class="hero-btn hero-btn-primary">
                 <span>Tentang Kami</span>
                 <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
@@ -87,7 +87,7 @@
                 <span>Informasi Publik</span>
                 <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
             </a>
-        </div>
+        </div> -->
     </div>
 </div><!-- Slider Section End -->
 
@@ -121,7 +121,7 @@
                         </span>
                         <span class="about-service-card-copy">
                             <span class="about-service-card-title">Advis Teknis</span>
-                            <span class="about-service-card-desc">Konsultasi dan rekomendasi teknis air tanah</span>
+                            <span class="about-service-card-desc">Konsultasi dan Advis teknis bidang air tanah</span>
                         </span>
                         <i class="fa-solid fa-arrow-right about-service-card-arrow" aria-hidden="true"></i>
                     </a>
@@ -142,8 +142,8 @@
                             <i class="fa-regular fa-map" aria-hidden="true"></i>
                         </span>
                         <span class="about-service-card-copy">
-                            <span class="about-service-card-title">GEMS</span>
-                            <span class="about-service-card-desc">Sistem geospasial untuk mendukung pengelolaan air tanah</span>
+                            <span class="about-service-card-title">GeMS</span>
+                            <span class="about-service-card-desc">Groundwater Monitoring System</span>
                         </span>
                         <i class="fa-solid fa-arrow-right about-service-card-arrow" aria-hidden="true"></i>
                     </a>
@@ -153,8 +153,8 @@
                             <i class="fa-solid fa-flask" aria-hidden="true"></i>
                         </span>
                         <span class="about-service-card-copy">
-                            <span class="about-service-card-title">Laboratorium</span>
-                            <span class="about-service-card-desc">Layanan pengujian kualitas air tanah</span>
+                            <span class="about-service-card-title">SILEBAT</span>
+                            <span class="about-service-card-desc">Labora</span>
                         </span>
                         <i class="fa-solid fa-arrow-right about-service-card-arrow" aria-hidden="true"></i>
                     </a>
@@ -499,8 +499,8 @@
         <div class="row section-row">
             <div class="col-lg-12">
                 <div class="section-title">
-                    <h3 class="wow fadeInUp">Survei Publik</h3>
-                    <h2 class="text-anime-style-3">Layanan Pengaduan Dan Survei Kepuasan Masyarakat</h2>
+                    <h3 class="wow fadeInUp">Umpan Balik</h3>
+                    <h2 class="text-anime-style-3">Layanan Pengaduan dan Survei Kepuasan Masyarakat</h2>
                 </div>
             </div>
         </div>
@@ -513,7 +513,7 @@
                     </span>
                     <div>
                         <p>Layanan Pengaduan</p>
-                        <h3>Layanan Pengaduan</h3>
+                        <h3>Informasi dan Kanal Pengaduan</h3>
                     </div>
                 </header>
 
@@ -539,14 +539,14 @@
                         <i class="fa-solid fa-chart-line"></i>
                     </span>
                     <div>
-                        <p>Survei Kepuasan Masyarakat</p>
-                        <h3>Survei Kepuasan Masyarakat</h3>
+                        <p>Indeks Kepuasan Masyarakat</p>
+                        <h3>Hasil Survei dan Laporan</h3>
                     </div>
                 </header>
 
                 <div class="complaint-survey-items">
                     <div class="complaint-survey-metric">
-                        <span class="complaint-survey-label">Nilai SKM</span>
+                        <span class="complaint-survey-label">Nilai IKM</span>
                         <strong>{{ $nilaiSkm ?? '0%' }}</strong>
                         <small>Persentase kepuasan masyarakat</small>
                     </div>
