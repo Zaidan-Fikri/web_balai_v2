@@ -769,6 +769,210 @@
     }
     .spine-legend-item { display: flex; align-items: center; gap: 14px; color: #344054; font-size: 12.5px; font-weight: 700; }
     .spine-legend-line { flex: 0 0 52px !important; min-width: 52px !important; }
+
+    /* Match public Lokasi dan Kontak layout inside admin preview */
+    .kontak-wrap {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        gap: 24px;
+    }
+    .kontak-top-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 420px;
+        gap: 24px;
+        align-items: stretch;
+    }
+    .kontak-info-stack {
+        display: grid;
+        gap: 11px;
+        align-content: start;
+    }
+    .kontak-2col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 11px;
+    }
+    .kontak-card {
+        display: grid;
+        grid-template-columns: 48px minmax(0, 1fr);
+        gap: 14px;
+        align-items: center;
+        padding: 16px 18px;
+        border: 1px solid rgba(225, 234, 254, .75);
+        border-left: 4px solid #0047cc;
+        border-radius: 14px;
+        background: linear-gradient(135deg, rgba(238,244,255,.55) 0%, #fff 60%);
+        box-shadow: 0 4px 18px rgba(0, 31, 84, .055);
+        transition: transform .18s ease, box-shadow .18s ease;
+    }
+    .kontak-card:hover {
+        transform: translateX(4px);
+        box-shadow: 0 8px 28px rgba(0, 31, 84, .1);
+    }
+    .kontak-card.card-fax   { border-left-color: #667085; background: linear-gradient(135deg, rgba(241,245,249,.55) 0%, #fff 60%); }
+    .kontak-card.card-email { border-left-color: #0f766e; background: linear-gradient(135deg, rgba(240,253,250,.55) 0%, #fff 60%); }
+    .kontak-card.card-wa    { border-left-color: #16a34a; background: linear-gradient(135deg, rgba(240,253,244,.55) 0%, #fff 60%); }
+    .kontak-card.card-hours { border-left-color: #7c3aed; background: linear-gradient(135deg, rgba(245,243,255,.55) 0%, #fff 60%); }
+    .kontak-card-icon {
+        width: 48px;
+        height: 48px;
+        display: grid;
+        place-items: center;
+        border-radius: 14px;
+        background: linear-gradient(135deg, #0047cc, #16a3e8);
+        color: #fff;
+        font-size: 18px;
+        box-shadow: 0 8px 20px rgba(0, 71, 204, .2);
+        flex-shrink: 0;
+    }
+    .kontak-card-label {
+        display: block;
+        margin-bottom: 3px;
+        color: #8290a3;
+        font-size: 10.5px;
+        font-weight: 900;
+        letter-spacing: .12em;
+        text-transform: uppercase;
+    }
+    .kontak-card-value {
+        display: block;
+        color: #0a1f44;
+        font-size: .93rem;
+        font-weight: 700;
+        line-height: 1.5;
+    }
+    .kontak-card-value a {
+        color: inherit;
+        text-decoration: none;
+    }
+    .kontak-card-value a:hover {
+        text-decoration: underline;
+        color: #0047cc;
+    }
+    .kontak-map-section {
+        display: flex;
+        flex-direction: column;
+        border-radius: 18px;
+        overflow: hidden;
+        border: 1px solid #dce8fb;
+        box-shadow: 0 18px 46px rgba(0, 31, 84, .1);
+    }
+    .kontak-map-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 14px 20px;
+        background: linear-gradient(135deg, #003cbf 0%, #0052e6 60%, #1a6af5 100%);
+        color: #fff;
+        font-size: 12.5px;
+        font-weight: 900;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+        flex-shrink: 0;
+    }
+    .kontak-map-wrap {
+        position: relative;
+        overflow: hidden;
+        aspect-ratio: 4 / 3;
+        background: #eef4ff;
+        flex: 1;
+    }
+    .kontak-map-wrap iframe {
+        width: 100%;
+        height: 100%;
+        border: 0;
+        display: block;
+    }
+    .kontak-map-placeholder {
+        display: grid;
+        place-items: center;
+        width: 100%;
+        height: 100%;
+        gap: 12px;
+        color: #8290a3;
+        font-size: .9rem;
+        font-weight: 800;
+        text-align: center;
+        padding: 24px;
+    }
+    .kontak-cta-strip {
+        border-radius: 16px;
+        overflow: hidden;
+        background: linear-gradient(135deg, #003cbf 0%, #0052e6 55%, #1a6af5 100%);
+        box-shadow: 0 12px 32px rgba(0, 71, 204, .25);
+    }
+    .kontak-cta-strip-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 22px 28px;
+    }
+    .kontak-cta-strip-copy strong {
+        display: block;
+        color: #fff;
+        font-size: 1rem;
+        font-weight: 900;
+        margin-bottom: 4px;
+    }
+    .kontak-cta-strip-copy span {
+        display: block;
+        color: rgba(255,255,255,.7);
+        font-size: .87rem;
+    }
+    .kontak-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        min-height: 44px;
+        padding: 11px 22px;
+        border-radius: 12px;
+        background: rgba(255,255,255,.15);
+        border: 1.5px solid rgba(255,255,255,.35);
+        color: #fff;
+        font-size: 14px;
+        font-weight: 900;
+        text-decoration: none;
+        white-space: nowrap;
+        transition: background .18s, transform .18s;
+    }
+    .kontak-cta:hover {
+        background: rgba(255,255,255,.26);
+        transform: translateY(-2px);
+        color: #fff;
+        text-decoration: none;
+    }
+    .profile-content-card.is-preview .kontak-top-grid,
+    .profile-content-card.is-preview .kontak-2col {
+        grid-template-columns: 1fr;
+    }
+    .profile-content-card.is-preview .kontak-map-section {
+        order: -1;
+    }
+    .profile-content-card.is-preview .kontak-cta-strip-inner {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .profile-content-card.is-preview .kontak-card {
+        grid-template-columns: 42px minmax(0, 1fr);
+        padding: 13px 14px;
+    }
+    .profile-content-card.is-preview .kontak-card-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        font-size: 16px;
+    }
+    @media (max-width: 860px) {
+        .kontak-top-grid { grid-template-columns: 1fr; }
+        .kontak-map-section { order: -1; }
+        .kontak-cta-strip-inner { flex-direction: column; align-items: flex-start; }
+    }
+    @media (max-width: 560px) {
+        .kontak-map-wrap { aspect-ratio: 16 / 9; }
+        .kontak-2col { grid-template-columns: 1fr; }
+    }
 </style>
 @endpush
 
@@ -803,7 +1007,57 @@
                                 <p class="profile-field-hint">Digunakan untuk alamat halaman. Biarkan seperti ini jika tidak perlu mengubah URL.</p>
                             </div>
                         </div>
-                        @if ($profilePage->slug === 'struktur-organisasi')
+                        @if ($profilePage->slug === 'lokasi-dan-kontak')
+                            @php
+                                $kontakRaw  = old('content', $profilePage->content);
+                                $kontakInit = [];
+                                if ($kontakRaw) {
+                                    $dec = json_decode($kontakRaw, true);
+                                    if (is_array($dec)) $kontakInit = $dec;
+                                }
+                            @endphp
+                            <div class="profile-field">
+                                <label class="profile-editor-label">Informasi Kontak</label>
+                            </div>
+                            <div class="profile-field">
+                                <label for="kontakAddress">Alamat</label>
+                                <textarea class="popup-input" id="kontakAddress" rows="3" placeholder="Jl. ..." style="resize:vertical;min-height:72px;">{{ $kontakInit['address'] ?? '' }}</textarea>
+                            </div>
+                            <div class="profile-form-grid">
+                                <div class="profile-field">
+                                    <label for="kontakPhone">Telepon</label>
+                                    <input type="text" class="popup-input" id="kontakPhone" value="{{ $kontakInit['phone'] ?? '' }}" placeholder="(021) ...">
+                                </div>
+                                <div class="profile-field">
+                                    <label for="kontakFax">Fax</label>
+                                    <input type="text" class="popup-input" id="kontakFax" value="{{ $kontakInit['fax'] ?? '' }}" placeholder="(021) ...">
+                                </div>
+                            </div>
+                            <div class="profile-field">
+                                <label for="kontakEmail">Email</label>
+                                <input type="email" class="popup-input" id="kontakEmail" value="{{ $kontakInit['email'] ?? '' }}" placeholder="email@example.go.id">
+                            </div>
+                            <div class="profile-field">
+                                <label for="kontakWhatsapp">WhatsApp</label>
+                                <input type="text" class="popup-input" id="kontakWhatsapp" value="{{ $kontakInit['whatsapp'] ?? '' }}" placeholder="628123456789">
+                                <p class="profile-field-hint">Nomor format internasional tanpa + (contoh: 628123456789).</p>
+                            </div>
+                            <div class="profile-field">
+                                <label for="kontakHours">Jam Operasional</label>
+                                <input type="text" class="popup-input" id="kontakHours" value="{{ $kontakInit['hours'] ?? '' }}" placeholder="Senin – Jumat, 08.00 – 16.00 WIB">
+                            </div>
+                            <div class="profile-field">
+                                <label for="kontakMapsUrl">Link Google Maps</label>
+                                <input type="url" class="popup-input" id="kontakMapsUrl" value="{{ $kontakInit['maps_url'] ?? '' }}" placeholder="https://maps.google.com/?q=...">
+                                <p class="profile-field-hint">URL untuk tombol "Buka di Google Maps".</p>
+                            </div>
+                            <div class="profile-field">
+                                <label for="kontakMapsEmbed">Google Maps Embed URL</label>
+                                <input type="url" class="popup-input" id="kontakMapsEmbed" value="{{ $kontakInit['maps_embed'] ?? '' }}" placeholder="https://www.google.com/maps/embed?pb=...">
+                                <p class="profile-field-hint">Buka Google Maps → Bagikan → Sematkan peta → salin URL dari atribut <code>src</code> pada iframe.</p>
+                            </div>
+                            <textarea id="profileContent" name="content" style="display:none">{{ $kontakRaw }}</textarea>
+                        @elseif ($profilePage->slug === 'struktur-organisasi')
                             <div class="profile-field">
                                 <div class="org-editor-toolbar">
                                     <label class="profile-editor-label">Anggota Struktur Organisasi</label>
@@ -835,7 +1089,20 @@
                 </div>
 
                 <aside class="profile-preview-card" aria-label="Preview konten">
-                    @if ($profilePage->slug === 'struktur-organisasi')
+                    @if ($profilePage->slug === 'lokasi-dan-kontak')
+                        <div class="profile-content-card is-preview">
+                            <div class="profile-content-heading">
+                                <p class="profile-content-kicker">Profil Balai Air Tanah</p>
+                                <h2 class="profile-content-title" id="profilePreviewTitle">{{ old('title', $profilePage->title) }}</h2>
+                            </div>
+                            <div id="profilePreviewBody" style="min-height:150px;display:grid;gap:10px;"></div>
+                        </div>
+                        <div class="profile-content-tips">
+                            <strong>Tips Lokasi dan Kontak</strong>
+                            <span>Isi semua field lalu salin URL embed dari Google Maps agar peta muncul di halaman publik.</span>
+                            <span>Link Google Maps digunakan untuk tombol "Buka di Google Maps" di HP pengunjung.</span>
+                        </div>
+                    @elseif ($profilePage->slug === 'struktur-organisasi')
                         <div class="profile-content-card is-preview">
                             <div class="profile-content-heading">
                                 <p class="profile-content-kicker">Profil Balai Air Tanah</p>
@@ -869,6 +1136,122 @@
 
 @push('scripts')
 <script>
+/* ===== Lokasi dan Kontak serializer ===== */
+(function () {
+    var fieldIds = { address: 'kontakAddress', phone: 'kontakPhone', fax: 'kontakFax', email: 'kontakEmail', whatsapp: 'kontakWhatsapp', hours: 'kontakHours', maps_url: 'kontakMapsUrl', maps_embed: 'kontakMapsEmbed' };
+    var fields = {};
+    Object.keys(fieldIds).forEach(function (key) { fields[key] = document.getElementById(fieldIds[key]); });
+    var contentHidden = document.getElementById('profileContent');
+    var previewBody   = document.getElementById('profilePreviewBody');
+    var titleInput    = document.getElementById('profileTitle');
+    var previewTitle  = document.getElementById('profilePreviewTitle');
+
+    if (!fields.address) return; /* not on lokasi page */
+
+    function esc(s) {
+        return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    function attr(s) {
+        return esc(s).replace(/'/g, '&#039;');
+    }
+
+    function phoneHref(value) {
+        return String(value || '').replace(/[^0-9+]/g, '');
+    }
+
+    function waHref(value) {
+        return String(value || '').replace(/[^0-9]/g, '');
+    }
+
+    function contactCard(label, value, iconClass, extraClass, iconStyle, linkHref, linkTarget) {
+        var html = '<div class="kontak-card' + (extraClass ? ' ' + extraClass : '') + '">';
+        html += '<div class="kontak-card-icon"' + (iconStyle ? ' style="' + iconStyle + '"' : '') + '><i class="' + iconClass + '"></i></div>';
+        html += '<div><span class="kontak-card-label">' + esc(label) + '</span><span class="kontak-card-value">';
+        if (linkHref) {
+            html += '<a href="' + attr(linkHref) + '"' + (linkTarget ? ' target="_blank" rel="noopener"' : '') + '>' + esc(value) + '</a>';
+        } else {
+            html += esc(value);
+        }
+        html += '</span></div></div>';
+        return html;
+    }
+
+    function renderPreview() {
+        if (!previewBody) return;
+        var address = fields.address ? fields.address.value.trim() : '';
+        var phone = fields.phone ? fields.phone.value.trim() : '';
+        var fax = fields.fax ? fields.fax.value.trim() : '';
+        var email = fields.email ? fields.email.value.trim() : '';
+        var whatsapp = fields.whatsapp ? fields.whatsapp.value.trim() : '';
+        var hours = fields.hours ? fields.hours.value.trim() : '';
+        var mapsUrl = fields.maps_url ? fields.maps_url.value.trim() : '';
+        var mapsEmbed = fields.maps_embed ? fields.maps_embed.value.trim() : '';
+
+        var infoHtml = '';
+        if (address) {
+            infoHtml += contactCard('Alamat', address, 'fa-solid fa-location-dot');
+        }
+        if (phone || whatsapp) {
+            infoHtml += '<div class="kontak-2col">';
+            if (phone) {
+                infoHtml += contactCard('Telepon', phone, 'fa-solid fa-phone', '', '', 'tel:' + phoneHref(phone));
+            }
+            if (whatsapp) {
+                infoHtml += contactCard('WhatsApp', whatsapp, 'fa-brands fa-whatsapp', 'card-wa', 'background:linear-gradient(135deg,#16a34a,#22c55e)', 'https://wa.me/' + waHref(whatsapp), true);
+            }
+            infoHtml += '</div>';
+        }
+        if (fax) {
+            infoHtml += contactCard('Fax', fax, 'fa-solid fa-fax', 'card-fax', 'background:linear-gradient(135deg,#475467,#667085)');
+        }
+        if (email) {
+            infoHtml += contactCard('Email', email, 'fa-solid fa-envelope', 'card-email', 'background:linear-gradient(135deg,#0f766e,#16a3e8)', 'mailto:' + email);
+        }
+        if (hours) {
+            infoHtml += contactCard('Jam Operasional', hours, 'fa-solid fa-clock', 'card-hours', 'background:linear-gradient(135deg,#7c3aed,#0047cc)');
+        }
+        if (!infoHtml) {
+            infoHtml = '<div class="profile-content-empty">Informasi kontak belum tersedia.</div>';
+        }
+
+        var mapHtml = '<div class="kontak-map-section">';
+        mapHtml += '<div class="kontak-map-header"><i class="fa-solid fa-map-location-dot"></i>Lokasi Kami</div>';
+        mapHtml += '<div class="kontak-map-wrap">';
+        if (mapsEmbed) {
+            mapHtml += '<iframe src="' + attr(mapsEmbed) + '" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>';
+        } else {
+            mapHtml += '<div class="kontak-map-placeholder"><i class="fa-solid fa-map-location-dot" style="font-size:2.5rem;color:#c8d7f4;"></i>Peta belum dikonfigurasi.</div>';
+        }
+        mapHtml += '</div></div>';
+
+        var html = '<div class="kontak-wrap"><div class="kontak-top-grid"><div class="kontak-info-stack">' + infoHtml + '</div>' + mapHtml + '</div>';
+        if (mapsUrl) {
+            html += '<div class="kontak-cta-strip"><div class="kontak-cta-strip-inner">';
+            html += '<div class="kontak-cta-strip-copy"><strong>Temukan kami di Google Maps</strong><span>Navigasi langsung ke lokasi Balai Air Tanah</span></div>';
+            html += '<a href="' + attr(mapsUrl) + '" target="_blank" rel="noopener" class="kontak-cta"><i class="fa-solid fa-map-location-dot"></i>Buka di Google Maps</a>';
+            html += '</div></div>';
+        }
+        html += '</div>';
+        previewBody.innerHTML = html;
+    }
+
+    function serialize() {
+        var data = {};
+        Object.keys(fields).forEach(function (key) { if (fields[key]) data[key] = fields[key].value.trim(); });
+        if (contentHidden) contentHidden.value = JSON.stringify(data);
+    }
+
+    function onInput() { serialize(); renderPreview(); }
+
+    Object.values(fields).forEach(function (el) { if (el) el.addEventListener('input', onInput); });
+    if (titleInput && previewTitle) {
+        titleInput.addEventListener('input', function () { previewTitle.textContent = this.value.trim() || 'Judul Halaman'; });
+    }
+
+    renderPreview();
+})();
+
 (function () {
     var titleInput = document.getElementById('profileTitle');
     var contentInput = document.getElementById('profileContent');

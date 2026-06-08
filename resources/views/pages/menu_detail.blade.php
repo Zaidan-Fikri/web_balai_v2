@@ -1244,6 +1244,281 @@
     }
     .spine-legend-item { display: flex; align-items: center; gap: 14px; color: #344054; font-size: 12.5px; font-weight: 700; }
     .spine-legend-line { flex: 0 0 52px !important; min-width: 52px !important; }
+
+    /* ===== Lokasi dan Kontak ===== */
+    .kontak-wrap {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        gap: 28px;
+    }
+    .kontak-top-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 440px;
+        gap: 24px;
+        align-items: stretch;
+    }
+    .kontak-info-stack {
+        display: grid;
+        gap: 13px;
+        align-content: start;
+    }
+    .kontak-2col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 13px;
+    }
+    .kontak-card {
+        display: grid;
+        grid-template-columns: 54px minmax(0, 1fr);
+        gap: 16px;
+        align-items: center;
+        padding: 18px 20px;
+        border: 1px solid rgba(220, 232, 251, .9);
+        border-left: 4px solid #0047cc;
+        border-radius: 16px;
+        background: linear-gradient(135deg, rgba(238,244,255,.65) 0%, rgba(255,255,255,.98) 65%);
+        box-shadow: 0 2px 10px rgba(0, 31, 84, .05), 0 6px 20px rgba(0, 71, 204, .06);
+        transition: transform .2s ease, box-shadow .2s ease, border-left-color .2s ease;
+    }
+    .kontak-card:hover {
+        transform: translateX(5px);
+        box-shadow: 0 6px 24px rgba(0, 71, 204, .14), 0 2px 8px rgba(0, 31, 84, .06);
+    }
+    .kontak-card.card-email { border-left-color: #0f766e; background: linear-gradient(135deg, rgba(236,253,245,.65) 0%, rgba(255,255,255,.98) 65%); }
+    .kontak-card.card-email:hover { box-shadow: 0 6px 24px rgba(15,118,110,.15), 0 2px 8px rgba(0,31,84,.06); }
+    .kontak-card.card-wa    { border-left-color: #16a34a; background: linear-gradient(135deg, rgba(240,253,244,.65) 0%, rgba(255,255,255,.98) 65%); }
+    .kontak-card.card-wa:hover    { box-shadow: 0 6px 24px rgba(22,163,74,.15), 0 2px 8px rgba(0,31,84,.06); }
+    .kontak-card.card-hours { border-left-color: #7c3aed; background: linear-gradient(135deg, rgba(245,243,255,.65) 0%, rgba(255,255,255,.98) 65%); }
+    .kontak-card.card-hours:hover { box-shadow: 0 6px 24px rgba(124,58,237,.15), 0 2px 8px rgba(0,31,84,.06); }
+    .kontak-card-icon {
+        width: 54px;
+        height: 54px;
+        display: grid;
+        place-items: center;
+        border-radius: 15px;
+        background: linear-gradient(145deg, #0047cc, #16a3e8);
+        color: #fff;
+        font-size: 20px;
+        box-shadow: 0 6px 18px rgba(0, 71, 204, .32), 0 2px 6px rgba(0,71,204,.15);
+        flex-shrink: 0;
+    }
+    .kontak-card-label {
+        display: block;
+        margin-bottom: 4px;
+        color: #8290a3;
+        font-size: 10px;
+        font-weight: 900;
+        letter-spacing: .14em;
+        text-transform: uppercase;
+    }
+    .kontak-card-value {
+        display: block;
+        color: #0a1f44;
+        font-size: .95rem;
+        font-weight: 700;
+        line-height: 1.55;
+    }
+    .kontak-card-value a {
+        color: inherit;
+        text-decoration: none;
+    }
+    .kontak-card-value a:hover {
+        text-decoration: underline;
+        color: #0047cc;
+    }
+    .kontak-map-section {
+        display: flex;
+        flex-direction: column;
+        border-radius: 20px;
+        overflow: hidden;
+        border: 1px solid #d0e2fb;
+        box-shadow: 0 8px 24px rgba(0, 31, 84, .08), 0 24px 56px rgba(0, 31, 84, .1);
+    }
+    .kontak-map-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 15px 22px;
+        background: linear-gradient(130deg, #002fa7 0%, #0047cc 55%, #1a6af5 100%);
+        color: #fff;
+        font-size: 12.5px;
+        font-weight: 900;
+        letter-spacing: .1em;
+        text-transform: uppercase;
+        flex-shrink: 0;
+        position: relative;
+        overflow: hidden;
+    }
+    .kontak-map-header::before {
+        content: '';
+        position: absolute;
+        right: -24px;
+        top: -24px;
+        width: 110px;
+        height: 110px;
+        border-radius: 50%;
+        background: rgba(255,255,255,.09);
+        pointer-events: none;
+    }
+    .kontak-map-header::after {
+        content: '';
+        position: absolute;
+        right: 50px;
+        bottom: -36px;
+        width: 72px;
+        height: 72px;
+        border-radius: 50%;
+        background: rgba(255,255,255,.06);
+        pointer-events: none;
+    }
+    .kontak-map-header-live {
+        margin-left: auto;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: .1em;
+        color: rgba(255,255,255,.85);
+        position: relative;
+        z-index: 1;
+    }
+    .kontak-map-header-live::before {
+        content: '';
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #4ade80;
+        box-shadow: 0 0 0 2px rgba(74,222,128,.3);
+        animation: kontak-pulse 2s infinite;
+    }
+    @keyframes kontak-pulse {
+        0%, 100% { box-shadow: 0 0 0 2px rgba(74,222,128,.3); }
+        50%       { box-shadow: 0 0 0 5px rgba(74,222,128,.1); }
+    }
+    .kontak-map-wrap {
+        position: relative;
+        overflow: hidden;
+        aspect-ratio: 4 / 3;
+        background: #eef4ff;
+        flex: 1;
+    }
+    .kontak-map-wrap iframe {
+        width: 100%;
+        height: 100%;
+        border: 0;
+        display: block;
+    }
+    .kontak-map-placeholder {
+        display: grid;
+        place-items: center;
+        width: 100%;
+        height: 100%;
+        gap: 12px;
+        color: #8290a3;
+        font-size: .9rem;
+        font-weight: 800;
+        text-align: center;
+        padding: 24px;
+    }
+    .kontak-cta-strip {
+        border-radius: 18px;
+        overflow: hidden;
+        background: linear-gradient(130deg, #002fa7 0%, #0047cc 50%, #1a6af5 100%);
+        box-shadow: 0 10px 36px rgba(0, 71, 204, .32), 0 2px 8px rgba(0,71,204,.15);
+        position: relative;
+    }
+    .kontak-cta-strip::before {
+        content: '';
+        position: absolute;
+        top: -50px;
+        right: -50px;
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        background: rgba(255,255,255,.07);
+        pointer-events: none;
+    }
+    .kontak-cta-strip::after {
+        content: '';
+        position: absolute;
+        bottom: -70px;
+        left: 25%;
+        width: 260px;
+        height: 260px;
+        border-radius: 50%;
+        background: rgba(255,255,255,.04);
+        pointer-events: none;
+    }
+    .kontak-cta-strip-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 24px 32px;
+        position: relative;
+        z-index: 1;
+    }
+    .kontak-cta-strip-icon {
+        display: grid;
+        place-items: center;
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        background: rgba(255,255,255,.15);
+        border: 1px solid rgba(255,255,255,.25);
+        color: #fff;
+        font-size: 20px;
+        flex-shrink: 0;
+    }
+    .kontak-cta-strip-copy strong {
+        display: block;
+        color: #fff;
+        font-size: 1.05rem;
+        font-weight: 900;
+        margin-bottom: 4px;
+    }
+    .kontak-cta-strip-copy span {
+        display: block;
+        color: rgba(255,255,255,.72);
+        font-size: .88rem;
+    }
+    .kontak-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        min-height: 46px;
+        padding: 12px 24px;
+        border-radius: 12px;
+        background: rgba(255,255,255,.18);
+        border: 1.5px solid rgba(255,255,255,.4);
+        color: #fff;
+        font-size: 14px;
+        font-weight: 900;
+        text-decoration: none;
+        white-space: nowrap;
+        transition: background .2s, transform .2s, box-shadow .2s;
+        backdrop-filter: blur(6px);
+    }
+    .kontak-cta:hover {
+        background: rgba(255,255,255,.28);
+        transform: translateY(-2px);
+        color: #fff;
+        text-decoration: none;
+        box-shadow: 0 8px 24px rgba(0,0,0,.2);
+    }
+    @media (max-width: 860px) {
+        .kontak-top-grid { grid-template-columns: 1fr; }
+        .kontak-map-section { order: -1; }
+        .kontak-cta-strip-inner { flex-direction: column; align-items: flex-start; }
+        .kontak-cta-strip-icon { display: none; }
+    }
+    @media (max-width: 560px) {
+        .kontak-map-wrap { aspect-ratio: 16 / 9; }
+        .kontak-2col { grid-template-columns: 1fr; }
+        .kontak-cta-strip-inner { padding: 20px 22px; }
+    }
 </style>
 @endpush
 
@@ -1253,7 +1528,11 @@
 @php
     $profileMenu = collect();
     if (($menuGroup ?? '') === 'Profil') {
-        $storedProfilePages = \App\Models\ProfilePage::query()->orderBy('sort_order')->orderBy('title')->get();
+        $storedProfilePages = \App\Models\ProfilePage::query()
+            ->where('slug', '!=', 'informasi-pejabat')
+            ->orderBy('sort_order')
+            ->orderBy('title')
+            ->get();
         $profileMenu = $storedProfilePages->isNotEmpty()
             ? $storedProfilePages->map(fn ($page) => [
                 'label' => $page->title,
@@ -1390,6 +1669,123 @@
                                             @endforeach
                                         </div>
                                     @endif
+                                @endif
+                            </div>
+                        </div>
+                    @elseif ($profileSlug === 'lokasi-dan-kontak')
+                        @php
+                            $kontakData = [];
+                            if ($profileContent) {
+                                $decoded = json_decode($profileContent, true);
+                                if (is_array($decoded)) $kontakData = $decoded;
+                            }
+                            $kAddress   = $kontakData['address']   ?? '';
+                            $kPhone     = $kontakData['phone']      ?? '';
+                            $kFax       = $kontakData['fax']        ?? '';
+                            $kEmail     = $kontakData['email']      ?? '';
+                            $kHours     = $kontakData['hours']      ?? '';
+                            $kWhatsapp  = $kontakData['whatsapp']   ?? '';
+                            $kMapsUrl   = $kontakData['maps_url']   ?? '';
+                            $kMapsEmbed = $kontakData['maps_embed'] ?? '';
+                        @endphp
+                        <div class="profile-content-card">
+                            <div class="profile-content-heading">
+                                <p class="profile-content-kicker">Profil Balai Air Tanah</p>
+                                <h2 class="profile-content-title">{{ $pageTitle }}</h2>
+                            </div>
+                            <div class="kontak-wrap">
+                                <div class="kontak-top-grid">
+                                    <div class="kontak-info-stack">
+                                        @if ($kAddress)
+                                            <div class="kontak-card">
+                                                <div class="kontak-card-icon"><i class="fa-solid fa-location-dot"></i></div>
+                                                <div>
+                                                    <span class="kontak-card-label">Alamat</span>
+                                                    <span class="kontak-card-value">{{ $kAddress }}</span>
+                                                </div>
+                                            </div>
+                                        @endif
+                                        @if ($kPhone || $kWhatsapp)
+                                            <div class="kontak-2col">
+                                                @if ($kPhone)
+                                                    <div class="kontak-card">
+                                                        <div class="kontak-card-icon"><i class="fa-solid fa-phone"></i></div>
+                                                        <div>
+                                                            <span class="kontak-card-label">Telepon</span>
+                                                            <span class="kontak-card-value">
+                                                                <a href="tel:{{ preg_replace('/[^0-9+]/', '', $kPhone) }}">{{ $kPhone }}</a>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                                @if ($kWhatsapp)
+                                                    <div class="kontak-card card-wa">
+                                                        <div class="kontak-card-icon" style="background:linear-gradient(135deg,#16a34a,#22c55e)"><i class="fa-brands fa-whatsapp"></i></div>
+                                                        <div>
+                                                            <span class="kontak-card-label">WhatsApp</span>
+                                                            <span class="kontak-card-value">
+                                                                <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $kWhatsapp) }}" target="_blank" rel="noopener">{{ $kWhatsapp }}</a>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        @endif
+                                        @if ($kEmail)
+                                            <div class="kontak-card card-email">
+                                                <div class="kontak-card-icon" style="background:linear-gradient(135deg,#0f766e,#16a3e8)"><i class="fa-solid fa-envelope"></i></div>
+                                                <div>
+                                                    <span class="kontak-card-label">Email</span>
+                                                    <span class="kontak-card-value">
+                                                        <a href="mailto:{{ $kEmail }}">{{ $kEmail }}</a>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        @endif
+                                        @if ($kHours)
+                                            <div class="kontak-card card-hours">
+                                                <div class="kontak-card-icon" style="background:linear-gradient(135deg,#7c3aed,#0047cc)"><i class="fa-solid fa-clock"></i></div>
+                                                <div>
+                                                    <span class="kontak-card-label">Jam Operasional</span>
+                                                    <span class="kontak-card-value">{{ $kHours }}</span>
+                                                </div>
+                                            </div>
+                                        @endif
+                                        @if (!$kAddress && !$kPhone && !$kFax && !$kEmail && !$kWhatsapp && !$kHours)
+                                            <div class="profile-content-empty">Informasi kontak belum tersedia.</div>
+                                        @endif
+                                    </div>
+                                    <div class="kontak-map-section">
+                                        <div class="kontak-map-header">
+                                            <i class="fa-solid fa-map-location-dot"></i>
+                                            Lokasi Kami
+                                            <span class="kontak-map-header-live">LIVE</span>
+                                        </div>
+                                        <div class="kontak-map-wrap">
+                                            @if ($kMapsEmbed)
+                                                <iframe src="{{ $kMapsEmbed }}" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                                            @else
+                                                <div class="kontak-map-placeholder">
+                                                    <i class="fa-solid fa-map-location-dot" style="font-size:2.5rem;color:#c8d7f4;"></i>
+                                                    Peta belum dikonfigurasi.
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                                @if ($kMapsUrl)
+                                    <div class="kontak-cta-strip">
+                                        <div class="kontak-cta-strip-inner">
+                                            <div class="kontak-cta-strip-copy">
+                                                <strong>Temukan kami di Google Maps</strong>
+                                                <span>Navigasi langsung ke lokasi Balai Air Tanah</span>
+                                            </div>
+                                            <a href="{{ $kMapsUrl }}" target="_blank" rel="noopener" class="kontak-cta">
+                                                <i class="fa-solid fa-map-location-dot"></i>
+                                                Buka di Google Maps
+                                            </a>
+                                        </div>
+                                    </div>
                                 @endif
                             </div>
                         </div>

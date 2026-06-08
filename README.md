@@ -28,6 +28,41 @@ Akun admin awal dari seeder:
 - Email: `superadmin@gmail.com`
 - Password: `superadmin123`
 
+## Menjalankan Dengan Docker
+
+Docker setup project ini sudah menyiapkan:
+
+- PHP 8.2 FPM
+- Composer 2
+- Node.js 22 dan NPM untuk build asset Vite
+- Nginx
+- MySQL 8
+- Auto copy `.env.example` ke `.env`
+- Auto `composer install`
+- Auto `npm ci` / `npm install`
+- Auto `npm run build`
+- Auto `php artisan key:generate`
+- Auto `php artisan storage:link`
+- Auto migrate dan seed database
+
+Jalankan:
+
+```bash
+docker compose up --build
+```
+
+Akses aplikasi di:
+
+```text
+http://localhost:8000
+```
+
+Jika dependency frontend berubah, jalankan ulang:
+
+```bash
+docker compose up --build
+```
+
 ## Development Asset
 
 Source asset berada di:

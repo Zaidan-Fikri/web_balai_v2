@@ -22,12 +22,14 @@ services:
       chown -R www-data:www-data storage bootstrap/cache &&
       chmod -R 775 storage bootstrap/cache &&
       if [ ! -f vendor/autoload.php ]; then composer install --no-interaction --prefer-dist; fi &&
+      if [ -f package-lock.json ]; then npm ci; else npm install; fi &&
+      npm run build &&
       if ! grep -q '^APP_KEY=base64:' .env; then php artisan key:generate --force; fi &&
       until php -r 'try { new PDO(\"mysql:host=\".getenv(\"DB_HOST\").\";port=\".getenv(\"DB_PORT\").\";dbname=\".getenv(\"DB_DATABASE\"), getenv(\"DB_USERNAME\"), getenv(\"DB_PASSWORD\")); exit(0); } catch (Exception $$e) { exit(1); }'; do
         echo 'Waiting for database...';
         sleep 2;
       done &&
-      php artisan storage:link || true &&
+      (php artisan storage:link || true) &&
       php artisan migrate --force --seed &&
       php-fpm
       "
