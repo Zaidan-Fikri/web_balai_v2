@@ -1629,3 +1629,166 @@
         openOverlay(createOverlay, createInput);
     }
 })();
+
+/* =========================================================
+   resources/views/pages/admin/galeri.blade.php
+   ========================================================= */
+(function () {
+    const openButton         = document.getElementById('openGaleriPopup');
+    const createOverlay      = document.getElementById('createGaleriOverlay');
+    const readOverlay        = document.getElementById('readGaleriOverlay');
+    const updateOverlay      = document.getElementById('updateGaleriOverlay');
+
+    if (!openButton || !createOverlay || !readOverlay || !updateOverlay) return;
+
+    const createJudul        = document.getElementById('createGaleriJudul');
+    const createType         = document.getElementById('createGaleriType');
+    const createImage        = document.getElementById('createGaleriImage');
+    const createPreview      = document.getElementById('createGaleriPreview');
+    const createDeskripsi    = document.getElementById('createGaleriDeskripsi');
+
+    const readImage          = document.getElementById('readGaleriImage');
+    const readJudul          = document.getElementById('readGaleriJudul');
+    const readType           = document.getElementById('readGaleriType');
+    const readDeskripsi      = document.getElementById('readGaleriDeskripsi');
+
+    const createBgColor      = document.getElementById('createGaleriBg');
+    const createBgHex        = document.getElementById('createGaleriBgHex');
+
+    const readBgWrap         = document.getElementById('readGaleriBgWrap');
+    const readBgSwatch       = document.getElementById('readGaleriBgSwatch');
+    const readBgHexEl        = document.getElementById('readGaleriBgHex');
+
+    const updateForm         = document.getElementById('updateGaleriForm');
+    const updateJudul        = document.getElementById('updateGaleriJudul');
+    const updateType         = document.getElementById('updateGaleriType');
+    const updateCurrentPrev  = document.getElementById('updateGaleriCurrentPreview');
+    const updateImage        = document.getElementById('updateGaleriImage');
+    const updateNewPrev      = document.getElementById('updateGaleriNewPreview');
+    const updateDeskripsi    = document.getElementById('updateGaleriDeskripsi');
+    const updateBgColor      = document.getElementById('updateGaleriBg');
+    const updateBgHex        = document.getElementById('updateGaleriBgHex');
+
+    function openOverlay(overlay, focusTarget) {
+        overlay.classList.add('is-open');
+        overlay.setAttribute('aria-hidden', 'false');
+        if (focusTarget) window.setTimeout(function () { focusTarget.focus(); }, 0);
+    }
+
+    function closeOverlay(overlay) {
+        overlay.classList.remove('is-open');
+        overlay.setAttribute('aria-hidden', 'true');
+    }
+
+    function closeAllOverlays() {
+        document.querySelectorAll('.popup-overlay.is-open').forEach(function (o) { closeOverlay(o); });
+    }
+
+    function renderPreview(container, file, fallbackUrl) {
+        if (!container) return;
+        container.innerHTML = '';
+        if (file) {
+            const url = URL.createObjectURL(file);
+            container.innerHTML = '<img src="' + url + '" alt="Preview">';
+            const img = container.querySelector('img');
+            if (img) img.addEventListener('load', function () { URL.revokeObjectURL(url); });
+            return;
+        }
+        if (fallbackUrl) {
+            container.innerHTML = '<img src="' + fallbackUrl + '" alt="Foto galeri">';
+        } else {
+            container.innerHTML = '<p class="read-meta thumb-empty">Belum ada gambar.</p>';
+        }
+    }
+
+    if (createBgColor) {
+        createBgColor.addEventListener('input', function () {
+            if (createBgHex) createBgHex.textContent = createBgColor.value;
+        });
+    }
+    if (updateBgColor) {
+        updateBgColor.addEventListener('input', function () {
+            if (updateBgHex) updateBgHex.textContent = updateBgColor.value;
+        });
+    }
+
+    openButton.addEventListener('click', function () {
+        if (createJudul) createJudul.value = '';
+        if (createType) createType.value = 'foto';
+        if (createImage) createImage.value = '';
+        if (createDeskripsi) createDeskripsi.value = '';
+        if (createBgColor) { createBgColor.value = '#0d2d5e'; if (createBgHex) createBgHex.textContent = '#0d2d5e'; }
+        renderPreview(createPreview, null, null);
+        openOverlay(createOverlay, createJudul);
+    });
+
+    if (createImage) {
+        createImage.addEventListener('change', function () {
+            renderPreview(createPreview, createImage.files[0] || null, null);
+        });
+    }
+
+    document.querySelectorAll('.js-galeri-read-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            renderPreview(readImage, null, btn.dataset.image || null);
+            if (readJudul) readJudul.textContent = btn.dataset.judul || '-';
+            if (readType) readType.textContent = 'Tipe: ' + (btn.dataset.type ? btn.dataset.type.charAt(0).toUpperCase() + btn.dataset.type.slice(1) : '-');
+            if (readDeskripsi) readDeskripsi.textContent = btn.dataset.deskripsi || '-';
+            var bg = btn.dataset.bg || '';
+            if (readBgWrap) {
+                if (bg) {
+                    readBgWrap.style.display = '';
+                    if (readBgSwatch) { readBgSwatch.style.background = bg; }
+                    if (readBgHexEl) readBgHexEl.textContent = bg;
+                } else {
+                    readBgWrap.style.display = 'none';
+                }
+            }
+            openOverlay(readOverlay);
+        });
+    });
+
+    document.querySelectorAll('.js-galeri-update-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            if (updateForm) updateForm.action = btn.dataset.updateUrl || '';
+            if (updateJudul) updateJudul.value = btn.dataset.judul || '';
+            if (updateType) updateType.value = btn.dataset.type || 'foto';
+            if (updateDeskripsi) updateDeskripsi.value = btn.dataset.deskripsi || '';
+            if (updateImage) updateImage.value = '';
+            var bg = btn.dataset.bg || '#0d2d5e';
+            if (updateBgColor) { updateBgColor.value = bg; if (updateBgHex) updateBgHex.textContent = bg; }
+            renderPreview(updateCurrentPrev, null, btn.dataset.image || null);
+            renderPreview(updateNewPrev, null, null);
+            openOverlay(updateOverlay, updateJudul);
+        });
+    });
+
+    if (updateImage) {
+        updateImage.addEventListener('change', function () {
+            renderPreview(updateNewPrev, updateImage.files[0] || null, null);
+        });
+    }
+
+    document.querySelectorAll('.js-galeri-delete-form').forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+            if (!window.confirm('Hapus item galeri ini?')) event.preventDefault();
+        });
+    });
+
+    document.querySelectorAll('.popup-overlay').forEach(function (overlay) {
+        overlay.addEventListener('click', function (event) {
+            if (event.target === overlay) closeOverlay(overlay);
+        });
+    });
+
+    document.querySelectorAll('[data-close-overlay]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            const id = btn.getAttribute('data-close-overlay');
+            if (id) closeOverlay(document.getElementById(id));
+        });
+    });
+
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') closeAllOverlays();
+    });
+})();

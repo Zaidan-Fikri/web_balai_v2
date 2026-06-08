@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Berita;
 use App\Models\Buletin;
+use App\Models\GaleriTile;
 use App\Models\Infografis;
 use App\Models\LaporanSkm;
 use App\Models\Pengumuman;
+use App\Models\ProfilePage;
 use App\Models\Thumbnail;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class HomeController extends Controller
@@ -47,6 +50,22 @@ class HomeController extends Controller
         $nilaiSkm = '0%';
         $jumlahLaporanSkm = LaporanSkm::query()->count();
 
+        $galeriTiles = GaleriTile::orderBy('id')
+            ->get()
+            ->keyBy(fn ($item) => strtolower($item->kategori));
+
+        $profilePages = ProfilePage::query()
+            ->orderBy('sort_order')
+            ->orderBy('title')
+            ->get()
+            ->keyBy('slug');
+
+        $aboutProfilePage = $profilePages->get('tentang-kami');
+        $aboutDescription = $this->profileExcerpt(
+            $aboutProfilePage?->content,
+            'Balai Air Tanah merupakan unit kerja di lingkungan Direktorat Jenderal Sumber Daya Air, Kementerian Pekerjaan Umum, yang mendukung pengelolaan air tanah secara berkelanjutan melalui pelaksanaan tugas teknis sesuai kewenangannya, meliputi pelayanan teknis air tanah, pengembangan dan penerapan teknologi, pengelolaan data dan informasi, serta pengelolaan laboratorium.'
+        );
+
         return view('pages.home', compact(
             'publikasiBeritas',
             'heroThumbnails',
@@ -55,7 +74,30 @@ class HomeController extends Controller
             'pengumumans',
             'jumlahPengaduan',
             'nilaiSkm',
-            'jumlahLaporanSkm'
+            'jumlahLaporanSkm',
+            'galeriTiles',
+            'profilePages',
+            'aboutProfilePage',
+            'aboutDescription'
         ));
+    }
+
+    private function profileExcerpt(?string $content, string $fallback): string
+    {
+        $lines = collect(preg_split('/\R/', trim((string) $content)))
+            ->map(fn ($line) => trim($line))
+            ->filter()
+            ->reject(fn ($line) => in_array(strtolower(rtrim($line, ':')), [
+                'visi',
+                'misi',
+                'tugas',
+                'fungsi',
+            ], true));
+
+        $paragraph = $lines->first(fn ($line) => ! preg_match('/^(?:[-*]|\d+[\.\)]|[a-zA-Z][\.\)])\s+/', $line));
+
+        return $paragraph
+            ? Str::limit($paragraph, 320)
+            : $fallback;
     }
 }

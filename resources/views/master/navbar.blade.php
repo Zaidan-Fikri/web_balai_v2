@@ -25,12 +25,12 @@
                                     <span class="menu-caret" aria-hidden="true">&gt;</span>
                                 </a>
                                 <ul class="sub-menu">
-                                    <li class="nav-item"><a class="nav-link" href="#">Tentang Kami</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{{ route('profil.index') }}">Tentang Kami</a></li>
                                     <li class="nav-item"><a class="nav-link" href="{{ route('profil.tugas_dan_fungsi') }}">Tugas dan Fungsi</a></li>
                                     <li class="nav-item"><a class="nav-link" href="{{ route('profil.visi_misi') }}">Visi dan Misi</a></li>
                                     <li class="nav-item"><a class="nav-link" href="{{ route('profil.struktur_organisasi') }}">Struktur Organisasi</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="#">Informasi Pejabat</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="#">Zona Integritas</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{{ route('profil.informasi_pejabat') }}">Informasi Pejabat</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{{ route('profil.zona_integritas') }}">Zona Integritas</a></li>
                                     <li class="nav-item"><a class="nav-link" href="{{ route('profil.lokasi_dan_kontak') }}">Lokasi dan Kontak</a></li>
                                 </ul>
                             </li>
@@ -53,7 +53,7 @@
                                         </ul>
                                     </li>
                                     <li class="nav-item"><a class="nav-link" target="_blank" rel="noopener noreferrer" href="https://sahabat.pu.go.id/">E-PPID</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="{{ route('pelayanan_publik.layanan_pengaduan') }}">Layanan Pengaduan</a></li>
+                                    <li class="nav-item"><a class="nav-link" target="_blank" rel="noopener noreferrer" href="https://www.lapor.go.id/">Layanan Pengaduan</a></li>
                                     <li class="nav-item"><a class="nav-link" href="{{ route('pelayanan_publik.standar_pelayanan') }}">Standar Pelayanan</a></li>
                                     <li class="nav-item"><a class="nav-link" href="{{ route('pelayanan_publik.maklumat_pelayanan') }}">Maklumat Pelayanan</a></li>
                                 </ul>
@@ -78,7 +78,16 @@
                                     <li class="nav-item"><a class="nav-link" href="{{ route('publikasi.berita') }}">Berita</a></li>
                                     <li class="nav-item"><a class="nav-link" href="{{ route('publikasi.buletin.index') }}">Edukasi Air Tanah</a></li>
                                     <li class="nav-item"><a class="nav-link" href="{{ route('publikasi.infografis') }}">Infografis</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="{{ route('publikasi.galeri') }}">Galeri</a></li>
+                                    <li class="nav-item submenu flyout-parent">
+                                        <a class="nav-link" href="{{ route('publikasi.galeri') }}">
+                                            Galeri
+                                            <span class="menu-caret menu-caret-flyout" aria-hidden="true">&gt;</span>
+                                        </a>
+                                        <ul class="sub-menu flyout-card">
+                                            <li class="nav-item"><a class="nav-link" href="{{ route('publikasi.galeri.foto') }}">Foto</a></li>
+                                            <li class="nav-item"><a class="nav-link" href="{{ route('publikasi.galeri.video') }}">Video</a></li>
+                                        </ul>
+                                    </li>
                                     <li class="nav-item"><a class="nav-link" href="{{ route('publikasi.pengumuman') }}">Pengumuman</a></li>
                                 </ul>
                             </li>

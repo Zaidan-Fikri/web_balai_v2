@@ -28,7 +28,7 @@
                 <ul>
                     <li><a href="{{ route('profil.index') }}">Profil Balai</a></li>
                     <li><a href="{{ route('profil.tugas_dan_fungsi') }}">Tugas dan Fungsi</a></li>
-                    <li><a href="{{ route('profil.visi_misi') }}">Visi &amp; Misi</a></li>
+                    <li><a href="{{ route('profil.visi_misi') }}">Visi dan Misi</a></li>
                     <li><a href="{{ route('profil.lokasi_dan_kontak') }}">Lokasi dan Kontak</a></li>
                 </ul>
             </nav>
@@ -55,8 +55,8 @@
                         <a href="tel:+622220463967">(022) 20463967</a>
                     </li>
                     <li>
-                        <i class="fa-solid fa-phone" aria-hidden="true"></i>
-                        <a href="tel:+6281913009001">0819 1300 9001</a>
+                        <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+                        <a href="https://wa.me/6281913009001" target="_blank" rel="noopener noreferrer">0819 1300 9001</a>
                     </li>
                     <li>
                         <i class="fa-solid fa-envelope" aria-hidden="true"></i>
@@ -68,7 +68,7 @@
 
         <div class="footer-bottom">
             <p>© {{ date('Y') }} Balai Air Tanah. Seluruh hak cipta dilindungi.</p>
-            <a href="https://sda.pu.go.id/" target="_blank" rel="noopener noreferrer">Direktorat Jenderal Sumber Daya Air</a>
+            <a href="#">Direktorat Jenderal Sumber Daya Air</a>
         </div>
     </div>
 </footer>

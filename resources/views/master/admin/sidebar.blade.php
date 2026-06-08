@@ -2,6 +2,7 @@
     $adminRole = session('admin_user_role', 'kompu');
     $canSeeKompuMenu = in_array($adminRole, ['superadmin', 'kompu'], true);
     $canSeeLayananTeknisMenu = in_array($adminRole, ['superadmin', 'layanan_teknis'], true);
+    $activeProfileSlug = optional(request()->route('profilePage'))->slug;
 @endphp
 
 <aside class="sidebar">
@@ -21,6 +22,27 @@
                 <i class="fa-solid fa-gauge-high"></i><span>Dashboard</span>
             </a>
             @if ($canSeeKompuMenu)
+                <a class="menu-item {{ request()->routeIs('admin.profile-pages.*') && $activeProfileSlug === 'tentang-kami' ? 'active' : '' }}" href="{{ route('admin.profile-pages.edit', 'tentang-kami') }}">
+                    <i class="fa-solid fa-circle-info"></i><span>Tentang Kami</span>
+                </a>
+                <a class="menu-item {{ request()->routeIs('admin.profile-pages.*') && $activeProfileSlug === 'tugas-dan-fungsi' ? 'active' : '' }}" href="{{ route('admin.profile-pages.edit', 'tugas-dan-fungsi') }}">
+                    <i class="fa-solid fa-list-check"></i><span>Tugas dan Fungsi</span>
+                </a>
+                <a class="menu-item {{ request()->routeIs('admin.profile-pages.*') && $activeProfileSlug === 'visi-dan-misi' ? 'active' : '' }}" href="{{ route('admin.profile-pages.edit', 'visi-dan-misi') }}">
+                    <i class="fa-solid fa-bullseye"></i><span>Visi dan Misi</span>
+                </a>
+                <a class="menu-item {{ request()->routeIs('admin.profile-pages.*') && $activeProfileSlug === 'struktur-organisasi' ? 'active' : '' }}" href="{{ route('admin.profile-pages.edit', 'struktur-organisasi') }}">
+                    <i class="fa-solid fa-sitemap"></i><span>Struktur Organisasi</span>
+                </a>
+                <a class="menu-item {{ request()->routeIs('admin.profile-pages.*') && $activeProfileSlug === 'informasi-pejabat' ? 'active' : '' }}" href="{{ route('admin.profile-pages.edit', 'informasi-pejabat') }}">
+                    <i class="fa-solid fa-id-card"></i><span>Informasi Pejabat</span>
+                </a>
+                <a class="menu-item {{ request()->routeIs('admin.profile-pages.*') && $activeProfileSlug === 'zona-integritas' ? 'active' : '' }}" href="{{ route('admin.profile-pages.edit', 'zona-integritas') }}">
+                    <i class="fa-solid fa-shield-halved"></i><span>Zona Integritas</span>
+                </a>
+                <a class="menu-item {{ request()->routeIs('admin.profile-pages.*') && $activeProfileSlug === 'lokasi-dan-kontak' ? 'active' : '' }}" href="{{ route('admin.profile-pages.edit', 'lokasi-dan-kontak') }}">
+                    <i class="fa-solid fa-location-dot"></i><span>Lokasi dan Kontak</span>
+                </a>
                 <a class="menu-item {{ request()->routeIs('admin.berita.*') ? 'active' : '' }}" href="{{ route('admin.berita.index') }}">
                     <i class="fa-regular fa-lightbulb"></i><span>Berita</span>
                 </a>
@@ -53,6 +75,12 @@
                 </a>
                 <a class="menu-item {{ request()->routeIs('admin.laporan-skm.*') ? 'active' : '' }}" href="{{ route('admin.laporan-skm.index') }}">
                     <i class="fa-solid fa-chart-column"></i><span>Laporan SKM</span>
+                </a>
+                <a class="menu-item {{ request()->routeIs('admin.galeri.*') ? 'active' : '' }}" href="{{ route('admin.galeri.index') }}">
+                    <i class="fa-solid fa-images"></i><span>Galeri</span>
+                </a>
+                <a class="menu-item {{ request()->routeIs('admin.galeri-tile.*') ? 'active' : '' }}" href="{{ route('admin.galeri-tile.index') }}">
+                    <i class="fa-solid fa-table-cells-large"></i><span>Tile Landing Page</span>
                 </a>
             @endif
             @if ($canSeeLayananTeknisMenu)

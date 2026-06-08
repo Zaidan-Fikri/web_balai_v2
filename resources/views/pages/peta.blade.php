@@ -15,7 +15,7 @@
 <body>
     <div class="map-shell">
         <div class="map-topbar">
-            <h1 class="map-title">Peta Indonesia</h1>
+            <h1 class="map-title">Sebaran Advis Teknis Balai Air Tanah</h1>
             <div class="map-actions">
                 <a href="{{ route('home') }}" class="map-back-btn">
                     <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>

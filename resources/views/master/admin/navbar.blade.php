@@ -1,6 +1,7 @@
 @php
     $pageTitle = match (true) {
         request()->routeIs('admin.dashboard') => 'Dashboard',
+        request()->routeIs('admin.profile-pages.*') => 'Profil',
         request()->routeIs('admin.berita.*') => 'Berita',
         request()->routeIs('admin.thumbnail.*') => 'Thumbnail',
         request()->routeIs('admin.pengumuman.*') => 'Pengumuman',

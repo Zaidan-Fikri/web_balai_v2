@@ -75,7 +75,7 @@ final class IndonesiaMap
                     'key' => 'osm',
                     'label' => 'OpenStreetMap',
                     'url' => 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                    'active' => true,
+                    'active' => false,
                     'options' => [
                         'maxZoom' => 19,
                         'attribution' => '&copy; OpenStreetMap contributors',
@@ -85,7 +85,7 @@ final class IndonesiaMap
                     'key' => 'satellite',
                     'label' => 'Satellite',
                     'url' => 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-                    'active' => false,
+                    'active' => true,
                     'options' => [
                         'maxZoom' => 19,
                         'attribution' => 'Tiles &copy; Esri',

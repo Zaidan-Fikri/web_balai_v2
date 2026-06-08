@@ -11,12 +11,17 @@ use App\Http\Controllers\AdminLaporanSkmController;
 use App\Http\Controllers\AdminPengumumanController;
 use App\Http\Controllers\AdminSniController;
 use App\Http\Controllers\AdminSiatabController;
+use App\Http\Controllers\AdminGaleriController;
+use App\Http\Controllers\AdminGaleriTileController;
+use App\Http\Controllers\AdminProfilePageController;
 use App\Http\Controllers\AdminThumbnailController;
 use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\BuletinController;
 use App\Http\Controllers\InfografisController;
+use App\Http\Controllers\GaleriFotoController;
 use App\Http\Controllers\LaporanSkmController;
+use App\Http\Controllers\ProfilePageController;
 use App\Http\Controllers\SearchController;
 use App\Models\IndonesiaMap;
 use Illuminate\Support\Facades\Route;
@@ -50,6 +55,12 @@ Route::prefix('admin')->name('admin.')->middleware('admin.auth')->group(function
 
     Route::middleware('admin.role:kompu')->group(function () {
         Route::get('/berita', [AdminBeritaController::class, 'index'])->name('berita.index');
+        Route::get('/profile-pages', [AdminProfilePageController::class, 'index'])->name('profile-pages.index');
+        Route::post('/profile-pages', [AdminProfilePageController::class, 'store'])->name('profile-pages.store');
+        Route::get('/profile-pages/{profilePage:slug}/edit', [AdminProfilePageController::class, 'edit'])->name('profile-pages.edit');
+        Route::put('/profile-pages/{profilePage:slug}', [AdminProfilePageController::class, 'update'])->name('profile-pages.update');
+        Route::delete('/profile-pages/{profilePage:slug}', [AdminProfilePageController::class, 'destroy'])->name('profile-pages.destroy');
+        Route::post('/profile-pages/upload-org-photo', [AdminProfilePageController::class, 'uploadOrgPhoto'])->name('profile-pages.upload-org-photo');
         Route::get('/buletin', [AdminBuletinController::class, 'index'])->name('buletin.index');
         Route::post('/buletin', [AdminBuletinController::class, 'store'])->name('buletin.store');
         Route::put('/buletin/{buletin}', [AdminBuletinController::class, 'update'])->name('buletin.update');
@@ -91,6 +102,14 @@ Route::prefix('admin')->name('admin.')->middleware('admin.auth')->group(function
         Route::post('/laporan-skm', [AdminLaporanSkmController::class, 'store'])->name('laporan-skm.store');
         Route::put('/laporan-skm/{laporanSkm}', [AdminLaporanSkmController::class, 'update'])->name('laporan-skm.update');
         Route::delete('/laporan-skm/{laporanSkm}', [AdminLaporanSkmController::class, 'destroy'])->name('laporan-skm.destroy');
+        Route::get('/galeri', [AdminGaleriController::class, 'index'])->name('galeri.index');
+        Route::post('/galeri', [AdminGaleriController::class, 'store'])->name('galeri.store');
+        Route::put('/galeri/{galeri}', [AdminGaleriController::class, 'update'])->name('galeri.update');
+        Route::delete('/galeri/{galeri}', [AdminGaleriController::class, 'destroy'])->name('galeri.destroy');
+        Route::delete('/galeri/{galeri}/image/{galeriImage}', [AdminGaleriController::class, 'destroyImage'])->name('galeri.destroy-image');
+        Route::get('/galeri-tile', [AdminGaleriTileController::class, 'index'])->name('galeri-tile.index');
+        Route::put('/galeri-tile/{galeriTile}', [AdminGaleriTileController::class, 'update'])->name('galeri-tile.update');
+        Route::delete('/galeri-tile/{galeriTile}/image', [AdminGaleriTileController::class, 'destroyImage'])->name('galeri-tile.destroy-image');
     });
 
     Route::middleware('admin.role:layanan_teknis')->group(function () {
@@ -104,14 +123,14 @@ Route::prefix('admin')->name('admin.')->middleware('admin.auth')->group(function
 });
 
 Route::prefix('profil')->name('profil.')->group(function () {
-    Route::view('/', 'pages.menu_detail', [
-        'menuGroup' => 'Profil',
-        'pageTitle' => 'Profil Balai Air Tanah',
-    ])->name('index');
-    Route::view('/tugas_dan_fungsi', 'pages.menu_detail', ['menuGroup' => 'Profil', 'pageTitle' => 'Tugas dan Fungsi'])->name('tugas_dan_fungsi');
-    Route::view('/visi_misi', 'pages.menu_detail', ['menuGroup' => 'Profil', 'pageTitle' => 'Visi & Misi'])->name('visi_misi');
-    Route::view('/struktur_organisasi', 'pages.menu_detail', ['menuGroup' => 'Profil', 'pageTitle' => 'Struktur Organisasi'])->name('struktur_organisasi');
-    Route::view('/lokasi_dan_kontak', 'pages.menu_detail', ['menuGroup' => 'Profil', 'pageTitle' => 'Lokasi dan Kontak'])->name('lokasi_dan_kontak');
+    Route::get('/', [ProfilePageController::class, 'index'])->name('index');
+    Route::get('/tugas_dan_fungsi', [ProfilePageController::class, 'tugasDanFungsi'])->name('tugas_dan_fungsi');
+    Route::get('/visi_misi', [ProfilePageController::class, 'visiMisi'])->name('visi_misi');
+    Route::get('/struktur_organisasi', [ProfilePageController::class, 'strukturOrganisasi'])->name('struktur_organisasi');
+    Route::get('/informasi_pejabat', [ProfilePageController::class, 'informasiPejabat'])->name('informasi_pejabat');
+    Route::get('/zona_integritas', [ProfilePageController::class, 'zonaIntegritas'])->name('zona_integritas');
+    Route::get('/lokasi_dan_kontak', [ProfilePageController::class, 'lokasiDanKontak'])->name('lokasi_dan_kontak');
+    Route::get('/{profilePage:slug}', [ProfilePageController::class, 'showPage'])->name('show');
 });
 
 Route::prefix('publikasi')->name('publikasi.')->group(function () {
@@ -122,6 +141,8 @@ Route::prefix('publikasi')->name('publikasi.')->group(function () {
     Route::view('/pengumuman', 'pages.menu_detail', ['menuGroup' => 'Publikasi', 'pageTitle' => 'Pengumuman'])->name('pengumuman');
     Route::get('/infografis', [InfografisController::class, 'index'])->name('infografis');
     Route::view('/galeri', 'pages.menu_detail', ['menuGroup' => 'Publikasi', 'pageTitle' => 'Galeri'])->name('galeri');
+    Route::get('/galeri/foto', [GaleriFotoController::class, 'index'])->name('galeri.foto');
+    Route::view('/galeri/video', 'pages.menu_detail', ['menuGroup' => 'Publikasi', 'pageTitle' => 'Galeri Video'])->name('galeri.video');
 });
 
 Route::prefix('informasi_publik')->name('informasi_publik.')->group(function () {

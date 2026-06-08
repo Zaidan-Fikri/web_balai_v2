@@ -56,6 +56,8 @@ class SearchController extends Controller
             ['title' => 'Pengumuman', 'category' => 'Publikasi', 'url' => route('publikasi.pengumuman'), 'excerpt' => 'Pengumuman resmi Balai Air Tanah.'],
             ['title' => 'Infografis', 'category' => 'Publikasi', 'url' => route('publikasi.infografis'), 'excerpt' => 'Publikasi infografis.'],
             ['title' => 'Galeri', 'category' => 'Publikasi', 'url' => route('publikasi.galeri'), 'excerpt' => 'Galeri kegiatan Balai Air Tanah.'],
+            ['title' => 'Galeri Foto', 'category' => 'Publikasi', 'url' => route('publikasi.galeri.foto'), 'excerpt' => 'Galeri foto kegiatan Balai Air Tanah.'],
+            ['title' => 'Galeri Video', 'category' => 'Publikasi', 'url' => route('publikasi.galeri.video'), 'excerpt' => 'Galeri video kegiatan Balai Air Tanah.'],
             ['title' => 'GEMS', 'category' => 'Layanan Unggulan', 'url' => route('gems'), 'excerpt' => 'Layanan unggulan GEMS.'],
             ['title' => 'Laboratorium', 'category' => 'Layanan Unggulan', 'url' => route('laboratorium'), 'excerpt' => 'Informasi layanan laboratorium.'],
             ['title' => 'Peta', 'category' => 'Data', 'url' => route('peta'), 'excerpt' => 'Peta informasi air tanah.'],

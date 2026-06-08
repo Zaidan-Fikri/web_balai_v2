@@ -17,6 +17,343 @@
     <link rel="preload" href="{{ $heroPreloadImage }}" as="image" fetchpriority="high">
 @endpush
 
+@push('styles')
+    <style>
+        .social-profile-logo {
+            color: #ffffff;
+            font-size: 34px;
+            border-color: rgba(255, 255, 255, 0.32);
+        }
+
+        .social-profile-card {
+            grid-template-columns: 86px minmax(0, 1fr);
+        }
+
+        .social-profile-logo i {
+            line-height: 1;
+        }
+
+        .facebook-card .social-profile-logo {
+            background: #1877f2;
+        }
+
+        .x-card .social-profile-logo {
+            background: #000000;
+        }
+
+        .threads-card .social-profile-logo {
+            background: #101010;
+        }
+
+        .social-profile-desc {
+            display: none;
+        }
+
+        .sp4n-lapor-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 170px;
+            margin: 0;
+        }
+
+        .sp4n-lapor-logo img {
+            width: min(175px, 100%);
+            height: auto;
+            object-fit: contain;
+        }
+
+        /* ── Gallery Showcase ── */
+        .gallery-showcase {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            grid-auto-rows: clamp(190px, 21vw, 300px);
+            gap: clamp(10px, 1.2vw, 14px);
+            max-width: 1160px;
+            margin: 0 auto;
+        }
+
+        .gallery-tile {
+            position: relative;
+            display: block;
+            overflow: hidden;
+            border-radius: 18px;
+            color: inherit;
+            text-decoration: none;
+            background: #1a2744;
+            box-shadow: 0 6px 24px rgba(9, 30, 66, 0.16);
+            transition: transform 0.28s cubic-bezier(.22,.68,0,1.2), box-shadow 0.28s ease;
+        }
+
+        .gallery-tile:hover,
+        .gallery-tile:focus-visible {
+            color: inherit;
+            text-decoration: none;
+            transform: translateY(-6px) scale(1.015);
+            box-shadow: 0 20px 56px rgba(9, 30, 66, 0.30);
+            outline: 0;
+        }
+
+        /* videos span 2 of 3 columns */
+        .gallery-tile-video {
+            grid-column: span 2;
+        }
+
+        /* photos fill 1 column each */
+        .gallery-tile-photo {
+            /* height controlled by grid-auto-rows */
+        }
+
+        .gallery-tile figure {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            border-radius: inherit;
+        }
+
+        .gallery-tile img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            border-radius: inherit;
+            object-fit: cover;
+            transition: transform 0.52s cubic-bezier(.22,.68,0,1.2), filter 0.52s ease;
+        }
+
+        .gallery-tile:hover img,
+        .gallery-tile:focus-visible img {
+            transform: scale(1.09);
+            filter: brightness(1.06) saturate(1.14);
+        }
+
+        /* ── gradient overlay ── */
+        .gallery-tile-overlay {
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: linear-gradient(
+                to top,
+                rgba(4, 18, 44, 0.82) 0%,
+                rgba(4, 18, 44, 0.22) 48%,
+                transparent 100%
+            );
+            pointer-events: none;
+            transition: background 0.3s ease;
+        }
+
+        .gallery-tile:hover .gallery-tile-overlay {
+            background: linear-gradient(
+                to top,
+                rgba(4, 18, 44, 0.90) 0%,
+                rgba(4, 18, 44, 0.36) 58%,
+                rgba(4, 18, 44, 0.08) 100%
+            );
+        }
+
+        /* ── glass badge (top-right) ── */
+        .gallery-tile-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            z-index: 4;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.14);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            color: #fff;
+            font-size: 0.58rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            pointer-events: none;
+            transition: background 0.25s ease;
+        }
+
+        .gallery-tile:hover .gallery-tile-badge {
+            background: rgba(255, 255, 255, 0.24);
+        }
+
+        /* ── label (bottom) ── */
+        .gallery-tile-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 0.9rem 1rem;
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        .gallery-tile-label .label-sub {
+            display: block;
+            font-size: 0.57rem;
+            font-weight: 600;
+            letter-spacing: 0.13em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.62);
+            margin-bottom: 3px;
+        }
+
+        .gallery-tile-label h5 {
+            margin: 0;
+            font-size: clamp(0.78rem, 1vw, 0.97rem);
+            font-weight: 800;
+            line-height: 1.2;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: #ffffff;
+        }
+
+        /* ── video play button ── */
+        .gallery-tile .video-play-button {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        .gallery-tile .video-play-button > span {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: clamp(50px, 5.5vw, 72px);
+            height: clamp(50px, 5.5vw, 72px);
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--bat-accent, #f4b000);
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.28), 0 2px 8px rgba(0, 0, 0, 0.16);
+            transition: transform 0.28s cubic-bezier(.22,.68,0,1.2), box-shadow 0.28s ease;
+        }
+
+        .gallery-tile:hover .video-play-button > span {
+            transform: scale(1.16);
+            box-shadow: 0 14px 44px rgba(0, 0, 0, 0.38), 0 4px 12px rgba(0, 0, 0, 0.22);
+        }
+
+        .gallery-tile .video-play-button > span::before {
+            content: "";
+            position: absolute;
+            inset: -12px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.44);
+            animation: border-zooming 1.6s infinite ease-out;
+        }
+
+        .gallery-tile .video-play-button i {
+            position: relative;
+            z-index: 1;
+            margin-left: 3px;
+        }
+
+        /* ── CTA button ── */
+        .gallery-cta {
+            text-align: center;
+            margin-top: 2.4rem;
+        }
+
+        .gallery-cta a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+            padding: 0.72rem 2rem;
+            border-radius: 50px;
+            background: var(--bat-accent, #f4b000);
+            color: #1a1a1a;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-decoration: none;
+            letter-spacing: 0.02em;
+            box-shadow: 0 4px 20px rgba(244, 176, 0, 0.32);
+            transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease;
+        }
+
+        .gallery-cta a:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 32px rgba(244, 176, 0, 0.48);
+            background: #ffc107;
+            color: #1a1a1a;
+            text-decoration: none;
+        }
+
+        /* ── placeholder tile (belum ada foto di DB) ── */
+        .gallery-tile-placeholder {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background: linear-gradient(145deg, #071836 0%, #0d2d5e 60%, #153d7a 100%);
+            border-radius: inherit;
+        }
+
+        .gallery-tile-placeholder::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: radial-gradient(circle at 70% 30%, rgba(255,255,255,0.07), transparent 65%);
+            pointer-events: none;
+        }
+
+        .gallery-tile-placeholder .ph-sub {
+            position: relative;
+            z-index: 1;
+            font-size: 0.58rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .gallery-tile-placeholder h5 {
+            position: relative;
+            z-index: 1;
+            margin: 0;
+            font-size: clamp(0.9rem, 1.4vw, 1.2rem);
+            font-weight: 900;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: #ffffff;
+            text-align: center;
+            line-height: 1.25;
+            padding: 0 1rem;
+        }
+
+        @media (max-width: 767px) {
+            .gallery-showcase {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                grid-auto-rows: clamp(160px, 28vw, 240px);
+            }
+
+            .gallery-tile-video {
+                grid-column: span 2;
+            }
+        }
+
+        @media (max-width: 479px) {
+            .gallery-showcase {
+                grid-template-columns: 1fr;
+                grid-auto-rows: clamp(180px, 56vw, 260px);
+            }
+
+            .gallery-tile-video {
+                grid-column: span 1;
+            }
+        }
+    </style>
+@endpush
+
 @section('content')
 <!-- Preloader Start -->
 <!-- <div class="preloader">
@@ -96,9 +433,9 @@
     <div class="container">
         <div class="home-about-grid">
             <div class="about-content">
-                <p class="about-kicker">Tentang Kami</p>
+                <p class="about-kicker">{{ $aboutProfilePage?->title ?? 'Tentang Kami' }}</p>
                 <h2 class="about-name bat-text-anime" data-bat-anime="scroll">Balai Air Tanah</h2>
-                <p class="about-desc">Balai Air Tanah merupakan unit kerja di lingkungan Direktorat Jenderal Sumber Daya Air, Kementerian Pekerjaan Umum, yang mendukung pengelolaan air tanah secara berkelanjutan melalui pelaksanaan tugas teknis sesuai kewenangannya, meliputi pelayanan teknis air tanah, pengembangan dan penerapan teknologi, pengelolaan data dan informasi, serta pengelolaan laboratorium.</p>
+                <p class="about-desc">{{ $aboutDescription }}</p>
 
                 <div class="about-actions">
                     <a href="{{ route('profil.index') }}" class="about-more-link">
@@ -447,43 +784,31 @@
                 <div class="social-link-stack wow fadeInUp" data-wow-delay="0.8s" aria-label="Akun media sosial Balai Air Tanah">
                     <a class="social-profile-card facebook-card" href="https://www.facebook.com/pupr.sda.balaiairtanah" target="_blank" rel="noopener noreferrer">
                         <span class="social-profile-logo">
-                            <img src="{{ asset('images/logo-sosmed-bat.jpg') }}" alt="Logo Sosmed BAT">
+                            <i class="fa-brands fa-facebook-f" aria-hidden="true"></i>
                         </span>
                         <span class="social-profile-copy">
                             <span class="social-profile-name">pupr.sda.balaiairtanah</span>
-                            <span class="social-profile-desc">Akun Resmi Balai Air Tanah Kementerian Pekerjaan Umum</span>
                             <span class="social-profile-url">facebook.com</span>
-                        </span>
-                        <span class="social-profile-icon" aria-hidden="true">
-                            <i class="fa-brands fa-facebook-f"></i>
                         </span>
                     </a>
 
                     <a class="social-profile-card x-card" href="https://x.com/pu_sda_bat?s=20" target="_blank" rel="noopener noreferrer">
                         <span class="social-profile-logo">
-                            <img src="{{ asset('images/logo-sosmed-bat.jpg') }}" alt="Logo Sosmed BAT">
+                            <i class="fa-brands fa-x-twitter" aria-hidden="true"></i>
                         </span>
                         <span class="social-profile-copy">
                             <span class="social-profile-name">pu_sda_bat</span>
-                            <span class="social-profile-desc">Informasi resmi Balai Air Tanah melalui X</span>
                             <span class="social-profile-url">x.com</span>
-                        </span>
-                        <span class="social-profile-icon" aria-hidden="true">
-                            <i class="fa-brands fa-x-twitter"></i>
                         </span>
                     </a>
 
                     <a class="social-profile-card threads-card" href="https://www.threads.com/@pu_sda_balaiairtanah" target="_blank" rel="noopener noreferrer">
                         <span class="social-profile-logo">
-                            <img src="{{ asset('images/logo-sosmed-bat.jpg') }}" alt="Logo Sosmed BAT">
+                            <i class="fa-brands fa-threads" aria-hidden="true"></i>
                         </span>
                         <span class="social-profile-copy">
                             <span class="social-profile-name">pu_sda_balaiairtanah</span>
-                            <span class="social-profile-desc">Ruang informasi Balai Air Tanah di Threads</span>
                             <span class="social-profile-url">threads.com</span>
-                        </span>
-                        <span class="social-profile-icon" aria-hidden="true">
-                            <i class="fa-brands fa-threads"></i>
                         </span>
                     </a>
                 </div>
@@ -636,107 +961,87 @@
 <!-- Pengumuman Section End -->
 
 <!-- Our Galeri Section Start -->
-<div class="gallery-home">    <div class="container">
+<div class="gallery-home">
+    <div class="container">
         <div class="row section-row">
             <div class="col-lg-12">
-                <!-- Section Title Start -->
                 <div class="section-title">
                     <h3 class="wow fadeInUp">Galeri</h3>
                     <h2 class="text-anime-style-3">Foto dan Video</h2>
                 </div>
-                <!-- Section Title End -->
             </div>
         </div>
 
-        <div class="row d-flex align-items-center justify-content-center">
-            <div class="col-lg-5 col-md-6 wow fadeInUp" data-wow-delay="0.25s">
-                <div class="col-md-12 mb-3">
-                    <!-- Intro Video Box Start -->
-                    <div class="intro-video-box">
-                        <!-- Video Image Start -->
-                        <div class="video-image">
-                            <a href="https://www.youtube.com/watch?v=CdY1yfqwm5M" class="popup-video">
-                                <figure class="image-anime">
-                                    <img src="{{ asset('assets/sda/web/images/thumbnail-1.webp') }}" alt="" decoding="async" loading="lazy">
-                                </figure>
-                            </a>
-                        </div>
-                        <!-- Video Image End -->
+        <div class="gallery-showcase wow fadeInUp" data-wow-delay="0.25s">
 
-                        <!-- Video Play Button Start -->
-                        <div class="video-play-button">
-                            <a href="https://www.youtube.com/watch?v=CdY1yfqwm5M" class="popup-video">
-                                <i class="fa-solid fa-play"></i>
-                            </a>
-                        </div>
-                        <!-- Video Play Button End -->
-                    </div>
-                    <!-- Intro Video Box End -->
+            {{-- Video 1 (large, spans 2 cols) --}}
+            <a class="gallery-tile gallery-tile-video" href="{{ route('publikasi.galeri.video') }}">
+                <figure class="image-anime">
+                    <img src="{{ asset('assets/sda/web/images/thumbnail-1.webp') }}" alt="Video Sumber Daya Air" decoding="async" loading="lazy">
+                </figure>
+                <div class="gallery-tile-overlay"></div>
+                <span class="gallery-tile-badge"><i class="fa-solid fa-play fa-xs"></i>&nbsp;Video</span>
+                <div class="gallery-tile-label">
+                    <span class="label-sub">Direktorat Jenderal</span>
+                    <h5>Sumber Daya Air</h5>
                 </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-6">
-                <a href="https://sda.pu.go.id/galeri/detail/bendungan-dan-danau">
-                    <div class="why-choose-image">
-                        <figure class="image-anime reveal">
-                            <img src="{{ asset('assets/sda/web/images/P4.jpg') }}" alt="Bendungan dan Danau" decoding="async" loading="lazy">
-                        </figure>
-                    </div>
-                </a>
-            </div>
+                <span class="video-play-button" aria-hidden="true">
+                    <span><i class="fa-solid fa-play"></i></span>
+                </span>
+            </a>
 
-            <div class="col-lg-3 col-md-6 col-6">
-                <a href="https://sda.pu.go.id/galeri/detail/air-tanah-air-baku">
-                    <div class="why-choose-image">
-                        <figure class="image-anime reveal">
-                            <img src="{{ asset('assets/sda/web/images/P1.jpg') }}" alt="Air Tanah Air Baku" decoding="async" loading="lazy">
+            @foreach ([
+                ['judul' => 'Geolistrik 1D',   'sub' => 'Pengukuran'],
+                ['judul' => 'Geolistrik 2D',   'sub' => 'Pengukuran'],
+                ['judul' => 'Pumping Test',    'sub' => 'Pengukuran'],
+                ['judul' => 'Borehole Camera', 'sub' => 'Pengukuran'],
+                ['judul' => 'Logger',          'sub' => 'Pengukuran'],
+            ] as $tile)
+                @php $g = $galeriTiles[strtolower($tile['judul'])] ?? null; @endphp
+                <a class="gallery-tile gallery-tile-photo" href="{{ route('publikasi.galeri.foto') }}">
+                    @if ($g && $g->hasImage())
+                        <figure class="image-anime reveal"@if($g->background_color) style="background:{{ $g->background_color }}"@endif>
+                            <img src="{{ $g->image_url }}" alt="{{ $tile['judul'] }}" decoding="async" loading="lazy">
                         </figure>
-                    </div>
-                </a>
-            </div>
-
-            <div class="col-lg-3 col-md-6 col-6">
-                <!-- Why Choose Image Start -->
-                <a href="https://sda.pu.go.id/galeri/detail/irigasi-dan-rawa">
-                    <div class="why-choose-image">
-                        <figure class="image-anime reveal">
-                            <img src="{{ asset('assets/sda/web/images/P3.jpg') }}" alt="Irigasi dan Rawa" decoding="async" loading="lazy">
-                        </figure>
-                    </div>
-                </a>
-                <!-- Why Choose Image End -->
-            </div>
-
-            <div class="col-lg-3 col-md-6 col-6">
-                <a href="https://sda.pu.go.id/galeri/detail/sungai-dan-pantai">
-                    <div class="why-choose-image">
-                        <figure class="image-anime reveal">
-                            <img src="{{ asset('assets/sda/web/images/P2.jpg') }}" alt="Sungai dan Pantai" decoding="async" loading="lazy">
-                        </figure>
-                    </div>
-                </a>
-            </div>
-
-            <div class="col-lg-5 col-md-6 wow fadeInUp" data-wow-delay="0.25s">
-                <div class="col-md-12">
-                    <div class="intro-video-box">
-                        <div class="video-image">
-                            <a href="https://www.youtube.com/watch?v=ZXjwL82IQAg" class="popup-video">
-                                <figure class="image-anime">
-                                    <img src="{{ asset('assets/sda/web/images/thumbnail-2.webp') }}" alt="" decoding="async" loading="lazy">
-                                </figure>
-                            </a>
+                        <div class="gallery-tile-overlay"></div>
+                        <span class="gallery-tile-badge"><i class="fa-solid fa-camera fa-xs"></i>&nbsp;Foto</span>
+                        <div class="gallery-tile-label">
+                            <span class="label-sub">{{ $tile['sub'] }}</span>
+                            <h5>{{ $tile['judul'] }}</h5>
                         </div>
-
-                        <div class="video-play-button">
-                            <a href="https://www.youtube.com/watch?v=ZXjwL82IQAg" class="popup-video">
-                                <i class="fa-solid fa-play"></i>
-                            </a>
+                    @else
+                        <div class="gallery-tile-placeholder"
+                            @if($g && $g->background_color) style="background:{{ $g->background_color }}" @endif>
+                            <span class="ph-sub">{{ $tile['sub'] }}</span>
+                            <h5>{{ $tile['judul'] }}</h5>
                         </div>
-                    </div>
+                        <span class="gallery-tile-badge"><i class="fa-solid fa-camera fa-xs"></i>&nbsp;Foto</span>
+                    @endif
+                </a>
+            @endforeach
+
+            {{-- Video 2 (spans 2 of 3 cols) --}}
+            <a class="gallery-tile gallery-tile-video" href="{{ route('publikasi.galeri.video') }}">
+                <figure class="image-anime">
+                    <img src="{{ asset('assets/sda/web/images/thumbnail-2.webp') }}" alt="Video Sumber Daya Air" decoding="async" loading="lazy">
+                </figure>
+                <div class="gallery-tile-overlay"></div>
+                <span class="gallery-tile-badge"><i class="fa-solid fa-play fa-xs"></i>&nbsp;Video</span>
+                <div class="gallery-tile-label">
+                    <span class="label-sub">Direktorat Jenderal</span>
+                    <h5>Sumber Daya Air</h5>
                 </div>
+                <span class="video-play-button" aria-hidden="true">
+                    <span><i class="fa-solid fa-play"></i></span>
+                </span>
+            </a>
 
-            </div>
+        </div>
 
+        <div class="gallery-cta wow fadeInUp" data-wow-delay="0.45s">
+            <a href="{{ route('publikasi.galeri.foto') }}">
+                Lihat Semua Galeri&nbsp;&nbsp;<i class="fa-solid fa-arrow-right"></i>
+            </a>
         </div>
     </div>
 </div>
@@ -749,25 +1054,13 @@
             <div class="link-slider">
                 <div class="swiper">
                     <div class="swiper-wrapper">
-
-                        <div class="swiper-slide">
-                            <div class="link-item">
-                                <a href="http://himpsda.dev-tunnels.id" title="HIMPESDA">
-                                    <div class="link-body">
-                                        <figure class="image-anime">
-                                            <img src="{{ asset('assets/sda/web/images/link/Logo-HIMPESDA-High-Res1.png') }}" alt="HIMPESDA" decoding="async" loading="lazy">
-                                        </figure>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
                         
                         <div class="swiper-slide">
                             <div class="link-item">
                                 <a href="https://www.lapor.go.id/" title="Saran dan Pengaduan">
                                     <div class="link-body">
-                                        <figure class="image-anime">
-                                            <img src="{{ asset('assets/sda/web/images/link/icons-saran.svg') }}" alt="Saran dan Pengaduan" decoding="async" loading="lazy">
+                                        <figure class="image-anime sp4n-lapor-logo">
+                                            <img src="{{ asset('assets/images/sp4n_lapor.png') }}" alt="Saran dan Pengaduan" decoding="async" loading="lazy">
                                         </figure>
                                     </div>
                                 </a>
@@ -821,31 +1114,6 @@
                                 </a>
                             </div>
                         </div>
-
-                        <div class="swiper-slide">
-                            <div class="link-item">
-                                <a href="https://sihka.sda.pu.go.id/" title="Sistem Informasi Hidrologi dan Kualitas Air">
-                                    <div class="link-body">
-                                        <figure class="image-anime">
-                                            <img src="{{ asset('assets/sda/web/images/link/icons-sihka.svg') }}" alt="Sistem Informasi Hidrologi dan Kualitas Air" decoding="async" loading="lazy">
-                                        </figure>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="swiper-slide">
-                            <div class="link-item">
-                                <a href="{{ route('pelayanan_publik.standar_pelayanan') }}" title="Perizinan SDA">
-                                    <div class="link-body">
-                                        <figure class="image-anime">
-                                            <img src="{{ asset('assets/sda/web/images/link/icons-perizinan.svg') }}" alt="Perizinan SDA" decoding="async" loading="lazy">
-                                        </figure>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-
                         <div class="swiper-slide">
                             <div class="link-item">
                                 <a href="https://jdih.pu.go.id/" title="Jaringan Dokumentasi dan Informasi Hukum Kementerian PU">
@@ -869,6 +1137,18 @@
                                 </a>
                             </div>
                         </div>
+
+                        <div class="swiper-slide">
+                            <div class="link-item">
+                                <a href="https://wispu.pu.go.id/" title="WISPU">
+                                    <div class="link-body">
+                                        <figure class="image-anime">
+                                            <img src="{{ asset('assets/images/wispu.png') }}" alt="WISPU" decoding="async" loading="lazy">
+                                        </figure>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                     <div class="swiper-pagination"></div>
                 </div>
@@ -880,5 +1160,3 @@
 
 <!-- Jquery Library File -->
 @endsection
-
-

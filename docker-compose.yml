@@ -23,7 +23,7 @@ services:
       chmod -R 775 storage bootstrap/cache &&
       if [ ! -f vendor/autoload.php ]; then composer install --no-interaction --prefer-dist; fi &&
       if ! grep -q '^APP_KEY=base64:' .env; then php artisan key:generate --force; fi &&
-      until php -r 'try { new PDO(\"mysql:host=$$DB_HOST;port=$$DB_PORT;dbname=$$DB_DATABASE\", \"$$DB_USERNAME\", \"$$DB_PASSWORD\"); exit(0); } catch (Exception $$e) { exit(1); }'; do
+      until php -r 'try { new PDO(\"mysql:host=\".getenv(\"DB_HOST\").\";port=\".getenv(\"DB_PORT\").\";dbname=\".getenv(\"DB_DATABASE\"), getenv(\"DB_USERNAME\"), getenv(\"DB_PASSWORD\")); exit(0); } catch (Exception $$e) { exit(1); }'; do
         echo 'Waiting for database...';
         sleep 2;
       done &&
