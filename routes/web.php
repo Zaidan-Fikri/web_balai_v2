@@ -127,7 +127,6 @@ Route::prefix('profil')->name('profil.')->group(function () {
     Route::get('/tugas_dan_fungsi', [ProfilePageController::class, 'tugasDanFungsi'])->name('tugas_dan_fungsi');
     Route::get('/visi_misi', [ProfilePageController::class, 'visiMisi'])->name('visi_misi');
     Route::get('/struktur_organisasi', [ProfilePageController::class, 'strukturOrganisasi'])->name('struktur_organisasi');
-    Route::get('/informasi_pejabat', [ProfilePageController::class, 'informasiPejabat'])->name('informasi_pejabat');
     Route::get('/zona_integritas', [ProfilePageController::class, 'zonaIntegritas'])->name('zona_integritas');
     Route::get('/lokasi_dan_kontak', [ProfilePageController::class, 'lokasiDanKontak'])->name('lokasi_dan_kontak');
     Route::get('/{profilePage:slug}', [ProfilePageController::class, 'showPage'])->name('show');

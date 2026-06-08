@@ -22,6 +22,8 @@ class ProfilePageController extends Controller
 
     public function showPage(ProfilePage $profilePage): View
     {
+        abort_if($profilePage->slug === 'informasi-pejabat', 404);
+
         return view('pages.menu_detail', [
             'menuGroup' => 'Profil',
             'pageTitle' => $profilePage->title,
@@ -47,11 +49,6 @@ class ProfilePageController extends Controller
     public function strukturOrganisasi(): View
     {
         return $this->show('struktur-organisasi', 'Struktur Organisasi');
-    }
-
-    public function informasiPejabat(): View
-    {
-        return $this->show('informasi-pejabat', 'Informasi Pejabat');
     }
 
     public function zonaIntegritas(): View

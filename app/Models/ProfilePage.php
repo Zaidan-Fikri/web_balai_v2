@@ -14,7 +14,6 @@ class ProfilePage extends Model
         ['title' => 'Tugas dan Fungsi', 'slug' => 'tugas-dan-fungsi', 'route' => 'profil.tugas_dan_fungsi'],
         ['title' => 'Visi dan Misi', 'slug' => 'visi-dan-misi', 'route' => 'profil.visi_misi'],
         ['title' => 'Struktur Organisasi', 'slug' => 'struktur-organisasi', 'route' => 'profil.struktur_organisasi'],
-        ['title' => 'Informasi Pejabat', 'slug' => 'informasi-pejabat', 'route' => 'profil.informasi_pejabat'],
         ['title' => 'Zona Integritas', 'slug' => 'zona-integritas', 'route' => 'profil.zona_integritas'],
         ['title' => 'Lokasi dan Kontak', 'slug' => 'lokasi-dan-kontak', 'route' => 'profil.lokasi_dan_kontak'],
     ];

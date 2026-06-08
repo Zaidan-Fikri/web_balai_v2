@@ -17,6 +17,7 @@ class AdminProfilePageController extends Controller
     public function index(): View
     {
         $profilePages = ProfilePage::query()
+            ->where('slug', '!=', 'informasi-pejabat')
             ->orderBy('sort_order')
             ->orderBy('title')
             ->get();
@@ -26,6 +27,8 @@ class AdminProfilePageController extends Controller
 
     public function edit(ProfilePage $profilePage): View
     {
+        abort_if($profilePage->slug === 'informasi-pejabat', 404);
+
         return view('pages.admin.profile_pages.edit', compact('profilePage'));
     }
 
@@ -44,6 +47,8 @@ class AdminProfilePageController extends Controller
 
     public function update(UpdateProfilePageRequest $request, ProfilePage $profilePage): RedirectResponse
     {
+        abort_if($profilePage->slug === 'informasi-pejabat', 404);
+
         $data = $request->validated();
         $data['slug'] = $this->uniqueSlug($data['slug'] ?? $data['title'], $profilePage->id);
         $data['sort_order'] = $data['sort_order'] ?? $profilePage->sort_order;
@@ -57,6 +62,8 @@ class AdminProfilePageController extends Controller
 
     public function destroy(ProfilePage $profilePage): RedirectResponse
     {
+        abort_if($profilePage->slug === 'informasi-pejabat', 404);
+
         if ($profilePage->isDefaultPage()) {
             return redirect()
                 ->route('admin.profile-pages.index')

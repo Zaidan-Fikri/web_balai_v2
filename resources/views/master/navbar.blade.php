@@ -29,7 +29,6 @@
                                     <li class="nav-item"><a class="nav-link" href="{{ route('profil.tugas_dan_fungsi') }}">Tugas dan Fungsi</a></li>
                                     <li class="nav-item"><a class="nav-link" href="{{ route('profil.visi_misi') }}">Visi dan Misi</a></li>
                                     <li class="nav-item"><a class="nav-link" href="{{ route('profil.struktur_organisasi') }}">Struktur Organisasi</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="{{ route('profil.informasi_pejabat') }}">Informasi Pejabat</a></li>
                                     <li class="nav-item"><a class="nav-link" href="{{ route('profil.zona_integritas') }}">Zona Integritas</a></li>
                                     <li class="nav-item"><a class="nav-link" href="{{ route('profil.lokasi_dan_kontak') }}">Lokasi dan Kontak</a></li>
                                 </ul>

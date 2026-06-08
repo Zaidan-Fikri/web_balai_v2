@@ -34,9 +34,6 @@
                 <a class="menu-item {{ request()->routeIs('admin.profile-pages.*') && $activeProfileSlug === 'struktur-organisasi' ? 'active' : '' }}" href="{{ route('admin.profile-pages.edit', 'struktur-organisasi') }}">
                     <i class="fa-solid fa-sitemap"></i><span>Struktur Organisasi</span>
                 </a>
-                <a class="menu-item {{ request()->routeIs('admin.profile-pages.*') && $activeProfileSlug === 'informasi-pejabat' ? 'active' : '' }}" href="{{ route('admin.profile-pages.edit', 'informasi-pejabat') }}">
-                    <i class="fa-solid fa-id-card"></i><span>Informasi Pejabat</span>
-                </a>
                 <a class="menu-item {{ request()->routeIs('admin.profile-pages.*') && $activeProfileSlug === 'zona-integritas' ? 'active' : '' }}" href="{{ route('admin.profile-pages.edit', 'zona-integritas') }}">
                     <i class="fa-solid fa-shield-halved"></i><span>Zona Integritas</span>
                 </a>
