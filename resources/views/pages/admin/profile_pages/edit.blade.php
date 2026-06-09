@@ -604,6 +604,13 @@
         grid-template-columns: minmax(0,1fr) 68px minmax(0,1fr) 46px;
         align-items: center;
     }
+    .org-spine-flags {
+        grid-column: 1 / -1;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+    }
     .org-photo-btn {
         width: 46px; height: 46px; border-radius: 50%;
         border: 2px dashed #c8d7f4; background: #f7faff;
@@ -645,6 +652,20 @@
         color: #475467; font-size: 12px; font-weight: 700;
         cursor: pointer; white-space: nowrap;
     }
+    .org-checkbox-label {
+        display: inline-flex; align-items: center; gap: 6px;
+        min-height: 30px;
+        padding: 5px 9px;
+        border: 1px solid #dce7fb;
+        border-radius: 8px;
+        background: #fff;
+        color: #475467;
+        font-size: 12px;
+        font-weight: 800;
+        cursor: pointer;
+        white-space: nowrap;
+    }
+    .org-checkbox-label input { margin: 0; }
     .org-mode-badge {
         display: inline-flex; align-items: center; gap: 6px;
         padding: 4px 10px; border-radius: 999px;
@@ -1456,6 +1477,10 @@
                         '<button type="button" class="org-photo-btn' + (node.photo ? ' has-photo' : '') + '" title="' + (node.photo ? 'Ganti foto' : 'Upload foto') + '">' +
                             (node.photo ? '<img src="' + esc(node.photo) + '" class="org-photo-thumb" alt="">' : '<i class="fa-solid fa-camera"></i>') +
                         '</button>' +
+                        '<div class="org-spine-flags">' +
+                            '<label class="org-checkbox-label" title="Geser kartu tengah ke kiri dan letakkan di belakang kartu berikutnya"><input type="checkbox" class="org-checkbox" data-field="behind"' + (node.behind ? ' checked' : '') + '> Kiri/belakang</label>' +
+                            '<label class="org-checkbox-label" title="Buat kartu lebih besar dengan garis kuning di atas"><input type="checkbox" class="org-checkbox" data-field="prominent"' + (node.prominent ? ' checked' : '') + '> Kartu utama</label>' +
+                        '</div>' +
                     '</div>' +
                     '<input type="file" accept="image/*" class="org-photo-file" style="display:none">';
             } else {
@@ -1508,13 +1533,13 @@
                 if (idx !== -1) nodes[idx].color = this.value;
                 renderOrgPreview();
             });
-            var chk = row.querySelector('[data-field="standalone"]');
-            if (chk) chk.addEventListener('change', function () {
-                var idx = nodes.findIndex(function (n) { return n.id === node.id; });
-                if (idx !== -1) nodes[idx].standalone = this.checked || null;
-                renderOrgPreview();
+            row.querySelectorAll('.org-checkbox').forEach(function (chk) {
+                chk.addEventListener('change', function () {
+                    var idx = nodes.findIndex(function (n) { return n.id === node.id; });
+                    if (idx !== -1) nodes[idx][this.dataset.field] = this.checked || null;
+                    renderOrgPreview();
+                });
             });
-
             row.querySelector('.org-btn-del').addEventListener('click', function () {
                 var delId = this.dataset.id;
                 nodes = nodes.filter(function (n) { return n.id !== delId; });
