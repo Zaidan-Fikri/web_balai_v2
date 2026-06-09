@@ -3,6 +3,15 @@
     $canSeeKompuMenu = in_array($adminRole, ['superadmin', 'kompu'], true);
     $canSeeLayananTeknisMenu = in_array($adminRole, ['superadmin', 'layanan_teknis'], true);
     $activeProfileSlug = optional(request()->route('profilePage'))->slug;
+    $profileMenuItems = [
+        ['slug' => 'tentang-kami', 'label' => 'Tentang Kami', 'icon' => 'fa-solid fa-circle-info'],
+        ['slug' => 'tugas-dan-fungsi', 'label' => 'Tugas dan Fungsi', 'icon' => 'fa-solid fa-list-check'],
+        ['slug' => 'visi-dan-misi', 'label' => 'Visi dan Misi', 'icon' => 'fa-solid fa-bullseye'],
+        ['slug' => 'struktur-organisasi', 'label' => 'Struktur Organisasi', 'icon' => 'fa-solid fa-sitemap'],
+        ['slug' => 'zona-integritas', 'label' => 'Zona Integritas', 'icon' => 'fa-solid fa-shield-halved'],
+        ['slug' => 'lokasi-dan-kontak', 'label' => 'Lokasi dan Kontak', 'icon' => 'fa-solid fa-location-dot'],
+    ];
+    $profileMenuOpen = request()->routeIs('admin.profile-pages.*');
 @endphp
 
 <aside class="sidebar">
@@ -22,24 +31,20 @@
                 <i class="fa-solid fa-gauge-high"></i><span>Dashboard</span>
             </a>
             @if ($canSeeKompuMenu)
-                <a class="menu-item {{ request()->routeIs('admin.profile-pages.*') && $activeProfileSlug === 'tentang-kami' ? 'active' : '' }}" href="{{ route('admin.profile-pages.edit', 'tentang-kami') }}">
-                    <i class="fa-solid fa-circle-info"></i><span>Tentang Kami</span>
-                </a>
-                <a class="menu-item {{ request()->routeIs('admin.profile-pages.*') && $activeProfileSlug === 'tugas-dan-fungsi' ? 'active' : '' }}" href="{{ route('admin.profile-pages.edit', 'tugas-dan-fungsi') }}">
-                    <i class="fa-solid fa-list-check"></i><span>Tugas dan Fungsi</span>
-                </a>
-                <a class="menu-item {{ request()->routeIs('admin.profile-pages.*') && $activeProfileSlug === 'visi-dan-misi' ? 'active' : '' }}" href="{{ route('admin.profile-pages.edit', 'visi-dan-misi') }}">
-                    <i class="fa-solid fa-bullseye"></i><span>Visi dan Misi</span>
-                </a>
-                <a class="menu-item {{ request()->routeIs('admin.profile-pages.*') && $activeProfileSlug === 'struktur-organisasi' ? 'active' : '' }}" href="{{ route('admin.profile-pages.edit', 'struktur-organisasi') }}">
-                    <i class="fa-solid fa-sitemap"></i><span>Struktur Organisasi</span>
-                </a>
-                <a class="menu-item {{ request()->routeIs('admin.profile-pages.*') && $activeProfileSlug === 'zona-integritas' ? 'active' : '' }}" href="{{ route('admin.profile-pages.edit', 'zona-integritas') }}">
-                    <i class="fa-solid fa-shield-halved"></i><span>Zona Integritas</span>
-                </a>
-                <a class="menu-item {{ request()->routeIs('admin.profile-pages.*') && $activeProfileSlug === 'lokasi-dan-kontak' ? 'active' : '' }}" href="{{ route('admin.profile-pages.edit', 'lokasi-dan-kontak') }}">
-                    <i class="fa-solid fa-location-dot"></i><span>Lokasi dan Kontak</span>
-                </a>
+                <details class="menu-group {{ $profileMenuOpen ? 'is-open' : '' }}" {{ $profileMenuOpen ? 'open' : '' }}>
+                    <summary class="menu-item menu-group-toggle {{ $profileMenuOpen ? 'has-active-child' : '' }}">
+                        <i class="fa-solid fa-user-gear"></i>
+                        <span>Profil</span>
+                        <i class="fa-solid fa-chevron-down menu-group-caret"></i>
+                    </summary>
+                    <div class="menu-sublist">
+                        @foreach ($profileMenuItems as $profileMenuItem)
+                            <a class="menu-item menu-subitem {{ request()->routeIs('admin.profile-pages.*') && $activeProfileSlug === $profileMenuItem['slug'] ? 'active' : '' }}" href="{{ route('admin.profile-pages.edit', $profileMenuItem['slug']) }}">
+                                <i class="{{ $profileMenuItem['icon'] }}"></i><span>{{ $profileMenuItem['label'] }}</span>
+                            </a>
+                        @endforeach
+                    </div>
+                </details>
                 <a class="menu-item {{ request()->routeIs('admin.berita.*') ? 'active' : '' }}" href="{{ route('admin.berita.index') }}">
                     <i class="fa-regular fa-lightbulb"></i><span>Berita</span>
                 </a>

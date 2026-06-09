@@ -25,9 +25,9 @@
                 document.body.classList.toggle('mobile-sidebar-open', shell.classList.contains('mobile-sidebar-open'));
                 toggle.setAttribute('aria-expanded', shell.classList.contains('mobile-sidebar-open') ? 'true' : 'false');
                 if (shell.classList.contains('mobile-sidebar-open')) {
-                    const active = menu ? menu.querySelector('.menu-item.active') : null;
-                    if (active) {
-                        placeIndicator(active, false);
+                    const target = getIndicatorTarget();
+                    if (target) {
+                        placeIndicator(target, false);
                     }
                 }
                 return;
@@ -43,7 +43,23 @@
 
         const menu = document.querySelector('.sidebar-menu');
         const indicator = document.getElementById('menuActiveIndicator');
-        const menuLinks = menu ? menu.querySelectorAll('.menu-item') : [];
+        const menuLinks = menu ? menu.querySelectorAll('a.menu-item, button.menu-item') : [];
+        const menuGroups = menu ? menu.querySelectorAll('.menu-group') : [];
+
+        function isVisible(target) {
+            return Boolean(target && target.offsetParent !== null);
+        }
+
+        function getIndicatorTarget() {
+            if (!menu) return null;
+            const active = menu.querySelector('.menu-item.active');
+            if (!active) return null;
+            const group = active.closest('.menu-group');
+            if (group && (!group.open || !isVisible(active))) {
+                return group.querySelector('.menu-group-toggle');
+            }
+            return active;
+        }
 
         function placeIndicator(target, animate) {
             if (!menu || !indicator) return;
@@ -62,11 +78,22 @@
         }
 
         if (menu && indicator && menuLinks.length) {
-            const initialActive = menu.querySelector('.menu-item.active');
-            if (initialActive) {
-                placeIndicator(initialActive, false);
+            const initialTarget = getIndicatorTarget();
+            if (initialTarget) {
+                placeIndicator(initialTarget, false);
             }
         }
+
+        menuGroups.forEach(function (group) {
+            group.addEventListener('toggle', function () {
+                requestAnimationFrame(function () {
+                    const target = getIndicatorTarget();
+                    if (target) {
+                        placeIndicator(target, true);
+                    }
+                });
+            });
+        });
 
         menuLinks.forEach(function (link) {
             link.addEventListener('click', function (event) {
@@ -102,9 +129,9 @@
         window.addEventListener('resize', function () {
             if (!isMobile()) {
                 closeMobileSidebar();
-                const active = menu ? menu.querySelector('.menu-item.active') : null;
-                if (active) {
-                    placeIndicator(active, false);
+                const target = getIndicatorTarget();
+                if (target) {
+                    placeIndicator(target, false);
                 }
             } else if (shell.classList.contains('collapsed')) {
                 shell.classList.remove('collapsed');

@@ -1453,13 +1453,11 @@
                             '<option value="dashed"'   + (node.line_style === 'dashed'   ? ' selected' : '') + '>Putus-putus</option>' +
                             '<option value="dash-dot"' + (node.line_style === 'dash-dot' ? ' selected' : '') + '>Titik-garis</option>' +
                         '</select>' +
-                        (node.name && node.name.trim()
-                            ? '<button type="button" class="org-photo-btn' + (node.photo ? ' has-photo' : '') + '" title="' + (node.photo ? 'Ganti foto' : 'Upload foto') + '">' +
-                                (node.photo ? '<img src="' + esc(node.photo) + '" class="org-photo-thumb" alt="">' : '<i class="fa-solid fa-camera"></i>') +
-                              '</button>'
-                            : '<div style="width:46px;flex-shrink:0"></div>') +
+                        '<button type="button" class="org-photo-btn' + (node.photo ? ' has-photo' : '') + '" title="' + (node.photo ? 'Ganti foto' : 'Upload foto') + '">' +
+                            (node.photo ? '<img src="' + esc(node.photo) + '" class="org-photo-thumb" alt="">' : '<i class="fa-solid fa-camera"></i>') +
+                        '</button>' +
                     '</div>' +
-                    (node.name && node.name.trim() ? '<input type="file" accept="image/*" class="org-photo-file" style="display:none">' : '');
+                    '<input type="file" accept="image/*" class="org-photo-file" style="display:none">';
             } else {
                 row.innerHTML =
                     '<input type="text" class="org-input" placeholder="Nama pejabat" data-field="name" value="' + esc(node.name || '') + '">' +

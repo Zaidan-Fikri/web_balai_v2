@@ -262,6 +262,65 @@ select:focus-visible {
     transform: translateX(2px);
 }
 
+.menu-group {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 5px;
+}
+
+.menu-group summary {
+    list-style: none;
+}
+
+.menu-group summary::-webkit-details-marker {
+    display: none;
+}
+
+.menu-group-toggle {
+    margin-bottom: 0;
+}
+
+.menu-group-toggle .menu-group-caret {
+    width: auto;
+    margin-left: auto;
+    font-size: 11px;
+    transition: transform 0.2s ease;
+}
+
+.menu-group[open] .menu-group-caret {
+    transform: rotate(180deg);
+}
+
+.menu-group:not([open]) > .menu-group-toggle.has-active-child {
+    color: var(--navy-dark);
+}
+
+.menu-group:not([open]) > .menu-group-toggle.has-active-child:hover {
+    color: var(--navy-dark);
+    background: transparent;
+}
+
+.menu-sublist {
+    display: grid;
+    gap: 4px;
+    margin: 6px 0 4px 18px;
+    padding: 6px 0 4px 10px;
+    border-left: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.menu-subitem {
+    margin-bottom: 0;
+    padding: 10px 12px;
+    border-radius: 13px;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.74);
+}
+
+.menu-subitem i {
+    width: 18px;
+    font-size: 12px;
+}
+
 .menu-item i {
     width: 20px;
     flex-shrink: 0;
@@ -308,7 +367,9 @@ select:focus-visible {
 .admin-shell.collapsed .brand span,
 .admin-shell.collapsed .brand-subtitle,
 .admin-shell.collapsed .menu-label,
-.admin-shell.collapsed .menu-item span {
+.admin-shell.collapsed .menu-item span,
+.admin-shell.collapsed .menu-group-caret,
+.admin-shell.collapsed .menu-sublist {
     display: none;
 }
 
@@ -1345,6 +1406,14 @@ input[type="file"].popup-input {
     .admin-shell.collapsed .menu-label,
     .admin-shell.collapsed .menu-item span {
         display: block;
+    }
+
+    .admin-shell.collapsed .menu-group-caret {
+        display: block;
+    }
+
+    .admin-shell.collapsed .menu-group[open] .menu-sublist {
+        display: grid;
     }
 
     .admin-shell.collapsed .brand {
