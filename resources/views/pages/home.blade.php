@@ -998,7 +998,7 @@
                 ['judul' => 'Logger',          'sub' => 'Pengukuran'],
             ] as $tile)
                 @php $g = $galeriTiles[strtolower($tile['judul'])] ?? null; @endphp
-                <a class="gallery-tile gallery-tile-photo" href="{{ route('publikasi.galeri.foto') }}">
+                <a class="gallery-tile gallery-tile-photo" href="{{ route('publikasi.galeri.foto', ['kategori' => $tile['judul']]) }}">
                     @if ($g && $g->hasImage())
                         <figure class="image-anime reveal"@if($g->background_color) style="background:{{ $g->background_color }}"@endif>
                             <img src="{{ $g->image_url }}" alt="{{ $tile['judul'] }}" decoding="async" loading="lazy">
