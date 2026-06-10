@@ -7,6 +7,9 @@ use App\Http\Controllers\AdminGemController;
 use App\Http\Controllers\AdminGeolistrik1dController;
 use App\Http\Controllers\AdminInfografisController;
 use App\Http\Controllers\AdminKaryaIlmiahController;
+use App\Http\Controllers\AdminInformasiBerkalaController;
+use App\Http\Controllers\AdminInformasiSertaMertaController;
+use App\Http\Controllers\AdminInformasiTersediaSetiapSaatController;
 use App\Http\Controllers\AdminLaporanSkmController;
 use App\Http\Controllers\AdminPengumumanController;
 use App\Http\Controllers\AdminSniController;
@@ -20,8 +23,12 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\BuletinController;
 use App\Http\Controllers\InfografisController;
 use App\Http\Controllers\GaleriFotoController;
+use App\Http\Controllers\InformasiBerkalaController;
+use App\Http\Controllers\InformasiSertaMertaController;
+use App\Http\Controllers\InformasiTersediaSetiapSaatController;
 use App\Http\Controllers\LaporanSkmController;
 use App\Http\Controllers\ProfilePageController;
+use App\Http\Controllers\GaleriVideoController;
 use App\Http\Controllers\SearchController;
 use App\Models\IndonesiaMap;
 use Illuminate\Support\Facades\Route;
@@ -98,6 +105,18 @@ Route::prefix('admin')->name('admin.')->middleware('admin.auth')->group(function
         Route::post('/gems', [AdminGemController::class, 'store'])->name('gems.store');
         Route::put('/gems/{gem}', [AdminGemController::class, 'update'])->name('gems.update');
         Route::delete('/gems/{gem}', [AdminGemController::class, 'destroy'])->name('gems.destroy');
+        Route::get('/informasi-berkala', [AdminInformasiBerkalaController::class, 'index'])->name('informasi-berkala.index');
+        Route::post('/informasi-berkala', [AdminInformasiBerkalaController::class, 'store'])->name('informasi-berkala.store');
+        Route::put('/informasi-berkala/{informasiBerkala}', [AdminInformasiBerkalaController::class, 'update'])->name('informasi-berkala.update');
+        Route::delete('/informasi-berkala/{informasiBerkala}', [AdminInformasiBerkalaController::class, 'destroy'])->name('informasi-berkala.destroy');
+        Route::get('/informasi-serta-merta', [AdminInformasiSertaMertaController::class, 'index'])->name('informasi-serta-merta.index');
+        Route::post('/informasi-serta-merta', [AdminInformasiSertaMertaController::class, 'store'])->name('informasi-serta-merta.store');
+        Route::put('/informasi-serta-merta/{informasiSertaMerta}', [AdminInformasiSertaMertaController::class, 'update'])->name('informasi-serta-merta.update');
+        Route::delete('/informasi-serta-merta/{informasiSertaMerta}', [AdminInformasiSertaMertaController::class, 'destroy'])->name('informasi-serta-merta.destroy');
+        Route::get('/informasi-tersedia-setiap-saat', [AdminInformasiTersediaSetiapSaatController::class, 'index'])->name('informasi-tersedia-setiap-saat.index');
+        Route::post('/informasi-tersedia-setiap-saat', [AdminInformasiTersediaSetiapSaatController::class, 'store'])->name('informasi-tersedia-setiap-saat.store');
+        Route::put('/informasi-tersedia-setiap-saat/{informasiTersediaSetiapSaat}', [AdminInformasiTersediaSetiapSaatController::class, 'update'])->name('informasi-tersedia-setiap-saat.update');
+        Route::delete('/informasi-tersedia-setiap-saat/{informasiTersediaSetiapSaat}', [AdminInformasiTersediaSetiapSaatController::class, 'destroy'])->name('informasi-tersedia-setiap-saat.destroy');
         Route::get('/laporan-skm', [AdminLaporanSkmController::class, 'index'])->name('laporan-skm.index');
         Route::post('/laporan-skm', [AdminLaporanSkmController::class, 'store'])->name('laporan-skm.store');
         Route::put('/laporan-skm/{laporanSkm}', [AdminLaporanSkmController::class, 'update'])->name('laporan-skm.update');
@@ -141,13 +160,13 @@ Route::prefix('publikasi')->name('publikasi.')->group(function () {
     Route::get('/infografis', [InfografisController::class, 'index'])->name('infografis');
     Route::view('/galeri', 'pages.menu_detail', ['menuGroup' => 'Publikasi', 'pageTitle' => 'Galeri'])->name('galeri');
     Route::get('/galeri/foto', [GaleriFotoController::class, 'index'])->name('galeri.foto');
-    Route::view('/galeri/video', 'pages.menu_detail', ['menuGroup' => 'Publikasi', 'pageTitle' => 'Galeri Video'])->name('galeri.video');
+    Route::get('/galeri/video', [GaleriVideoController::class, 'index'])->name('galeri.video');
 });
 
 Route::prefix('informasi_publik')->name('informasi_publik.')->group(function () {
-    Route::view('/informasi_berkala', 'pages.menu_detail', ['menuGroup' => 'Informasi Publik', 'pageTitle' => 'Informasi Berkala'])->name('informasi_berkala');
-    Route::view('/informasi_serta_merta', 'pages.menu_detail', ['menuGroup' => 'Informasi Publik', 'pageTitle' => 'Informasi Serta Merta'])->name('informasi_serta_merta');
-    Route::view('/informasi_tersedia_setiap_saat', 'pages.menu_detail', ['menuGroup' => 'Informasi Publik', 'pageTitle' => 'Informasi Tersedia Setiap Saat'])->name('informasi_tersedia_setiap_saat');
+    Route::get('/informasi_berkala', [InformasiBerkalaController::class, 'index'])->name('informasi_berkala');
+    Route::get('/informasi_serta_merta', [InformasiSertaMertaController::class, 'index'])->name('informasi_serta_merta');
+    Route::get('/informasi_tersedia_setiap_saat', [InformasiTersediaSetiapSaatController::class, 'index'])->name('informasi_tersedia_setiap_saat');
 });
 
 Route::prefix('pelayanan_publik')->name('pelayanan_publik.')->group(function () {

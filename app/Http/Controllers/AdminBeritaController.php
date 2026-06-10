@@ -8,11 +8,13 @@ use App\Models\Berita;
 use App\Services\Admin\GalleryService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class AdminBeritaController extends Controller
 {
     private const IMAGE_DIR = 'berita-images';
+    private const VIDEO_DIR = 'berita-videos';
 
     public function __construct(private readonly GalleryService $gallery)
     {
@@ -32,14 +34,23 @@ class AdminBeritaController extends Controller
     {
         $data = $request->validated();
 
-        DB::transaction(function () use ($data) {
+        DB::transaction(function () use ($data, $request) {
+            $videoPath = null;
+            if ($request->hasFile('video')) {
+                $videoPath = $request->file('video')->store(self::VIDEO_DIR, 'public');
+            }
+
             $berita = Berita::create([
-                'judul' => $data['judul'],
-                'deskripsi' => $data['deskripsi'],
+                'judul'           => $data['judul'],
+                'deskripsi'       => $data['deskripsi'],
+                'video_path'      => $videoPath,
+                'video_orientasi' => $data['video_orientasi'] ?? 'landscape',
             ]);
 
-            $paths = $this->gallery->storeFiles($data['images'], self::IMAGE_DIR);
-            $this->gallery->attachStoredImages($berita, $paths);
+            if (!empty($data['images'])) {
+                $paths = $this->gallery->storeFiles($data['images'], self::IMAGE_DIR);
+                $this->gallery->attachStoredImages($berita, $paths);
+            }
         });
 
         return redirect()
@@ -51,11 +62,30 @@ class AdminBeritaController extends Controller
     {
         $data = $request->validated();
 
-        DB::transaction(function () use ($berita, $data) {
+        DB::transaction(function () use ($berita, $data, $request) {
             $berita->update([
-                'judul' => $data['judul'],
+                'judul'     => $data['judul'],
                 'deskripsi' => $data['deskripsi'],
             ]);
+
+            // Handle video
+            if (!empty($data['remove_video'])) {
+                if ($berita->video_path) {
+                    Storage::disk('public')->delete($berita->video_path);
+                }
+                $berita->update(['video_path' => null, 'video_orientasi' => 'landscape']);
+            } elseif ($request->hasFile('video')) {
+                if ($berita->video_path) {
+                    Storage::disk('public')->delete($berita->video_path);
+                }
+                $videoPath = $request->file('video')->store(self::VIDEO_DIR, 'public');
+                $berita->update([
+                    'video_path'      => $videoPath,
+                    'video_orientasi' => $data['video_orientasi'] ?? 'landscape',
+                ]);
+            } elseif (isset($data['video_orientasi'])) {
+                $berita->update(['video_orientasi' => $data['video_orientasi']]);
+            }
 
             $this->gallery->syncImages(
                 $berita,
@@ -74,6 +104,9 @@ class AdminBeritaController extends Controller
     public function destroy(Berita $berita): RedirectResponse
     {
         DB::transaction(function () use ($berita) {
+            if ($berita->video_path) {
+                Storage::disk('public')->delete($berita->video_path);
+            }
             $this->gallery->deleteModelWithImages($berita);
         });
 

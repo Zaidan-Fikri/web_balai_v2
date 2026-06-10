@@ -731,112 +731,117 @@
         font-size: 12px;
         line-height: 1.55;
     }
+    /* ── Profile Sidebar (gaya seragam dengan Informasi Publik) ── */
     .profile-sidebar {
         position: sticky;
         top: 96px;
         padding: 0;
-        border: 1px solid rgba(0, 51, 153, .1);
-        border-radius: 18px;
+        border: 1px solid #e8edf4;
+        border-radius: 16px;
         background: #fff;
-        box-shadow: 0 20px 52px rgba(0, 31, 84, .13);
+        box-shadow: 0 4px 24px rgba(10,38,71,.10), 0 1px 4px rgba(10,38,71,.06);
         overflow: hidden;
     }
-    .profile-sidebar::before { display: none; }
-    /* Header "Profil" */
     .profile-sidebar-header {
         position: relative;
-        padding: 20px 18px 30px;
-        background: linear-gradient(135deg, #003cbf 0%, #0052e6 60%, #1a6af5 100%);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 20px 22px 18px;
+        background: linear-gradient(135deg, #0f2d5a 0%, #1a6bcc 100%);
         overflow: hidden;
     }
-    /* Curved white bottom edge on header */
-    .profile-sidebar-header::before {
-        content: '';
-        position: absolute;
-        bottom: -1px; left: 0; right: 0;
-        height: 20px;
-        background: #fff;
-        border-radius: 16px 16px 0 0;
-    }
-    /* Faded watermark text */
     .profile-sidebar-header::after {
         content: 'PROFIL';
         position: absolute;
-        right: 10px; top: 6px;
-        font-size: 3rem;
+        right: -10px; top: 50%;
+        transform: translateY(-50%);
+        font-size: 1.9rem;
         font-weight: 900;
-        color: rgba(255,255,255,.09);
-        letter-spacing: .06em;
-        line-height: 1;
+        color: rgba(255,255,255,.06);
+        letter-spacing: .04em;
         pointer-events: none;
+        white-space: nowrap;
     }
     .profile-sidebar-title {
-        position: relative;
-        z-index: 1;
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 12px;
         color: #fff;
-        font-size: 13px;
-        font-weight: 900;
-        letter-spacing: .12em;
+        font-size: .78rem;
+        font-weight: 800;
+        letter-spacing: .1em;
         text-transform: uppercase;
+        line-height: 1;
     }
     .profile-sidebar-title::before {
         content: '';
         flex-shrink: 0;
         width: 4px;
-        height: 20px;
-        background: #f6c34a;
-        border-radius: 999px;
+        height: 22px;
+        background: linear-gradient(180deg, #f0b429, #f97316);
+        border-radius: 3px;
     }
     /* Menu list */
     .profile-menu {
-        position: relative;
-        z-index: 1;
-        display: grid;
-        gap: 4px;
         margin: 0;
-        padding: 12px 12px 14px;
+        padding: 10px 0 6px;
         list-style: none;
     }
-    .profile-menu a {
+    .profile-menu li + li .profile-menu-link::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 22px; right: 22px;
+        height: 1px;
+        background: #f0f2f6;
+    }
+    .profile-menu-link {
         display: flex;
         align-items: center;
-        justify-content: space-between;
-        min-height: 44px;
-        padding: 10px 13px;
-        border-radius: 10px;
-        color: #344054;
-        font-size: .92rem;
-        font-weight: 800;
+        gap: 12px;
+        padding: 13px 22px;
+        font-size: .9rem;
+        font-weight: 500;
+        color: #445577;
         text-decoration: none;
-        transition: background .18s, color .18s, transform .18s;
+        transition: background .18s, color .18s, padding-left .18s;
+        border-left: 3px solid transparent;
+        position: relative;
     }
-    /* Chevron indicator */
-    .profile-menu a::after {
-        content: '';
+    .profile-menu-icon {
+        width: 32px; height: 32px;
+        border-radius: 8px;
+        background: #f0f4fb;
+        display: flex; align-items: center; justify-content: center;
+        font-size: .78rem;
+        color: #6b84b0;
         flex-shrink: 0;
-        width: 7px;
-        height: 7px;
-        border-right: 2px solid currentColor;
-        border-top: 2px solid currentColor;
-        transform: rotate(45deg);
-        opacity: .25;
-        transition: opacity .18s, transform .18s;
+        transition: background .18s, color .18s;
     }
-    .profile-menu a:hover {
-        background: #eaf1ff;
-        color: #0047cc;
-        transform: translateX(3px);
+    .profile-menu-text { flex: 1; line-height: 1.3; }
+    .profile-menu-arrow {
+        font-size: .65rem;
+        color: #c0cce0;
+        flex-shrink: 0;
+        transition: color .18s, transform .18s;
     }
-    .profile-menu a:hover::after { opacity: .6; transform: rotate(45deg) translateX(2px); }
-    .profile-menu a.is-active {
-        background: #0047cc;
-        color: #fff;
-        box-shadow: 0 8px 22px rgba(0, 71, 204, .28);
+    .profile-menu-link:hover {
+        background: #f4f7ff;
+        color: #1a6bcc;
+        padding-left: 26px;
+        border-left-color: #c5d8f5;
     }
-    .profile-menu a.is-active::after { opacity: .9; }
+    .profile-menu-link:hover .profile-menu-icon { background: #dde9fb; color: #1a6bcc; }
+    .profile-menu-link:hover .profile-menu-arrow { color: #1a6bcc; transform: translateX(2px); }
+    .profile-menu-link.is-active {
+        background: linear-gradient(90deg, #e8f0fe, #f0f5ff);
+        color: #1a6bcc;
+        font-weight: 700;
+        border-left-color: #1a6bcc;
+        padding-left: 26px;
+    }
+    .profile-menu-link.is-active .profile-menu-icon { background: #1a6bcc; color: #fff; }
+    .profile-menu-link.is-active .profile-menu-arrow { color: #1a6bcc; transform: translateX(2px); }
     @media (max-width: 991px) {
         .menu-detail-layout { grid-template-columns: 1fr; }
         .profile-sidebar { position: relative; top: auto; order: -1; }
@@ -1847,12 +1852,26 @@
                     <div class="profile-sidebar-header">
                         <span class="profile-sidebar-title">Profil</span>
                     </div>
+                    @php
+                        $profileMenuIcons = [
+                            'tentang-kami'        => 'fa-solid fa-circle-info',
+                            'tugas-dan-fungsi'    => 'fa-solid fa-list-check',
+                            'visi-dan-misi'       => 'fa-solid fa-bullseye',
+                            'struktur-organisasi' => 'fa-solid fa-sitemap',
+                            'zona-integritas'     => 'fa-solid fa-shield-halved',
+                            'lokasi-dan-kontak'   => 'fa-solid fa-location-dot',
+                        ];
+                    @endphp
                     <ul class="profile-menu">
                         @foreach ($profileMenu as $item)
                             <li>
                                 <a href="{{ $item['url'] }}"
-                                   class="{{ ($profilePage?->slug ?? null) === $item['slug'] ? 'is-active' : '' }}">
-                                    {{ $item['label'] }}
+                                   class="profile-menu-link {{ ($profilePage?->slug ?? null) === $item['slug'] ? 'is-active' : '' }}">
+                                    <span class="profile-menu-icon">
+                                        <i class="{{ $profileMenuIcons[$item['slug']] ?? 'fa-solid fa-file' }}"></i>
+                                    </span>
+                                    <span class="profile-menu-text">{{ $item['label'] }}</span>
+                                    <i class="fa-solid fa-chevron-right profile-menu-arrow"></i>
                                 </a>
                             </li>
                         @endforeach

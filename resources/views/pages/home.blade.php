@@ -19,6 +19,111 @@
 
 @push('styles')
     <style>
+        /* ── Berita Terkini – full-photo overlay card ── */
+        .hn-berita-card {
+            position: relative;
+            display: block;
+            border-radius: 16px;
+            overflow: hidden;
+            height: clamp(320px, 30vw, 420px);
+            box-shadow: 0 6px 28px rgba(10,38,71,0.18);
+            transition: transform .28s cubic-bezier(.22,.68,0,1.2), box-shadow .28s ease;
+        }
+        .hn-berita-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 16px 48px rgba(10,38,71,0.26);
+        }
+        .hn-berita-img {
+            display: block;
+            position: absolute;
+            inset: 0;
+        }
+        .hn-berita-img img,
+        .hn-berita-img video {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform .5s ease;
+        }
+        .hn-berita-card:hover .hn-berita-img img,
+        .hn-berita-card:hover .hn-berita-img video {
+            transform: scale(1.07);
+        }
+        .hn-berita-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to top,
+                rgba(4,18,44,.92) 0%,
+                rgba(4,18,44,.55) 45%,
+                rgba(4,18,44,.10) 100%
+            );
+            pointer-events: none;
+        }
+        .hn-berita-date {
+            position: absolute;
+            top: 14px; left: 14px;
+            z-index: 3;
+            margin: 0;
+            background: rgba(4,18,44,.82);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,.18);
+            color: #fff;
+            font-size: .7rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 50px;
+        }
+        .hn-berita-body {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            z-index: 3;
+            padding: 20px 20px 18px;
+        }
+        .hn-berita-title {
+            margin: 0 0 6px;
+            font-size: clamp(.85rem, 1.1vw, 1rem);
+            font-weight: 800;
+            line-height: 1.4;
+            letter-spacing: .01em;
+        }
+        .hn-berita-title a {
+            color: #fff;
+            text-decoration: none;
+        }
+        .hn-berita-desc {
+            margin: 0 0 12px;
+            font-size: .78rem;
+            line-height: 1.55;
+            color: rgba(255,255,255,.78);
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .hn-berita-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: .75rem;
+            font-weight: 700;
+            color: #fff;
+            border: 1.5px solid rgba(255,255,255,.55);
+            border-radius: 50px;
+            padding: 5px 14px;
+            text-decoration: none;
+            transition: background .2s, border-color .2s, color .2s;
+        }
+        .hn-berita-btn:hover {
+            background: #f4b000;
+            border-color: #f4b000;
+            color: #1a1a1a;
+            text-decoration: none;
+        }
+        .home-berita-pagination { bottom: 0 !important; }
+        .home-berita-pagination .swiper-pagination-bullet { background: #1a6bcc; opacity: .3; }
+        .home-berita-pagination .swiper-pagination-bullet-active { opacity: 1; }
+
         .social-profile-logo {
             color: #ffffff;
             font-size: 34px;
@@ -67,7 +172,7 @@
         .gallery-showcase {
             display: grid;
             grid-template-columns: repeat(3, minmax(0, 1fr));
-            grid-auto-rows: clamp(190px, 21vw, 300px);
+            grid-auto-rows: clamp(160px, 15vw, 220px);
             gap: clamp(10px, 1.2vw, 14px);
             max-width: 1160px;
             margin: 0 auto;
@@ -94,9 +199,15 @@
             outline: 0;
         }
 
-        /* videos span 2 of 3 columns */
+        /* video: 2 cols × 2 rows (bento large block) */
         .gallery-tile-video {
             grid-column: span 2;
+            grid-row: span 2;
+        }
+
+        /* featured photo: 1 col × 2 rows (tall beside video) */
+        .gallery-tile-featured {
+            grid-row: span 2;
         }
 
         /* photos fill 1 column each */
@@ -330,14 +441,42 @@
             padding: 0 1rem;
         }
 
+        /* ── placeholder category icon ── */
+        .gallery-tile-placeholder-icon {
+            position: relative;
+            z-index: 1;
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            background: rgba(255,255,255,0.10);
+            border: 1px solid rgba(255,255,255,0.18);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            color: rgba(255,255,255,0.55);
+            margin-bottom: 10px;
+            transition: background 0.25s ease, color 0.25s ease;
+        }
+
+        .gallery-tile:hover .gallery-tile-placeholder-icon {
+            background: rgba(255,255,255,0.20);
+            color: rgba(255,255,255,0.90);
+        }
+
         @media (max-width: 767px) {
             .gallery-showcase {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
-                grid-auto-rows: clamp(160px, 28vw, 240px);
+                grid-auto-rows: clamp(140px, 24vw, 200px);
             }
 
             .gallery-tile-video {
                 grid-column: span 2;
+                grid-row: span 1;
+            }
+
+            .gallery-tile-featured {
+                grid-row: span 1;
             }
         }
 
@@ -349,6 +488,7 @@
 
             .gallery-tile-video {
                 grid-column: span 1;
+                grid-row: span 1;
             }
         }
     </style>
@@ -501,6 +641,79 @@
     </div>
 </section><!-- About Section End -->
 
+<!-- Berita Terkini Section Start -->
+<section class="home-berita-section" style="padding-top: 60px; padding-bottom: 20px;">
+    <div class="container-fluid px-3 px-lg-4">
+        <div class="row section-row">
+            <div class="col-lg-12">
+                <div class="section-title">
+                    <h2 class="text-anime-style-3">Berita Terkini</h2>
+                </div>
+            </div>
+        </div>
+
+        @if ($publikasiBeritas->isNotEmpty())
+            <div style="background: #f0f4f9; border-radius: 20px; box-shadow: 0 4px 28px rgba(10,38,71,0.10); padding: 28px 24px 16px;">
+            <div class="swiper home-berita-swiper" style="padding-bottom: 42px;">
+                <div class="swiper-wrapper">
+                    @foreach ($publikasiBeritas as $berita)
+                        @php
+                            $firstImage = $berita->images->first();
+                            $hasVideo = !empty($berita->video_path);
+                            $imageUrl = $firstImage ? asset('storage/' . $firstImage->image_path) : null;
+                            $beritaUrl = route('publikasi.berita.show', $berita);
+                        @endphp
+                        <div class="swiper-slide">
+                            <article class="hn-berita-card">
+                                <a class="hn-berita-img" href="{{ $beritaUrl }}" tabindex="-1">
+                                    @if (!$imageUrl && $hasVideo)
+                                        <video src="{{ asset('storage/' . $berita->video_path) }}"
+                                               autoplay muted loop playsinline preload="metadata"
+                                               aria-hidden="true"></video>
+                                    @else
+                                        <img src="{{ $imageUrl ?? asset('assets/images/placeholders/berita.svg') }}"
+                                             alt="{{ $berita->judul }}" decoding="async" loading="lazy">
+                                    @endif
+                                </a>
+                                <div class="hn-berita-overlay"></div>
+                                <p class="hn-berita-date">
+                                    <i class="fa-regular fa-calendar fa-xs"></i>&nbsp;
+                                    {{ $berita->created_at ? $berita->created_at->locale('id')->translatedFormat('d M Y') : '-' }}
+                                </p>
+                                <div class="hn-berita-body">
+                                    <h2 class="hn-berita-title">
+                                        <a href="{{ $beritaUrl }}">{{ $berita->judul }}</a>
+                                    </h2>
+                                    @if ($berita->deskripsi)
+                                        <p class="hn-berita-desc">{{ $berita->deskripsi }}</p>
+                                    @endif
+                                    <a href="{{ $beritaUrl }}" class="hn-berita-btn">
+                                        Selengkapnya&nbsp;<i class="fa-solid fa-arrow-right fa-xs"></i>
+                                    </a>
+                                </div>
+                            </article>
+                        </div>
+                    @endforeach
+                </div>
+                <div class="swiper-pagination home-berita-pagination"></div>
+            </div>
+            </div>
+        @else
+            <div class="text-center py-4">
+                <p style="color:#888">Belum ada berita.</p>
+            </div>
+        @endif
+
+        <div class="text-center mt-2 mb-5 wow fadeInUp" data-wow-delay="0.4s">
+            <a href="{{ route('publikasi.berita') }}" class="about-more-link">
+                <span>Lihat Semua Berita</span>
+                <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+            </a>
+        </div>
+    </div>
+</section>
+<!-- Berita Terkini Section End -->
+
 <!-- Publikasi Section Start -->
 <div class="what-we-do home-publication-wrapper home-publication-spacing">
     <div class="light-bg-section home-publication-section home-publication-tabs js-publication-tabs" data-page-size="4">
@@ -521,13 +734,7 @@
             <nav class="publication-menu-box home-publication-menu" aria-label="Kategori publikasi landing page">
                 <ul class="publication-menu-list">
                     <li>
-                        <button type="button" class="publication-menu-link is-active js-publication-menu" data-target="home-berita">
-                            <i class="fa-regular fa-newspaper" aria-hidden="true"></i>
-                            <span>Berita</span>
-                        </button>
-                    </li>
-                    <li>
-                        <button type="button" class="publication-menu-link js-publication-menu" data-target="home-edukasi">
+                        <button type="button" class="publication-menu-link is-active js-publication-menu" data-target="home-edukasi">
                             <i class="fa-solid fa-file-lines" aria-hidden="true"></i>
                             <span>Edukasi</span>
                         </button>
@@ -541,46 +748,7 @@
                 </ul>
             </nav>
 
-            <div class="row publication-group is-active" data-publication-group="home-berita">
-                @forelse ($publikasiBeritas as $berita)
-                    @php
-                        $firstImage = $berita->images->first();
-                        $imageUrl = $firstImage ? asset('storage/' . $firstImage->image_path) : asset('assets/images/placeholders/berita.svg');
-                        $beritaUrl = route('publikasi.berita.show', $berita);
-                    @endphp
-                    <div class="col-xl-3 col-lg-3 col-md-6 js-publication-item">
-                        <article class="blog-item wow fadeInUp" data-wow-delay="0.25s">
-                            <a class="post-featured-image post-featured-link" href="{{ $beritaUrl }}">
-                                <img src="{{ $imageUrl }}" alt="{{ $berita->judul }}" decoding="async" loading="lazy">
-                                <p class="news-date-badge">
-                                    {{ $berita->created_at ? $berita->created_at->locale('id')->translatedFormat('l, d F Y') : '-' }}
-                                </p>
-                            </a>
-                            <div class="post-item-content">
-                                <div class="post-item-body">
-                                    <h2>{{ $berita->judul }}</h2>
-                                </div>
-                                <div class="post-item-footer text-end">
-                                    <a href="{{ $beritaUrl }}" class="publication-detail-btn">Selengkapnya</a>
-                                </div>
-                            </div>
-                        </article>
-                    </div>
-                @empty
-                    <div class="col-12">
-                        <div class="blog-item wow fadeInUp" data-wow-delay="0.25s">
-                            <div class="post-item-content">
-                                <div class="post-item-body">
-                                    <h2>Belum ada data berita.</h2>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @endforelse
-                <div class="col-12"><div class="publication-dots js-publication-dots"></div></div>
-            </div>
-
-            <div class="row publication-group" data-publication-group="home-edukasi">
+            <div class="row publication-group is-active" data-publication-group="home-edukasi">
                 @forelse($publikasiEdukasi as $item)
                     @php
                         $firstImage = $item->images->first();
@@ -974,7 +1142,7 @@
 
         <div class="gallery-showcase wow fadeInUp" data-wow-delay="0.25s">
 
-            {{-- Video 1 (large, spans 2 cols) --}}
+            {{-- Video (bento: 2 cols × 2 rows) --}}
             <a class="gallery-tile gallery-tile-video" href="{{ route('publikasi.galeri.video') }}">
                 <figure class="image-anime">
                     <img src="{{ asset('assets/sda/web/images/thumbnail-1.webp') }}" alt="Video Sumber Daya Air" decoding="async" loading="lazy">
@@ -982,7 +1150,7 @@
                 <div class="gallery-tile-overlay"></div>
                 <span class="gallery-tile-badge"><i class="fa-solid fa-play fa-xs"></i>&nbsp;Video</span>
                 <div class="gallery-tile-label">
-                    <span class="label-sub">Direktorat Jenderal</span>
+                    <span class="label-sub"><i class="fa-solid fa-video fa-xs"></i>&nbsp;Direktorat Jenderal</span>
                     <h5>Sumber Daya Air</h5>
                 </div>
                 <span class="video-play-button" aria-hidden="true">
@@ -991,14 +1159,20 @@
             </a>
 
             @foreach ([
-                ['judul' => 'Geolistrik 1D',   'sub' => 'Pengukuran'],
-                ['judul' => 'Geolistrik 2D',   'sub' => 'Pengukuran'],
-                ['judul' => 'Pumping Test',    'sub' => 'Pengukuran'],
-                ['judul' => 'Borehole Camera', 'sub' => 'Pengukuran'],
-                ['judul' => 'Logger',          'sub' => 'Pengukuran'],
+                ['judul' => 'Geolistrik 1D',            'sub' => 'Pengukuran',   'icon' => 'fa-solid fa-signal',           'featured' => true],
+                ['judul' => 'Geolistrik 2D',            'sub' => 'Pengukuran',   'icon' => 'fa-solid fa-chart-area'],
+                ['judul' => 'Pumping Test',             'sub' => 'Pengukuran',   'icon' => 'fa-solid fa-droplet'],
+                ['judul' => 'Borehole Camera',          'sub' => 'Pengukuran',   'icon' => 'fa-solid fa-camera'],
+                ['judul' => 'Logger',                   'sub' => 'Pengukuran',   'icon' => 'fa-solid fa-chart-line'],
+                ['judul' => 'Kegiatan Balai Air Tanah', 'sub' => 'Kegiatan',     'icon' => 'fa-solid fa-building-columns'],
+                ['judul' => 'Laboratorium',             'sub' => 'Laboratorium', 'icon' => 'fa-solid fa-flask-vial'],
             ] as $tile)
-                @php $g = $galeriTiles[strtolower($tile['judul'])] ?? null; @endphp
-                <a class="gallery-tile gallery-tile-photo" href="{{ route('publikasi.galeri.foto', ['kategori' => $tile['judul']]) }}">
+                @php
+                    $g = $galeriTiles[strtolower($tile['judul'])] ?? null;
+                    $isFeatured = $tile['featured'] ?? false;
+                @endphp
+                <a class="gallery-tile gallery-tile-photo{{ $isFeatured ? ' gallery-tile-featured' : '' }}"
+                   href="{{ route('publikasi.galeri.foto', ['kategori' => $tile['judul']]) }}">
                     @if ($g && $g->hasImage())
                         <figure class="image-anime reveal"@if($g->background_color) style="background:{{ $g->background_color }}"@endif>
                             <img src="{{ $g->image_url }}" alt="{{ $tile['judul'] }}" decoding="async" loading="lazy">
@@ -1006,12 +1180,13 @@
                         <div class="gallery-tile-overlay"></div>
                         <span class="gallery-tile-badge"><i class="fa-solid fa-camera fa-xs"></i>&nbsp;Foto</span>
                         <div class="gallery-tile-label">
-                            <span class="label-sub">{{ $tile['sub'] }}</span>
+                            <span class="label-sub"><i class="{{ $tile['icon'] }} fa-xs"></i>&nbsp;{{ $tile['sub'] }}</span>
                             <h5>{{ $tile['judul'] }}</h5>
                         </div>
                     @else
                         <div class="gallery-tile-placeholder"
                             @if($g && $g->background_color) style="background:{{ $g->background_color }}" @endif>
+                            <span class="gallery-tile-placeholder-icon"><i class="{{ $tile['icon'] }}"></i></span>
                             <span class="ph-sub">{{ $tile['sub'] }}</span>
                             <h5>{{ $tile['judul'] }}</h5>
                         </div>
@@ -1019,22 +1194,6 @@
                     @endif
                 </a>
             @endforeach
-
-            {{-- Video 2 (spans 2 of 3 cols) --}}
-            <a class="gallery-tile gallery-tile-video" href="{{ route('publikasi.galeri.video') }}">
-                <figure class="image-anime">
-                    <img src="{{ asset('assets/sda/web/images/thumbnail-2.webp') }}" alt="Video Sumber Daya Air" decoding="async" loading="lazy">
-                </figure>
-                <div class="gallery-tile-overlay"></div>
-                <span class="gallery-tile-badge"><i class="fa-solid fa-play fa-xs"></i>&nbsp;Video</span>
-                <div class="gallery-tile-label">
-                    <span class="label-sub">Direktorat Jenderal</span>
-                    <h5>Sumber Daya Air</h5>
-                </div>
-                <span class="video-play-button" aria-hidden="true">
-                    <span><i class="fa-solid fa-play"></i></span>
-                </span>
-            </a>
 
         </div>
 
@@ -1160,3 +1319,31 @@
 
 <!-- Jquery Library File -->
 @endsection
+
+@push('scripts')
+<script>
+(function () {
+    var el = document.querySelector('.home-berita-swiper');
+    if (!el) return;
+    new Swiper(el, {
+        slidesPerView: 1,
+        spaceBetween: 24,
+        loop: true,
+        autoplay: {
+            delay: 5000,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+        },
+        pagination: {
+            el: '.home-berita-pagination',
+            clickable: true,
+        },
+        breakpoints: {
+            576: { slidesPerView: 2 },
+            768: { slidesPerView: 3 },
+            1024: { slidesPerView: 4 },
+        },
+    });
+})();
+</script>
+@endpush

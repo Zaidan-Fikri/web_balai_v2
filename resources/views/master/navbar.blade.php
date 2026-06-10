@@ -78,7 +78,7 @@
                                     <li class="nav-item"><a class="nav-link" href="{{ route('publikasi.buletin.index') }}">Edukasi Air Tanah</a></li>
                                     <li class="nav-item"><a class="nav-link" href="{{ route('publikasi.infografis') }}">Infografis</a></li>
                                     <li class="nav-item submenu flyout-parent">
-                                        <a class="nav-link" href="{{ route('publikasi.galeri') }}">
+                                        <a class="nav-link" href="#">
                                             Galeri
                                             <span class="menu-caret menu-caret-flyout" aria-hidden="true">&gt;</span>
                                         </a>

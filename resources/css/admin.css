@@ -1544,3 +1544,67 @@ input[type="file"].popup-input {
         font-size: 13px;
     }
 }
+
+/* =========================================================
+   Video upload block (berita admin)
+   ========================================================= */
+.popup-label-sm {
+    font-size: .78rem;
+    font-weight: 800;
+    color: #4a5568;
+    margin: 14px 0 6px;
+    letter-spacing: .02em;
+}
+.video-upload-block {
+    border: 1px solid #dde6f5;
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 14px;
+    background: #f8faff;
+}
+.video-upload-block .popup-label-sm { margin-top: 0; }
+.video-upload-block .popup-help { display: block; margin-top: 6px; }
+.video-preview-wrap {
+    margin-top: 10px;
+}
+.video-preview-wrap video {
+    width: 100%;
+    border-radius: 10px;
+    max-height: 220px;
+    background: #000;
+    display: block;
+    margin-bottom: 8px;
+}
+.btn-remove-video {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #fff0f0;
+    border: 1.5px solid #ffb3b3;
+    color: #c0392b;
+    font-size: .78rem;
+    font-weight: 700;
+    padding: 5px 14px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background .2s;
+}
+.btn-remove-video:hover { background: #ffe0e0; }
+.remove-video-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: .82rem;
+    color: #c0392b;
+    font-weight: 700;
+    cursor: pointer;
+}
+.remove-video-label input { cursor: pointer; }
+.read-video-wrap {
+    margin-bottom: 14px;
+}
+.read-video-wrap video {
+    width: 100%;
+    border-radius: 10px;
+    background: #000;
+}

@@ -75,6 +75,24 @@
                 <a class="menu-item {{ request()->routeIs('admin.gems.*') ? 'active' : '' }}" href="{{ route('admin.gems.index') }}">
                     <i class="fa-solid fa-gem"></i><span>GEMS</span>
                 </a>
+                <details class="menu-group {{ request()->routeIs('admin.informasi-berkala.*', 'admin.informasi-serta-merta.*', 'admin.informasi-tersedia-setiap-saat.*') ? 'is-open' : '' }}" {{ request()->routeIs('admin.informasi-berkala.*', 'admin.informasi-serta-merta.*', 'admin.informasi-tersedia-setiap-saat.*') ? 'open' : '' }}>
+                    <summary class="menu-item menu-group-toggle {{ request()->routeIs('admin.informasi-berkala.*', 'admin.informasi-serta-merta.*', 'admin.informasi-tersedia-setiap-saat.*') ? 'has-active-child' : '' }}">
+                        <i class="fa-solid fa-folder-open"></i>
+                        <span>Informasi Publik</span>
+                        <i class="fa-solid fa-chevron-down menu-group-caret"></i>
+                    </summary>
+                    <div class="menu-sublist">
+                        <a class="menu-item menu-subitem {{ request()->routeIs('admin.informasi-berkala.*') ? 'active' : '' }}" href="{{ route('admin.informasi-berkala.index') }}">
+                            <i class="fa-solid fa-file-lines"></i><span>Informasi Berkala</span>
+                        </a>
+                        <a class="menu-item menu-subitem {{ request()->routeIs('admin.informasi-serta-merta.*') ? 'active' : '' }}" href="{{ route('admin.informasi-serta-merta.index') }}">
+                            <i class="fa-solid fa-file-lines"></i><span>Informasi Serta Merta</span>
+                        </a>
+                        <a class="menu-item menu-subitem {{ request()->routeIs('admin.informasi-tersedia-setiap-saat.*') ? 'active' : '' }}" href="{{ route('admin.informasi-tersedia-setiap-saat.index') }}">
+                            <i class="fa-solid fa-file-lines"></i><span>Tersedia Setiap Saat</span>
+                        </a>
+                    </div>
+                </details>
                 <a class="menu-item {{ request()->routeIs('admin.laporan-skm.*') ? 'active' : '' }}" href="{{ route('admin.laporan-skm.index') }}">
                     <i class="fa-solid fa-chart-column"></i><span>Laporan SKM</span>
                 </a>

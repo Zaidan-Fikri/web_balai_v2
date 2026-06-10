@@ -6,7 +6,7 @@ use App\Models\Galeri;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
-class GaleriFotoController extends Controller
+class GaleriVideoController extends Controller
 {
     private const CATEGORIES = [
         'Geolistrik 1D',
@@ -26,16 +26,17 @@ class GaleriFotoController extends Controller
             $kategori = null;
         }
 
-        $fotos = Galeri::query()
-            ->with('images')
-            ->where('type', 'foto')
+        $videos = Galeri::query()
+            ->where('type', 'video')
+            ->whereNotNull('video_path')
+            ->where('video_path', '!=', '')
             ->when($kategori, fn ($q) => $q->where('kategori', $kategori))
             ->latest()
             ->paginate(12)
             ->withQueryString();
 
-        return view('pages.galeri.foto', [
-            'fotos'      => $fotos,
+        return view('pages.galeri.video', [
+            'videos'     => $videos,
             'kategori'   => $kategori,
             'categories' => self::CATEGORIES,
         ]);

@@ -11,10 +11,10 @@ class UpdateBeritaRequest extends BaseAdminRequest
         $beritaId = $this->routeModelId('berita');
 
         return [
-            'judul' => ['required', 'string', 'max:255'],
-            'deskripsi' => ['required', 'string'],
-            'images' => ['nullable', 'array'],
-            'images.*' => $this->imageRules(),
+            'judul'            => ['required', 'string', 'max:255'],
+            'deskripsi'        => ['required', 'string'],
+            'images'           => ['nullable', 'array'],
+            'images.*'         => $this->imageRules(),
             'remove_image_ids' => ['nullable', 'array'],
             'remove_image_ids.*' => [
                 'integer',
@@ -22,6 +22,9 @@ class UpdateBeritaRequest extends BaseAdminRequest
                     $query->where('berita_id', $beritaId);
                 }),
             ],
+            'video'            => $this->videoRules('nullable'),
+            'video_orientasi'  => ['nullable', 'in:landscape,portrait'],
+            'remove_video'     => ['nullable', 'boolean'],
         ];
     }
 }

@@ -234,11 +234,17 @@ window.addEventListener('load', function () {
             dot.className = 'buletin-slider-dot' + (dotIndex === index ? ' is-active' : '');
             dot.setAttribute('aria-label', 'Tampilkan gambar ' + (dotIndex + 1));
             dot.addEventListener('click', function () {
+                pauseCurrentVideo();
                 index = dotIndex;
                 updateSlider();
             });
             dotsWrap.appendChild(dot);
         });
+    }
+
+    function pauseCurrentVideo() {
+        const video = slides[index] && slides[index].querySelector('video');
+        if (video) video.pause();
     }
 
     function updateSlider() {
@@ -251,6 +257,7 @@ window.addEventListener('load', function () {
     }
 
     function move(direction) {
+        pauseCurrentVideo();
         index += direction;
         if (index < 0) index = slides.length - 1;
         if (index >= slides.length) index = 0;

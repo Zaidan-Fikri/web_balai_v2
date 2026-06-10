@@ -13,6 +13,8 @@ class Berita extends Model
     protected $fillable = [
         'judul',
         'deskripsi',
+        'video_path',
+        'video_orientasi',
     ];
 
     public function images(): HasMany

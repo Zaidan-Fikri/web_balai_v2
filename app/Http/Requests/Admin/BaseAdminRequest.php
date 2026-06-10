@@ -33,6 +33,17 @@ abstract class BaseAdminRequest extends FormRequest
     /**
      * @return array<int, mixed>
      */
+    protected function videoRules(string $presence = 'nullable'): array
+    {
+        return [
+            $presence,
+            File::types(['mp4', 'webm', 'mov', 'avi'])->max(819200),
+        ];
+    }
+
+    /**
+     * @return array<int, mixed>
+     */
     protected function pdfRules(string $presence = 'required'): array
     {
         return [

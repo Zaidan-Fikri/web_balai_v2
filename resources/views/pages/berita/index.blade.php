@@ -11,11 +11,19 @@
                 @forelse ($beritas as $berita)
                     @php
                         $firstImage = $berita->images->first();
-                        $imageUrl = $firstImage ? asset('storage/' . $firstImage->image_path) : asset('assets/images/placeholders/berita.svg');
+                        $hasVideo = !empty($berita->video_path);
+                        $imageUrl = $firstImage ? asset('storage/' . $firstImage->image_path) : null;
                     @endphp
                     <article class="buletin-card">
                         <a class="buletin-card-image" href="{{ route('publikasi.berita.show', $berita) }}">
-                            <img src="{{ $imageUrl }}" alt="{{ $berita->judul }}">
+                            @if (!$imageUrl && $hasVideo)
+                                <video src="{{ asset('storage/' . $berita->video_path) }}"
+                                       autoplay muted loop playsinline preload="metadata"
+                                       aria-hidden="true"></video>
+                            @else
+                                <img src="{{ $imageUrl ?? asset('assets/images/placeholders/berita.svg') }}"
+                                     alt="{{ $berita->judul }}">
+                            @endif
                         </a>
                         <div class="buletin-card-body">
                             <p class="buletin-card-date">

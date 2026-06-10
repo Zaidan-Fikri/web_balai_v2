@@ -8,11 +8,13 @@ use App\Models\Galeri;
 use App\Models\GaleriImage;
 use App\Services\FileUploadService;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class AdminGaleriController extends Controller
 {
     private const IMAGE_DIR = 'galeri';
+    private const VIDEO_DIR = 'galeri-videos';
 
     public function __construct(private readonly FileUploadService $files)
     {
@@ -32,13 +34,24 @@ class AdminGaleriController extends Controller
     {
         $data = $request->validated();
 
+        $imagePath = $request->hasFile('image')
+            ? $this->files->store($data['image'], self::IMAGE_DIR)
+            : '';
+
+        $videoPath = null;
+        if ($data['type'] === 'video' && $request->hasFile('video')) {
+            $videoPath = $request->file('video')->store(self::VIDEO_DIR, 'public');
+        }
+
         $galeri = Galeri::create([
             'admin_user_id'    => $request->session()->get('admin_user_id'),
+            'kategori'         => $data['kategori'] ?? null,
             'judul'            => $data['judul'],
             'deskripsi'        => $data['deskripsi'] ?? null,
             'type'             => $data['type'],
+            'image_path'       => $imagePath,
+            'video_path'       => $videoPath,
             'background_color' => $data['background_color'] ?? null,
-            'image_path'       => $this->files->store($data['image'], self::IMAGE_DIR),
         ]);
 
         foreach (($data['extra_images'] ?? []) as $i => $file) {
@@ -58,16 +71,31 @@ class AdminGaleriController extends Controller
         $data = $request->validated();
 
         $imagePath = $galeri->image_path;
-        if (! empty($data['image'])) {
+        if ($request->hasFile('image')) {
             $imagePath = $this->files->replace($galeri->image_path, $data['image'], self::IMAGE_DIR);
         }
 
+        $videoPath = $galeri->video_path;
+        if (!empty($data['remove_video'])) {
+            if ($galeri->video_path) {
+                Storage::disk('public')->delete($galeri->video_path);
+            }
+            $videoPath = null;
+        } elseif ($request->hasFile('video')) {
+            if ($galeri->video_path) {
+                Storage::disk('public')->delete($galeri->video_path);
+            }
+            $videoPath = $request->file('video')->store(self::VIDEO_DIR, 'public');
+        }
+
         $galeri->update([
+            'kategori'         => $data['kategori'] ?? null,
             'judul'            => $data['judul'],
             'deskripsi'        => $data['deskripsi'] ?? null,
             'type'             => $data['type'],
-            'background_color' => $data['background_color'] ?? null,
             'image_path'       => $imagePath,
+            'video_path'       => $videoPath,
+            'background_color' => $data['background_color'] ?? null,
         ]);
 
         foreach (($data['extra_images'] ?? []) as $i => $file) {
@@ -98,7 +126,12 @@ class AdminGaleriController extends Controller
         foreach ($galeri->images as $img) {
             $this->files->delete($img->image_path);
         }
-        $this->files->delete($galeri->image_path);
+        if ($galeri->image_path) {
+            $this->files->delete($galeri->image_path);
+        }
+        if ($galeri->video_path) {
+            Storage::disk('public')->delete($galeri->video_path);
+        }
         $galeri->delete();
 
         return redirect()

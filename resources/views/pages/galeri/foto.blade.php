@@ -454,7 +454,7 @@
                             <img src="{{ $foto->image_url }}" alt="{{ $foto->judul }}"
                                 loading="lazy" decoding="async">
                             <span class="galeri-foto-badge">
-                                <i class="fa-solid fa-camera fa-xs"></i>&nbsp;Foto
+                                <i class="fa-solid fa-camera fa-xs"></i>&nbsp;{{ $foto->kategori ?: 'Foto' }}
                                 @if($allImages->count() > 1)
                                     &nbsp;· {{ $allImages->count() }}
                                 @endif
@@ -466,7 +466,6 @@
                             </div>
                         </div>
                         <div class="galeri-foto-body">
-                            <p class="galeri-foto-category">Pengukuran</p>
                             <h2 class="galeri-foto-judul">{{ $foto->judul }}</h2>
                             @if ($foto->deskripsi)
                                 <p class="galeri-foto-desc">{{ $foto->deskripsi }}</p>
@@ -501,7 +500,6 @@
                 </div>
                 <div class="lb-caption">
                     <div>
-                        <p class="lb-caption-category">Pengukuran</p>
                         <p class="lb-caption-title" id="lbTitle"></p>
                         <p class="lb-caption-desc" id="lbDesc"></p>
                     </div>

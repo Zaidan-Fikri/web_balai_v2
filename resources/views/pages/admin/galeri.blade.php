@@ -199,6 +199,8 @@
                                         <button type="button" class="btn-action update js-galeri-update-btn"
                                             data-update-url="{{ route('admin.galeri.update', $item->id) }}"
                                             data-image="{{ $imageUrl }}"
+                                            data-video-url="{{ $item->video_path ? asset('storage/' . $item->video_path) : '' }}"
+                                            data-kategori="{{ $item->kategori }}"
                                             data-judul="{{ $item->judul }}"
                                             data-deskripsi="{{ $item->deskripsi }}"
                                             data-type="{{ $item->type }}"
@@ -229,23 +231,51 @@
             <h4 id="createGaleriTitle">Tambah Galeri</h4>
             <form method="POST" action="{{ route('admin.galeri.store') }}" enctype="multipart/form-data">
                 @csrf
-                <select class="popup-input" id="createGaleriJudul" name="judul" required>
-                    <option value="" disabled {{ old('judul') ? '' : 'selected' }}>-- Pilih Kategori --</option>
-                    @foreach (['Geolistrik 1D', 'Geolistrik 2D', 'Pumping Test', 'Borehole Camera', 'Logger'] as $opt)
-                        <option value="{{ $opt }}" {{ old('judul') === $opt ? 'selected' : '' }}>{{ $opt }}</option>
+                <label class="popup-label-sm">Kategori</label>
+                <select class="popup-input" name="kategori" id="createGaleriKategori">
+                    <option value="">-- Tanpa Kategori --</option>
+                    @foreach (['Geolistrik 1D', 'Geolistrik 2D', 'Pumping Test', 'Borehole Camera', 'Logger', 'Kegiatan Balai Air Tanah', 'Laboratorium'] as $opt)
+                        <option value="{{ $opt }}" {{ old('kategori') === $opt ? 'selected' : '' }}>{{ $opt }}</option>
                     @endforeach
                 </select>
                 <select class="popup-input" name="type" id="createGaleriType">
                     <option value="foto" {{ old('type') === 'video' ? '' : 'selected' }}>Foto</option>
                     <option value="video" {{ old('type') === 'video' ? 'selected' : '' }}>Video</option>
                 </select>
-                <label class="popup-label-sm">Foto Utama</label>
-                <input type="file" class="popup-input" id="createGaleriImage" name="image"
-                    accept=".jpg,.jpeg,.png,.webp,image/*" required>
-                <div class="upload-preview galeri-main-preview" id="createGaleriPreview"></div>
-                <label class="popup-label-sm">Foto Tambahan <span style="font-weight:400;color:#888">(opsional)</span></label>
-                <input type="file" class="popup-input galeri-extra-input" name="extra_images[]"
-                    accept=".jpg,.jpeg,.png,.webp,image/*" multiple>
+
+                {{-- Foto section --}}
+                <div id="createFotoSection">
+                    <label class="popup-label-sm">Foto Utama</label>
+                    <input type="file" class="popup-input" id="createGaleriImage" name="image"
+                        accept=".jpg,.jpeg,.png,.webp,image/*" required>
+                    <div class="upload-preview galeri-main-preview" id="createGaleriPreview"></div>
+                    <label class="popup-label-sm">Foto Tambahan <span style="font-weight:400;color:#888">(opsional)</span></label>
+                    <input type="file" class="popup-input galeri-extra-input" name="extra_images[]"
+                        accept=".jpg,.jpeg,.png,.webp,image/*" multiple>
+                </div>
+
+                {{-- Video section --}}
+                <div id="createVideoSection" style="display:none;">
+                    <div class="video-upload-block" style="margin-top:10px;">
+                        <p class="popup-label-sm" style="margin-top:0;">File Video <span style="color:#e74c3c;">*</span></p>
+                        <input type="file" class="popup-input" id="createGaleriVideo" name="video"
+                            accept="video/mp4,video/webm,video/quicktime,video/*">
+                        <span class="popup-help">Format: MP4, WebM, MOV. Maks 800 MB.</span>
+                        <div class="video-preview-wrap" id="createGaleriVideoPreview" style="display:none;">
+                            <video id="createGaleriVideoEl" controls></video>
+                            <button type="button" class="btn-remove-video" id="clearCreateGaleriVideo">
+                                <i class="fa-solid fa-xmark fa-xs"></i> Hapus
+                            </button>
+                        </div>
+                    </div>
+                    <label class="popup-label-sm">Thumbnail <span style="font-weight:400;color:#888">(opsional — tampil di tile galeri)</span></label>
+                    <input type="file" class="popup-input" id="createGaleriImageOpt" name="image"
+                        accept=".jpg,.jpeg,.png,.webp,image/*">
+                    <div class="upload-preview galeri-main-preview" id="createGaleriPreviewOpt"></div>
+                </div>
+                <label class="popup-label-sm">Judul</label>
+                <input type="text" class="popup-input" id="createGaleriJudul" name="judul"
+                    placeholder="Judul galeri" value="{{ old('judul') }}" required>
                 <textarea class="popup-textarea" id="createGaleriDeskripsi" name="deskripsi"
                     placeholder="Deskripsi (opsional)">{{ old('deskripsi') }}</textarea>
                 <div class="color-picker-wrap">
@@ -292,9 +322,10 @@
             <form method="POST" id="updateGaleriForm" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
-                <select class="popup-input" id="updateGaleriJudul" name="judul" required>
-                    <option value="" disabled>-- Pilih Kategori --</option>
-                    @foreach (['Geolistrik 1D', 'Geolistrik 2D', 'Pumping Test', 'Borehole Camera', 'Logger'] as $opt)
+                <label class="popup-label-sm">Kategori</label>
+                <select class="popup-input" name="kategori" id="updateGaleriKategori">
+                    <option value="">-- Tanpa Kategori --</option>
+                    @foreach (['Geolistrik 1D', 'Geolistrik 2D', 'Pumping Test', 'Borehole Camera', 'Logger', 'Kegiatan Balai Air Tanah', 'Laboratorium'] as $opt)
                         <option value="{{ $opt }}">{{ $opt }}</option>
                     @endforeach
                 </select>
@@ -302,15 +333,51 @@
                     <option value="foto">Foto</option>
                     <option value="video">Video</option>
                 </select>
-                <div class="upload-preview galeri-main-preview galeri-current-preview" id="updateGaleriCurrentPreview"></div>
-                <label class="popup-label-sm">Ganti Foto Utama <span style="font-weight:400;color:#888">(opsional)</span></label>
-                <input type="file" class="popup-input" id="updateGaleriImage" name="image"
-                    accept=".jpg,.jpeg,.png,.webp,image/*">
-                <div class="upload-preview galeri-main-preview" id="updateGaleriNewPreview"></div>
-                <div id="updateGaleriExtraList" class="extra-images-list"></div>
-                <label class="popup-label-sm">Tambah Foto Lagi <span style="font-weight:400;color:#888">(opsional)</span></label>
-                <input type="file" class="popup-input galeri-extra-input" name="extra_images[]"
-                    accept=".jpg,.jpeg,.png,.webp,image/*" multiple>
+
+                {{-- Foto section --}}
+                <div id="updateFotoSection">
+                    <div class="upload-preview galeri-main-preview galeri-current-preview" id="updateGaleriCurrentPreview"></div>
+                    <label class="popup-label-sm">Ganti Foto Utama <span style="font-weight:400;color:#888">(opsional)</span></label>
+                    <input type="file" class="popup-input" id="updateGaleriImage" name="image"
+                        accept=".jpg,.jpeg,.png,.webp,image/*">
+                    <div class="upload-preview galeri-main-preview" id="updateGaleriNewPreview"></div>
+                    <div id="updateGaleriExtraList" class="extra-images-list"></div>
+                    <label class="popup-label-sm">Tambah Foto Lagi <span style="font-weight:400;color:#888">(opsional)</span></label>
+                    <input type="file" class="popup-input galeri-extra-input" name="extra_images[]"
+                        accept=".jpg,.jpeg,.png,.webp,image/*" multiple>
+                </div>
+
+                {{-- Video section --}}
+                <div id="updateVideoSection" style="display:none;">
+                    <div id="updateGaleriExistingVideo" class="video-upload-block" style="display:none;margin-top:10px;">
+                        <p class="popup-label-sm" style="margin-top:0;">Video Saat Ini</p>
+                        <video id="updateGaleriVideoEl" controls style="width:100%;border-radius:10px;max-height:180px;background:#000;margin-bottom:8px;"></video>
+                        <label class="remove-video-label">
+                            <input type="checkbox" name="remove_video" value="1" id="galeriRemoveVideoCheck">
+                            Hapus video ini
+                        </label>
+                    </div>
+                    <div class="video-upload-block" style="margin-top:10px;">
+                        <p class="popup-label-sm" id="updateGaleriVideoLabel" style="margin-top:0;">Unggah Video Baru</p>
+                        <input type="file" class="popup-input" id="updateGaleriVideoInput" name="video"
+                            accept="video/mp4,video/webm,video/quicktime,video/*">
+                        <span class="popup-help">Format: MP4, WebM, MOV. Maks 800 MB.</span>
+                        <div class="video-preview-wrap" id="updateGaleriVideoPreview" style="display:none;">
+                            <video id="updateGaleriVideoNewEl" controls></video>
+                            <button type="button" class="btn-remove-video" id="clearUpdateGaleriVideo">
+                                <i class="fa-solid fa-xmark fa-xs"></i> Hapus
+                            </button>
+                        </div>
+                    </div>
+                    <label class="popup-label-sm">Ganti Thumbnail <span style="font-weight:400;color:#888">(opsional)</span></label>
+                    <div class="upload-preview galeri-main-preview galeri-current-preview" id="updateGaleriCurrentPreviewVideo"></div>
+                    <input type="file" class="popup-input" id="updateGaleriImageVideo" name="image"
+                        accept=".jpg,.jpeg,.png,.webp,image/*">
+                    <div class="upload-preview galeri-main-preview" id="updateGaleriNewPreviewVideo"></div>
+                </div>
+                <label class="popup-label-sm">Judul</label>
+                <input type="text" class="popup-input" id="updateGaleriJudul" name="judul"
+                    placeholder="Judul galeri" required>
                 <textarea class="popup-textarea" id="updateGaleriDeskripsi" name="deskripsi"
                     placeholder="Deskripsi (opsional)"></textarea>
                 <div class="color-picker-wrap">
@@ -337,43 +404,149 @@
 @push('scripts')
 <script>
 (function () {
-    /* Tampilkan foto tambahan saat popup update dibuka */
+
+    /* ── Helper: toggle foto/video sections ─────────────────────────── */
+    function applyTypeToggle(type, fotoSection, videoSection, imageInput) {
+        var isVideo = type === 'video';
+        fotoSection.style.display  = isVideo ? 'none' : '';
+        videoSection.style.display = isVideo ? '' : 'none';
+        // disable inputs in hidden section so they're not submitted
+        fotoSection.querySelectorAll('input,select,textarea').forEach(function(el) {
+            el.disabled = isVideo;
+        });
+        videoSection.querySelectorAll('input,select,textarea').forEach(function(el) {
+            el.disabled = !isVideo;
+        });
+    }
+
+    /* ── CREATE: type toggle ─────────────────────────────────────────── */
+    var createType    = document.getElementById('createGaleriType');
+    var createFoto    = document.getElementById('createFotoSection');
+    var createVideo   = document.getElementById('createVideoSection');
+    var createImgMain = document.getElementById('createGaleriImage');
+
+    if (createType && createFoto && createVideo) {
+        applyTypeToggle(createType.value, createFoto, createVideo, createImgMain);
+        createType.addEventListener('change', function () {
+            applyTypeToggle(this.value, createFoto, createVideo, createImgMain);
+        });
+
+        /* video file preview */
+        var cvInput   = document.getElementById('createGaleriVideo');
+        var cvPreview = document.getElementById('createGaleriVideoPreview');
+        var cvEl      = document.getElementById('createGaleriVideoEl');
+        var cvClear   = document.getElementById('clearCreateGaleriVideo');
+        if (cvInput && cvPreview && cvEl) {
+            cvInput.addEventListener('change', function () {
+                var file = cvInput.files && cvInput.files[0];
+                if (file) { cvEl.src = URL.createObjectURL(file); cvPreview.style.display = ''; }
+                else { cvPreview.style.display = 'none'; cvEl.src = ''; }
+            });
+        }
+        if (cvClear && cvInput && cvEl && cvPreview) {
+            cvClear.addEventListener('click', function () {
+                cvInput.value = ''; cvEl.src = ''; cvPreview.style.display = 'none';
+            });
+        }
+    }
+
+    /* ── UPDATE: type toggle + populate fields ───────────────────────── */
+    var updateType        = document.getElementById('updateGaleriType');
+    var updateFoto        = document.getElementById('updateFotoSection');
+    var updateVideo       = document.getElementById('updateVideoSection');
+    var updateExistVideo  = document.getElementById('updateGaleriExistingVideo');
+    var updateVideoEl     = document.getElementById('updateGaleriVideoEl');
+    var updateVideoLabel  = document.getElementById('updateGaleriVideoLabel');
+    var removeVideoCheck  = document.getElementById('galeriRemoveVideoCheck');
+    var uvInput           = document.getElementById('updateGaleriVideoInput');
+    var uvPreview         = document.getElementById('updateGaleriVideoPreview');
+    var uvEl              = document.getElementById('updateGaleriVideoNewEl');
+    var uvClear           = document.getElementById('clearUpdateGaleriVideo');
+
+    if (updateType && updateFoto && updateVideo) {
+        updateType.addEventListener('change', function () {
+            applyTypeToggle(this.value, updateFoto, updateVideo, null);
+        });
+        /* new video preview */
+        if (uvInput && uvPreview && uvEl) {
+            uvInput.addEventListener('change', function () {
+                var file = uvInput.files && uvInput.files[0];
+                if (file) { uvEl.src = URL.createObjectURL(file); uvPreview.style.display = ''; }
+                else { uvPreview.style.display = 'none'; uvEl.src = ''; }
+            });
+        }
+        if (uvClear && uvInput && uvEl && uvPreview) {
+            uvClear.addEventListener('click', function () {
+                uvInput.value = ''; uvEl.src = ''; uvPreview.style.display = 'none';
+            });
+        }
+    }
+
+    /* ── UPDATE: populate fields when button clicked ─────────────────── */
     document.querySelectorAll('.js-galeri-update-btn').forEach(function (btn) {
         btn.addEventListener('click', function () {
-            var listEl = document.getElementById('updateGaleriExtraList');
-            if (!listEl) return;
-            listEl.innerHTML = '';
-            var extras = [];
-            try { extras = JSON.parse(btn.dataset.extraImages || '[]'); } catch(e) {}
-            extras.forEach(function (item) {
-                var wrap = document.createElement('div');
-                wrap.className = 'extra-img-item';
 
-                var img = document.createElement('img');
-                img.src = item.url;
-                img.alt = 'foto tambahan';
+            /* type toggle */
+            if (updateType) {
+                updateType.value = btn.dataset.type || 'foto';
+                applyTypeToggle(updateType.value, updateFoto, updateVideo, null);
+            }
 
-                var del = document.createElement('button');
-                del.type = 'button';
-                del.className = 'extra-img-del';
-                del.innerHTML = '&times;';
-                del.title = 'Hapus foto ini';
-                del.addEventListener('click', function () {
-                    if (!confirm('Hapus foto tambahan ini?')) return;
-                    var f = document.createElement('form');
-                    f.method = 'POST';
-                    f.action = item.delete_url;
-                    f.innerHTML = '@csrf @method("DELETE")'.replace('@csrf','<input type="hidden" name="_token" value="{{ csrf_token() }}">').replace('@method("DELETE")','<input type="hidden" name="_method" value="DELETE">');
-                    document.body.appendChild(f);
-                    f.submit();
-                });
-
-                wrap.appendChild(img);
-                wrap.appendChild(del);
-                listEl.appendChild(wrap);
+            /* current thumbnail */
+            var curPreview = document.getElementById('updateGaleriCurrentPreview');
+            var curPreviewVid = document.getElementById('updateGaleriCurrentPreviewVideo');
+            [curPreview, curPreviewVid].forEach(function(el) {
+                if (!el) return;
+                el.innerHTML = btn.dataset.image
+                    ? '<img src="' + btn.dataset.image + '" alt="thumbnail" style="border-radius:8px;max-height:150px;">'
+                    : '';
             });
-        }, true); /* capture phase agar jalan sebelum handler lain */
+
+            /* existing video */
+            var videoUrl = btn.dataset.videoUrl || '';
+            if (updateExistVideo && updateVideoEl && updateVideoLabel) {
+                if (videoUrl) {
+                    updateVideoEl.src = videoUrl;
+                    updateExistVideo.style.display = '';
+                    if (updateVideoLabel) updateVideoLabel.textContent = 'Ganti dengan Video Baru (Opsional)';
+                } else {
+                    updateVideoEl.src = '';
+                    updateExistVideo.style.display = 'none';
+                    if (updateVideoLabel) updateVideoLabel.textContent = 'Unggah Video';
+                }
+            }
+            if (removeVideoCheck) removeVideoCheck.checked = false;
+            if (uvInput) uvInput.value = '';
+            if (uvEl) uvEl.src = '';
+            if (uvPreview) uvPreview.style.display = 'none';
+
+            /* extra images */
+            var listEl = document.getElementById('updateGaleriExtraList');
+            if (listEl) {
+                listEl.innerHTML = '';
+                var extras = [];
+                try { extras = JSON.parse(btn.dataset.extraImages || '[]'); } catch(e) {}
+                extras.forEach(function (item) {
+                    var wrap = document.createElement('div');
+                    wrap.className = 'extra-img-item';
+                    var img = document.createElement('img');
+                    img.src = item.url; img.alt = 'foto tambahan';
+                    var del = document.createElement('button');
+                    del.type = 'button'; del.className = 'extra-img-del';
+                    del.innerHTML = '&times;'; del.title = 'Hapus foto ini';
+                    del.addEventListener('click', function () {
+                        if (!confirm('Hapus foto tambahan ini?')) return;
+                        var f = document.createElement('form');
+                        f.method = 'POST'; f.action = item.delete_url;
+                        f.innerHTML = '<input type="hidden" name="_token" value="{{ csrf_token() }}"><input type="hidden" name="_method" value="DELETE">';
+                        document.body.appendChild(f); f.submit();
+                    });
+                    wrap.appendChild(img); wrap.appendChild(del); listEl.appendChild(wrap);
+                });
+            }
+        }, true);
     });
+
 })();
 </script>
 @endpush

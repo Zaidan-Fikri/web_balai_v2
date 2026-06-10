@@ -21,6 +21,13 @@ class BeritaController extends Controller
     {
         $berita->load('images');
 
-        return view('pages.berita.show', compact('berita'));
+        $otherBeritas = Berita::query()
+            ->with('images')
+            ->where('id', '!=', $berita->id)
+            ->latest()
+            ->limit(5)
+            ->get();
+
+        return view('pages.berita.show', compact('berita', 'otherBeritas'));
     }
 }

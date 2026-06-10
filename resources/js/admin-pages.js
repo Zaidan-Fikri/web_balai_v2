@@ -335,7 +335,7 @@
                 addButtonId: 'addCreateImageInput',
                 previewListId: 'createUploadPreviewList',
                 minOne: true,
-                requireFirst: true
+                requireFirst: false
             });
 
             const updateImagePickerController = createImagePicker({
@@ -351,12 +351,56 @@
                 openOverlay(createOverlay, createInput);
             });
 
+            // --- Video preview helpers ---
+            function setupVideoPreview(inputId, previewId, videoElId, clearBtnId) {
+                const input = document.getElementById(inputId);
+                const preview = document.getElementById(previewId);
+                const videoEl = document.getElementById(videoElId);
+                const clearBtn = document.getElementById(clearBtnId);
+                if (!input || !preview || !videoEl) return;
+                input.addEventListener('change', function () {
+                    const file = input.files && input.files[0];
+                    if (file) {
+                        videoEl.src = URL.createObjectURL(file);
+                        preview.style.display = '';
+                    } else {
+                        preview.style.display = 'none';
+                        videoEl.src = '';
+                    }
+                });
+                if (clearBtn) {
+                    clearBtn.addEventListener('click', function () {
+                        input.value = '';
+                        videoEl.src = '';
+                        preview.style.display = 'none';
+                    });
+                }
+            }
+            setupVideoPreview('createVideoInput', 'createVideoPreview', 'createVideoEl', 'clearCreateVideo');
+            setupVideoPreview('updateVideoInput', 'updateVideoPreview', 'updateVideoEl', 'clearUpdateVideo');
+
+            // --- Read popup ---
+            const readVideoWrap = document.getElementById('readBeritaVideo');
+            const readVideoEl = document.getElementById('readBeritaVideoEl');
+
             document.querySelectorAll('.js-read-btn').forEach(function (button) {
                 button.addEventListener('click', function () {
                     const images = parseImages(button.dataset.images);
                     readTitle.textContent = button.dataset.judul || ('Detail ' + itemLabel);
                     readCreated.textContent = 'Tanggal dibuat: ' + (button.dataset.created || '-');
                     readDescription.textContent = button.dataset.deskripsi || '-';
+
+                    // Video
+                    const videoUrl = button.dataset.videoUrl || '';
+                    if (readVideoWrap && readVideoEl) {
+                        if (videoUrl) {
+                            readVideoEl.src = videoUrl;
+                            readVideoWrap.style.display = '';
+                        } else {
+                            readVideoEl.src = '';
+                            readVideoWrap.style.display = 'none';
+                        }
+                    }
 
                     readImages.innerHTML = '';
                     if (!images.length) {
@@ -374,6 +418,13 @@
                 });
             });
 
+            // --- Update popup ---
+            const existingVideoBlock = document.getElementById('existingVideoBlock');
+            const existingVideoEl = document.getElementById('existingVideoEl');
+            const removeVideoCheckbox = document.getElementById('removeVideoCheckbox');
+            const updateVideoOrientasi = document.getElementById('updateVideoOrientasi');
+            const newVideoLabel = document.getElementById('newVideoLabel');
+
             document.querySelectorAll('.js-update-btn').forEach(function (button) {
                 button.addEventListener('click', function () {
                     const images = parseImages(button.dataset.images);
@@ -382,6 +433,23 @@
                     updateJudul.value = button.dataset.judul || '';
                     updateDeskripsi.value = button.dataset.deskripsi || '';
                     updateImagePickerController.reset();
+
+                    // Existing video
+                    const videoUrl = button.dataset.videoUrl || '';
+                    const videoOrientasi = button.dataset.videoOrientasi || 'landscape';
+                    if (existingVideoBlock && existingVideoEl) {
+                        if (videoUrl) {
+                            existingVideoEl.src = videoUrl;
+                            existingVideoBlock.style.display = '';
+                            if (newVideoLabel) newVideoLabel.textContent = 'Ganti dengan Video Baru (Opsional)';
+                        } else {
+                            existingVideoEl.src = '';
+                            existingVideoBlock.style.display = 'none';
+                            if (newVideoLabel) newVideoLabel.textContent = 'Unggah Video Baru (Opsional)';
+                        }
+                        if (removeVideoCheckbox) removeVideoCheckbox.checked = false;
+                    }
+                    if (updateVideoOrientasi) updateVideoOrientasi.value = videoOrientasi;
 
                     existingImageList.innerHTML = '';
                     if (images.length) {
@@ -1660,6 +1728,7 @@
     const readBgHexEl        = document.getElementById('readGaleriBgHex');
 
     const updateForm         = document.getElementById('updateGaleriForm');
+    const updateKategori     = document.getElementById('updateGaleriKategori');
     const updateJudul        = document.getElementById('updateGaleriJudul');
     const updateType         = document.getElementById('updateGaleriType');
     const updateCurrentPrev  = document.getElementById('updateGaleriCurrentPreview');
@@ -1751,6 +1820,7 @@
     document.querySelectorAll('.js-galeri-update-btn').forEach(function (btn) {
         btn.addEventListener('click', function () {
             if (updateForm) updateForm.action = btn.dataset.updateUrl || '';
+            if (updateKategori) updateKategori.value = btn.dataset.kategori || '';
             if (updateJudul) updateJudul.value = btn.dataset.judul || '';
             if (updateType) updateType.value = btn.dataset.type || 'foto';
             if (updateDeskripsi) updateDeskripsi.value = btn.dataset.deskripsi || '';

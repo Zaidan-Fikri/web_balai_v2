@@ -14,8 +14,10 @@ class Galeri extends Model
     protected $fillable = [
         'admin_user_id',
         'judul',
+        'kategori',
         'deskripsi',
         'image_path',
+        'video_path',
         'type',
         'background_color',
     ];
