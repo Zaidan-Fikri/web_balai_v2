@@ -710,13 +710,18 @@
         left: 18px;
         width: 34px;
         height: 34px;
-        display: grid;
-        place-items: center;
         border-radius: 12px;
         background: #0047cc;
         color: #fff;
-        font-size: 13px;
         box-shadow: 0 10px 22px rgba(0, 71, 204, .18);
+    }
+    .profile-info-icon i {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 14px;
+        line-height: 1;
     }
     .profile-info-item strong {
         display: block;

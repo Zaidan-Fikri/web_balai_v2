@@ -9,12 +9,20 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AdminRole
 {
-    public function handle(Request $request, Closure $next, string ...$roles): Response|RedirectResponse
+    public function handle(Request $request, Closure $next, string ...$requiredKeys): Response|RedirectResponse
     {
         $role = $request->session()->get('admin_user_role');
 
-        if ($role === 'superadmin' || in_array($role, $roles, true)) {
+        if ($role === 'superadmin') {
             return $next($request);
+        }
+
+        $permissions = $request->session()->get('admin_user_permissions', []);
+
+        foreach ($requiredKeys as $key) {
+            if (in_array($key, $permissions, true)) {
+                return $next($request);
+            }
         }
 
         return redirect()

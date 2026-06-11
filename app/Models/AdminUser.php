@@ -9,9 +9,11 @@ class AdminUser extends Model
     protected $table = 'admin_users';
 
     protected $fillable = [
+        'name',
         'email',
         'password',
         'role',
+        'is_active',
     ];
 
     protected $hidden = [
