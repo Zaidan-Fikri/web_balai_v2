@@ -158,6 +158,7 @@ Route::prefix('publikasi')->name('publikasi.')->group(function () {
     Route::get('/buletin/{buletin:slug}', [BuletinController::class, 'show'])->name('buletin.show');
     Route::view('/pengumuman', 'pages.menu_detail', ['menuGroup' => 'Publikasi', 'pageTitle' => 'Pengumuman'])->name('pengumuman');
     Route::get('/infografis', [InfografisController::class, 'index'])->name('infografis');
+    Route::get('/infografis/{infografis}', [InfografisController::class, 'show'])->name('infografis.show');
     Route::view('/galeri', 'pages.menu_detail', ['menuGroup' => 'Publikasi', 'pageTitle' => 'Galeri'])->name('galeri');
     Route::get('/galeri/foto', [GaleriFotoController::class, 'index'])->name('galeri.foto');
     Route::get('/galeri/video', [GaleriVideoController::class, 'index'])->name('galeri.video');

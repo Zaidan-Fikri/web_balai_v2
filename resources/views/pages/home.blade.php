@@ -1028,34 +1028,20 @@
                                     @endphp
                                     <div class="swiper-slide">
                                         <article class="pub-card">
-                                            <button
-                                                type="button"
-                                                class="pub-card-img pub-card-img--btn js-publication-detail-btn"
-                                                data-judul="{{ $item->judul }}"
-                                                data-tanggal="{{ $item->created_at ? $item->created_at->locale('id')->translatedFormat('d M Y') : '-' }}"
-                                                data-deskripsi="{{ e($item->deskripsi) }}"
-                                                data-images="{{ e($imagePayload) }}"
-                                            >
+                                            <a class="pub-card-img" href="{{ route('publikasi.infografis.show', $item) }}" tabindex="-1">
                                                 <img src="{{ $imageUrl }}" alt="{{ $item->judul }}" decoding="async" loading="lazy">
                                                 <span class="pub-card-type"><i class="fa-solid fa-chart-pie fa-xs"></i>&nbsp;Infografis</span>
                                                 <span class="pub-card-date">
                                                     <i class="fa-regular fa-calendar"></i>
                                                     {{ $item->created_at ? $item->created_at->locale('id')->translatedFormat('d M Y') : '-' }}
                                                 </span>
-                                            </button>
+                                            </a>
                                             <div class="pub-card-body">
                                                 <h2 class="pub-card-title">{{ $item->judul }}</h2>
                                                 <div class="pub-card-divider"></div>
-                                                <button
-                                                    type="button"
-                                                    class="pub-card-btn js-publication-detail-btn"
-                                                    data-judul="{{ $item->judul }}"
-                                                    data-tanggal="{{ $item->created_at ? $item->created_at->locale('id')->translatedFormat('d M Y') : '-' }}"
-                                                    data-deskripsi="{{ e($item->deskripsi) }}"
-                                                    data-images="{{ e($imagePayload) }}"
-                                                >
+                                                <a href="{{ route('publikasi.infografis.show', $item) }}" class="pub-card-btn">
                                                     Lihat infografis <i class="fa-solid fa-arrow-right"></i>
-                                                </button>
+                                                </a>
                                             </div>
                                         </article>
                                     </div>

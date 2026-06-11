@@ -27,6 +27,14 @@ class BuletinController extends Controller
         $buletin->refresh();
         $buletin->load(['author', 'images']);
 
-        return view('pages.buletin.show', compact('buletin'));
+        $otherBuletins = Buletin::query()
+            ->published()
+            ->with('images')
+            ->where('id', '!=', $buletin->id)
+            ->latest('published_at')
+            ->take(5)
+            ->get();
+
+        return view('pages.buletin.show', compact('buletin', 'otherBuletins'));
     }
 }

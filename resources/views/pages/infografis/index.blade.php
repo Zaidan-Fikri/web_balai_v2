@@ -19,7 +19,7 @@
                         $imageUrl = $firstImage ? asset('storage/' . $firstImage->image_path) : asset('assets/images/placeholders/publikasi.svg');
                     @endphp
                     <article class="buletin-card infografis-list-card">
-                        <a class="buletin-card-image" href="{{ $imageUrl }}" target="_blank" rel="noopener noreferrer">
+                        <a class="buletin-card-image" href="{{ route('publikasi.infografis.show', $infografis) }}">
                             <img src="{{ $imageUrl }}" alt="{{ $infografis->judul }}">
                         </a>
                         <div class="buletin-card-body">
@@ -27,11 +27,11 @@
                                 <i class="fa-regular fa-calendar" aria-hidden="true"></i>
                                 {{ $infografis->created_at ? $infografis->created_at->locale('id')->translatedFormat('d F Y') : '-' }}
                             </p>
-                            <h2><a href="{{ $imageUrl }}" target="_blank" rel="noopener noreferrer">{{ $infografis->judul }}</a></h2>
+                            <h2><a href="{{ route('publikasi.infografis.show', $infografis) }}">{{ $infografis->judul }}</a></h2>
                             <p>{{ \Illuminate\Support\Str::limit(strip_tags($infografis->deskripsi), 155) }}</p>
-                            <a class="buletin-card-link" href="{{ $imageUrl }}" target="_blank" rel="noopener noreferrer">
-                                Lihat Infografis
-                                <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+                            <a class="buletin-card-link" href="{{ route('publikasi.infografis.show', $infografis) }}">
+                                Selengkapnya
+                                <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
                             </a>
                         </div>
                     </article>
