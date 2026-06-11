@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Berita extends Model
@@ -15,10 +16,21 @@ class Berita extends Model
         'deskripsi',
         'video_path',
         'video_orientasi',
+        'views',
+        'admin_user_id',
+    ];
+
+    protected $casts = [
+        'views' => 'integer',
     ];
 
     public function images(): HasMany
     {
         return $this->hasMany(BeritaImage::class)->oldest('id');
+    }
+
+    public function author(): BelongsTo
+    {
+        return $this->belongsTo(AdminUser::class, 'admin_user_id');
     }
 }

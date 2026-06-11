@@ -336,6 +336,11 @@
 
     <section class="galeri-video-section">
         <div class="container">
+            <nav class="page-breadcrumb" aria-label="Breadcrumb">
+                <a href="{{ route('home') }}"><i class="fa-solid fa-house fa-xs"></i> Beranda</a>
+                <span class="bc-sep"><i class="fa-solid fa-chevron-right fa-xs"></i></span>
+                <span class="bc-current">Galeri Video</span>
+            </nav>
 
             {{-- Filter bar --}}
             <div class="galeri-filter-bar">

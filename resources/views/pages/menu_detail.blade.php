@@ -1661,6 +1661,15 @@
 
 <section class="menu-detail-section">
     <div class="container">
+        <nav class="page-breadcrumb" aria-label="Breadcrumb">
+            <a href="{{ route('home') }}"><i class="fa-solid fa-house fa-xs"></i> Beranda</a>
+            <span class="bc-sep"><i class="fa-solid fa-chevron-right fa-xs"></i></span>
+            @if (isset($menuGroup) && $menuGroup !== $pageTitle)
+                <span>{{ $menuGroup }}</span>
+                <span class="bc-sep"><i class="fa-solid fa-chevron-right fa-xs"></i></span>
+            @endif
+            <span class="bc-current">{{ $pageTitle }}</span>
+        </nav>
         @if (($menuGroup ?? '') === 'Profil')
             <div class="menu-detail-layout">
                 @php $profileSlug = $profilePage?->slug ?? null; @endphp

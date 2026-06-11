@@ -99,7 +99,7 @@
             @endif
 
             <p style="color:#666;font-size:13px;margin:0 0 20px">
-                5 tile foto di bagian "Foto dan Video" pada landing page. Klik <strong>Ubah Foto</strong> untuk mengganti gambar masing-masing tile.
+                Tile di bagian "Foto dan Video" pada landing page. Klik <strong>Ubah Foto</strong> untuk mengganti gambar masing-masing tile. Tile <strong>Video</strong> adalah thumbnail khusus untuk bagian galeri video.
             </p>
 
             <div class="tile-grid">
@@ -117,7 +117,12 @@
                             @endif
                         </div>
                         <div class="tile-card-body">
-                            <p class="tile-card-kategori">{{ $tile->kategori }}</p>
+                            <p class="tile-card-kategori">
+                                {{ $tile->kategori }}
+                                @if ($tile->kategori === 'Video')
+                                    <span style="display:inline-block;margin-left:6px;padding:2px 8px;background:#061d3f;color:#fff;font-size:10px;font-weight:800;letter-spacing:.08em;border-radius:50px;vertical-align:middle">VIDEO</span>
+                                @endif
+                            </p>
                             @if ($tile->background_color)
                                 <div class="tile-card-meta">
                                     <span class="color-swatch" style="background:{{ $tile->background_color }}"></span>

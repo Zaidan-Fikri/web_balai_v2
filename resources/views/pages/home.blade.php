@@ -124,6 +124,213 @@
         .home-berita-pagination .swiper-pagination-bullet { background: #1a6bcc; opacity: .3; }
         .home-berita-pagination .swiper-pagination-bullet-active { opacity: 1; }
 
+        /* ══════════════════════════════════════
+           Publication Swiper – redesign
+        ══════════════════════════════════════ */
+
+        /* wrapper card */
+        .home-pub-wrap {
+            background: #fff;
+            border-radius: 24px;
+            box-shadow: 0 6px 40px rgba(0,30,80,.09);
+            padding: 28px 28px 0;
+            margin-top: 8px;
+        }
+
+        /* swiper outer */
+        .home-pub-swiper-outer {
+            position: relative;
+            padding: 0 56px;
+        }
+        .home-pub-swiper { padding-bottom: 48px !important; overflow: visible !important; }
+
+        /* nav arrows */
+        .home-pub-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(calc(-50% - 24px));
+            z-index: 10;
+            width: 42px; height: 42px;
+            border-radius: 50%;
+            border: none;
+            background: #0a1f44;
+            color: #fff;
+            font-size: .8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 18px rgba(0,30,80,.28);
+            transition: background .18s, transform .2s, box-shadow .2s;
+        }
+        .home-pub-nav:hover {
+            background: #0047cc;
+            transform: translateY(calc(-50% - 24px)) scale(1.1);
+            box-shadow: 0 6px 24px rgba(0,71,204,.35);
+        }
+        .home-pub-nav.swiper-button-disabled { opacity: .28; pointer-events: none; }
+        .home-pub-prev { left: 0; }
+        .home-pub-next { right: 0; }
+
+        /* pagination */
+        .home-pub-pag { bottom: 12px !important; }
+        .home-pub-pag .swiper-pagination-bullet {
+            background: #0a1f44; opacity: .18;
+            width: 8px; height: 8px;
+        }
+        .home-pub-pag .swiper-pagination-bullet-active { opacity: 1; background: #0047cc; width: 22px; border-radius: 4px; }
+
+        /* ── pub card ── */
+        .pub-card {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            background: #f7fafd;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(8,24,57,.06);
+            box-shadow: 0 2px 10px rgba(0,30,80,.06);
+            transition: transform .28s ease, box-shadow .28s ease;
+        }
+        .pub-card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(0,30,80,.14); }
+
+        .pub-card-img {
+            position: relative;
+            display: block;
+            width: 100%;
+            aspect-ratio: 16/9;
+            overflow: hidden;
+            flex-shrink: 0;
+            text-decoration: none;
+            background: #0d2d5e;
+            border: 0;
+            padding: 0;
+            cursor: pointer;
+        }
+        .pub-card-img::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(4,18,44,.55) 0%, rgba(4,18,44,.0) 55%);
+            pointer-events: none;
+        }
+        .pub-card-img img {
+            display: block;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform .45s ease;
+        }
+        .pub-card:hover .pub-card-img img { transform: scale(1.06); }
+        .pub-card-img--btn { width: 100%; text-align: left; }
+
+        /* type badge top-right */
+        .pub-card-type {
+            position: absolute;
+            top: 10px; right: 10px;
+            background: rgba(4,18,44,.78);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            color: #fff;
+            font-size: .6rem;
+            font-weight: 800;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            padding: 3px 10px;
+            border-radius: 50px;
+            border: 1px solid rgba(255,255,255,.15);
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* date bottom-left on image */
+        .pub-card-date {
+            position: absolute;
+            bottom: 10px; left: 10px;
+            color: rgba(255,255,255,.85);
+            font-size: .62rem;
+            font-weight: 600;
+            letter-spacing: .04em;
+            pointer-events: none;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* card body */
+        .pub-card-body {
+            padding: 14px 16px 18px;
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            background: #fff;
+        }
+        .pub-card-title {
+            margin: 0;
+            font-size: .88rem;
+            font-weight: 800;
+            color: #0a1f44;
+            line-height: 1.45;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .pub-card-title a { color: inherit; text-decoration: none; }
+        .pub-card-title a:hover { color: #0047cc; }
+
+        .pub-card-divider {
+            height: 1px;
+            background: rgba(0,30,80,.07);
+            margin: 12px 0;
+        }
+
+        .pub-card-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 0;
+            border: 0;
+            background: transparent;
+            color: #0047cc;
+            font-size: .8rem;
+            font-weight: 800;
+            text-decoration: none;
+            cursor: pointer;
+            align-self: flex-start;
+            margin-top: auto;
+            transition: gap .18s, color .18s;
+        }
+        .pub-card-btn:hover { color: #003099; gap: 10px; text-decoration: none; }
+        .pub-card-btn i { font-size: .7rem; }
+
+        /* CTA bottom */
+        .home-pub-cta {
+            text-align: center;
+            padding: 20px 0 28px;
+            border-top: 1px solid rgba(0,30,80,.06);
+            margin-top: 8px;
+        }
+        .home-pub-cta a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #0a1f44;
+            font-size: .85rem;
+            font-weight: 800;
+            text-decoration: none;
+            transition: color .18s, gap .18s;
+        }
+        .home-pub-cta a:hover { color: #0047cc; gap: 12px; }
+
+        .pub-empty { padding: 48px 0; text-align: center; color: #8a97b0; font-size: .95rem; }
+
+        @media (max-width: 640px) {
+            .home-pub-wrap { padding: 20px 16px 0; border-radius: 18px; }
+            .home-pub-swiper-outer { padding: 0 36px; }
+            .home-pub-nav { width: 34px; height: 34px; font-size: .72rem; }
+        }
+
         .social-profile-logo {
             color: #ffffff;
             font-size: 34px;
@@ -272,10 +479,10 @@
             gap: 4px;
             padding: 4px 10px;
             border-radius: 50px;
-            background: rgba(255, 255, 255, 0.14);
+            background: rgba(4, 18, 44, 0.72);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.22);
+            border: 1px solid rgba(255, 255, 255, 0.18);
             color: #fff;
             font-size: 0.58rem;
             font-weight: 700;
@@ -286,7 +493,7 @@
         }
 
         .gallery-tile:hover .gallery-tile-badge {
-            background: rgba(255, 255, 255, 0.24);
+            background: rgba(4, 18, 44, 0.88);
         }
 
         /* ── label (bottom) ── */
@@ -748,91 +955,127 @@
                 </ul>
             </nav>
 
-            <div class="row publication-group is-active" data-publication-group="home-edukasi">
-                @forelse($publikasiEdukasi as $item)
-                    @php
-                        $firstImage = $item->images->first();
-                        $imageUrl = $firstImage ? asset('storage/' . $firstImage->image_path) : asset('assets/images/placeholders/publikasi.svg');
-                    @endphp
-                    <div class="col-xl-3 col-lg-3 col-md-6 js-publication-item">
-                        <article class="blog-item wow fadeInUp" data-wow-delay="0.25s">
-                            <a class="post-featured-image post-featured-link" href="{{ route('publikasi.buletin.show', $item->slug) }}">
-                                <img src="{{ $imageUrl }}" alt="{{ $item->judul }}" decoding="async" loading="lazy">
-                                <p class="news-date-badge">
-                                    {{ $item->published_at ? $item->published_at->locale('id')->translatedFormat('l, d F Y') : '-' }}
-                                </p>
-                            </a>
-                            <div class="post-item-content">
-                                <div class="post-item-body">
-                                    <h2>{{ $item->judul }}</h2>
-                                </div>
-                                <div class="post-item-footer text-end">
-                                    <a href="{{ route('publikasi.buletin.show', $item->slug) }}" class="publication-detail-btn">Selengkapnya</a>
-                                </div>
+            {{-- ── Edukasi ─────────────────────────────────────── --}}
+            <div class="publication-group is-active" data-publication-group="home-edukasi">
+                @if($publikasiEdukasi->isNotEmpty())
+                <div class="home-pub-wrap">
+                    <div class="home-pub-swiper-outer">
+                        <button class="home-pub-nav home-pub-prev" id="eduPrev" aria-label="Sebelumnya">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </button>
+                        <div class="swiper home-pub-swiper" id="swiperEdukasi">
+                            <div class="swiper-wrapper">
+                                @foreach($publikasiEdukasi as $item)
+                                    @php
+                                        $firstImage = $item->images->first();
+                                        $imageUrl = $firstImage ? asset('storage/' . $firstImage->image_path) : asset('assets/images/placeholders/publikasi.svg');
+                                    @endphp
+                                    <div class="swiper-slide">
+                                        <article class="pub-card">
+                                            <a class="pub-card-img" href="{{ route('publikasi.buletin.show', $item->slug) }}" tabindex="-1">
+                                                <img src="{{ $imageUrl }}" alt="{{ $item->judul }}" decoding="async" loading="lazy">
+                                                <span class="pub-card-type"><i class="fa-solid fa-book-open fa-xs"></i>&nbsp;Edukasi</span>
+                                                <span class="pub-card-date">
+                                                    <i class="fa-regular fa-calendar"></i>
+                                                    {{ $item->published_at ? $item->published_at->locale('id')->translatedFormat('d M Y') : '-' }}
+                                                </span>
+                                            </a>
+                                            <div class="pub-card-body">
+                                                <h2 class="pub-card-title">
+                                                    <a href="{{ route('publikasi.buletin.show', $item->slug) }}">{{ $item->judul }}</a>
+                                                </h2>
+                                                <div class="pub-card-divider"></div>
+                                                <a href="{{ route('publikasi.buletin.show', $item->slug) }}" class="pub-card-btn">
+                                                    Baca selengkapnya <i class="fa-solid fa-arrow-right"></i>
+                                                </a>
+                                            </div>
+                                        </article>
+                                    </div>
+                                @endforeach
                             </div>
-                        </article>
-                    </div>
-                @empty
-                    <div class="col-12">
-                        <div class="blog-item wow fadeInUp" data-wow-delay="0.25s">
-                            <div class="post-item-content">
-                                <div class="post-item-body">
-                                    <h2>Belum ada data edukasi.</h2>
-                                </div>
-                            </div>
+                            <div class="swiper-pagination home-pub-pag" id="swiperEduPag"></div>
                         </div>
+                        <button class="home-pub-nav home-pub-next" id="eduNext" aria-label="Selanjutnya">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
                     </div>
-                @endforelse
-                <div class="col-12"><div class="publication-dots js-publication-dots"></div></div>
+                    <div class="home-pub-cta">
+                        <a href="{{ route('publikasi.buletin.index') }}">
+                            Lihat Semua Edukasi&nbsp;&nbsp;<i class="fa-solid fa-arrow-right fa-xs"></i>
+                        </a>
+                    </div>
+                </div>
+                @else
+                    <p class="pub-empty">Belum ada data edukasi.</p>
+                @endif
             </div>
 
-            <div class="row publication-group" data-publication-group="home-infografis">
-                @forelse($publikasiInfografis as $item)
-                    @php
-                        $firstImage = $item->images->first();
-                        $imageUrl = $firstImage ? asset('storage/' . $firstImage->image_path) : asset('assets/images/placeholders/publikasi.svg');
-                        $imagePayload = $item->images
-                            ->map(function ($image) {
-                                return [
-                                    'url' => asset('storage/' . $image->image_path),
-                                ];
-                            })
-                            ->values()
-                            ->toJson();
-                    @endphp
-                    <div class="col-xl-3 col-lg-3 col-md-6 js-publication-item">
-                        <article class="blog-item publication-image-card wow fadeInUp" data-wow-delay="0.25s">
-                            <button
-                                type="button"
-                                class="post-featured-image publication-image-btn js-publication-detail-btn"
-                                data-judul="{{ $item->judul }}"
-                                data-tanggal="{{ $item->created_at ? $item->created_at->locale('id')->translatedFormat('l, d F Y') : '-' }}"
-                                data-deskripsi="{{ e($item->deskripsi) }}"
-                                data-images="{{ e($imagePayload) }}"
-                            >
-                                <img src="{{ $imageUrl }}" alt="{{ $item->judul }}" decoding="async" loading="lazy">
-                                <span class="news-date-badge">
-                                    {{ $item->created_at ? $item->created_at->locale('id')->translatedFormat('l, d F Y') : '-' }}
-                                </span>
-                                <span class="publication-image-caption">
-                                    <span class="publication-image-title">{{ $item->judul }}</span>
-                                    <span class="publication-image-action">Selengkapnya</span>
-                                </span>
-                            </button>
-                        </article>
-                    </div>
-                @empty
-                    <div class="col-12">
-                        <div class="blog-item wow fadeInUp" data-wow-delay="0.25s">
-                            <div class="post-item-content">
-                                <div class="post-item-body">
-                                    <h2>Belum ada data infografis.</h2>
-                                </div>
+            {{-- ── Infografis ──────────────────────────────────── --}}
+            <div class="publication-group" data-publication-group="home-infografis">
+                @if($publikasiInfografis->isNotEmpty())
+                <div class="home-pub-wrap">
+                    <div class="home-pub-swiper-outer">
+                        <button class="home-pub-nav home-pub-prev" id="infoPrev" aria-label="Sebelumnya">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </button>
+                        <div class="swiper home-pub-swiper" id="swiperInfografis">
+                            <div class="swiper-wrapper">
+                                @foreach($publikasiInfografis as $item)
+                                    @php
+                                        $firstImage = $item->images->first();
+                                        $imageUrl = $firstImage ? asset('storage/' . $firstImage->image_path) : asset('assets/images/placeholders/publikasi.svg');
+                                        $imagePayload = $item->images->map(fn($img) => ['url' => asset('storage/' . $img->image_path)])->values()->toJson();
+                                    @endphp
+                                    <div class="swiper-slide">
+                                        <article class="pub-card">
+                                            <button
+                                                type="button"
+                                                class="pub-card-img pub-card-img--btn js-publication-detail-btn"
+                                                data-judul="{{ $item->judul }}"
+                                                data-tanggal="{{ $item->created_at ? $item->created_at->locale('id')->translatedFormat('d M Y') : '-' }}"
+                                                data-deskripsi="{{ e($item->deskripsi) }}"
+                                                data-images="{{ e($imagePayload) }}"
+                                            >
+                                                <img src="{{ $imageUrl }}" alt="{{ $item->judul }}" decoding="async" loading="lazy">
+                                                <span class="pub-card-type"><i class="fa-solid fa-chart-pie fa-xs"></i>&nbsp;Infografis</span>
+                                                <span class="pub-card-date">
+                                                    <i class="fa-regular fa-calendar"></i>
+                                                    {{ $item->created_at ? $item->created_at->locale('id')->translatedFormat('d M Y') : '-' }}
+                                                </span>
+                                            </button>
+                                            <div class="pub-card-body">
+                                                <h2 class="pub-card-title">{{ $item->judul }}</h2>
+                                                <div class="pub-card-divider"></div>
+                                                <button
+                                                    type="button"
+                                                    class="pub-card-btn js-publication-detail-btn"
+                                                    data-judul="{{ $item->judul }}"
+                                                    data-tanggal="{{ $item->created_at ? $item->created_at->locale('id')->translatedFormat('d M Y') : '-' }}"
+                                                    data-deskripsi="{{ e($item->deskripsi) }}"
+                                                    data-images="{{ e($imagePayload) }}"
+                                                >
+                                                    Lihat infografis <i class="fa-solid fa-arrow-right"></i>
+                                                </button>
+                                            </div>
+                                        </article>
+                                    </div>
+                                @endforeach
                             </div>
+                            <div class="swiper-pagination home-pub-pag" id="swiperInfoPag"></div>
                         </div>
+                        <button class="home-pub-nav home-pub-next" id="infoNext" aria-label="Selanjutnya">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
                     </div>
-                @endforelse
-                <div class="col-12"><div class="publication-dots js-publication-dots"></div></div>
+                    <div class="home-pub-cta">
+                        <a href="{{ route('publikasi.infografis') }}" >
+                            Lihat Semua Infografis&nbsp;&nbsp;<i class="fa-solid fa-arrow-right fa-xs"></i>
+                        </a>
+                    </div>
+                </div>
+                @else
+                    <p class="pub-empty">Belum ada data infografis.</p>
+                @endif
             </div>
         </div>
     </div>
@@ -1143,10 +1386,17 @@
         <div class="gallery-showcase wow fadeInUp" data-wow-delay="0.25s">
 
             {{-- Video (bento: 2 cols × 2 rows) --}}
+            @php $videoTile = $galeriTiles['video'] ?? null; @endphp
             <a class="gallery-tile gallery-tile-video" href="{{ route('publikasi.galeri.video') }}">
-                <figure class="image-anime">
-                    <img src="{{ asset('assets/sda/web/images/thumbnail-1.webp') }}" alt="Video Sumber Daya Air" decoding="async" loading="lazy">
-                </figure>
+                @if ($videoTile && $videoTile->hasImage())
+                    <figure class="image-anime reveal" @if($videoTile->background_color) style="background:{{ $videoTile->background_color }}"@endif>
+                        <img src="{{ $videoTile->image_url }}" alt="Galeri Video" decoding="async" loading="lazy">
+                    </figure>
+                @else
+                    <figure class="image-anime" @if($videoTile?->background_color) style="background:{{ $videoTile->background_color }}"@endif>
+                        <img src="{{ asset('assets/sda/web/images/thumbnail-1.webp') }}" alt="Video Sumber Daya Air" decoding="async" loading="lazy">
+                    </figure>
+                @endif
                 <div class="gallery-tile-overlay"></div>
                 <span class="gallery-tile-badge"><i class="fa-solid fa-play fa-xs"></i>&nbsp;Video</span>
                 <div class="gallery-tile-label">
@@ -1343,6 +1593,47 @@
             768: { slidesPerView: 3 },
             1024: { slidesPerView: 4 },
         },
+    });
+})();
+</script>
+
+<script>
+(function () {
+    function makePubSwiper(id, prevId, nextId, pagId) {
+        var el = document.getElementById(id);
+        if (!el) return null;
+        return new Swiper(el, {
+            slidesPerView: 1,
+            spaceBetween: 20,
+            observer: true,
+            observeParents: true,
+            navigation: {
+                prevEl: document.getElementById(prevId),
+                nextEl: document.getElementById(nextId),
+            },
+            pagination: {
+                el: document.getElementById(pagId),
+                clickable: true,
+            },
+            breakpoints: {
+                560:  { slidesPerView: 2, spaceBetween: 20 },
+                992:  { slidesPerView: 3, spaceBetween: 22 },
+                1280: { slidesPerView: 4, spaceBetween: 24 },
+            },
+        });
+    }
+
+    var swiperEdu  = makePubSwiper('swiperEdukasi',   'eduPrev',  'eduNext',  'swiperEduPag');
+    var swiperInfo = makePubSwiper('swiperInfografis', 'infoPrev', 'infoNext', 'swiperInfoPag');
+
+    document.querySelectorAll('.js-publication-menu').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            var target = btn.getAttribute('data-target');
+            setTimeout(function () {
+                if (target === 'home-edukasi'   && swiperEdu)  swiperEdu.update();
+                if (target === 'home-infografis' && swiperInfo) swiperInfo.update();
+            }, 50);
+        });
     });
 })();
 </script>

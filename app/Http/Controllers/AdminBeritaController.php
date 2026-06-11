@@ -23,7 +23,7 @@ class AdminBeritaController extends Controller
     public function index(): View
     {
         $beritas = Berita::query()
-            ->with('images')
+            ->with(['images', 'author'])
             ->latest()
             ->get();
 
@@ -45,6 +45,7 @@ class AdminBeritaController extends Controller
                 'deskripsi'       => $data['deskripsi'],
                 'video_path'      => $videoPath,
                 'video_orientasi' => $data['video_orientasi'] ?? 'landscape',
+                'admin_user_id'   => auth()->id(),
             ]);
 
             if (!empty($data['images'])) {

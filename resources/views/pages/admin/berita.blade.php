@@ -25,6 +25,8 @@
                         <th>Judul</th>
                         <th>Deskripsi</th>
                         <th>Tanggal Dibuat</th>
+                        <th>Views</th>
+                        <th>User Posting</th>
                         <th>Gambar</th>
                         <th>Video</th>
                         <th>Action</th>
@@ -42,6 +44,8 @@
                             <td>{{ $berita->judul }}</td>
                             <td>{{ \Illuminate\Support\Str::limit($berita->deskripsi, 90) }}</td>
                             <td>{{ $berita->created_at ? $berita->created_at->format('d M, Y H:i') : '-' }}</td>
+                            <td>{{ number_format($berita->views) }}</td>
+                            <td>{{ $berita->author?->email ?? '-' }}</td>
                             <td>{{ $berita->images->count() }}</td>
                             <td>
                                 @if ($berita->video_path)
@@ -85,7 +89,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6">Belum ada data berita.</td>
+                            <td colspan="8">Belum ada data berita.</td>
                         </tr>
                     @endforelse
                     </tbody>

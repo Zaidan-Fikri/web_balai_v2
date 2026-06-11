@@ -8,29 +8,7 @@
         padding: clamp(36px, 5vw, 64px) 0 clamp(48px, 6vw, 80px);
         background: #f0f4f9;
     }
-    .berita-back-link {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        color: #1a6bcc;
-        font-size: .82rem;
-        font-weight: 700;
-        text-decoration: none;
-        margin-bottom: 24px;
-        padding: 7px 18px;
-        border-radius: 50px;
-        border: 1.5px solid #ccddf5;
-        background: #fff;
-        box-shadow: 0 2px 8px rgba(10,38,71,0.07);
-        transition: background .2s, border-color .2s, transform .2s;
-    }
-    .berita-back-link:hover {
-        background: #e8f0fe;
-        border-color: #1a6bcc;
-        color: #1a6bcc;
-        text-decoration: none;
-        transform: translateX(-2px);
-    }
+    .berita-back-link { margin-bottom: 24px; }
 
     /* Two-column layout */
     .berita-show-layout {
@@ -53,48 +31,12 @@
         border-bottom: 1px solid #edf0f8;
         background: linear-gradient(135deg, #ffffff 0%, #f7f9ff 100%);
     }
-    .berita-show-head-top {
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        gap: 16px;
-        margin-bottom: 14px;
-    }
-    .berita-show-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        background: linear-gradient(90deg, #0f2d5a, #1a6bcc);
-        color: #fff;
-        font-size: .68rem;
-        font-weight: 800;
-        letter-spacing: .12em;
-        text-transform: uppercase;
-        padding: 5px 14px;
-        border-radius: 50px;
-        flex-shrink: 0;
-    }
-    .berita-show-date-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        font-size: .76rem;
-        font-weight: 700;
-        color: #4a6080;
-        background: #f0f4fb;
-        border: 1px solid #d8e4f2;
-        border-radius: 50px;
-        padding: 5px 14px;
-        white-space: nowrap;
-        flex-shrink: 0;
-    }
-    .berita-show-date-badge i { color: #1a6bcc; font-size: .72rem; }
     .berita-show-title {
-        font-size: clamp(1.2rem, 2.2vw, 1.75rem);
-        font-weight: 900;
-        line-height: 1.28;
+        margin: 0 0 14px;
         color: #061d3f;
-        margin: 0;
+        font-size: clamp(1.3rem, 2.5vw, 1.9rem);
+        font-weight: 900;
+        line-height: 1.18;
         letter-spacing: -.01em;
     }
 
@@ -237,29 +179,38 @@
         color: #1a6bcc;
     }
     .berita-sidebar-footer {
-        padding: 12px 16px;
+        padding: 14px 16px;
         border-top: 1px solid #e8eef8;
-        text-align: center;
+        background: linear-gradient(135deg, #f7faff 0%, #eef4ff 100%);
     }
     .berita-sidebar-all {
-        display: inline-flex;
+        display: flex;
         align-items: center;
-        gap: 7px;
-        font-size: .78rem;
+        justify-content: center;
+        gap: 8px;
+        font-size: .8rem;
         font-weight: 800;
-        color: #1a6bcc;
+        color: #fff;
         text-decoration: none;
-        padding: 7px 18px;
-        border-radius: 50px;
-        border: 1.5px solid #ccddf5;
-        background: #f4f8ff;
-        transition: background .18s, border-color .18s;
+        padding: 10px 20px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #0f2d5a 0%, #1a6bcc 100%);
+        box-shadow: 0 4px 14px rgba(26,107,204,.3);
+        transition: opacity .18s, transform .18s, box-shadow .18s;
+        letter-spacing: .02em;
     }
     .berita-sidebar-all:hover {
-        background: #e0edff;
-        border-color: #1a6bcc;
-        color: #1a6bcc;
+        opacity: .88;
+        transform: translateY(-1px);
+        box-shadow: 0 6px 20px rgba(26,107,204,.38);
+        color: #fff;
         text-decoration: none;
+    }
+    .berita-sidebar-all i {
+        transition: transform .2s;
+    }
+    .berita-sidebar-all:hover i {
+        transform: translateX(3px);
     }
     .berita-sidebar-empty {
         padding: 28px 20px;
@@ -277,6 +228,8 @@
         font-size: .82rem;
     }
 
+
+
     @media (max-width: 900px) {
         .berita-show-layout { grid-template-columns: 1fr; }
         .berita-sidebar { position: static; }
@@ -289,37 +242,44 @@
 </style>
 @endpush
 
+
 @section('content')
     @include('pages.partials.menu_detail_hero', ['menuGroup' => 'Berita', 'pageTitle' => $berita->judul])
 
     <section class="berita-show-section">
         <div class="container">
 
-            <a href="{{ route('publikasi.berita') }}" class="berita-back-link">
-                <i class="fa-solid fa-arrow-left fa-xs"></i> Kembali ke Berita
-            </a>
+            <nav class="page-breadcrumb" aria-label="Breadcrumb">
+                <a href="{{ route('home') }}"><i class="fa-solid fa-house fa-xs"></i> Beranda</a>
+                <span class="bc-sep"><i class="fa-solid fa-chevron-right fa-xs"></i></span>
+                <a href="{{ route('publikasi.berita') }}">Berita</a>
+                <span class="bc-sep"><i class="fa-solid fa-chevron-right fa-xs"></i></span>
+                <span class="bc-current">{{ $berita->judul }}</span>
+            </nav>
 
             <div class="berita-show-layout">
 
                 {{-- Main Article --}}
                 <article class="berita-show-card">
                     <div class="berita-show-head">
-                        <div class="berita-show-head-top">
-                            <span class="berita-show-badge">
-                                <i class="fa-regular fa-newspaper fa-xs"></i>&nbsp;Berita
+                        <h1 class="berita-show-title">{{ $berita->judul }}</h1>
+                        <div class="buletin-detail-meta">
+                            <span>
+                                <i class="fa-regular fa-calendar" aria-hidden="true"></i>
+                                {{ $berita->created_at ? $berita->created_at->locale('id')->translatedFormat('d F Y') : '-' }}
                             </span>
-                            <span class="berita-show-date-badge">
-                                <i class="fa-regular fa-calendar"></i>
-                                {{ $berita->created_at ? $berita->created_at->locale('id')->translatedFormat('l, d F Y') : '-' }}
+                            <span>
+                                <i class="fa-regular fa-eye" aria-hidden="true"></i>
+                                {{ number_format($berita->views) }} Views
                             </span>
                         </div>
-                        <h1 class="berita-show-title">{{ $berita->judul }}</h1>
                     </div>
 
                     @php
                         $hasVideo = !empty($berita->video_path);
                         $hasImages = $berita->images->isNotEmpty();
                         $totalSlides = ($hasVideo ? 1 : 0) + $berita->images->count();
+                        $posterUrl = $hasImages ? asset('storage/' . $berita->images->first()->image_path) : '';
                     @endphp
 
                     @if ($hasVideo || $hasImages)
@@ -332,10 +292,12 @@
                                     @if ($berita->video_orientasi === 'portrait')
                                         <video class="buletin-slide-video--portrait"
                                                src="{{ asset('storage/' . $berita->video_path) }}"
+                                               @if($posterUrl) poster="{{ $posterUrl }}" @endif
                                                controls preload="metadata"></video>
                                     @else
                                         <video class="buletin-slide-video--landscape"
                                                src="{{ asset('storage/' . $berita->video_path) }}"
+                                               @if($posterUrl) poster="{{ $posterUrl }}" @endif
                                                controls preload="metadata"></video>
                                     @endif
                                     <span class="buletin-slide-video-badge">

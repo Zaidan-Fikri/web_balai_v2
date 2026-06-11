@@ -20,6 +20,7 @@ class BeritaController extends Controller
     public function show(Berita $berita): View
     {
         $berita->load('images');
+        $berita->increment('views');
 
         $otherBeritas = Berita::query()
             ->with('images')

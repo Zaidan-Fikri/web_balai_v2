@@ -7,13 +7,19 @@
 
     <section class="buletin-detail-section">
         <div class="container">
+            <nav class="page-breadcrumb" aria-label="Breadcrumb">
+                <a href="{{ route('home') }}"><i class="fa-solid fa-house fa-xs"></i> Beranda</a>
+                <span class="bc-sep"><i class="fa-solid fa-chevron-right fa-xs"></i></span>
+                <a href="{{ route('publikasi.buletin.index') }}">Edukasi</a>
+                <span class="bc-sep"><i class="fa-solid fa-chevron-right fa-xs"></i></span>
+                <span class="bc-current">{{ $buletin->judul }}</span>
+            </nav>
             <article class="buletin-detail-card">
                 <header class="buletin-detail-head">
                     <h2>{{ $buletin->judul }}</h2>
                     <div class="buletin-detail-meta">
                         <span><i class="fa-regular fa-calendar" aria-hidden="true"></i>{{ $buletin->published_at ? $buletin->published_at->locale('id')->translatedFormat('d F Y') : '-' }}</span>
                         <span><i class="fa-regular fa-eye" aria-hidden="true"></i>{{ number_format($buletin->views) }} Views</span>
-                        <span><i class="fa-regular fa-user" aria-hidden="true"></i>{{ $buletin->author?->email ?? 'Admin BAT' }}</span>
                     </div>
                 </header>
 
@@ -40,6 +46,13 @@
 
                 <div class="buletin-detail-content">
                     {!! nl2br(e($buletin->isi)) !!}
+                </div>
+
+                <div class="buletin-detail-footer">
+                    <a href="{{ route('publikasi.buletin.index') }}" class="buletin-detail-all">
+                        Lihat Semua Edukasi
+                        <i class="fa-solid fa-arrow-right fa-xs"></i>
+                    </a>
                 </div>
             </article>
         </div>

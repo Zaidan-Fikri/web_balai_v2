@@ -7,6 +7,11 @@
 
     <section class="buletin-list-section">
         <div class="container">
+            <nav class="page-breadcrumb" aria-label="Breadcrumb">
+                <a href="{{ route('home') }}"><i class="fa-solid fa-house fa-xs"></i> Beranda</a>
+                <span class="bc-sep"><i class="fa-solid fa-chevron-right fa-xs"></i></span>
+                <span class="bc-current">Edukasi</span>
+            </nav>
             <div class="buletin-card-grid">
                 @forelse ($buletins as $buletin)
                     @php

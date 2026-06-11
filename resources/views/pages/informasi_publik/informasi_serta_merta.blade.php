@@ -81,7 +81,6 @@
 }
 .ib-btn:hover { opacity: .85; transform: translateY(-1px); }
 .ib-btn-view { background: #1a6bcc; color: #fff; }
-.ib-btn-download { background: #2d8a4e; color: #fff; }
 .ib-empty { padding: 40px 0; text-align: center; color: #8a97b0; font-size: .95rem; }
 
 /* FLIPBOOK MODAL */
@@ -119,6 +118,13 @@
 
     <section class="ib-section">
         <div class="container">
+            <nav class="page-breadcrumb" aria-label="Breadcrumb">
+                <a href="{{ route('home') }}"><i class="fa-solid fa-house fa-xs"></i> Beranda</a>
+                <span class="bc-sep"><i class="fa-solid fa-chevron-right fa-xs"></i></span>
+                <a href="#">Informasi Publik</a>
+                <span class="bc-sep"><i class="fa-solid fa-chevron-right fa-xs"></i></span>
+                <span class="bc-current">Informasi Serta Merta</span>
+            </nav>
             <div class="ip-layout">
                 @include('pages.partials.sidebar_informasi_publik')
                 <div class="ip-content">
@@ -147,11 +153,6 @@
                                                             data-url="{{ asset('storage/' . $file->pdf_path) }}"
                                                             data-title="{{ $file->judul }}">
                                                             <i class="fa-regular fa-book-open" aria-hidden="true"></i> Lihat
-                                                        </button>
-                                                        <button type="button" class="ib-btn ib-btn-download js-download-wm"
-                                                            data-url="{{ asset('storage/' . $file->pdf_path) }}"
-                                                            data-title="{{ $file->judul }}">
-                                                            <i class="fa-solid fa-download" aria-hidden="true"></i> Download
                                                         </button>
                                                     </div>
                                                 </li>
@@ -246,33 +247,6 @@
         s.onload = cb; document.head.appendChild(s);
     }
 
-    async function downloadWithWatermark(btn, pdfUrl, title) {
-        var origHtml = btn.innerHTML;
-        btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
-        loadJsPDF(async function () {
-            try {
-                var pdf = await pdfjsLib.getDocument({ url: pdfUrl, withCredentials: false }).promise;
-                var numPages = pdf.numPages, scale = 2, doc = null;
-                for (var i = 1; i <= numPages; i++) {
-                    var page = await pdf.getPage(i), nVP = page.getViewport({ scale: 1 });
-                    var pgW = nVP.width, pgH = nVP.height;
-                    var orient = pgW > pgH ? 'landscape' : 'portrait';
-                    var vp = page.getViewport({ scale: scale });
-                    var canvas = document.createElement('canvas');
-                    canvas.width = Math.round(vp.width); canvas.height = Math.round(vp.height);
-                    var dlCtx = canvas.getContext('2d');
-                    dlCtx.fillStyle = '#fff'; dlCtx.fillRect(0, 0, canvas.width, canvas.height);
-                    await page.render({ canvasContext: dlCtx, viewport: vp }).promise;
-                    addWatermark(canvas);
-                    if (i === 1) { doc = new window.jspdf.jsPDF({ orientation: orient, unit: 'pt', format: [pgW, pgH] }); }
-                    else { doc.addPage([pgW, pgH], orient); }
-                    doc.addImage(canvas.toDataURL('image/jpeg', 0.92), 'JPEG', 0, 0, pgW, pgH);
-                }
-                doc.save(title + '.pdf');
-            } catch (e) { alert('Gagal membuat file. Silakan coba lagi.'); }
-            finally { btn.innerHTML = origHtml; btn.disabled = false; }
-        });
-    }
 
     var currentPageFlip = null, currentRenderTask = null, openToken = 0, currentZoom = 1, zoomStep = 0.25;
     var modal = document.getElementById('fb-modal');
@@ -387,9 +361,6 @@
     });
     document.querySelectorAll('.js-open-flipbook').forEach(function (btn) {
         btn.addEventListener('click', function () { openFlipbook(btn.dataset.url, btn.dataset.title); });
-    });
-    document.querySelectorAll('.js-download-wm').forEach(function (btn) {
-        btn.addEventListener('click', function () { downloadWithWatermark(btn, btn.dataset.url, btn.dataset.title); });
     });
 }());
 </script>

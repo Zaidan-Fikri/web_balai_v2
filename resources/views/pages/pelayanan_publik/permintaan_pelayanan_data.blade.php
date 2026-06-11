@@ -8,13 +8,6 @@
         <div class="service-detail-hero">
             <div>
                 <h1 class="service-detail-title">Permintaan Pelayanan Data</h1>
-                <p class="service-detail-breadcrumb">
-                    <a href="{{ route('home') }}">Beranda</a>
-                    <span class="service-detail-separator">/</span>
-                    <span class="service-detail-highlight">Pelayanan Publik</span>
-                    <span class="service-detail-separator">/</span>
-                    <span class="service-detail-highlight">Permintaan Pelayanan Data</span>
-                </p>
             </div>
         </div>
 
