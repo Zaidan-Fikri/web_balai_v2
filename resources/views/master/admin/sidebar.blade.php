@@ -17,7 +17,8 @@
     $publikasiMenuOpen = request()->routeIs(
         'admin.berita.*', 'admin.buletin.*', 'admin.infografis.*', 'admin.galeri.*', 'admin.pengumuman.*'
     );
-    $homePageMenuOpen = request()->routeIs('admin.thumbnail.*', 'admin.galeri-tile.*');
+    $homePageMenuOpen  = request()->routeIs('admin.thumbnail.*', 'admin.galeri-tile.*');
+    $surveyMenuOpen    = request()->routeIs('admin.survey.*', 'admin.geolistrik-1d.*');
 @endphp
 
 <aside class="sidebar">
@@ -165,10 +166,35 @@
                     <i class="fa-solid fa-chart-column"></i><span>Laporan SKM</span>
                 </a>
             @endif
-            @if ($can('geolistrik_1d'))
-                <a class="menu-item {{ request()->routeIs('admin.geolistrik-1d.*') ? 'active' : '' }}" href="{{ route('admin.geolistrik-1d.index') }}">
-                    <i class="fa-solid fa-wave-square"></i><span>Geolistrik 1D</span>
-                </a>
+            @if ($can('geolistrik_1d') || $can('survey_data'))
+                <details class="menu-group {{ $surveyMenuOpen ? 'is-open' : '' }}" {{ $surveyMenuOpen ? 'open' : '' }}>
+                    <summary class="menu-item menu-group-toggle {{ $surveyMenuOpen ? 'has-active-child' : '' }}">
+                        <i class="fa-solid fa-database"></i>
+                        <span>Data Survey</span>
+                        <i class="fa-solid fa-chevron-down menu-group-caret"></i>
+                    </summary>
+                    <div class="menu-sublist">
+                        @if ($can('geolistrik_1d'))
+                            <a class="menu-item menu-subitem {{ request()->routeIs('admin.geolistrik-1d.*') ? 'active' : '' }}" href="{{ route('admin.geolistrik-1d.index') }}">
+                                <i class="fa-solid fa-wave-square"></i><span>Geolistrik 1D</span>
+                            </a>
+                        @endif
+                        @if ($can('survey_data'))
+                            <a class="menu-item menu-subitem {{ request()->is('admin/survey/geolistrik-2d*') ? 'active' : '' }}" href="{{ route('admin.survey.index', ['typeSlug' => 'geolistrik-2d']) }}">
+                                <i class="fa-solid fa-wave-square"></i><span>Geolistrik 2D</span>
+                            </a>
+                            <a class="menu-item menu-subitem {{ request()->is('admin/survey/pumping-test*') ? 'active' : '' }}" href="{{ route('admin.survey.index', ['typeSlug' => 'pumping-test']) }}">
+                                <i class="fa-solid fa-droplet"></i><span>Pumping Test</span>
+                            </a>
+                            <a class="menu-item menu-subitem {{ request()->is('admin/survey/borehole-camera*') ? 'active' : '' }}" href="{{ route('admin.survey.index', ['typeSlug' => 'borehole-camera']) }}">
+                                <i class="fa-solid fa-camera"></i><span>Borehole Camera</span>
+                            </a>
+                            <a class="menu-item menu-subitem {{ request()->is('admin/survey/logging*') ? 'active' : '' }}" href="{{ route('admin.survey.index', ['typeSlug' => 'logging']) }}">
+                                <i class="fa-solid fa-chart-bar"></i><span>Logging</span>
+                            </a>
+                        @endif
+                    </div>
+                </details>
             @endif
         </div>
 

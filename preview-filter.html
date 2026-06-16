@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preview Filter Sidebar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Manrope:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --bat-font-title: 'Manrope', sans-serif;
+            --bat-font-body:  'DM Sans', sans-serif;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: var(--bat-font-body);
+            background: #e8eef7;
+            min-height: 100vh;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            gap: 40px;
+            padding: 40px 24px;
+        }
+
+        h2 {
+            font-family: var(--bat-font-title);
+            font-size: 12px;
+            font-weight: 900;
+            color: #748094;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        /* ── Sidebar ────────────────────────────────────── */
+        .sidebar {
+            width: 272px;
+            background: rgba(255, 255, 255, 0.97);
+            border-radius: 20px;
+            box-shadow: 6px 0 40px rgba(11, 43, 92, 0.18), 0 8px 24px rgba(11, 43, 92, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            max-height: 680px;
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 16px 12px;
+            border-bottom: 1px solid rgba(11, 43, 92, 0.08);
+            font-family: var(--bat-font-title);
+            font-size: 14px;
+            font-weight: 900;
+            color: #0b2b5c;
+            flex-shrink: 0;
+        }
+
+        .sidebar-close {
+            width: 30px;
+            height: 30px;
+            display: grid;
+            place-items: center;
+            border: 0;
+            border-radius: 9px;
+            background: rgba(11, 43, 92, 0.07);
+            color: #0b2b5c;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .sidebar-close:hover { background: rgba(11, 43, 92, 0.14); }
+
+        /* ── Search ─────────────────────────────────────── */
+        .search-wrap {
+            position: relative;
+            padding: 10px 16px;
+            border-bottom: 1px solid rgba(11, 43, 92, 0.06);
+            flex-shrink: 0;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 28px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #748094;
+            font-size: 12px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 8px 10px 8px 32px;
+            border: 1.5px solid rgba(11, 43, 92, 0.12);
+            border-radius: 10px;
+            font-family: var(--bat-font-body);
+            font-size: 13px;
+            color: #0b2b5c;
+            background: rgba(11, 43, 92, 0.03);
+            outline: none;
+        }
+
+        .search-input:focus { border-color: #0047cc; }
+        .search-input::placeholder { color: #aab4c4; }
+
+        /* ── Tipe Data section ──────────────────────────── */
+        .type-section {
+            padding: 12px 16px 10px;
+            border-bottom: 2px solid rgba(11, 43, 92, 0.08);
+            flex-shrink: 0;
+        }
+
+        .type-section h2 {
+            margin-bottom: 8px;
+        }
+
+        .type-list {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .type-item {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            padding: 5px 4px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12.5px;
+            font-weight: 700;
+            color: #2c3e68;
+            transition: background 0.12s;
+        }
+
+        .type-item:hover { background: rgba(0, 71, 204, 0.06); }
+
+        .type-item input[type="checkbox"] {
+            width: 15px;
+            height: 15px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .type-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            border: 1.5px solid rgba(255,255,255,0.8);
+            box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+        }
+
+        .type-count {
+            margin-left: auto;
+            font-size: 11px;
+            font-weight: 800;
+            color: #748094;
+            background: rgba(11, 43, 92, 0.07);
+            padding: 2px 7px;
+            border-radius: 999px;
+        }
+
+        /* ── Filter actions ─────────────────────────────── */
+        .filter-actions {
+            display: flex;
+            gap: 8px;
+            padding: 10px 16px;
+            border-bottom: 1px solid rgba(11, 43, 92, 0.06);
+            flex-shrink: 0;
+        }
+
+        .filter-action-btn {
+            flex: 1;
+            padding: 7px 8px;
+            border: 1.5px solid rgba(11, 43, 92, 0.18);
+            border-radius: 10px;
+            background: transparent;
+            color: #0b2b5c;
+            font-family: var(--bat-font-body);
+            font-size: 11px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: background 0.15s, border-color 0.15s, color 0.15s;
+        }
+
+        .filter-action-btn:hover {
+            background: #0047cc;
+            border-color: #0047cc;
+            color: #fff;
+        }
+
+        /* ── UPT Groups ─────────────────────────────────── */
+        .filter-groups {
+            flex: 1;
+            overflow-y: auto;
+            padding: 6px 0 12px;
+        }
+
+        .filter-group {
+            border-bottom: 1px solid rgba(11, 43, 92, 0.06);
+        }
+
+        .filter-group summary {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 16px;
+            cursor: pointer;
+            font-family: var(--bat-font-title);
+            font-size: 11px;
+            font-weight: 900;
+            color: #748094;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            list-style: none;
+            user-select: none;
+        }
+
+        .filter-group summary::-webkit-details-marker { display: none; }
+        .filter-group summary:hover { color: #0b2b5c; }
+
+        .filter-caret {
+            font-size: 9px;
+            transition: transform 0.2s;
+            flex-shrink: 0;
+        }
+
+        details[open] .filter-caret { transform: rotate(90deg); }
+
+        .region-icon { color: #0047cc; flex-shrink: 0; }
+
+        .filter-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 16px 6px 28px;
+            cursor: pointer;
+            font-size: 12.5px;
+            font-weight: 700;
+            color: #2c3e68;
+            transition: background 0.12s;
+        }
+
+        .filter-item:hover { background: rgba(0, 71, 204, 0.06); }
+
+        .filter-item input[type="checkbox"] {
+            width: 15px;
+            height: 15px;
+            accent-color: #0047cc;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .upt-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            border: 1.5px solid rgba(255,255,255,0.8);
+            box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Opsi A: 2 Section dalam 1 Sidebar -->
+    <div>
+        <h2 style="margin-bottom:12px;">Opsi A — 2 Section dalam 1 Sidebar</h2>
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <span><i class="fa-solid fa-layer-group"></i> Filter</span>
+                <button class="sidebar-close"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <div class="search-wrap">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="search" class="search-input" placeholder="Cari kode, lokasi...">
+            </div>
+
+            <!-- Tipe Data -->
+            <div class="type-section">
+                <h2>Tipe Data</h2>
+                <div class="type-list">
+                    <label class="type-item">
+                        <input type="checkbox" checked style="accent-color:#0047cc">
+                        <span class="type-dot" style="background:#0047cc"></span>
+                        <span>Geolistrik 1D</span>
+                        <span class="type-count">284</span>
+                    </label>
+                    <label class="type-item">
+                        <input type="checkbox" checked style="accent-color:#e74c3c">
+                        <span class="type-dot" style="background:#e74c3c"></span>
+                        <span>Geolistrik 2D</span>
+                        <span class="type-count">47</span>
+                    </label>
+                    <label class="type-item">
+                        <input type="checkbox" checked style="accent-color:#27ae60">
+                        <span class="type-dot" style="background:#27ae60"></span>
+                        <span>Pumping Test</span>
+                        <span class="type-count">93</span>
+                    </label>
+                    <label class="type-item">
+                        <input type="checkbox" checked style="accent-color:#f39c12">
+                        <span class="type-dot" style="background:#f39c12"></span>
+                        <span>Borehole Camera</span>
+                        <span class="type-count">61</span>
+                    </label>
+                    <label class="type-item">
+                        <input type="checkbox" checked style="accent-color:#9b59b6">
+                        <span class="type-dot" style="background:#9b59b6"></span>
+                        <span>Logging</span>
+                        <span class="type-count">38</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Filter Wilayah -->
+            <div class="filter-actions">
+                <button class="filter-action-btn">Pilih Semua</button>
+                <button class="filter-action-btn">Hapus Semua</button>
+            </div>
+
+            <div class="filter-groups">
+                <details class="filter-group" open>
+                    <summary>
+                        <i class="fa-solid fa-chevron-right filter-caret"></i>
+                        <i class="fa-solid fa-mountain region-icon"></i>
+                        <span>Sumatera</span>
+                    </summary>
+                    <label class="filter-item">
+                        <input type="checkbox" checked>
+                        <span class="upt-dot" style="background:#0047cc"></span>
+                        <span>BWWS I Medan</span>
+                    </label>
+                    <label class="filter-item">
+                        <input type="checkbox" checked>
+                        <span class="upt-dot" style="background:#0047cc"></span>
+                        <span>BWWS II Palembang</span>
+                    </label>
+                </details>
+                <details class="filter-group">
+                    <summary>
+                        <i class="fa-solid fa-chevron-right filter-caret"></i>
+                        <i class="fa-solid fa-city region-icon"></i>
+                        <span>Jawa</span>
+                    </summary>
+                    <label class="filter-item">
+                        <input type="checkbox" checked>
+                        <span class="upt-dot" style="background:#27ae60"></span>
+                        <span>BWWJ I Jakarta</span>
+                    </label>
+                    <label class="filter-item">
+                        <input type="checkbox" checked>
+                        <span class="upt-dot" style="background:#27ae60"></span>
+                        <span>BWWJ II Surabaya</span>
+                    </label>
+                </details>
+                <details class="filter-group">
+                    <summary>
+                        <i class="fa-solid fa-chevron-right filter-caret"></i>
+                        <i class="fa-solid fa-umbrella-beach region-icon"></i>
+                        <span>Bali & Nusa Tenggara</span>
+                    </summary>
+                </details>
+                <details class="filter-group">
+                    <summary>
+                        <i class="fa-solid fa-chevron-right filter-caret"></i>
+                        <i class="fa-solid fa-tree region-icon"></i>
+                        <span>Kalimantan</span>
+                    </summary>
+                </details>
+                <details class="filter-group">
+                    <summary>
+                        <i class="fa-solid fa-chevron-right filter-caret"></i>
+                        <i class="fa-solid fa-anchor region-icon"></i>
+                        <span>Sulawesi</span>
+                    </summary>
+                </details>
+                <details class="filter-group">
+                    <summary>
+                        <i class="fa-solid fa-chevron-right filter-caret"></i>
+                        <i class="fa-solid fa-compass region-icon"></i>
+                        <span>Maluku & Papua</span>
+                    </summary>
+                </details>
+            </div>
+        </div>
+    </div>
+
+    <!-- Opsi B: Tab Switch -->
+    <div>
+        <h2 style="margin-bottom:12px;">Opsi B — Tab Switch</h2>
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <span><i class="fa-solid fa-layer-group"></i> Filter</span>
+                <button class="sidebar-close"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <!-- Tab bar -->
+            <div style="display:flex;border-bottom:1px solid rgba(11,43,92,0.08);flex-shrink:0;">
+                <button id="tabTipe" onclick="switchTab('tipe')" style="flex:1;padding:10px 8px;border:0;border-bottom:2px solid #0047cc;background:transparent;font-family:'Manrope',sans-serif;font-size:12px;font-weight:900;color:#0047cc;cursor:pointer;letter-spacing:0.02em;">
+                    <i class="fa-solid fa-database" style="margin-right:5px;"></i>Tipe Data
+                </button>
+                <button id="tabWilayah" onclick="switchTab('wilayah')" style="flex:1;padding:10px 8px;border:0;border-bottom:2px solid transparent;background:transparent;font-family:'Manrope',sans-serif;font-size:12px;font-weight:900;color:#748094;cursor:pointer;letter-spacing:0.02em;">
+                    <i class="fa-solid fa-map-marked-alt" style="margin-right:5px;"></i>Wilayah
+                </button>
+            </div>
+
+            <!-- Tab: Tipe Data -->
+            <div id="panelTipe" style="flex:1;overflow-y:auto;padding:14px 16px;">
+                <p style="font-size:11.5px;color:#748094;margin-bottom:12px;line-height:1.5;">
+                    Pilih tipe data yang ingin ditampilkan di peta.
+                </p>
+                <div class="type-list">
+                    <label class="type-item" style="padding:8px 10px;border:1.5px solid rgba(11,43,92,0.1);border-radius:10px;margin-bottom:4px;">
+                        <input type="checkbox" checked style="accent-color:#0047cc">
+                        <span class="type-dot" style="background:#0047cc"></span>
+                        <span>Geolistrik 1D</span>
+                        <span class="type-count">284</span>
+                    </label>
+                    <label class="type-item" style="padding:8px 10px;border:1.5px solid rgba(11,43,92,0.1);border-radius:10px;margin-bottom:4px;">
+                        <input type="checkbox" checked style="accent-color:#e74c3c">
+                        <span class="type-dot" style="background:#e74c3c"></span>
+                        <span>Geolistrik 2D</span>
+                        <span class="type-count">47</span>
+                    </label>
+                    <label class="type-item" style="padding:8px 10px;border:1.5px solid rgba(11,43,92,0.1);border-radius:10px;margin-bottom:4px;">
+                        <input type="checkbox" checked style="accent-color:#27ae60">
+                        <span class="type-dot" style="background:#27ae60"></span>
+                        <span>Pumping Test</span>
+                        <span class="type-count">93</span>
+                    </label>
+                    <label class="type-item" style="padding:8px 10px;border:1.5px solid rgba(11,43,92,0.1);border-radius:10px;margin-bottom:4px;">
+                        <input type="checkbox" checked style="accent-color:#f39c12">
+                        <span class="type-dot" style="background:#f39c12"></span>
+                        <span>Borehole Camera</span>
+                        <span class="type-count">61</span>
+                    </label>
+                    <label class="type-item" style="padding:8px 10px;border:1.5px solid rgba(11,43,92,0.1);border-radius:10px;margin-bottom:4px;">
+                        <input type="checkbox" checked style="accent-color:#9b59b6">
+                        <span class="type-dot" style="background:#9b59b6"></span>
+                        <span>Logging</span>
+                        <span class="type-count">38</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Tab: Wilayah -->
+            <div id="panelWilayah" style="display:none;flex:1;overflow-y:auto;flex-direction:column;">
+                <div class="search-wrap" style="border-top:none;">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="search" class="search-input" placeholder="Cari kode, lokasi...">
+                </div>
+                <div class="filter-actions">
+                    <button class="filter-action-btn">Pilih Semua</button>
+                    <button class="filter-action-btn">Hapus Semua</button>
+                </div>
+                <div class="filter-groups" style="flex:1;">
+                    <details class="filter-group" open>
+                        <summary>
+                            <i class="fa-solid fa-chevron-right filter-caret"></i>
+                            <i class="fa-solid fa-mountain region-icon"></i>
+                            <span>Sumatera</span>
+                        </summary>
+                        <label class="filter-item">
+                            <input type="checkbox" checked>
+                            <span class="upt-dot" style="background:#0047cc"></span>
+                            <span>BWWS I Medan</span>
+                        </label>
+                        <label class="filter-item">
+                            <input type="checkbox" checked>
+                            <span class="upt-dot" style="background:#0047cc"></span>
+                            <span>BWWS II Palembang</span>
+                        </label>
+                    </details>
+                    <details class="filter-group">
+                        <summary>
+                            <i class="fa-solid fa-chevron-right filter-caret"></i>
+                            <i class="fa-solid fa-city region-icon"></i>
+                            <span>Jawa</span>
+                        </summary>
+                        <label class="filter-item">
+                            <input type="checkbox" checked>
+                            <span class="upt-dot" style="background:#27ae60"></span>
+                            <span>BWWJ I Jakarta</span>
+                        </label>
+                    </details>
+                    <details class="filter-group">
+                        <summary>
+                            <i class="fa-solid fa-chevron-right filter-caret"></i>
+                            <i class="fa-solid fa-umbrella-beach region-icon"></i>
+                            <span>Bali & Nusa Tenggara</span>
+                        </summary>
+                    </details>
+                    <details class="filter-group">
+                        <summary>
+                            <i class="fa-solid fa-chevron-right filter-caret"></i>
+                            <i class="fa-solid fa-tree region-icon"></i>
+                            <span>Kalimantan</span>
+                        </summary>
+                    </details>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tab) {
+            const btnTipe    = document.getElementById('tabTipe');
+            const btnWilayah = document.getElementById('tabWilayah');
+            const panelTipe    = document.getElementById('panelTipe');
+            const panelWilayah = document.getElementById('panelWilayah');
+
+            if (tab === 'tipe') {
+                btnTipe.style.cssText    += ';border-bottom:2px solid #0047cc;color:#0047cc;';
+                btnWilayah.style.cssText += ';border-bottom:2px solid transparent;color:#748094;';
+                panelTipe.style.display    = 'block';
+                panelWilayah.style.display = 'none';
+            } else {
+                btnWilayah.style.cssText += ';border-bottom:2px solid #0047cc;color:#0047cc;';
+                btnTipe.style.cssText    += ';border-bottom:2px solid transparent;color:#748094;';
+                panelWilayah.style.display = 'flex';
+                panelTipe.style.display    = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

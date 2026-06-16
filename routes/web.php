@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminBeritaController;
 use App\Http\Controllers\AdminBuletinController;
 use App\Http\Controllers\AdminGemController;
 use App\Http\Controllers\AdminGeolistrik1dController;
+use App\Http\Controllers\AdminSurveyDataController;
 use App\Http\Controllers\AdminInfografisController;
 use App\Http\Controllers\AdminKaryaIlmiahController;
 use App\Http\Controllers\AdminInformasiBerkalaController;
@@ -53,6 +54,7 @@ Route::prefix('admin')->name('admin.')->middleware('admin.auth')->group(function
     Route::get('/peta', function (): View {
         return view('pages.petaAdmin', [
             'mapConfig' => IndonesiaMap::adminConfig(),
+            'allBalai'  => AdminGeolistrik1dController::allBalai(),
         ]);
     })->name('peta');
 });
@@ -169,6 +171,19 @@ Route::prefix('admin')->name('admin.')->middleware('admin.auth')->group(function
         Route::put('/geolistrik-1d/{geolistrik1d}', [AdminGeolistrik1dController::class, 'update'])->name('geolistrik-1d.update');
         Route::delete('/geolistrik-1d/{geolistrik1d}', [AdminGeolistrik1dController::class, 'destroy'])->name('geolistrik-1d.destroy');
     });
+
+    Route::middleware('admin.role:survey_data')
+        ->prefix('survey/{typeSlug}')
+        ->where(['typeSlug' => 'geolistrik-2d|pumping-test|borehole-camera|logging'])
+        ->name('survey.')
+        ->group(function () {
+            Route::get('/', [AdminSurveyDataController::class, 'index'])->name('index');
+            Route::post('/', [AdminSurveyDataController::class, 'store'])->name('store');
+            Route::post('/import-preview', [AdminSurveyDataController::class, 'importPreview'])->name('import-preview');
+            Route::post('/import-store', [AdminSurveyDataController::class, 'importStore'])->name('import-store');
+            Route::put('/{surveyData}', [AdminSurveyDataController::class, 'update'])->name('update');
+            Route::delete('/{surveyData}', [AdminSurveyDataController::class, 'destroy'])->name('destroy');
+        });
 
     Route::middleware('admin.role:siatab')->group(function () {
         Route::get('/siatab', [AdminSiatabController::class, 'index'])->name('siatab.index');

@@ -838,7 +838,7 @@
                         </span>
                         <span class="about-service-card-copy">
                             <span class="about-service-card-title">SILEBAT</span>
-                            <span class="about-service-card-desc">Labora</span>
+                            <span class="about-service-card-desc">Laboratorium</span>
                         </span>
                         <i class="fa-solid fa-arrow-right about-service-card-arrow" aria-hidden="true"></i>
                     </a>
@@ -1372,14 +1372,18 @@
         <div class="gallery-showcase wow fadeInUp" data-wow-delay="0.25s">
 
             {{-- Video (bento: 2 cols × 2 rows) --}}
-            @php $videoTile = $galeriTiles['video'] ?? null; @endphp
+            @php
+                $videoTile   = $galeriTiles['video'] ?? null;
+                $videoCover  = $latestVideo?->image_url ?: $videoTile?->image_url;
+                $videoBg     = $videoTile?->background_color;
+            @endphp
             <a class="gallery-tile gallery-tile-video" href="{{ route('publikasi.galeri.video') }}">
-                @if ($videoTile && $videoTile->hasImage())
-                    <figure class="image-anime reveal" @if($videoTile->background_color) style="background:{{ $videoTile->background_color }}"@endif>
-                        <img src="{{ $videoTile->image_url }}" alt="Galeri Video" decoding="async" loading="lazy">
+                @if ($videoCover)
+                    <figure class="image-anime reveal" @if($videoBg) style="background:{{ $videoBg }}"@endif>
+                        <img src="{{ $videoCover }}" alt="Galeri Video" decoding="async" loading="lazy">
                     </figure>
                 @else
-                    <figure class="image-anime" @if($videoTile?->background_color) style="background:{{ $videoTile->background_color }}"@endif>
+                    <figure class="image-anime" @if($videoBg) style="background:{{ $videoBg }}"@endif>
                         <img src="{{ asset('assets/sda/web/images/thumbnail-1.webp') }}" alt="Video Sumber Daya Air" decoding="async" loading="lazy">
                     </figure>
                 @endif
@@ -1404,14 +1408,17 @@
                 ['judul' => 'Laboratorium',             'sub' => 'Laboratorium', 'icon' => 'fa-solid fa-flask-vial'],
             ] as $tile)
                 @php
-                    $g = $galeriTiles[strtolower($tile['judul'])] ?? null;
+                    $g          = $galeriTiles[strtolower($tile['judul'])] ?? null;
                     $isFeatured = $tile['featured'] ?? false;
+                    $latestFoto = $latestFotoByKategori[strtolower($tile['judul'])] ?? null;
+                    $coverUrl   = $latestFoto?->image_url ?: $g?->image_url;
+                    $coverBg    = $g?->background_color;
                 @endphp
                 <a class="gallery-tile gallery-tile-photo{{ $isFeatured ? ' gallery-tile-featured' : '' }}"
                    href="{{ route('publikasi.galeri.foto', ['kategori' => $tile['judul']]) }}">
-                    @if ($g && $g->hasImage())
-                        <figure class="image-anime reveal"@if($g->background_color) style="background:{{ $g->background_color }}"@endif>
-                            <img src="{{ $g->image_url }}" alt="{{ $tile['judul'] }}" decoding="async" loading="lazy">
+                    @if ($coverUrl)
+                        <figure class="image-anime reveal"@if($coverBg) style="background:{{ $coverBg }}"@endif>
+                            <img src="{{ $coverUrl }}" alt="{{ $tile['judul'] }}" decoding="async" loading="lazy">
                         </figure>
                         <div class="gallery-tile-overlay"></div>
                         <span class="gallery-tile-badge"><i class="fa-solid fa-camera fa-xs"></i>&nbsp;Foto</span>
@@ -1421,7 +1428,7 @@
                         </div>
                     @else
                         <div class="gallery-tile-placeholder"
-                            @if($g && $g->background_color) style="background:{{ $g->background_color }}" @endif>
+                            @if($coverBg) style="background:{{ $coverBg }}" @endif>
                             <span class="gallery-tile-placeholder-icon"><i class="{{ $tile['icon'] }}"></i></span>
                             <span class="ph-sub">{{ $tile['sub'] }}</span>
                             <h5>{{ $tile['judul'] }}</h5>

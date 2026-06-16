@@ -33,10 +33,15 @@ class AdminGaleriController extends Controller
     public function store(StoreGaleriRequest $request): RedirectResponse
     {
         $data = $request->validated();
+        $galleryImages = $data['images'] ?? [];
 
-        $imagePath = $request->hasFile('image')
-            ? $this->files->store($data['image'], self::IMAGE_DIR)
-            : '';
+        if (! empty($galleryImages)) {
+            $imagePath = $this->files->storeImage(array_shift($galleryImages), self::IMAGE_DIR);
+        } else {
+            $imagePath = $request->hasFile('image')
+                ? $this->files->storeImage($data['image'], self::IMAGE_DIR)
+                : '';
+        }
 
         $videoPath = null;
         if ($data['type'] === 'video' && $request->hasFile('video')) {
@@ -54,9 +59,18 @@ class AdminGaleriController extends Controller
             'background_color' => $data['background_color'] ?? null,
         ]);
 
-        foreach (($data['extra_images'] ?? []) as $i => $file) {
+        $extraImages = array_values(array_filter([
+            ...$galleryImages,
+            ...($data['extra_images'] ?? []),
+        ]));
+
+        foreach ($extraImages as $i => $file) {
+            if (! $file) {
+                continue;
+            }
+
             $galeri->images()->create([
-                'image_path' => $this->files->store($file, self::IMAGE_DIR),
+                'image_path' => $this->files->storeImage($file, self::IMAGE_DIR),
                 'sort_order' => $i,
             ]);
         }
@@ -72,7 +86,7 @@ class AdminGaleriController extends Controller
 
         $imagePath = $galeri->image_path;
         if ($request->hasFile('image')) {
-            $imagePath = $this->files->replace($galeri->image_path, $data['image'], self::IMAGE_DIR);
+            $imagePath = $this->files->replaceImage($galeri->image_path, $data['image'], self::IMAGE_DIR);
         }
 
         $videoPath = $galeri->video_path;
@@ -98,10 +112,15 @@ class AdminGaleriController extends Controller
             'background_color' => $data['background_color'] ?? null,
         ]);
 
+        $currentImageCount = $galeri->images()->count();
         foreach (($data['extra_images'] ?? []) as $i => $file) {
+            if (! $file) {
+                continue;
+            }
+
             $galeri->images()->create([
-                'image_path' => $this->files->store($file, self::IMAGE_DIR),
-                'sort_order' => $galeri->images()->count() + $i,
+                'image_path' => $this->files->storeImage($file, self::IMAGE_DIR),
+                'sort_order' => $currentImageCount + $i,
             ]);
         }
 

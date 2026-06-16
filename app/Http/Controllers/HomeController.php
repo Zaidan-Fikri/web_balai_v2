@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Berita;
 use App\Models\Buletin;
+use App\Models\Galeri;
 use App\Models\GaleriTile;
 use App\Models\Infografis;
 use App\Models\LaporanSkm;
@@ -54,6 +55,25 @@ class HomeController extends Controller
             ->get()
             ->keyBy(fn ($item) => strtolower($item->kategori));
 
+        // Latest foto per kategori (auto cover)
+        $latestFotoByKategori = Galeri::query()
+            ->where('type', 'foto')
+            ->whereNotNull('kategori')
+            ->whereNotNull('image_path')
+            ->where('image_path', '!=', '')
+            ->latest()
+            ->get()
+            ->groupBy(fn ($item) => strtolower($item->kategori))
+            ->map(fn ($items) => $items->first());
+
+        // Latest video (auto cover untuk tile video)
+        $latestVideo = Galeri::query()
+            ->where('type', 'video')
+            ->whereNotNull('image_path')
+            ->where('image_path', '!=', '')
+            ->latest()
+            ->first();
+
         $profilePages = ProfilePage::query()
             ->orderBy('sort_order')
             ->orderBy('title')
@@ -76,6 +96,8 @@ class HomeController extends Controller
             'nilaiSkm',
             'jumlahLaporanSkm',
             'galeriTiles',
+            'latestFotoByKategori',
+            'latestVideo',
             'profilePages',
             'aboutProfilePage',
             'aboutDescription'

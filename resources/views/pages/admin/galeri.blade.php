@@ -4,6 +4,67 @@
 
 @push('styles')
 <style>
+    /* ── Upload progress overlay ── */
+    #uploadProgressOverlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        background: rgba(0,12,44,0.72);
+        backdrop-filter: blur(6px);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+    }
+    #uploadProgressOverlay.is-active { display: flex; }
+    .upload-progress-card {
+        background: #fff;
+        border-radius: 22px;
+        padding: 32px 36px;
+        min-width: 320px;
+        max-width: 90vw;
+        box-shadow: 0 28px 60px rgba(0,26,102,0.22);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+    }
+    .upload-progress-title {
+        font-family: var(--bat-font-title);
+        font-size: 15px;
+        font-weight: 900;
+        color: #001a66;
+        text-align: center;
+    }
+    .upload-progress-sub {
+        font-size: 12px;
+        color: #667085;
+        text-align: center;
+        line-height: 1.5;
+    }
+    .upload-progress-bar-wrap {
+        width: 100%;
+        height: 10px;
+        background: #e8eeff;
+        border-radius: 999px;
+        overflow: hidden;
+    }
+    .upload-progress-bar-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #0047cc, #0b2b5c);
+        border-radius: 999px;
+        width: 0%;
+        transition: width 0.2s ease;
+    }
+    .upload-progress-pct {
+        display: none;
+    }
+    .upload-progress-info {
+        font-size: 12px;
+        color: #748094;
+        text-align: center;
+    }
     .btn-secondary {
         display: inline-flex;
         align-items: center;
@@ -119,10 +180,65 @@
     @media (max-width: 640px) {
         .galeri-main-preview img { aspect-ratio:16 / 9; max-height:150px; }
     }
+
+    /* ── Read popup ── */
+    .galeri-read-card { padding: 0; overflow: hidden; }
+    .galeri-read-card .read-image { margin: 0; border-radius: 0; }
+    .galeri-read-card .read-image img {
+        width: 100%; max-height: 280px; object-fit: cover;
+        border-radius: 0; display: block;
+    }
+    .read-extra-photos {
+        display: flex; gap: 6px; padding: 8px 16px 0;
+        overflow-x: auto; flex-wrap: nowrap;
+    }
+    .read-extra-photos:empty { display: none; }
+    .read-extra-photos img {
+        width: 64px; height: 64px; object-fit: cover;
+        border-radius: 8px; border: 2px solid #e8eeff;
+        flex-shrink: 0; cursor: pointer; transition: border-color 0.15s;
+    }
+    .read-extra-photos img:hover { border-color: #0047cc; }
+    .read-info-body { padding: 14px 20px 4px; }
+    .read-badges { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+    .read-badge {
+        display: inline-flex; align-items: center; gap: 5px;
+        padding: 3px 10px; border-radius: 999px;
+        font-size: 11px; font-weight: 900; letter-spacing: .04em; text-transform: uppercase;
+    }
+    .read-badge.tipe-foto { background: #e8f4ff; color: #0047cc; }
+    .read-badge.tipe-video { background: #fff3e0; color: #b86200; }
+    .read-badge.kategori { background: #f0f0ff; color: #4b3fa0; }
+    .read-judul {
+        margin: 0 0 8px; font-family: var(--bat-font-title);
+        font-size: 18px; font-weight: 900; color: #001a66; line-height: 1.25;
+    }
+    .read-desc {
+        margin: 0 0 8px; font-size: 13px; color: #4a5568;
+        line-height: 1.6; white-space: pre-wrap;
+    }
+    .read-desc:empty { display: none; }
+    .read-tanggal {
+        margin: 0; font-size: 11.5px; color: #98a2b3; font-weight: 700;
+    }
+    .galeri-read-card .popup-actions { padding: 12px 20px 20px; }
 </style>
 @endpush
 
 @section('content')
+
+    {{-- Upload progress overlay --}}
+    <div id="uploadProgressOverlay" role="alertdialog" aria-label="Sedang mengupload">
+        <div class="upload-progress-card">
+            <div class="upload-progress-pct" id="uploadProgressPct">0%</div>
+            <div class="upload-progress-bar-wrap">
+                <div class="upload-progress-bar-fill" id="uploadProgressFill"></div>
+            </div>
+            <div class="upload-progress-title" id="uploadProgressTitle">Sedang mengupload...</div>
+            <div class="upload-progress-sub" id="uploadProgressSub">Mohon tunggu, jangan tutup halaman ini.</div>
+            <div class="upload-progress-info" id="uploadProgressInfo"></div>
+        </div>
+    </div>
 
     <section>
         <div class="panel full-card">
@@ -195,6 +311,8 @@
                                             data-judul="{{ $item->judul }}"
                                             data-deskripsi="{{ $item->deskripsi }}"
                                             data-type="{{ $item->type }}"
+                                            data-kategori="{{ $item->kategori }}"
+                                            data-tanggal="{{ $item->created_at->format('d M Y') }}"
                                             data-bg="{{ $item->background_color }}">Read</button>
                                         <button type="button" class="btn-action update js-galeri-update-btn"
                                             data-update-url="{{ route('admin.galeri.update', $item->id) }}"
@@ -245,13 +363,11 @@
 
                 {{-- Foto section --}}
                 <div id="createFotoSection">
-                    <label class="popup-label-sm">Foto Utama</label>
-                    <input type="file" class="popup-input" id="createGaleriImage" name="image"
-                        accept=".jpg,.jpeg,.png,.webp,image/*" required>
+                    <label class="popup-label-sm">Foto Galeri</label>
+                    <input type="file" class="popup-input" id="createGaleriImage" name="images[]"
+                        accept=".jpg,.jpeg,.png,.webp,image/*" multiple required>
                     <div class="upload-preview galeri-main-preview" id="createGaleriPreview"></div>
-                    <label class="popup-label-sm">Foto Tambahan <span style="font-weight:400;color:#888">(opsional)</span></label>
-                    <input type="file" class="popup-input galeri-extra-input" name="extra_images[]"
-                        accept=".jpg,.jpeg,.png,.webp,image/*" multiple>
+                    <span class="popup-help">Pilih 1 atau banyak foto. Foto pertama otomatis menjadi foto utama.</span>
                 </div>
 
                 {{-- Video section --}}
@@ -299,19 +415,39 @@
 
     {{-- Popup: Detail --}}
     <div class="popup-overlay" id="readGaleriOverlay" aria-hidden="true">
-        <div class="popup-card" role="dialog" aria-modal="true" aria-labelledby="readGaleriTitle">
-            <h4 id="readGaleriTitle">Detail Galeri</h4>
+        <div class="popup-card galeri-read-card" role="dialog" aria-modal="true" aria-labelledby="readGaleriTitle">
+
+            {{-- Foto utama --}}
             <div class="read-image" id="readGaleriImage"></div>
-            <p class="read-meta"><strong id="readGaleriJudul">-</strong></p>
-            <p class="read-meta" id="readGaleriType" style="margin-bottom:.4rem"></p>
-            <p class="read-meta" id="readGaleriBgWrap" style="display:none">
-                Background: <span class="color-swatch" id="readGaleriBgSwatch"></span>
-                <span class="color-hex" id="readGaleriBgHex"></span>
-            </p>
-            <div class="read-description" id="readGaleriDeskripsi">-</div>
+
+            {{-- Foto tambahan --}}
+            <div class="read-extra-photos" id="readGaleriExtraPhotos"></div>
+
+            {{-- Info --}}
+            <div class="read-info-body">
+                {{-- Badge baris atas --}}
+                <div class="read-badges" id="readGaleriBadges"></div>
+
+                {{-- Judul --}}
+                <h4 class="read-judul" id="readGaleriTitle">-</h4>
+
+                {{-- Deskripsi --}}
+                <p class="read-desc" id="readGaleriDeskripsi"></p>
+
+                {{-- Tanggal --}}
+                <p class="read-tanggal" id="readGaleriTanggal"></p>
+            </div>
+
             <div class="popup-actions has-gap">
                 <button type="button" class="btn-primary" data-close-overlay="readGaleriOverlay">Tutup</button>
             </div>
+
+            {{-- Elemen lama disembunyikan (untuk kompatibilitas JS lama) --}}
+            <span id="readGaleriJudul" hidden></span>
+            <span id="readGaleriType" hidden></span>
+            <span id="readGaleriBgWrap" hidden></span>
+            <span id="readGaleriBgSwatch" hidden></span>
+            <span id="readGaleriBgHex" hidden></span>
         </div>
     </div>
 
@@ -547,6 +683,67 @@
         }, true);
     });
 
+})();
+
+/* ── Loading overlay saat form submit (native submit, bukan XHR) ── */
+(function () {
+    var overlay = document.getElementById('uploadProgressOverlay');
+    var titleEl = document.getElementById('uploadProgressTitle');
+    var subEl   = document.getElementById('uploadProgressSub');
+    var pctEl   = document.getElementById('uploadProgressPct');
+    var fillEl  = document.getElementById('uploadProgressFill');
+    var infoEl  = document.getElementById('uploadProgressInfo');
+
+    function countFiles(form) {
+        var total = 0;
+        form.querySelectorAll('input[type="file"]').forEach(function (inp) {
+            total += inp.files ? inp.files.length : 0;
+        });
+        return total;
+    }
+
+    function showOverlay(form) {
+        var n = countFiles(form);
+        pctEl.textContent   = '';
+        fillEl.style.width  = '0%';
+        fillEl.style.transition = 'none';
+        titleEl.textContent = 'Sedang mengupload' + (n > 0 ? ' ' + n + ' file' : '') + '...';
+        subEl.textContent   = 'Mohon tunggu, jangan tutup halaman ini.';
+        infoEl.textContent  = 'Proses ini mungkin memakan waktu beberapa menit.';
+        overlay.classList.add('is-active');
+
+        /* Animasi bar indeterminate selama tunggu */
+        var pct = 0;
+        var timer = setInterval(function () {
+            pct = Math.min(pct + (pct < 70 ? 1.5 : 0.3), 90);
+            fillEl.style.transition = 'width 0.8s ease';
+            fillEl.style.width = pct + '%';
+        }, 800);
+
+        /* Simpan timer di window agar bisa dibersihkan jika perlu */
+        window._uploadTimer = timer;
+    }
+
+    var createForm = document.querySelector('#createGaleriOverlay form');
+    if (createForm) {
+        createForm.addEventListener('submit', function () {
+            showOverlay(this);
+            /* Biarkan form submit berjalan normal (tidak ada preventDefault) */
+        });
+    }
+
+    var updateForm = document.getElementById('updateGaleriForm');
+    if (updateForm) {
+        updateForm.addEventListener('submit', function () {
+            showOverlay(this);
+        });
+    }
+
+    /* Sembunyikan overlay saat halaman baru dimuat (navigasi berhasil) */
+    window.addEventListener('pageshow', function () {
+        if (overlay) overlay.classList.remove('is-active');
+        if (window._uploadTimer) clearInterval(window._uploadTimer);
+    });
 })();
 </script>
 @endpush

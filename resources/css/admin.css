@@ -7,6 +7,7 @@
     --blue-dark: #003399;
     --navy-dark: #001A66;
     --blue-bright: #0047CC;
+    --accent: #0047CC;
     --yellow-gold: #FFD700;
     --gold-soft: #E9C16A;
     --yellow-pastel: #FFF3B0;
@@ -720,6 +721,320 @@ table {
     font-size: 13px;
 }
 
+/* ── Geolistrik Folder Layout ───────────────────────────────── */
+/* ── Geolistrik main column ──────────────────────────────────── */
+.geo-main {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+/* ── Wilayah dropdown button ──────────────────────────────────── */
+.geo-dd-wrap {
+    position: relative;
+    display: inline-block;
+}
+
+.geo-dd-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 16px;
+    min-height: 48px;
+    border-radius: 17px;
+    border: 1.5px solid rgba(0, 51, 153, 0.28);
+    background: var(--blue-light);
+    color: var(--blue-dark);
+    font-size: 14px;
+    font-weight: 900;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: transform .2s, border-color .15s, background .15s, color .15s;
+    box-shadow: 0 4px 14px rgba(0, 51, 153, 0.12);
+}
+
+.geo-dd-btn:hover {
+    transform: translateY(-1px);
+    background: #d6e3ff;
+}
+
+.geo-dd-btn.is-active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+}
+
+.geo-dd-btn.is-open {
+    border-color: var(--accent);
+    background: #d6e3ff;
+}
+
+.geo-dd-caret {
+    font-size: .6rem;
+    transition: transform .2s;
+}
+
+.geo-dd-btn.is-open .geo-dd-caret {
+    transform: rotate(180deg);
+}
+
+/* ── Dropdown menu ────────────────────────────────────────────── */
+.geo-dd-menu {
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    z-index: 200;
+    width: 270px;
+    max-height: 480px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0,71,204,.15) transparent;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    box-shadow: 0 16px 44px rgba(11, 43, 92, 0.18);
+    padding: 10px 8px 8px;
+    backdrop-filter: blur(18px);
+}
+
+.geo-dd-header {
+    padding: 0 6px 10px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 6px;
+}
+
+.geo-dd-title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: .72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .07em;
+    color: var(--navy-dark);
+}
+
+/* ── Progress bar ─────────────────────────────────────────────── */
+.geo-progress-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.geo-progress-bar {
+    height: 4px;
+    background: rgba(0, 71, 204, 0.1);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.geo-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #0047cc, #4e8ef7);
+    border-radius: 999px;
+    transition: width .4s ease;
+}
+
+.geo-progress-text {
+    font-size: .68rem;
+    color: #8a9ab8;
+    font-weight: 600;
+}
+
+/* ── "Semua Data" link ────────────────────────────────────────── */
+.geo-folder-all {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 10px;
+    border-radius: 10px;
+    font-size: .82rem;
+    font-weight: 600;
+    color: var(--text);
+    text-decoration: none;
+    transition: background .15s;
+    margin-bottom: 4px;
+}
+
+.geo-folder-all:hover { background: rgba(0,71,204,.07); }
+
+.geo-folder-all.is-active {
+    background: var(--accent);
+    color: #fff;
+}
+
+.geo-folder-all .geo-badge { margin-left: auto; }
+
+/* ── Regional groups ──────────────────────────────────────────── */
+.geo-folder-group {
+    margin-bottom: 2px;
+}
+
+.geo-folder-group > summary {
+    list-style: none;
+}
+
+.geo-folder-group > summary::-webkit-details-marker { display: none; }
+
+.geo-folder-group-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 8px;
+    border-radius: 8px;
+    font-size: .68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: #6b7fa3;
+    cursor: pointer;
+    user-select: none;
+    transition: background .15s;
+}
+
+.geo-folder-group-label:hover { background: rgba(0,26,102,.04); }
+
+.geo-caret {
+    font-size: .5rem;
+    transition: transform .2s;
+    flex-shrink: 0;
+}
+
+details.geo-folder-group[open] > summary .geo-caret {
+    transform: rotate(90deg);
+}
+
+.geo-region-icon {
+    font-size: .68rem;
+    color: #8a9ab8;
+}
+
+.geo-group-meta {
+    margin-left: auto;
+    font-size: .62rem;
+    font-weight: 700;
+    color: #b0bdd6;
+    font-variant-numeric: tabular-nums;
+}
+
+/* ── Folder items ─────────────────────────────────────────────── */
+.geo-folder-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 7px;
+    padding: 5px 8px 5px 20px;
+    border-radius: 8px;
+    font-size: .78rem;
+    font-weight: 500;
+    color: var(--text);
+    text-decoration: none;
+    transition: background .15s;
+    line-height: 1.35;
+}
+
+.geo-folder-item > i {
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.geo-folder-item > span:first-of-type {
+    flex: 1;
+    min-width: 0;
+    word-break: break-word;
+}
+
+.geo-folder-item:hover { background: rgba(0,71,204,.07); }
+
+.geo-folder-item.is-active {
+    background: var(--accent);
+    color: #fff;
+    font-weight: 700;
+}
+
+.geo-folder-item.is-active i { color: rgba(255,255,255,.8); }
+
+.geo-folder-item.is-empty { color: #c0cce4; }
+.geo-folder-item.is-empty i { color: #d5dff0; }
+
+/* ── Badges ───────────────────────────────────────────────────── */
+.geo-badge {
+    margin-left: auto;
+    background: rgba(0,71,204,.1);
+    color: var(--accent);
+    font-size: .64rem;
+    font-weight: 800;
+    padding: 2px 6px;
+    border-radius: 999px;
+    flex-shrink: 0;
+}
+
+.geo-folder-all.is-active .geo-badge,
+.geo-folder-item.is-active .geo-badge {
+    background: rgba(255,255,255,.25);
+    color: #fff;
+}
+
+/* ── Clear filter ─────────────────────────────────────────────── */
+.geo-clear-filter {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 3px;
+    font-size: .74rem;
+    font-weight: 600;
+    color: #e53935;
+    text-decoration: none;
+}
+
+.geo-clear-filter:hover { text-decoration: underline; }
+
+/* ── Empty state ──────────────────────────────────────────────── */
+.geo-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.geo-empty-icon {
+    width: 72px;
+    height: 72px;
+    background: #f0f4ff;
+    border-radius: 20px;
+    display: grid;
+    place-items: center;
+    font-size: 1.8rem;
+    color: #a0b3d9;
+    margin-bottom: 18px;
+}
+
+.geo-empty-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--navy-dark);
+    margin: 0 0 6px;
+}
+
+.geo-empty-sub {
+    font-size: .82rem;
+    color: #8a9ab8;
+    margin: 0 0 20px;
+    max-width: 340px;
+}
+
+.geo-empty-actions {
+    display: flex;
+    gap: 10px;
+}
+
+@media (max-width: 700px) {
+    .geo-dd-menu { right: auto; left: 0; width: 90vw; }
+}
+
+/* ── End Geolistrik Layout ───────────────────────────────────── */
+
 .geolistrik-table {
     min-width: 1840px;
 }
@@ -1069,6 +1384,20 @@ input[type="file"].popup-input {
 
 .popup-help {
     margin: -6px 0 13px;
+}
+
+.popup-help-info {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    margin: 0 0 10px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    background: rgba(0, 71, 204, 0.08);
+    color: var(--blue-dark);
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.5;
 }
 
 .popup-actions {
@@ -1542,6 +1871,53 @@ input[type="file"].popup-input {
     .topbar-link span::after {
         content: "Situs";
         font-size: 13px;
+    }
+}
+
+@media (max-width: 576px) {
+    /* Stack judul di atas, tombol aksi di bawah — khusus halaman survey data & geolistrik 1d */
+    .survey-main .item-head,
+    .geo1d-main .item-head {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    .survey-main .item-head h3,
+    .geo1d-main .item-head h3 {
+        font-size: 18px;
+        line-height: 1.2;
+        word-break: break-word;
+        white-space: normal;
+    }
+
+    .survey-main .item-head-actions,
+    .geo1d-main .item-head-actions {
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: flex-end;
+    }
+
+    /* Tombol "Upload Excel": sembunyikan teks, tampilkan ikon saja */
+    .survey-main .btn-upload-excel span,
+    .geo1d-main .btn-upload-excel span {
+        display: none;
+    }
+
+    .survey-main .btn-upload-excel,
+    .geo1d-main .btn-upload-excel {
+        min-height: 44px;
+        padding: 0 14px;
+        border-radius: 14px;
+    }
+
+    /* Dropdown wilayah lebih fleksibel */
+    .survey-main .geo-dd-btn,
+    .geo1d-main .geo-dd-btn {
+        white-space: nowrap;
+        max-width: 160px;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 }
 

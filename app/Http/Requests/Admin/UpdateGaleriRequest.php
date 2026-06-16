@@ -14,7 +14,7 @@ class UpdateGaleriRequest extends BaseAdminRequest
             'image'              => $this->imageRules('nullable', self::MAX_HERO_IMAGE_KB),
             'video'              => $this->videoRules('nullable'),
             'remove_video'       => ['nullable', 'boolean'],
-            'extra_images'       => ['nullable', 'array', 'max:10'],
+            'extra_images'       => ['nullable', 'array', 'max:50'],
             'extra_images.*'     => $this->imageRules('nullable', self::MAX_HERO_IMAGE_KB),
             'background_color'   => ['nullable', 'regex:/^#[0-9A-Fa-f]{6}$/'],
         ];

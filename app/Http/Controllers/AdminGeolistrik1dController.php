@@ -21,14 +21,93 @@ class AdminGeolistrik1dController extends Controller
 
     public function index(): View
     {
-        $perPage = max(1, min(100, (int) request()->integer('per_page', 10)));
+        $perPage     = max(1, min(100, (int) request()->integer('per_page', 10)));
+        $selectedUpt = request()->get('upt', '');
 
-        $geolistrik1ds = Geolistrik1d::query()
-            ->latest()
-            ->paginate($perPage)
-            ->appends(['per_page' => $perPage]);
+        $query = Geolistrik1d::query();
+        if ($selectedUpt !== '') {
+            $query->where('upt', $selectedUpt);
+        }
 
-        return view('pages.admin.geolistrik-1d', compact('geolistrik1ds', 'perPage'));
+        $appends = ['per_page' => $perPage];
+        if ($selectedUpt !== '') {
+            $appends['upt'] = $selectedUpt;
+        }
+
+        $geolistrik1ds = $query->latest()->paginate($perPage)->appends($appends);
+
+        $uptCounts = Geolistrik1d::query()
+            ->selectRaw('upt, COUNT(*) as total')
+            ->groupBy('upt')
+            ->pluck('total', 'upt')
+            ->toArray();
+
+        $allBalai = self::allBalai();
+
+        $importPreviewRows       = session('geolistrik_import_preview', []);
+        $importPreviewErrorCount = (int) session('geolistrik_import_error_count', 0);
+        $importPreviewWarnCount  = (int) session('geolistrik_import_warn_count', 0);
+
+        return view('pages.admin.geolistrik-1d', compact(
+            'geolistrik1ds', 'perPage', 'selectedUpt', 'uptCounts', 'allBalai',
+            'importPreviewRows', 'importPreviewErrorCount', 'importPreviewWarnCount',
+        ));
+    }
+
+    public static function allBalai(): array
+    {
+        return [
+            ['label' => 'Sumatera', 'icon' => 'fa-mountain-sun', 'items' => [
+                ['name' => 'Balai Besar Wilayah Sungai Sumatera II',    'short' => 'BBWS Sumatera II'],
+                ['name' => 'Balai Besar Wilayah Sungai Sumatera VIII',  'short' => 'BBWS Sumatera VIII'],
+                ['name' => 'Balai Besar Wilayah Sungai Mesuji Sekampung','short' => 'BBWS Mesuji Sekampung'],
+                ['name' => 'Balai Wilayah Sungai Sumatera I',           'short' => 'BWS Sumatera I'],
+                ['name' => 'Balai Wilayah Sungai Sumatera III',         'short' => 'BWS Sumatera III'],
+                ['name' => 'Balai Wilayah Sungai Sumatera IV',          'short' => 'BWS Sumatera IV'],
+                ['name' => 'Balai Wilayah Sungai Sumatera V',           'short' => 'BWS Sumatera V'],
+                ['name' => 'Balai Wilayah Sungai Sumatera VI',          'short' => 'BWS Sumatera VI'],
+                ['name' => 'Balai Wilayah Sungai Sumatera VII',         'short' => 'BWS Sumatera VII'],
+                ['name' => 'Balai Wilayah Sungai Bangka Belitung',      'short' => 'BWS Bangka Belitung'],
+            ]],
+            ['label' => 'Jawa', 'icon' => 'fa-city', 'items' => [
+                ['name' => 'Balai Besar Wilayah Sungai Cidanau Ciujung Cidurian','short' => 'BBWS Cidanau Ciujung Cidurian'],
+                ['name' => 'Balai Besar Wilayah Sungai Ciliwung Cisadane',       'short' => 'BBWS Ciliwung Cisadane'],
+                ['name' => 'Balai Besar Wilayah Sungai Citarum',                 'short' => 'BBWS Citarum'],
+                ['name' => 'Balai Besar Wilayah Sungai Citanduy',                'short' => 'BBWS Citanduy'],
+                ['name' => 'Balai Besar Wilayah Sungai Cimanuk Cisanggarung',    'short' => 'BBWS Cimanuk Cisanggarung'],
+                ['name' => 'Balai Besar Wilayah Sungai Pemali Juana',            'short' => 'BBWS Pemali Juana'],
+                ['name' => 'Balai Besar Wilayah Sungai Serayu Opak',             'short' => 'BBWS Serayu Opak'],
+                ['name' => 'Balai Besar Wilayah Sungai Bengawan Solo',           'short' => 'BBWS Bengawan Solo'],
+                ['name' => 'Balai Besar Wilayah Sungai Brantas',                 'short' => 'BBWS Brantas'],
+            ]],
+            ['label' => 'Bali & Nusa Tenggara', 'icon' => 'fa-water', 'items' => [
+                ['name' => 'Balai Wilayah Sungai Bali Penida',           'short' => 'BWS Bali Penida'],
+                ['name' => 'Balai Besar Wilayah Sungai Nusa Tenggara I', 'short' => 'BBWS Nusa Tenggara I'],
+                ['name' => 'Balai Besar Wilayah Sungai Nusa Tenggara II','short' => 'BBWS Nusa Tenggara II'],
+            ]],
+            ['label' => 'Kalimantan', 'icon' => 'fa-tree', 'items' => [
+                ['name' => 'Balai Wilayah Sungai Kalimantan I',   'short' => 'BWS Kalimantan I'],
+                ['name' => 'Balai Wilayah Sungai Kalimantan II',  'short' => 'BWS Kalimantan II'],
+                ['name' => 'Balai Wilayah Sungai Kalimantan III', 'short' => 'BWS Kalimantan III'],
+                ['name' => 'Balai Wilayah Sungai Kalimantan IV',  'short' => 'BWS Kalimantan IV'],
+                ['name' => 'Balai Wilayah Sungai Kalimantan V',   'short' => 'BWS Kalimantan V'],
+            ]],
+            ['label' => 'Sulawesi', 'icon' => 'fa-anchor', 'items' => [
+                ['name' => 'Balai Besar Wilayah Sungai Pompengan Jeneberang','short' => 'BBWS Pompengan Jeneberang'],
+                ['name' => 'Balai Wilayah Sungai Sulawesi I',   'short' => 'BWS Sulawesi I'],
+                ['name' => 'Balai Wilayah Sungai Sulawesi II',  'short' => 'BWS Sulawesi II'],
+                ['name' => 'Balai Wilayah Sungai Sulawesi III', 'short' => 'BWS Sulawesi III'],
+                ['name' => 'Balai Wilayah Sungai Sulawesi IV',  'short' => 'BWS Sulawesi IV'],
+                ['name' => 'Balai Wilayah Sungai Sulawesi V',   'short' => 'BWS Sulawesi V'],
+            ]],
+            ['label' => 'Maluku & Papua', 'icon' => 'fa-globe-asia', 'items' => [
+                ['name' => 'Balai Wilayah Sungai Maluku',        'short' => 'BWS Maluku'],
+                ['name' => 'Balai Wilayah Sungai Maluku Utara',  'short' => 'BWS Maluku Utara'],
+                ['name' => 'Balai Wilayah Sungai Papua',         'short' => 'BWS Papua'],
+                ['name' => 'Balai Wilayah Sungai Papua Barat',   'short' => 'BWS Papua Barat'],
+                ['name' => 'Balai Wilayah Sungai Papua Merauke', 'short' => 'BWS Papua Merauke'],
+            ]],
+        ];
     }
 
     public function store(Request $request): RedirectResponse
@@ -79,23 +158,53 @@ class AdminGeolistrik1dController extends Controller
                 ->with('error', 'File tidak memiliki data untuk diimport.');
         }
 
+        // Daftar nama UPT valid (38 BBWS/BWS)
+        $validUptNames = collect(self::allBalai())
+            ->flatMap(fn ($group) => $group['items'])
+            ->pluck('name')
+            ->map(fn ($name) => strtolower(trim($name)))
+            ->all();
+
+        // Pre-fill UPT dari filter aktif (jika admin upload dari halaman balai tertentu)
+        $selectedUpt = trim((string) $request->input('selected_upt', ''));
+
         $previewRows = [];
-        $errorCount = 0;
+        $errorCount  = 0;
+        $warnCount   = 0;
 
         foreach ($rows as $index => $row) {
+            // Auto-fill UPT kosong dengan filter aktif
+            if ($selectedUpt !== '' && empty($row['upt'])) {
+                $row['upt'] = $selectedUpt;
+            }
+
             $validator = Validator::make($row, $this->rules());
-            $errors = $validator->errors()->all();
+            $errors    = $validator->errors()->all();
             $errorCount += count($errors) ? 1 : 0;
 
+            // Periksa apakah UPT dikenal
+            $warnings = [];
+            $uptValue = trim((string) ($row['upt'] ?? ''));
+            if ($uptValue !== '' && !in_array(strtolower($uptValue), $validUptNames, true)) {
+                $warnings[] = 'Nama UPT tidak dikenal — pastikan sesuai dengan nama resmi BBWS/BWS.';
+                $warnCount++;
+            }
+            if ($uptValue === '') {
+                $warnings[] = 'UPT kosong — data tidak akan muncul di filter Wilayah manapun.';
+                $warnCount++;
+            }
+
             $previewRows[] = [
-                'number' => $index + 1,
-                'data' => $row,
-                'errors' => $errors,
+                'number'   => $index + 1,
+                'data'     => $row,
+                'errors'   => $errors,
+                'warnings' => $warnings,
             ];
         }
 
         session()->put('geolistrik_import_preview', $previewRows);
         session()->put('geolistrik_import_error_count', $errorCount);
+        session()->put('geolistrik_import_warn_count', $warnCount);
 
         return redirect()
             ->route('admin.geolistrik-1d.index');

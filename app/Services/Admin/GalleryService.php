@@ -4,6 +4,7 @@ namespace App\Services\Admin;
 
 use App\Services\FileUploadService;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Validation\ValidationException;
 
 class GalleryService
@@ -15,7 +16,10 @@ class GalleryService
     public function storeFiles(array $images, string $directory): array
     {
         return collect($images)
+            ->flatten()
+            ->filter(fn ($image) => $image instanceof UploadedFile)
             ->map(fn ($image) => $this->files->store($image, $directory))
+            ->values()
             ->all();
     }
 

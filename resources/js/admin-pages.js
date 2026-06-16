@@ -259,8 +259,10 @@
                     const files = [];
 
                     inputList.querySelectorAll('input[type="file"]').forEach(function (input) {
-                        if (input.files && input.files[0]) {
-                            files.push(input.files[0]);
+                        if (input.files && input.files.length) {
+                            Array.from(input.files).forEach(function (file) {
+                                files.push(file);
+                            });
                         }
                     });
 
@@ -288,7 +290,7 @@
                     const row = document.createElement('div');
                     row.className = 'image-input-row';
                     row.innerHTML =
-                        '<input type="file" class="popup-input" name="images[]" accept=".jpg,.jpeg,.png,.webp,image/*"' + (isRequired ? ' required' : '') + '>' +
+                        '<input type="file" class="popup-input" name="images[]" accept=".jpg,.jpeg,.png,.webp,image/*" multiple' + (isRequired ? ' required' : '') + '>' +
                         '<button type="button" class="btn-remove-image-input">Hapus</button>';
 
                     const input = row.querySelector('input[type="file"]');
@@ -1547,7 +1549,7 @@
             const row = document.createElement('div');
             row.className = 'image-input-row';
             row.innerHTML =
-                '<input type="file" class="popup-input" name="images[]" accept=".jpg,.jpeg,.png,.webp,image/*"' + (isRequired ? ' required' : '') + '>' +
+                '<input type="file" class="popup-input" name="images[]" accept=".jpg,.jpeg,.png,.webp,image/*" multiple' + (isRequired ? ' required' : '') + '>' +
                 '<button type="button" class="btn-remove-image-input">Hapus</button>';
 
             const input = row.querySelector('input[type="file"]');
@@ -1756,11 +1758,17 @@
     function renderPreview(container, file, fallbackUrl) {
         if (!container) return;
         container.innerHTML = '';
-        if (file) {
-            const url = URL.createObjectURL(file);
-            container.innerHTML = '<img src="' + url + '" alt="Preview">';
-            const img = container.querySelector('img');
-            if (img) img.addEventListener('load', function () { URL.revokeObjectURL(url); });
+        const files = file && file.length !== undefined && !file.name ? Array.from(file) : (file ? [file] : []);
+        if (files.length) {
+            files.forEach(function (selectedFile, index) {
+                const url = URL.createObjectURL(selectedFile);
+                const item = document.createElement('div');
+                item.className = 'upload-preview-item';
+                item.innerHTML = '<img src="' + url + '" alt="Preview ' + (index + 1) + '">';
+                const img = item.querySelector('img');
+                if (img) img.addEventListener('load', function () { URL.revokeObjectURL(url); });
+                container.appendChild(item);
+            });
             return;
         }
         if (fallbackUrl) {
@@ -1793,26 +1801,68 @@
 
     if (createImage) {
         createImage.addEventListener('change', function () {
-            renderPreview(createPreview, createImage.files[0] || null, null);
+            renderPreview(createPreview, createImage.files || null, null);
         });
     }
 
     document.querySelectorAll('.js-galeri-read-btn').forEach(function (btn) {
         btn.addEventListener('click', function () {
-            renderPreview(readImage, null, btn.dataset.image || null);
-            if (readJudul) readJudul.textContent = btn.dataset.judul || '-';
-            if (readType) readType.textContent = 'Tipe: ' + (btn.dataset.type ? btn.dataset.type.charAt(0).toUpperCase() + btn.dataset.type.slice(1) : '-');
-            if (readDeskripsi) readDeskripsi.textContent = btn.dataset.deskripsi || '-';
-            var bg = btn.dataset.bg || '';
-            if (readBgWrap) {
-                if (bg) {
-                    readBgWrap.style.display = '';
-                    if (readBgSwatch) { readBgSwatch.style.background = bg; }
-                    if (readBgHexEl) readBgHexEl.textContent = bg;
-                } else {
-                    readBgWrap.style.display = 'none';
+            /* Foto utama */
+            var mainUrl = btn.dataset.image || '';
+            if (readImage) {
+                readImage.innerHTML = mainUrl
+                    ? '<img src="' + mainUrl + '" alt="' + (btn.dataset.judul || '') + '">'
+                    : '';
+            }
+
+            /* Foto tambahan */
+            var extraEl = document.getElementById('readGaleriExtraPhotos');
+            if (extraEl) {
+                extraEl.innerHTML = '';
+                var extras = [];
+                try { extras = JSON.parse(btn.dataset.images || '[]'); } catch (e) {}
+                extras.forEach(function (url) {
+                    if (!url) return;
+                    var img = document.createElement('img');
+                    img.src = url; img.alt = 'foto tambahan';
+                    /* Klik foto tambahan → ganti foto utama */
+                    img.addEventListener('click', function () {
+                        if (readImage) readImage.innerHTML = '<img src="' + url + '" alt="">';
+                    });
+                    extraEl.appendChild(img);
+                });
+            }
+
+            /* Badges: tipe + kategori */
+            var badgesEl = document.getElementById('readGaleriBadges');
+            if (badgesEl) {
+                badgesEl.innerHTML = '';
+                var tipe = btn.dataset.type || 'foto';
+                var tipeBadge = document.createElement('span');
+                tipeBadge.className = 'read-badge tipe-' + tipe;
+                tipeBadge.innerHTML = (tipe === 'video' ? '<i class="fa-solid fa-video"></i>' : '<i class="fa-solid fa-image"></i>') + ' ' + tipe.charAt(0).toUpperCase() + tipe.slice(1);
+                badgesEl.appendChild(tipeBadge);
+                var kat = btn.dataset.kategori || '';
+                if (kat) {
+                    var katBadge = document.createElement('span');
+                    katBadge.className = 'read-badge kategori';
+                    katBadge.innerHTML = '<i class="fa-solid fa-tag"></i> ' + kat;
+                    badgesEl.appendChild(katBadge);
                 }
             }
+
+            /* Judul */
+            var judulEl = document.getElementById('readGaleriTitle');
+            if (judulEl) judulEl.textContent = btn.dataset.judul || '-';
+
+            /* Deskripsi */
+            var descEl = document.getElementById('readGaleriDeskripsi');
+            if (descEl) descEl.textContent = btn.dataset.deskripsi || '';
+
+            /* Tanggal */
+            var tglEl = document.getElementById('readGaleriTanggal');
+            if (tglEl) tglEl.textContent = btn.dataset.tanggal ? 'Diupload: ' + btn.dataset.tanggal : '';
+
             openOverlay(readOverlay);
         });
     });

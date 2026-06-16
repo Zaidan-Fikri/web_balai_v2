@@ -8,8 +8,8 @@ use Illuminate\Validation\Rules\File;
 abstract class BaseAdminRequest extends FormRequest
 {
     protected const IMAGE_MIMES = ['jpg', 'jpeg', 'png', 'webp'];
-    protected const MAX_IMAGE_KB = 5120;
-    protected const MAX_HERO_IMAGE_KB = 10240;
+    protected const MAX_IMAGE_KB = 51200;
+    protected const MAX_HERO_IMAGE_KB = 51200;
     protected const MAX_PDF_KB = 10240;
 
     public function authorize(): bool

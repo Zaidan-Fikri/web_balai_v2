@@ -32,6 +32,7 @@ class Role extends Model
             'informasi_publik'      => 'Informasi Publik',
             'laporan_skm'           => 'Laporan SKM',
             'geolistrik_1d'         => 'Geolistrik 1D',
+            'survey_data'           => 'Data Survey (Geo 2D, Pumping, Borehole, Logging)',
         ];
     }
 

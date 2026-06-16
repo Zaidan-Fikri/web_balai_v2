@@ -1,27 +1,35 @@
 @extends('master.admin.app')
 
-@section('title', 'Geolistrik 1D')
+@section('title', $typeConfig['label'])
 
 @section('content')
     @php
-        $totalCount = array_sum($uptCounts);
-        $allBalaiFlat           = collect($allBalai)->flatMap(fn($g) => $g['items']);
-        $balaiAktif             = $allBalaiFlat->filter(fn($b) => ($uptCounts[$b['name']] ?? 0) > 0)->count();
-        $totalBalai             = $allBalaiFlat->count();
-        $progressPct            = $totalBalai > 0 ? round($balaiAktif / $totalBalai * 100) : 0;
+        $totalCount  = array_sum($uptCounts);
+        $allBalaiFlat = collect($allBalai)->flatMap(fn($g) => $g['items']);
+        $balaiAktif   = $allBalaiFlat->filter(fn($b) => ($uptCounts[$b['name']] ?? 0) > 0)->count();
+        $totalBalai   = $allBalaiFlat->count();
+        $progressPct  = $totalBalai > 0 ? round($balaiAktif / $totalBalai * 100) : 0;
+
+        $importOverlayId        = 'surveyImportOverlay';
+        $importPreviewOverlayId = 'surveyImportPreviewOverlay';
+        $createOverlayId        = 'surveyCreateOverlay';
+        $readOverlayId          = 'surveyReadOverlay';
+        $updateOverlayId        = 'surveyUpdateOverlay';
     @endphp
 
-    <section class="geo-main geo1d-main">
-
+    <section class="geo-main survey-main">
         <div class="panel full-card">
             <div class="item-head">
                 <div>
                     @if ($selectedUpt !== '')
                         <p class="page-kicker">{{ Str::startsWith($selectedUpt, 'Balai Besar') ? 'BBWS' : 'BWS' }}</p>
                     @endif
-                    <h3>Geolistrik 1D{{ $selectedUpt !== '' ? ' — ' . Str::after($selectedUpt, 'Sungai ') : '' }}</h3>
+                    <h3>
+                        <i class="fa-solid {{ $typeConfig['icon'] }}" aria-hidden="true"></i>
+                        {{ $typeConfig['label'] }}{{ $selectedUpt !== '' ? ' — ' . Str::after($selectedUpt, 'Sungai ') : '' }}
+                    </h3>
                     @if ($selectedUpt !== '')
-                        <a href="{{ route('admin.geolistrik-1d.index') }}" class="geo-clear-filter">
+                        <a href="{{ route('admin.survey.index', ['typeSlug' => $typeSlug]) }}" class="geo-clear-filter">
                             <i class="fa-solid fa-xmark" aria-hidden="true"></i> Hapus filter
                         </a>
                     @endif
@@ -44,7 +52,7 @@
                                     <span class="geo-progress-text">{{ $balaiAktif }}/{{ $totalBalai }} balai memiliki data</span>
                                 </div>
                             </div>
-                            <a href="{{ route('admin.geolistrik-1d.index') }}"
+                            <a href="{{ route('admin.survey.index', ['typeSlug' => $typeSlug]) }}"
                                class="geo-folder-all {{ $selectedUpt === '' ? 'is-active' : '' }}">
                                 <i class="fa-solid fa-layer-group" aria-hidden="true"></i>
                                 <span>Semua Data</span>
@@ -65,7 +73,7 @@
                                     </summary>
                                     @foreach ($group['items'] as $balai)
                                         @php $count = $uptCounts[$balai['name']] ?? 0; @endphp
-                                        <a href="{{ route('admin.geolistrik-1d.index', ['upt' => $balai['name']]) }}"
+                                        <a href="{{ route('admin.survey.index', ['typeSlug' => $typeSlug, 'upt' => $balai['name']]) }}"
                                            class="geo-folder-item {{ $selectedUpt === $balai['name'] ? 'is-active' : '' }} {{ $count === 0 ? 'is-empty' : '' }}"
                                            title="{{ $balai['name'] }}">
                                             <i class="fa-{{ $count > 0 ? 'solid fa-folder-open' : 'regular fa-folder' }}" aria-hidden="true"></i>
@@ -79,11 +87,11 @@
                             @endforeach
                         </div>
                     </div>
-                    <button type="button" class="btn-upload-excel" id="openGeolistrikImportPopup">
+                    <button type="button" class="btn-upload-excel" id="openSurveyImportPopup">
                         <i class="fa-solid fa-file-excel" aria-hidden="true"></i>
                         <span>Upload Excel</span>
                     </button>
-                    <button type="button" class="btn-plus" id="openGeolistrikPopup" aria-label="Tambah Geolistrik 1D">+</button>
+                    <button type="button" class="btn-plus" id="openSurveyCreatePopup" aria-label="Tambah {{ $typeConfig['label'] }}">+</button>
                 </div>
             </div>
 
@@ -91,20 +99,19 @@
             @if (session('error'))<div class="flash-error">{{ session('error') }}</div>@endif
             @if ($errors->any())<div class="flash-error">{{ $errors->first() }}</div>@endif
 
-            @if ($geolistrik1ds->isEmpty())
-                {{-- Empty State --}}
+            @if ($items->isEmpty())
                 <div class="geo-empty-state">
                     <div class="geo-empty-icon">
                         <i class="fa-regular fa-folder-open" aria-hidden="true"></i>
                     </div>
                     <p class="geo-empty-title">Belum ada data</p>
                     @if ($selectedUpt !== '')
-                        <p class="geo-empty-sub">{{ $selectedUpt }} belum memiliki data titik geolistrik.</p>
+                        <p class="geo-empty-sub">{{ $selectedUpt }} belum memiliki data {{ $typeConfig['label'] }}.</p>
                     @else
-                        <p class="geo-empty-sub">Belum ada data Geolistrik 1D. Mulai dengan upload file Excel.</p>
+                        <p class="geo-empty-sub">Belum ada data {{ $typeConfig['label'] }}. Mulai dengan upload file Excel.</p>
                     @endif
                     <div class="geo-empty-actions">
-                        <button type="button" class="btn-upload-excel" onclick="document.getElementById('openGeolistrikImportPopup').click()">
+                        <button type="button" class="btn-upload-excel" onclick="document.getElementById('openSurveyImportPopup').click()">
                             <i class="fa-solid fa-file-excel" aria-hidden="true"></i> Upload Excel
                         </button>
                     </div>
@@ -112,7 +119,7 @@
             @else
                 <div class="table-toolbar">
                     <div class="table-toolbar-meta">
-                        Menampilkan {{ $geolistrik1ds->firstItem() }}&ndash;{{ $geolistrik1ds->lastItem() }} dari {{ $geolistrik1ds->total() }} data
+                        Menampilkan {{ $items->firstItem() }}&ndash;{{ $items->lastItem() }} dari {{ $items->total() }} data
                     </div>
                     <form method="GET" class="table-page-size-form">
                         @if ($selectedUpt !== '')
@@ -146,7 +153,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach ($geolistrik1ds as $item)
+                        @foreach ($items as $item)
                             <tr>
                                 <td>{{ $item->kode ?? '-' }}</td>
                                 <td>{{ $item->kab_kota ?? '-' }}</td>
@@ -156,7 +163,7 @@
                                 <td>{{ number_format($item->latitude, 7, '.', '') }}</td>
                                 <td>{{ number_format($item->longitude, 7, '.', '') }}</td>
                                 <td>{{ $item->elevasi ?? '-' }}</td>
-                                <td>{{ $item->tanggal_akusisi_data ?? '-' }}</td>
+                                <td>{{ $item->tanggal_akusisi_data?->format('Y-m-d') ?? '-' }}</td>
                                 <td>{{ $item->geologi ?? '-' }}</td>
                                 <td>{{ $item->cekungan_air_tanah ?? '-' }}</td>
                                 <td>{{ $item->hidrogeologi ?? '-' }}</td>
@@ -170,7 +177,7 @@
                                 </td>
                                 <td>
                                     <div class="action-group">
-                                        <button type="button" class="btn-action read js-geolistrik-read-btn"
+                                        <button type="button" class="btn-action read js-survey-read-btn"
                                             data-kode="{{ $item->kode }}"
                                             data-kab-kota="{{ $item->kab_kota }}"
                                             data-kecamatan="{{ $item->kecamatan }}"
@@ -179,7 +186,7 @@
                                             data-latitude="{{ number_format($item->latitude, 7, '.', '') }}"
                                             data-longitude="{{ number_format($item->longitude, 7, '.', '') }}"
                                             data-elevasi="{{ $item->elevasi }}"
-                                            data-tanggal-akusisi-data="{{ $item->tanggal_akusisi_data }}"
+                                            data-tanggal-akusisi-data="{{ $item->tanggal_akusisi_data?->format('Y-m-d') }}"
                                             data-geologi="{{ $item->geologi }}"
                                             data-cekungan-air-tanah="{{ $item->cekungan_air_tanah }}"
                                             data-hidrogeologi="{{ $item->hidrogeologi }}"
@@ -187,8 +194,8 @@
                                             data-pdf-url="{{ $item->pdf_path ? asset('storage/' . $item->pdf_path) : '' }}"
                                             data-pdf-name="{{ $item->pdf_path ? basename($item->pdf_path) : '' }}"
                                         >Read</button>
-                                        <button type="button" class="btn-action update js-geolistrik-update-btn"
-                                            data-update-url="{{ route('admin.geolistrik-1d.update', $item->id) }}"
+                                        <button type="button" class="btn-action update js-survey-update-btn"
+                                            data-update-url="{{ route('admin.survey.update', ['typeSlug' => $typeSlug, 'surveyData' => $item->id]) }}"
                                             data-kode="{{ $item->kode }}"
                                             data-kab-kota="{{ $item->kab_kota }}"
                                             data-kecamatan="{{ $item->kecamatan }}"
@@ -197,7 +204,7 @@
                                             data-latitude="{{ number_format($item->latitude, 7, '.', '') }}"
                                             data-longitude="{{ number_format($item->longitude, 7, '.', '') }}"
                                             data-elevasi="{{ $item->elevasi }}"
-                                            data-tanggal-akusisi-data="{{ $item->tanggal_akusisi_data }}"
+                                            data-tanggal-akusisi-data="{{ $item->tanggal_akusisi_data?->format('Y-m-d') }}"
                                             data-geologi="{{ $item->geologi }}"
                                             data-cekungan-air-tanah="{{ $item->cekungan_air_tanah }}"
                                             data-hidrogeologi="{{ $item->hidrogeologi }}"
@@ -205,7 +212,7 @@
                                             data-pdf-url="{{ $item->pdf_path ? asset('storage/' . $item->pdf_path) : '' }}"
                                             data-pdf-name="{{ $item->pdf_path ? basename($item->pdf_path) : '' }}"
                                         >Update</button>
-                                        <form method="POST" action="{{ route('admin.geolistrik-1d.destroy', $item->id) }}" class="js-geolistrik-delete-form">
+                                        <form method="POST" action="{{ route('admin.survey.destroy', ['typeSlug' => $typeSlug, 'surveyData' => $item->id]) }}" class="js-survey-delete-form">
                                             @csrf @method('DELETE')
                                             <button type="submit" class="btn-action delete">Delete</button>
                                         </form>
@@ -217,17 +224,17 @@
                     </table>
                 </div>
 
-                @if ($geolistrik1ds->hasPages())
+                @if ($items->hasPages())
                     <div class="pagination-wrap">
-                        <nav class="admin-pagination" aria-label="Pagination Geolistrik 1D">
-                            @if ($geolistrik1ds->onFirstPage())
+                        <nav class="admin-pagination" aria-label="Pagination {{ $typeConfig['label'] }}">
+                            @if ($items->onFirstPage())
                                 <span class="page-link disabled">&laquo; Previous</span>
                             @else
-                                <a class="page-link" href="{{ $geolistrik1ds->previousPageUrl() }}" rel="prev">&laquo; Previous</a>
+                                <a class="page-link" href="{{ $items->previousPageUrl() }}" rel="prev">&laquo; Previous</a>
                             @endif
                             @php
-                                $currentPage  = $geolistrik1ds->currentPage();
-                                $lastPage     = $geolistrik1ds->lastPage();
+                                $currentPage  = $items->currentPage();
+                                $lastPage     = $items->lastPage();
                                 $pages        = collect([1, $lastPage])->merge(range(max(1, $currentPage - 2), min($lastPage, $currentPage + 2)))->unique()->sort()->values();
                                 $previousPage = 0;
                             @endphp
@@ -236,12 +243,12 @@
                                 @if ($page === $currentPage)
                                     <span class="page-link active" aria-current="page">{{ $page }}</span>
                                 @else
-                                    <a class="page-link" href="{{ $geolistrik1ds->url($page) }}">{{ $page }}</a>
+                                    <a class="page-link" href="{{ $items->url($page) }}">{{ $page }}</a>
                                 @endif
                                 @php($previousPage = $page)
                             @endforeach
-                            @if ($geolistrik1ds->hasMorePages())
-                                <a class="page-link" href="{{ $geolistrik1ds->nextPageUrl() }}" rel="next">Next &raquo;</a>
+                            @if ($items->hasMorePages())
+                                <a class="page-link" href="{{ $items->nextPageUrl() }}" rel="next">Next &raquo;</a>
                             @else
                                 <span class="page-link disabled">Next &raquo;</span>
                             @endif
@@ -250,15 +257,16 @@
                 @endif
             @endif
         </div>
-    </section>{{-- /geo-main --}}
+    </section>
 
-    <div class="popup-overlay" id="geolistrikImportOverlay" aria-hidden="true">
+    {{-- Import Upload Popup --}}
+    <div class="popup-overlay" id="{{ $importOverlayId }}" aria-hidden="true">
         <div class="popup-card">
-            <h4>Upload Excel Geolistrik 1D</h4>
-            <form method="POST" action="{{ route('admin.geolistrik-1d.import-preview') }}" enctype="multipart/form-data">
+            <h4>Upload Excel {{ $typeConfig['label'] }}</h4>
+            <form method="POST" action="{{ route('admin.survey.import-preview', ['typeSlug' => $typeSlug]) }}" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="selected_upt" value="{{ $selectedUpt }}">
-                <input type="file" class="popup-input" id="geolistrikImportFile" name="excel_file" accept=".xlsx,.csv" required>
+                <input type="file" class="popup-input" name="excel_file" accept=".xlsx,.csv" required>
                 @if ($selectedUpt !== '')
                     <span class="popup-help popup-help-info">
                         <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
@@ -267,15 +275,16 @@
                 @endif
                 <span class="popup-help">Gunakan header: KODE, KAB/KOTA, KECAMATAN, DESA/KELURAHAN, UPT, LATITUDE, LONGITUDE, ELEVASI, TANGGAL AKUSISI DATA, GEOLOGI, CEKUNGAN AIR TANAH, HIDROGEOLOGI, LAPISAN PEMBAWA AIR, PDF.</span>
                 <div class="popup-actions">
-                    <button type="button" class="btn-action" data-close-overlay="geolistrikImportOverlay">Batal</button>
+                    <button type="button" class="btn-action" data-close-overlay="{{ $importOverlayId }}">Batal</button>
                     <button type="submit" class="btn-primary">Preview</button>
                 </div>
             </form>
         </div>
     </div>
 
+    {{-- Import Preview Popup --}}
     @if (count($importPreviewRows))
-        <div class="popup-overlay" id="geolistrikImportPreviewOverlay" aria-hidden="true">
+        <div class="popup-overlay" id="{{ $importPreviewOverlayId }}" aria-hidden="true">
             <div class="popup-card import-preview-card">
                 <h4>Preview Data Excel</h4>
                 @if ($importPreviewErrorCount > 0)
@@ -342,10 +351,10 @@
                     </table>
                 </div>
 
-                <form method="POST" action="{{ route('admin.geolistrik-1d.import-store') }}">
+                <form method="POST" action="{{ route('admin.survey.import-store', ['typeSlug' => $typeSlug]) }}">
                     @csrf
                     <div class="popup-actions has-gap">
-                        <button type="button" class="btn-action" data-close-overlay="geolistrikImportPreviewOverlay">Batal</button>
+                        <button type="button" class="btn-action" data-close-overlay="{{ $importPreviewOverlayId }}">Batal</button>
                         <button type="submit" class="btn-primary" @disabled($importPreviewErrorCount > 0)>Tambah</button>
                     </div>
                 </form>
@@ -353,13 +362,13 @@
         </div>
     @endif
 
-    <div class="popup-overlay" id="geolistrikCreateOverlay" aria-hidden="true">
+    {{-- Create Popup --}}
+    <div class="popup-overlay" id="{{ $createOverlayId }}" aria-hidden="true">
         <div class="popup-card">
-            <h4>Tambah Geolistrik 1D</h4>
-            <form method="POST" action="{{ route('admin.geolistrik-1d.store') }}" enctype="multipart/form-data">
+            <h4>Tambah {{ $typeConfig['label'] }}</h4>
+            <form method="POST" action="{{ route('admin.survey.store', ['typeSlug' => $typeSlug]) }}" enctype="multipart/form-data">
                 @csrf
-                <input type="hidden" name="form_type" value="create">
-                <input type="text" class="popup-input" id="createGeolistrikKode" name="kode" value="{{ old('kode') }}" placeholder="Kode" required>
+                <input type="text" class="popup-input" name="kode" value="{{ old('kode') }}" placeholder="Kode" required>
                 <input type="text" class="popup-input" name="kab_kota" value="{{ old('kab_kota') }}" placeholder="Kab/Kota">
                 <input type="text" class="popup-input" name="kecamatan" value="{{ old('kecamatan') }}" placeholder="Kecamatan">
                 <input type="text" class="popup-input" name="desa_kelurahan" value="{{ old('desa_kelurahan') }}" placeholder="Desa/Kelurahan">
@@ -367,63 +376,72 @@
                 <input type="number" class="popup-input" name="latitude" value="{{ old('latitude') }}" placeholder="Latitude, contoh: -6.2088000" min="-11.2" max="6.2" step="0.0000001" required>
                 <input type="number" class="popup-input" name="longitude" value="{{ old('longitude') }}" placeholder="Longitude, contoh: 106.8456000" min="94.6" max="141.1" step="0.0000001" required>
                 <input type="text" class="popup-input" name="elevasi" value="{{ old('elevasi') }}" placeholder="Elevasi">
-                <input type="date" class="popup-input" name="tanggal_akusisi_data" value="{{ old('tanggal_akusisi_data') }}" placeholder="Tanggal Akusisi Data">
+                <input type="date" class="popup-input" name="tanggal_akusisi_data" value="{{ old('tanggal_akusisi_data') }}">
                 <textarea class="popup-input" name="geologi" placeholder="Geologi">{{ old('geologi') }}</textarea>
                 <input type="text" class="popup-input" name="cekungan_air_tanah" value="{{ old('cekungan_air_tanah') }}" placeholder="Cekungan Air Tanah">
                 <textarea class="popup-input" name="hidrogeologi" placeholder="Hidrogeologi">{{ old('hidrogeologi') }}</textarea>
                 <textarea class="popup-input" name="lapisan_pembawa_air" placeholder="Lapisan Pembawa Air">{{ old('lapisan_pembawa_air') }}</textarea>
                 <input type="file" class="popup-input" name="pdf_file" accept=".pdf,application/pdf">
                 <span class="popup-help">Koordinat dibatasi dalam wilayah Indonesia.</span>
-                <div class="popup-actions"><button type="submit" class="btn-primary">Tambah</button></div>
+                <div class="popup-actions">
+                    <button type="button" class="btn-action" data-close-overlay="{{ $createOverlayId }}">Batal</button>
+                    <button type="submit" class="btn-primary">Tambah</button>
+                </div>
             </form>
         </div>
     </div>
 
-    <div class="popup-overlay" id="geolistrikReadOverlay" aria-hidden="true">
+    {{-- Read Popup --}}
+    <div class="popup-overlay" id="{{ $readOverlayId }}" aria-hidden="true">
         <div class="popup-card">
-            <h4 id="readGeolistrikNama">Detail Geolistrik 1D</h4>
-            <p class="read-meta">Kode: <strong id="readGeolistrikKode">-</strong></p>
-            <p class="read-meta">Kab/Kota: <strong id="readGeolistrikKabKota">-</strong></p>
-            <p class="read-meta">Kecamatan: <strong id="readGeolistrikKecamatan">-</strong></p>
-            <p class="read-meta">Desa/Kelurahan: <strong id="readGeolistrikDesaKelurahan">-</strong></p>
-            <p class="read-meta">UPT: <strong id="readGeolistrikUpt">-</strong></p>
-            <p class="read-meta">Latitude: <strong id="readGeolistrikLatitude">-</strong></p>
-            <p class="read-meta">Longitude: <strong id="readGeolistrikLongitude">-</strong></p>
-            <p class="read-meta">Elevasi: <strong id="readGeolistrikElevasi">-</strong></p>
-            <p class="read-meta">Tanggal Akusisi Data: <strong id="readGeolistrikTanggalAkusisiData">-</strong></p>
-            <p class="read-meta">Geologi: <strong id="readGeolistrikGeologi">-</strong></p>
-            <p class="read-meta">Cekungan Air Tanah: <strong id="readGeolistrikCekunganAirTanah">-</strong></p>
-            <p class="read-meta">Hidrogeologi: <strong id="readGeolistrikHidrogeologi">-</strong></p>
-            <p class="read-meta">Lapisan Pembawa Air: <strong id="readGeolistrikLapisanPembawaAir">-</strong></p>
-            <p class="read-meta">PDF: <strong id="readGeolistrikPdf">-</strong></p>
-            <div class="popup-actions"><button type="button" class="btn-primary" data-close-overlay="geolistrikReadOverlay">Tutup</button></div>
+            <h4>Detail {{ $typeConfig['label'] }}</h4>
+            <p class="read-meta">Kode: <strong id="readSurveyKode">-</strong></p>
+            <p class="read-meta">Kab/Kota: <strong id="readSurveyKabKota">-</strong></p>
+            <p class="read-meta">Kecamatan: <strong id="readSurveyKecamatan">-</strong></p>
+            <p class="read-meta">Desa/Kelurahan: <strong id="readSurveyDesaKelurahan">-</strong></p>
+            <p class="read-meta">UPT: <strong id="readSurveyUpt">-</strong></p>
+            <p class="read-meta">Latitude: <strong id="readSurveyLatitude">-</strong></p>
+            <p class="read-meta">Longitude: <strong id="readSurveyLongitude">-</strong></p>
+            <p class="read-meta">Elevasi: <strong id="readSurveyElevasi">-</strong></p>
+            <p class="read-meta">Tanggal Akusisi Data: <strong id="readSurveyTanggal">-</strong></p>
+            <p class="read-meta">Geologi: <strong id="readSurveyGeologi">-</strong></p>
+            <p class="read-meta">Cekungan Air Tanah: <strong id="readSurveyCekungan">-</strong></p>
+            <p class="read-meta">Hidrogeologi: <strong id="readSurveyHidrogeologi">-</strong></p>
+            <p class="read-meta">Lapisan Pembawa Air: <strong id="readSurveyLapisan">-</strong></p>
+            <p class="read-meta">PDF: <strong id="readSurveyPdf">-</strong></p>
+            <div class="popup-actions">
+                <button type="button" class="btn-primary" data-close-overlay="{{ $readOverlayId }}">Tutup</button>
+            </div>
         </div>
     </div>
 
-    <div class="popup-overlay" id="geolistrikUpdateOverlay" aria-hidden="true">
+    {{-- Update Popup --}}
+    <div class="popup-overlay" id="{{ $updateOverlayId }}" aria-hidden="true">
         <div class="popup-card">
-            <h4>Update Geolistrik 1D</h4>
-            <form method="POST" id="geolistrikUpdateForm" enctype="multipart/form-data">
+            <h4>Update {{ $typeConfig['label'] }}</h4>
+            <form method="POST" id="surveyUpdateForm" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
-                <input type="hidden" name="form_type" value="update">
-                <input type="text" class="popup-input" id="updateGeolistrikKode" name="kode" placeholder="Kode" required>
-                <input type="text" class="popup-input" id="updateGeolistrikKabKota" name="kab_kota" placeholder="Kab/Kota">
-                <input type="text" class="popup-input" id="updateGeolistrikKecamatan" name="kecamatan" placeholder="Kecamatan">
-                <input type="text" class="popup-input" id="updateGeolistrikDesaKelurahan" name="desa_kelurahan" placeholder="Desa/Kelurahan">
-                <input type="text" class="popup-input" id="updateGeolistrikUpt" name="upt" placeholder="UPT">
-                <input type="number" class="popup-input" id="updateGeolistrikLatitude" name="latitude" placeholder="Latitude" min="-11.2" max="6.2" step="0.0000001" required>
-                <input type="number" class="popup-input" id="updateGeolistrikLongitude" name="longitude" placeholder="Longitude" min="94.6" max="141.1" step="0.0000001" required>
-                <input type="text" class="popup-input" id="updateGeolistrikElevasi" name="elevasi" placeholder="Elevasi">
-                <input type="date" class="popup-input" id="updateGeolistrikTanggalAkusisiData" name="tanggal_akusisi_data" placeholder="Tanggal Akusisi Data">
-                <textarea class="popup-input" id="updateGeolistrikGeologi" name="geologi" placeholder="Geologi"></textarea>
-                <input type="text" class="popup-input" id="updateGeolistrikCekunganAirTanah" name="cekungan_air_tanah" placeholder="Cekungan Air Tanah">
-                <textarea class="popup-input" id="updateGeolistrikHidrogeologi" name="hidrogeologi" placeholder="Hidrogeologi"></textarea>
-                <textarea class="popup-input" id="updateGeolistrikLapisanPembawaAir" name="lapisan_pembawa_air" placeholder="Lapisan Pembawa Air"></textarea>
-                <p class="read-meta">PDF Saat Ini: <strong id="updateGeolistrikPdfCurrent">-</strong></p>
-                <input type="file" class="popup-input" id="updateGeolistrikPdfFile" name="pdf_file" accept=".pdf,application/pdf">
-                <span class="popup-help">Kosongkan tidak diperbolehkan karena marker peta membutuhkan koordinat.</span>
-                <div class="popup-actions"><button type="submit" class="btn-primary">Simpan</button></div>
+                <input type="text" class="popup-input" id="updateSurveyKode" name="kode" placeholder="Kode" required>
+                <input type="text" class="popup-input" id="updateSurveyKabKota" name="kab_kota" placeholder="Kab/Kota">
+                <input type="text" class="popup-input" id="updateSurveyKecamatan" name="kecamatan" placeholder="Kecamatan">
+                <input type="text" class="popup-input" id="updateSurveyDesaKelurahan" name="desa_kelurahan" placeholder="Desa/Kelurahan">
+                <input type="text" class="popup-input" id="updateSurveyUpt" name="upt" placeholder="UPT">
+                <input type="number" class="popup-input" id="updateSurveyLatitude" name="latitude" placeholder="Latitude" min="-11.2" max="6.2" step="0.0000001" required>
+                <input type="number" class="popup-input" id="updateSurveyLongitude" name="longitude" placeholder="Longitude" min="94.6" max="141.1" step="0.0000001" required>
+                <input type="text" class="popup-input" id="updateSurveyElevasi" name="elevasi" placeholder="Elevasi">
+                <input type="date" class="popup-input" id="updateSurveyTanggal" name="tanggal_akusisi_data">
+                <textarea class="popup-input" id="updateSurveyGeologi" name="geologi" placeholder="Geologi"></textarea>
+                <input type="text" class="popup-input" id="updateSurveyCekungan" name="cekungan_air_tanah" placeholder="Cekungan Air Tanah">
+                <textarea class="popup-input" id="updateSurveyHidrogeologi" name="hidrogeologi" placeholder="Hidrogeologi"></textarea>
+                <textarea class="popup-input" id="updateSurveyLapisan" name="lapisan_pembawa_air" placeholder="Lapisan Pembawa Air"></textarea>
+                <p class="read-meta">PDF Saat Ini: <strong id="updateSurveyPdfCurrent">-</strong></p>
+                <input type="file" class="popup-input" id="updateSurveyPdfFile" name="pdf_file" accept=".pdf,application/pdf">
+                <span class="popup-help">Kosongkan tidak diperbolehkan karena data membutuhkan koordinat.</span>
+                <div class="popup-actions">
+                    <button type="button" class="btn-action" data-close-overlay="{{ $updateOverlayId }}">Batal</button>
+                    <button type="submit" class="btn-primary">Simpan</button>
+                </div>
             </form>
         </div>
     </div>
@@ -431,32 +449,112 @@
 @push('scripts')
 <script>
 (function () {
+    // Wilayah dropdown
     const toggle = document.getElementById('geoBalaiToggle');
     const menu   = document.getElementById('geoBalaiMenu');
-    if (!toggle || !menu) return;
+    if (toggle && menu) {
+        toggle.addEventListener('click', function () {
+            const open = !menu.hidden;
+            menu.hidden = open;
+            toggle.setAttribute('aria-expanded', String(!open));
+            toggle.classList.toggle('is-open', !open);
+        });
+        document.addEventListener('click', function (e) {
+            if (!document.getElementById('geoBalaiDropdown').contains(e.target)) {
+                menu.hidden = true;
+                toggle.setAttribute('aria-expanded', 'false');
+                toggle.classList.remove('is-open');
+            }
+        });
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && !menu.hidden) {
+                menu.hidden = true;
+                toggle.setAttribute('aria-expanded', 'false');
+                toggle.classList.remove('is-open');
+                toggle.focus();
+            }
+        });
+    }
 
-    toggle.addEventListener('click', function () {
-        const open = !menu.hidden;
-        menu.hidden = open;
-        toggle.setAttribute('aria-expanded', String(!open));
-        toggle.classList.toggle('is-open', !open);
+    // Open create popup
+    const openCreateBtn = document.getElementById('openSurveyCreatePopup');
+    if (openCreateBtn) {
+        openCreateBtn.addEventListener('click', function () {
+            document.getElementById('{{ $createOverlayId }}').removeAttribute('aria-hidden');
+        });
+    }
+
+    // Open import popup
+    const openImportBtn = document.getElementById('openSurveyImportPopup');
+    if (openImportBtn) {
+        openImportBtn.addEventListener('click', function () {
+            document.getElementById('{{ $importOverlayId }}').removeAttribute('aria-hidden');
+        });
+    }
+
+    @if (count($importPreviewRows))
+    // Auto-open import preview if data present
+    (function () {
+        const overlay = document.getElementById('{{ $importPreviewOverlayId }}');
+        if (overlay) overlay.removeAttribute('aria-hidden');
+    })();
+    @endif
+
+    // Read buttons
+    document.querySelectorAll('.js-survey-read-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            document.getElementById('readSurveyKode').textContent          = btn.dataset.kode || '-';
+            document.getElementById('readSurveyKabKota').textContent       = btn.dataset.kabKota || '-';
+            document.getElementById('readSurveyKecamatan').textContent     = btn.dataset.kecamatan || '-';
+            document.getElementById('readSurveyDesaKelurahan').textContent = btn.dataset.desaKelurahan || '-';
+            document.getElementById('readSurveyUpt').textContent           = btn.dataset.upt || '-';
+            document.getElementById('readSurveyLatitude').textContent      = btn.dataset.latitude || '-';
+            document.getElementById('readSurveyLongitude').textContent     = btn.dataset.longitude || '-';
+            document.getElementById('readSurveyElevasi').textContent       = btn.dataset.elevasi || '-';
+            document.getElementById('readSurveyTanggal').textContent       = btn.dataset.tanggalAkusisiData || '-';
+            document.getElementById('readSurveyGeologi').textContent       = btn.dataset.geologi || '-';
+            document.getElementById('readSurveyCekungan').textContent      = btn.dataset.cekunganAirTanah || '-';
+            document.getElementById('readSurveyHidrogeologi').textContent  = btn.dataset.hidrogeologi || '-';
+            document.getElementById('readSurveyLapisan').textContent       = btn.dataset.lapisanPembawaAir || '-';
+            const pdfEl = document.getElementById('readSurveyPdf');
+            if (btn.dataset.pdfUrl) {
+                pdfEl.innerHTML = '<a href="' + btn.dataset.pdfUrl + '" target="_blank" rel="noopener">' + (btn.dataset.pdfName || 'Lihat PDF') + '</a>';
+            } else {
+                pdfEl.textContent = '-';
+            }
+            document.getElementById('{{ $readOverlayId }}').removeAttribute('aria-hidden');
+        });
     });
 
-    document.addEventListener('click', function (e) {
-        if (!document.getElementById('geoBalaiDropdown').contains(e.target)) {
-            menu.hidden = true;
-            toggle.setAttribute('aria-expanded', 'false');
-            toggle.classList.remove('is-open');
-        }
+    // Update buttons
+    document.querySelectorAll('.js-survey-update-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            const form = document.getElementById('surveyUpdateForm');
+            form.action = btn.dataset.updateUrl;
+            document.getElementById('updateSurveyKode').value          = btn.dataset.kode || '';
+            document.getElementById('updateSurveyKabKota').value       = btn.dataset.kabKota || '';
+            document.getElementById('updateSurveyKecamatan').value     = btn.dataset.kecamatan || '';
+            document.getElementById('updateSurveyDesaKelurahan').value = btn.dataset.desaKelurahan || '';
+            document.getElementById('updateSurveyUpt').value           = btn.dataset.upt || '';
+            document.getElementById('updateSurveyLatitude').value      = btn.dataset.latitude || '';
+            document.getElementById('updateSurveyLongitude').value     = btn.dataset.longitude || '';
+            document.getElementById('updateSurveyElevasi').value       = btn.dataset.elevasi || '';
+            document.getElementById('updateSurveyTanggal').value       = btn.dataset.tanggalAkusisiData || '';
+            document.getElementById('updateSurveyGeologi').value       = btn.dataset.geologi || '';
+            document.getElementById('updateSurveyCekungan').value      = btn.dataset.cekunganAirTanah || '';
+            document.getElementById('updateSurveyHidrogeologi').value  = btn.dataset.hidrogeologi || '';
+            document.getElementById('updateSurveyLapisan').value       = btn.dataset.lapisanPembawaAir || '';
+            document.getElementById('updateSurveyPdfCurrent').textContent = btn.dataset.pdfName || '-';
+            document.getElementById('updateSurveyPdfFile').value = '';
+            document.getElementById('{{ $updateOverlayId }}').removeAttribute('aria-hidden');
+        });
     });
 
-    document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && !menu.hidden) {
-            menu.hidden = true;
-            toggle.setAttribute('aria-expanded', 'false');
-            toggle.classList.remove('is-open');
-            toggle.focus();
-        }
+    // Delete confirmation
+    document.querySelectorAll('.js-survey-delete-form').forEach(function (form) {
+        form.addEventListener('submit', function (e) {
+            if (!confirm('Hapus data ini?')) e.preventDefault();
+        });
     });
 })();
 </script>
