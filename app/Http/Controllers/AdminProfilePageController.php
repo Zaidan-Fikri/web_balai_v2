@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
+use Intervention\Image\Laravel\Facades\Image;
 
 class AdminProfilePageController extends Controller
 {
@@ -80,8 +81,13 @@ class AdminProfilePageController extends Controller
     public function uploadOrgPhoto(Request $request): JsonResponse
     {
         $request->validate(['photo' => 'required|image|max:10240']);
-        $path = $request->file('photo')->store('org-photos', 'public');
-        return response()->json(['url' => Storage::url($path)]);
+
+        $image    = Image::read($request->file('photo'))->scaleDown(width: 800);
+        $filename = 'org-photos/' . Str::uuid() . '.webp';
+
+        Storage::disk('public')->put($filename, $image->toWebp(quality: 75));
+
+        return response()->json(['url' => Storage::url($filename)]);
     }
 
     private function uniqueSlug(string $value, ?int $ignoreId = null): string
