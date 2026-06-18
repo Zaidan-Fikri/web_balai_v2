@@ -107,6 +107,8 @@ function createDetailsPanelRenderer(config, map) {
     const fullscreenFrame   = document.getElementById('pdfFullscreenFrame');
     const fullscreenCard    = document.getElementById('pdfFullscreenCard');
     const fullscreenClose   = document.getElementById('pdfFullscreenClose');
+    const pdfFrameWrap      = document.getElementById('pdfFrameWrap');
+    const pdfDragOverlay    = document.getElementById('pdfDragOverlay');
     const zoomInBtn         = document.getElementById('pdfZoomIn');
     const zoomOutBtn        = document.getElementById('pdfZoomOut');
     const zoomResetBtn      = document.getElementById('pdfZoomReset');
@@ -128,34 +130,127 @@ function createDetailsPanelRenderer(config, map) {
     };
 
     let currentItem = null;
-    let pdfZoom = 1;
-    const ZOOM_MIN = 0.5, ZOOM_MAX = 4, ZOOM_STEP = 0.15;
+    let pdfZoom = 1, panX = 0, panY = 0;
+    const ZOOM_MIN = 1, ZOOM_MAX = 4, ZOOM_STEP = 0.15;
 
-    function applyZoom(ox = 50, oy = 50) {
-        if (!fullscreenFrame) return;
-        fullscreenFrame.style.transformOrigin = `${ox}% ${oy}%`;
-        fullscreenFrame.style.transform = pdfZoom === 1 ? '' : `scale(${pdfZoom})`;
-        if (zoomLabel) zoomLabel.textContent = Math.round(pdfZoom * 100) + '%';
+    function clampPan() {
+        if (!pdfDragOverlay) return;
+        const vw = pdfDragOverlay.clientWidth;
+        const vh = pdfDragOverlay.clientHeight;
+        // Konten lebih besar dari viewport saat zoom > 1, batasi agar tidak keluar
+        panX = Math.min(0, Math.max(vw * (1 - pdfZoom), panX));
+        panY = Math.min(0, Math.max(vh * (1 - pdfZoom), panY));
     }
 
-    function resetZoom() { pdfZoom = 1; applyZoom(); }
+    function applyTransform() {
+        if (!pdfFrameWrap) return;
+        pdfFrameWrap.style.transform = `translate(${panX}px, ${panY}px) scale(${pdfZoom})`;
+        if (zoomLabel) zoomLabel.textContent = Math.round(pdfZoom * 100) + '%';
+        if (pdfDragOverlay) {
+            pdfDragOverlay.classList.toggle('can-drag', pdfZoom > 1);
+        }
+    }
 
-    if (fullscreenCard) {
-        fullscreenCard.addEventListener('wheel', (e) => {
+    function resetZoom() {
+        pdfZoom = 1; panX = 0; panY = 0;
+        applyTransform();
+    }
+
+    // Wheel zoom — zoom ke arah kursor
+    if (pdfDragOverlay) {
+        pdfDragOverlay.addEventListener('wheel', (e) => {
             if (!fullscreenOverlay?.classList.contains('is-open')) return;
             e.preventDefault(); e.stopPropagation();
-            const rect = fullscreenFrame.getBoundingClientRect();
-            pdfZoom = Math.min(ZOOM_MAX, Math.max(ZOOM_MIN,
-                pdfZoom + (e.deltaY < 0 ? ZOOM_STEP : -ZOOM_STEP)));
-            applyZoom(
-                ((e.clientX - rect.left) / rect.width * 100).toFixed(2),
-                ((e.clientY - rect.top) / rect.height * 100).toFixed(2),
-            );
+            const rect = pdfDragOverlay.getBoundingClientRect();
+            const mx = e.clientX - rect.left;
+            const my = e.clientY - rect.top;
+            const oldZoom = pdfZoom;
+            pdfZoom = Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, pdfZoom + (e.deltaY < 0 ? ZOOM_STEP : -ZOOM_STEP)));
+            panX = mx - (mx - panX) * (pdfZoom / oldZoom);
+            panY = my - (my - panY) * (pdfZoom / oldZoom);
+            clampPan();
+            applyTransform();
         }, { passive: false });
+
+        // Mouse drag
+        let isDragging = false, dragStartX = 0, dragStartY = 0, dragPanX = 0, dragPanY = 0;
+
+        pdfDragOverlay.addEventListener('mousedown', (e) => {
+            if (pdfZoom <= 1) return;
+            isDragging = true;
+            dragStartX = e.clientX; dragStartY = e.clientY;
+            dragPanX = panX; dragPanY = panY;
+            pdfDragOverlay.classList.add('is-dragging');
+            e.preventDefault();
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            panX = dragPanX + (e.clientX - dragStartX);
+            panY = dragPanY + (e.clientY - dragStartY);
+            clampPan();
+            applyTransform();
+        });
+
+        document.addEventListener('mouseup', () => {
+            if (!isDragging) return;
+            isDragging = false;
+            pdfDragOverlay.classList.remove('is-dragging');
+        });
+
+        // Touch drag + pinch zoom
+        let lastTouchX = 0, lastTouchY = 0, lastPinchDist = 0;
+
+        pdfDragOverlay.addEventListener('touchstart', (e) => {
+            if (e.touches.length === 1) {
+                isDragging = true;
+                lastTouchX = e.touches[0].clientX;
+                lastTouchY = e.touches[0].clientY;
+            } else if (e.touches.length === 2) {
+                isDragging = false;
+                lastPinchDist = Math.hypot(
+                    e.touches[0].clientX - e.touches[1].clientX,
+                    e.touches[0].clientY - e.touches[1].clientY
+                );
+            }
+            e.preventDefault();
+        }, { passive: false });
+
+        pdfDragOverlay.addEventListener('touchmove', (e) => {
+            if (e.touches.length === 1 && isDragging) {
+                panX += e.touches[0].clientX - lastTouchX;
+                panY += e.touches[0].clientY - lastTouchY;
+                lastTouchX = e.touches[0].clientX;
+                lastTouchY = e.touches[0].clientY;
+                clampPan();
+                applyTransform();
+            } else if (e.touches.length === 2 && lastPinchDist > 0) {
+                const dist = Math.hypot(
+                    e.touches[0].clientX - e.touches[1].clientX,
+                    e.touches[0].clientY - e.touches[1].clientY
+                );
+                const rect = pdfDragOverlay.getBoundingClientRect();
+                const midX = ((e.touches[0].clientX + e.touches[1].clientX) / 2) - rect.left;
+                const midY = ((e.touches[0].clientY + e.touches[1].clientY) / 2) - rect.top;
+                const oldZoom = pdfZoom;
+                pdfZoom = Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, pdfZoom * (dist / lastPinchDist)));
+                panX = midX - (midX - panX) * (pdfZoom / oldZoom);
+                panY = midY - (midY - panY) * (pdfZoom / oldZoom);
+                lastPinchDist = dist;
+                clampPan();
+                applyTransform();
+            }
+            e.preventDefault();
+        }, { passive: false });
+
+        pdfDragOverlay.addEventListener('touchend', (e) => {
+            isDragging = false;
+            if (e.touches.length < 2) lastPinchDist = 0;
+        });
     }
 
-    if (zoomInBtn)    zoomInBtn.addEventListener('click',    () => { pdfZoom = Math.min(ZOOM_MAX, pdfZoom + ZOOM_STEP); applyZoom(); });
-    if (zoomOutBtn)   zoomOutBtn.addEventListener('click',   () => { pdfZoom = Math.max(ZOOM_MIN, pdfZoom - ZOOM_STEP); applyZoom(); });
+    if (zoomInBtn)    zoomInBtn.addEventListener('click',    () => { pdfZoom = Math.min(ZOOM_MAX, pdfZoom + ZOOM_STEP); clampPan(); applyTransform(); });
+    if (zoomOutBtn)   zoomOutBtn.addEventListener('click',   () => { pdfZoom = Math.max(ZOOM_MIN, pdfZoom - ZOOM_STEP); clampPan(); applyTransform(); });
     if (zoomResetBtn) zoomResetBtn.addEventListener('click', resetZoom);
 
     function closeFullscreen() {

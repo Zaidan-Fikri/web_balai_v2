@@ -216,7 +216,12 @@
             <button type="button" class="pdf-fullscreen-close" id="pdfFullscreenClose" aria-label="Tutup preview PDF">
                 <i class="fa-solid fa-xmark" aria-hidden="true"></i>
             </button>
-            <iframe id="pdfFullscreenFrame" title="Preview PDF fullscreen"></iframe>
+            <div class="pdf-viewport" id="pdfViewport">
+                <div class="pdf-frame-wrap" id="pdfFrameWrap">
+                    <iframe id="pdfFullscreenFrame" title="Preview PDF fullscreen"></iframe>
+                </div>
+                <div class="pdf-drag-overlay" id="pdfDragOverlay"></div>
+            </div>
             <div class="pdf-zoom-bar">
                 <button type="button" class="pdf-zoom-btn" id="pdfZoomOut" aria-label="Zoom out">
                     <i class="fa-solid fa-minus" aria-hidden="true"></i>

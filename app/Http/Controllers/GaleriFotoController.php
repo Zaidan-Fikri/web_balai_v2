@@ -30,8 +30,8 @@ class GaleriFotoController extends Controller
             ->with('images')
             ->where('type', 'foto')
             ->when($kategori, fn ($q) => $q->where('kategori', $kategori))
-            ->latest()
-            ->paginate(12)
+            ->latest('tanggal_publish')
+            ->paginate(6)
             ->withQueryString();
 
         return view('pages.galeri.foto', [

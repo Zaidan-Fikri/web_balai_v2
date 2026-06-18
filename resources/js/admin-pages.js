@@ -1737,6 +1737,7 @@
     const updateImage        = document.getElementById('updateGaleriImage');
     const updateNewPrev      = document.getElementById('updateGaleriNewPreview');
     const updateDeskripsi    = document.getElementById('updateGaleriDeskripsi');
+    const updateTanggal      = document.getElementById('updateGaleriTanggal');
     const updateBgColor      = document.getElementById('updateGaleriBg');
     const updateBgHex        = document.getElementById('updateGaleriBgHex');
 
@@ -1874,6 +1875,7 @@
             if (updateJudul) updateJudul.value = btn.dataset.judul || '';
             if (updateType) updateType.value = btn.dataset.type || 'foto';
             if (updateDeskripsi) updateDeskripsi.value = btn.dataset.deskripsi || '';
+            if (updateTanggal) updateTanggal.value = btn.dataset.tanggal || '';
             if (updateImage) updateImage.value = '';
             var bg = btn.dataset.bg || '#0d2d5e';
             if (updateBgColor) { updateBgColor.value = bg; if (updateBgHex) updateBgHex.textContent = bg; }

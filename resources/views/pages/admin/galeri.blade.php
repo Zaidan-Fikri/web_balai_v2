@@ -301,7 +301,7 @@
                                     <p class="desc-text">{{ $item->author?->email ?? '-' }}</p>
                                 </td>
                                 <td>
-                                    <p class="desc-text">{{ $item->created_at->format('d/m/Y') }}</p>
+                                    <p class="desc-text">{{ $item->tanggal_publish ? $item->tanggal_publish->format('d/m/Y H:i') : $item->created_at->format('d/m/Y H:i') }}</p>
                                 </td>
                                 <td>
                                     <div class="action-group">
@@ -312,7 +312,7 @@
                                             data-deskripsi="{{ $item->deskripsi }}"
                                             data-type="{{ $item->type }}"
                                             data-kategori="{{ $item->kategori }}"
-                                            data-tanggal="{{ $item->created_at->format('d M Y') }}"
+                                            data-tanggal="{{ $item->tanggal_publish ? $item->tanggal_publish->format('d M Y H:i') : $item->created_at->format('d M Y H:i') }}"
                                             data-bg="{{ $item->background_color }}">Read</button>
                                         <button type="button" class="btn-action update js-galeri-update-btn"
                                             data-update-url="{{ route('admin.galeri.update', $item->id) }}"
@@ -322,6 +322,7 @@
                                             data-judul="{{ $item->judul }}"
                                             data-deskripsi="{{ $item->deskripsi }}"
                                             data-type="{{ $item->type }}"
+                                            data-tanggal="{{ $item->tanggal_publish ? $item->tanggal_publish->format('Y-m-d\TH:i') : '' }}"
                                             data-bg="{{ $item->background_color }}"
                                             data-extra-images="{{ json_encode($item->images->map(fn($i) => ['id' => $i->id, 'url' => $i->image_url, 'delete_url' => route('admin.galeri.destroy-image', [$item->id, $i->id])])->values()) }}">Update</button>
                                         <form method="POST" action="{{ route('admin.galeri.destroy', $item->id) }}" class="js-galeri-delete-form">
@@ -394,6 +395,9 @@
                     placeholder="Judul galeri" value="{{ old('judul') }}" required>
                 <textarea class="popup-textarea" id="createGaleriDeskripsi" name="deskripsi"
                     placeholder="Deskripsi (opsional)">{{ old('deskripsi') }}</textarea>
+                <label class="popup-label-sm">Tanggal &amp; Jam Publikasi</label>
+                <input type="datetime-local" class="popup-input" id="createGaleriTanggal" name="tanggal_publish"
+                    value="{{ old('tanggal_publish', now()->format('Y-m-d\TH:i')) }}">
                 <div class="color-picker-wrap">
                     <label class="color-picker-label" for="createGaleriBg">
                         <i class="fa-solid fa-palette"></i> Warna Background Tile
@@ -516,6 +520,8 @@
                     placeholder="Judul galeri" required>
                 <textarea class="popup-textarea" id="updateGaleriDeskripsi" name="deskripsi"
                     placeholder="Deskripsi (opsional)"></textarea>
+                <label class="popup-label-sm">Tanggal &amp; Jam Publikasi</label>
+                <input type="datetime-local" class="popup-input" id="updateGaleriTanggal" name="tanggal_publish">
                 <div class="color-picker-wrap">
                     <label class="color-picker-label" for="updateGaleriBg">
                         <i class="fa-solid fa-palette"></i> Warna Background Tile

@@ -21,6 +21,7 @@ class StoreGaleriRequest extends BaseAdminRequest
                                         : $this->videoRules('nullable'),
             'extra_images'       => ['nullable', 'array', 'max:50'],
             'extra_images.*'     => $this->imageRules('nullable', self::MAX_HERO_IMAGE_KB),
+            'tanggal_publish'    => ['nullable', 'date'],
             'background_color'   => ['nullable', 'regex:/^#[0-9A-Fa-f]{6}$/'],
         ];
     }

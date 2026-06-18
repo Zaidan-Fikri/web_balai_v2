@@ -61,7 +61,7 @@ class HomeController extends Controller
             ->whereNotNull('kategori')
             ->whereNotNull('image_path')
             ->where('image_path', '!=', '')
-            ->latest()
+            ->latest('tanggal_publish')
             ->get()
             ->groupBy(fn ($item) => strtolower($item->kategori))
             ->map(fn ($items) => $items->first());
@@ -71,7 +71,7 @@ class HomeController extends Controller
             ->where('type', 'video')
             ->whereNotNull('image_path')
             ->where('image_path', '!=', '')
-            ->latest()
+            ->latest('tanggal_publish')
             ->first();
 
         $profilePages = ProfilePage::query()

@@ -19,7 +19,12 @@ class Galeri extends Model
         'image_path',
         'video_path',
         'type',
+        'tanggal_publish',
         'background_color',
+    ];
+
+    protected $casts = [
+        'tanggal_publish' => 'datetime',
     ];
 
     public function author(): BelongsTo

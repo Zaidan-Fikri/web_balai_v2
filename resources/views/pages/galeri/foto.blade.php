@@ -140,8 +140,62 @@
     /* ── pagination ── */
     .galeri-pagination {
         margin-top: 48px;
+    }
+    .galeri-paging {
         display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+    }
+    .galeri-paging-info {
+        font-size: 14px;
+        color: #666;
+    }
+    .galeri-paging-info strong {
+        color: #0a1f44;
+    }
+    .galeri-paging-btns {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .galeri-paging-btn {
+        display: inline-flex;
+        align-items: center;
         justify-content: center;
+        min-width: 40px;
+        height: 40px;
+        padding: 0 10px;
+        border-radius: 10px;
+        border: 1.5px solid rgba(0,51,153,.15);
+        background: #fff;
+        color: #0a1f44;
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: background .18s, border-color .18s, color .18s, transform .15s;
+    }
+    a.galeri-paging-btn:hover {
+        background: #e8eeff;
+        border-color: #0047cc;
+        color: #0047cc;
+        transform: translateY(-1px);
+    }
+    .galeri-paging-btn.is-active {
+        background: #0047cc;
+        border-color: #0047cc;
+        color: #fff;
+    }
+    .galeri-paging-btn.is-disabled {
+        opacity: .35;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+    .galeri-paging-btn.is-dots {
+        border-color: transparent;
+        background: transparent;
+        pointer-events: none;
+        letter-spacing: .05em;
     }
 
     /* ── responsive ── */
@@ -226,6 +280,7 @@
         background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(241,246,255,.96));
         box-shadow: 0 28px 80px rgba(1, 13, 38, .34);
         animation: lb-in .3s ease;
+        transition: width .25s ease;
     }
     @keyframes lb-in {
         from { transform: scale(.93); opacity: 0; }
@@ -487,7 +542,7 @@
 
             @if ($fotos->hasPages())
                 <div class="galeri-pagination">
-                    {{ $fotos->links('pagination::bootstrap-5') }}
+                    {{ $fotos->links('vendor.pagination.galeri') }}
                 </div>
             @endif
         </div>
@@ -532,6 +587,7 @@
     var lbNext   = document.getElementById('lbNext');
     var lbImgWrap= document.querySelector('.lb-img-wrap');
     var lbThumbs = document.getElementById('lbThumbs');
+    var lbDialog = document.querySelector('.lb-dialog');
 
     var images  = [];   /* array of URLs for current entry */
     var imgIdx  = 0;    /* current photo index within entry */
@@ -556,9 +612,26 @@
         document.body.style.overflow = '';
     }
 
+    function fitDialogToImage() {
+        if (!lbDialog || !lbImg.naturalWidth || !lbImg.naturalHeight) return;
+        var cs = getComputedStyle(lbDialog);
+        var maxWidth = parseFloat(cs.maxWidth) || lbDialog.getBoundingClientRect().width;
+        var paddingX = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight);
+        var availableWidth = maxWidth - paddingX;
+        var maxHeight = parseFloat(getComputedStyle(lbImgWrap).maxHeight) || (window.innerHeight * .62);
+
+        var scale = Math.min(1, availableWidth / lbImg.naturalWidth, maxHeight / lbImg.naturalHeight);
+        var renderedWidth = lbImg.naturalWidth * scale;
+        var minWidth = 320;
+        var finalWidth = Math.min(Math.max(minWidth, renderedWidth) + paddingX, maxWidth);
+        lbDialog.style.width = finalWidth + 'px';
+    }
+
     function render() {
+        lbImg.onload = fitDialogToImage;
         lbImg.src = images[imgIdx] || '';
         lbImg.alt = title;
+        if (lbImg.complete && lbImg.naturalWidth) fitDialogToImage();
         lbTitle.textContent  = title;
         lbDesc.textContent   = desc;
         lbDesc.style.display = desc ? '' : 'none';
@@ -623,6 +696,10 @@
         if (e.key === 'Escape')      close();
         if (e.key === 'ArrowLeft')   prev();
         if (e.key === 'ArrowRight')  next();
+    });
+
+    window.addEventListener('resize', function () {
+        if (overlay.classList.contains('is-open')) fitDialogToImage();
     });
 
     var touchStartX = 0;

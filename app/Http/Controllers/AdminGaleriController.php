@@ -24,7 +24,7 @@ class AdminGaleriController extends Controller
     {
         $galeris = Galeri::query()
             ->with(['author', 'images'])
-            ->latest()
+            ->latest('tanggal_publish')
             ->get();
 
         return view('pages.admin.galeri', compact('galeris'));
@@ -54,6 +54,7 @@ class AdminGaleriController extends Controller
             'judul'            => $data['judul'],
             'deskripsi'        => $data['deskripsi'] ?? null,
             'type'             => $data['type'],
+            'tanggal_publish'  => $data['tanggal_publish'] ?? now(),
             'image_path'       => $imagePath,
             'video_path'       => $videoPath,
             'background_color' => $data['background_color'] ?? null,
@@ -107,6 +108,7 @@ class AdminGaleriController extends Controller
             'judul'            => $data['judul'],
             'deskripsi'        => $data['deskripsi'] ?? null,
             'type'             => $data['type'],
+            'tanggal_publish'  => $data['tanggal_publish'] ?? $galeri->tanggal_publish,
             'image_path'       => $imagePath,
             'video_path'       => $videoPath,
             'background_color' => $data['background_color'] ?? null,
