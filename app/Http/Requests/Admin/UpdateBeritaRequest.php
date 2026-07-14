@@ -13,6 +13,7 @@ class UpdateBeritaRequest extends BaseAdminRequest
         return [
             'judul'            => ['required', 'string', 'max:255'],
             'deskripsi'        => ['required', 'string'],
+            'tanggal_publish'  => ['nullable', 'date'],
             'images'           => ['nullable', 'array'],
             'images.*'         => $this->imageRules(),
             'remove_image_ids' => ['nullable', 'array'],

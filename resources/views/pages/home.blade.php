@@ -885,7 +885,7 @@
                                 <div class="hn-berita-overlay"></div>
                                 <p class="hn-berita-date">
                                     <i class="fa-regular fa-calendar fa-xs"></i>&nbsp;
-                                    {{ $berita->created_at ? $berita->created_at->locale('id')->translatedFormat('d M Y') : '-' }}
+                                    {{ ($berita->tanggal_publish ?? $berita->created_at)?->locale('id')->translatedFormat('d M Y') ?? '-' }}
                                 </p>
                                 <div class="hn-berita-body">
                                     <h2 class="hn-berita-title">

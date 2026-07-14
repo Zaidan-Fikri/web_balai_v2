@@ -127,6 +127,15 @@
         -webkit-box-orient: vertical;
         overflow: hidden;
     }
+    .galeri-foto-date {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin: 0 0 6px;
+        font-size: .72rem;
+        font-weight: 800;
+        color: #0047cc;
+    }
 
     /* ── empty state ── */
     .galeri-empty {
@@ -526,6 +535,10 @@
                             </div>
                         </div>
                         <div class="galeri-foto-body">
+                            <p class="galeri-foto-date">
+                                <i class="fa-regular fa-calendar" aria-hidden="true"></i>
+                                {{ optional($foto->tanggal_publish ?? $foto->created_at)->locale('id')->translatedFormat('d M Y') ?? '-' }}
+                            </p>
                             <h2 class="galeri-foto-judul">{{ $foto->judul }}</h2>
                             @if ($foto->deskripsi)
                                 <p class="galeri-foto-desc">{{ $foto->deskripsi }}</p>

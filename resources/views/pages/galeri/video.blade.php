@@ -149,6 +149,15 @@
         -webkit-box-orient: vertical;
         overflow: hidden;
     }
+    .galeri-video-date {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin: 0 0 6px;
+        font-size: .72rem;
+        font-weight: 800;
+        color: #b86200;
+    }
 
     /* Empty state */
     .galeri-empty {
@@ -394,6 +403,10 @@
                             </div>
 
                             <div class="galeri-video-body">
+                                <p class="galeri-video-date">
+                                    <i class="fa-regular fa-calendar" aria-hidden="true"></i>
+                                    {{ optional($video->tanggal_publish ?? $video->created_at)->locale('id')->translatedFormat('d M Y') ?? '-' }}
+                                </p>
                                 <h2 class="galeri-video-judul">{{ $video->judul }}</h2>
                                 @if ($video->deskripsi)
                                     <p class="galeri-video-desc">{{ $video->deskripsi }}</p>

@@ -266,7 +266,7 @@
                         <div class="buletin-detail-meta">
                             <span>
                                 <i class="fa-regular fa-calendar" aria-hidden="true"></i>
-                                {{ $berita->created_at ? $berita->created_at->locale('id')->translatedFormat('d F Y') : '-' }}
+                                {{ ($berita->tanggal_publish ?? $berita->created_at)?->locale('id')->translatedFormat('d F Y') ?? '-' }}
                             </span>
                             <span>
                                 <i class="fa-regular fa-eye" aria-hidden="true"></i>
@@ -362,7 +362,7 @@
                                 <div class="berita-sidebar-info">
                                     <p class="berita-sidebar-date">
                                         <i class="fa-regular fa-calendar fa-xs"></i>
-                                        {{ $other->created_at ? $other->created_at->locale('id')->translatedFormat('d M Y') : '-' }}
+                                        {{ ($other->tanggal_publish ?? $other->created_at)?->locale('id')->translatedFormat('d M Y') ?? '-' }}
                                     </p>
                                     <p class="berita-sidebar-title">{{ $other->judul }}</p>
                                 </div>

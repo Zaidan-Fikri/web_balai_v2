@@ -14,6 +14,7 @@ class Berita extends Model
     protected $fillable = [
         'judul',
         'deskripsi',
+        'tanggal_publish',
         'video_path',
         'video_orientasi',
         'views',
@@ -21,7 +22,8 @@ class Berita extends Model
     ];
 
     protected $casts = [
-        'views' => 'integer',
+        'views'           => 'integer',
+        'tanggal_publish' => 'date',
     ];
 
     public function images(): HasMany

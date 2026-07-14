@@ -24,7 +24,7 @@
                     <tr>
                         <th>Judul</th>
                         <th>Deskripsi</th>
-                        <th>Tanggal Dibuat</th>
+                        <th>Tanggal Publikasi</th>
                         <th>Views</th>
                         <th>User Posting</th>
                         <th>Gambar</th>
@@ -43,7 +43,7 @@
                         <tr>
                             <td>{{ $berita->judul }}</td>
                             <td>{{ \Illuminate\Support\Str::limit($berita->deskripsi, 90) }}</td>
-                            <td>{{ $berita->created_at ? $berita->created_at->format('d M, Y H:i') : '-' }}</td>
+                            <td>{{ $berita->tanggal_publish ? $berita->tanggal_publish->format('d M Y') : $berita->created_at->format('d M Y') }}</td>
                             <td>{{ number_format($berita->views) }}</td>
                             <td>{{ $berita->author?->email ?? '-' }}</td>
                             <td>{{ $berita->images->count() }}</td>
@@ -63,7 +63,7 @@
                                         class="btn-action read js-read-btn"
                                         data-judul="{{ $berita->judul }}"
                                         data-deskripsi="{{ $berita->deskripsi }}"
-                                        data-created="{{ $berita->created_at ? $berita->created_at->format('d M, Y H:i') : '-' }}"
+                                        data-created="{{ $berita->tanggal_publish ? $berita->tanggal_publish->format('d M Y') : $berita->created_at->format('d M Y') }}"
                                         data-images="{{ e($imagePayload) }}"
                                         data-video-url="{{ $berita->video_path ? asset('storage/' . $berita->video_path) : '' }}"
                                         data-video-orientasi="{{ $berita->video_orientasi ?? 'landscape' }}"
@@ -74,6 +74,7 @@
                                         data-id="{{ $berita->id }}"
                                         data-judul="{{ $berita->judul }}"
                                         data-deskripsi="{{ $berita->deskripsi }}"
+                                        data-tanggal="{{ $berita->tanggal_publish ? $berita->tanggal_publish->format('Y-m-d') : $berita->created_at->format('Y-m-d') }}"
                                         data-update-url="{{ route('admin.berita.update', $berita->id) }}"
                                         data-images="{{ e($imagePayload) }}"
                                         data-video-url="{{ $berita->video_path ? asset('storage/' . $berita->video_path) : '' }}"
@@ -107,6 +108,9 @@
                 <input type="hidden" name="form_type" value="create">
                 <input type="text" class="popup-input" id="beritaPopupInput" name="judul" value="{{ old('judul') }}" placeholder="Masukkan judul berita" required>
                 <textarea class="popup-textarea" name="deskripsi" placeholder="Masukkan deskripsi berita" required>{{ old('deskripsi') }}</textarea>
+
+                <label class="popup-label-sm">Tanggal Publikasi</label>
+                <input type="date" class="popup-input" name="tanggal_publish" value="{{ old('tanggal_publish', now()->format('Y-m-d')) }}">
 
                 {{-- Video --}}
                 <div class="video-upload-block">
@@ -165,6 +169,9 @@
                 <input type="hidden" name="berita_id" id="updateBeritaId">
                 <input type="text" class="popup-input" id="updateBeritaJudul" name="judul" placeholder="Masukkan judul berita" required>
                 <textarea class="popup-textarea" id="updateBeritaDeskripsi" name="deskripsi" placeholder="Masukkan deskripsi berita" required></textarea>
+
+                <label class="popup-label-sm">Tanggal Publikasi</label>
+                <input type="date" class="popup-input" id="updateBeritaTanggal" name="tanggal_publish">
 
                 {{-- Existing video --}}
                 <div id="existingVideoBlock" class="video-upload-block" style="display:none;">

@@ -20,7 +20,7 @@ class HomeController extends Controller
     {
         $publikasiBeritas = Berita::query()
             ->with('images')
-            ->latest()
+            ->latest('tanggal_publish')
             ->take(10)
             ->get();
 

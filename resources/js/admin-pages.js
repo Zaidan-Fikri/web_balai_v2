@@ -192,6 +192,7 @@
             const updateId = document.getElementById('updateBeritaId');
             const updateJudul = document.getElementById('updateBeritaJudul');
             const updateDeskripsi = document.getElementById('updateBeritaDeskripsi');
+            const updateTanggal = document.getElementById('updateBeritaTanggal');
             const existingImageList = document.getElementById('existingImageList');
 
             if (!createOpenButton || !createOverlay || !createInput) return;
@@ -389,7 +390,7 @@
                 button.addEventListener('click', function () {
                     const images = parseImages(button.dataset.images);
                     readTitle.textContent = button.dataset.judul || ('Detail ' + itemLabel);
-                    readCreated.textContent = 'Tanggal dibuat: ' + (button.dataset.created || '-');
+                    readCreated.textContent = 'Tanggal publikasi: ' + (button.dataset.created || '-');
                     readDescription.textContent = button.dataset.deskripsi || '-';
 
                     // Video
@@ -434,6 +435,7 @@
                     updateId.value = button.dataset.id || '';
                     updateJudul.value = button.dataset.judul || '';
                     updateDeskripsi.value = button.dataset.deskripsi || '';
+                    if (updateTanggal) updateTanggal.value = button.dataset.tanggal || '';
                     updateImagePickerController.reset();
 
                     // Existing video

@@ -33,7 +33,7 @@
                         <div class="buletin-card-body">
                             <p class="buletin-card-date">
                                 <i class="fa-regular fa-calendar" aria-hidden="true"></i>
-                                {{ $berita->created_at ? $berita->created_at->locale('id')->translatedFormat('d F Y') : '-' }}
+                                {{ ($berita->tanggal_publish ?? $berita->created_at)?->locale('id')->translatedFormat('d F Y') ?? '-' }}
                             </p>
                             <h2><a href="{{ route('publikasi.berita.show', $berita) }}">{{ $berita->judul }}</a></h2>
                             <p>{{ \Illuminate\Support\Str::limit(strip_tags($berita->deskripsi), 155) }}</p>

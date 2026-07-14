@@ -9,6 +9,7 @@ class StoreBeritaRequest extends BaseAdminRequest
         return [
             'judul'            => ['required', 'string', 'max:255'],
             'deskripsi'        => ['required', 'string'],
+            'tanggal_publish'  => ['nullable', 'date'],
             'images'           => ['nullable', 'array'],
             'images.*'         => $this->imageRules(),
             'video'            => $this->videoRules('nullable'),

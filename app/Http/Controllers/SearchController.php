@@ -73,7 +73,7 @@ class SearchController extends Controller
         return Berita::query()
             ->where('judul', 'like', "%{$query}%")
             ->orWhere('deskripsi', 'like', "%{$query}%")
-            ->latest()
+            ->latest('tanggal_publish')
             ->limit(8)
             ->get()
             ->map(fn (Berita $berita): array => [

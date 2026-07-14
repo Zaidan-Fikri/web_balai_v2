@@ -11,7 +11,7 @@ class BeritaController extends Controller
     {
         $beritas = Berita::query()
             ->with('images')
-            ->latest()
+            ->latest('tanggal_publish')
             ->paginate(9);
 
         return view('pages.berita.index', compact('beritas'));
@@ -25,7 +25,7 @@ class BeritaController extends Controller
         $otherBeritas = Berita::query()
             ->with('images')
             ->where('id', '!=', $berita->id)
-            ->latest()
+            ->latest('tanggal_publish')
             ->limit(5)
             ->get();
 

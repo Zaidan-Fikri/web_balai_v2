@@ -24,7 +24,7 @@ class AdminBeritaController extends Controller
     {
         $beritas = Berita::query()
             ->with(['images', 'author'])
-            ->latest()
+            ->latest('tanggal_publish')
             ->get();
 
         return view('pages.admin.berita', compact('beritas'));
@@ -43,6 +43,7 @@ class AdminBeritaController extends Controller
             $berita = Berita::create([
                 'judul'           => $data['judul'],
                 'deskripsi'       => $data['deskripsi'],
+                'tanggal_publish' => $data['tanggal_publish'] ?? now(),
                 'video_path'      => $videoPath,
                 'video_orientasi' => $data['video_orientasi'] ?? 'landscape',
                 'admin_user_id'   => auth()->id(),
@@ -65,8 +66,9 @@ class AdminBeritaController extends Controller
 
         DB::transaction(function () use ($berita, $data, $request) {
             $berita->update([
-                'judul'     => $data['judul'],
-                'deskripsi' => $data['deskripsi'],
+                'judul'           => $data['judul'],
+                'deskripsi'       => $data['deskripsi'],
+                'tanggal_publish' => $data['tanggal_publish'] ?? $berita->tanggal_publish,
             ]);
 
             // Handle video

@@ -31,7 +31,7 @@ class GaleriVideoController extends Controller
             ->whereNotNull('video_path')
             ->where('video_path', '!=', '')
             ->when($kategori, fn ($q) => $q->where('kategori', $kategori))
-            ->latest()
+            ->latest('tanggal_publish')
             ->paginate(12)
             ->withQueryString();
 
