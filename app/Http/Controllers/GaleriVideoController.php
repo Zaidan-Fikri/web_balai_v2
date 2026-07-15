@@ -34,6 +34,7 @@ class GaleriVideoController extends Controller
             ->latest('tanggal_publish')
             ->paginate(12)
             ->withQueryString();
+        $videos->withPath(url('publikasi/galeri/video'));
 
         return view('pages.galeri.video', [
             'videos'     => $videos,

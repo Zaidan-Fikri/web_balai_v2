@@ -33,6 +33,7 @@ class GaleriFotoController extends Controller
             ->latest('tanggal_publish')
             ->paginate(6)
             ->withQueryString();
+        $fotos->withPath(url('publikasi/galeri/foto'));
 
         return view('pages.galeri.foto', [
             'fotos'      => $fotos,
