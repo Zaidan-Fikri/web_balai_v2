@@ -19,24 +19,182 @@
 
 @push('styles')
     <style>
-        /* ── Berita Terkini – full-photo overlay card ── */
+        /* ── Berita Terkini section: wave background + decorative title ── */
+        .home-berita-section {
+            position: relative;
+            overflow: hidden;
+            background:
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1400 220'%3E%3Cpath d='M-50,140 C300,80 500,190 800,130 C1050,80 1200,150 1450,100' fill='none' stroke='%23bcd6fb' stroke-width='2'/%3E%3C/svg%3E") center top 20px / 1400px 200px no-repeat,
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1400 220'%3E%3Cpath d='M-50,60 C300,20 500,110 800,60 C1050,20 1200,90 1450,40' fill='none' stroke='%23cfe1fb' stroke-width='2'/%3E%3C/svg%3E") center bottom / 1400px 200px no-repeat,
+                linear-gradient(135deg, #eaf2ff 0%, #f7fbff 45%, #eaf2ff 100%);
+        }
+        .home-berita-section::before {
+            content: "";
+            position: absolute;
+            top: -10px; right: -10px;
+            width: 200px; height: 200px;
+            background-image: radial-gradient(circle, rgba(11,43,92,0.14) 1.6px, transparent 1.6px);
+            background-size: 16px 16px;
+            pointer-events: none;
+        }
+        .home-berita-section .section-row,
+        .home-berita-section .hn-berita-wrap {
+            position: relative;
+            z-index: 1;
+        }
+        .home-berita-section .section-title {
+            text-align: center;
+            max-width: 620px;
+            margin: 0 auto;
+        }
+        .home-berita-section .section-title-accent {
+            position: relative;
+            display: inline-block;
+        }
+        .home-berita-section .section-title-accent::after {
+            content: "";
+            position: absolute;
+            left: 2px; right: 2px; bottom: -6px;
+            height: 3px;
+            border-radius: 2px;
+            background: var(--bat-accent, #f4b000);
+        }
+
+        /* ── carousel nav arrows ── */
+        .hn-berita-wrap { position: relative; }
+        .hn-berita-nav {
+            position: absolute;
+            top: 40%;
+            transform: translateY(-50%);
+            z-index: 10;
+            width: 44px; height: 44px;
+            border-radius: 50%;
+            border: none;
+            background: #ffffff;
+            color: var(--bat-primary-deep, #041536);
+            box-shadow: 0 10px 26px rgba(11,43,92,.18);
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            transition: background .18s ease, color .18s ease, transform .18s ease, box-shadow .18s ease;
+        }
+        .hn-berita-nav:hover {
+            background: var(--bat-service-blue, #1d4ed8);
+            color: #fff;
+            transform: translateY(-50%) scale(1.08);
+        }
+        .hn-berita-prev { left: -8px; }
+        .hn-berita-next { right: -8px; }
+        @media (max-width: 991px) {
+            .hn-berita-nav { display: none; }
+        }
+
+        /* ── card: full-photo with dark overlay ── */
+        .home-berita-swiper .swiper-wrapper {
+            align-items: stretch;
+        }
+        .home-berita-swiper .swiper-slide {
+            height: auto;
+            display: flex;
+        }
         .hn-berita-card {
             position: relative;
             display: block;
-            border-radius: 16px;
+            width: 100%;
+            min-height: clamp(360px, 32vw, 440px);
+            border-radius: 18px;
             overflow: hidden;
-            height: clamp(320px, 30vw, 420px);
-            box-shadow: 0 6px 28px rgba(10,38,71,0.18);
+            box-shadow: 0 10px 28px rgba(10,38,71,0.18);
             transition: transform .28s cubic-bezier(.22,.68,0,1.2), box-shadow .28s ease;
         }
         .hn-berita-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 16px 48px rgba(10,38,71,0.26);
+            transform: translateY(-6px);
+            box-shadow: 0 22px 48px rgba(10,38,71,0.26);
         }
-        .hn-berita-img {
-            display: block;
+        .hn-berita-card::after {
+            content: "";
             position: absolute;
             inset: 0;
+            z-index: 5;
+            pointer-events: none;
+            background: linear-gradient(
+                90deg,
+                transparent 45%,
+                rgba(255,255,255,.22) 50%,
+                transparent 55%
+            );
+            background-size: 220% 100%;
+            background-position: -110% 0;
+            mix-blend-mode: screen;
+            opacity: 0;
+        }
+        .hn-berita-card:hover::after {
+            animation: hnBeritaShine 1.6s ease-in-out forwards;
+        }
+        @keyframes hnBeritaShine {
+            0% { background-position: -110% 0; opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { background-position: 110% 0; opacity: 0; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .hn-berita-card:hover::after {
+                animation: none;
+                opacity: 0;
+            }
+        }
+
+        /* ── GeMS "Live" indicator ── */
+        .hn-live-badge {
+            position: absolute;
+            top: -10px;
+            right: 16px;
+            z-index: 2;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 2px 9px 2px 7px;
+            border-radius: 999px;
+            border: 1px solid #17c964;
+            background: #17c964;
+            box-shadow: 0 6px 14px rgba(16, 185, 129, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+            font-family: var(--bat-font-body);
+            font-size: 0.62rem;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+        .hn-live-dot {
+            position: relative;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #ffffff;
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.6);
+        }
+        .hn-live-dot::before {
+            content: "";
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            background: #ffffff;
+            opacity: 0.65;
+            animation: hnLivePulse 1.8s ease-out infinite;
+        }
+        @keyframes hnLivePulse {
+            0% { transform: scale(0.5); opacity: 0.65; }
+            100% { transform: scale(2.4); opacity: 0; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .hn-live-dot::before {
+                animation: none;
+                opacity: 0;
+            }
+        }
+        .hn-berita-img {
+            position: absolute;
+            inset: 0;
+            display: block;
         }
         .hn-berita-img img,
         .hn-berita-img video {
@@ -64,37 +222,44 @@
             top: 14px; left: 14px;
             z-index: 3;
             margin: 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
             background: rgba(4,18,44,.82);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             border: 1px solid rgba(255,255,255,.18);
             color: #fff;
-            font-size: .7rem;
+            font-size: .74rem;
             font-weight: 600;
-            padding: 4px 10px;
+            padding: 5px 12px;
             border-radius: 50px;
         }
         .hn-berita-body {
             position: absolute;
             bottom: 0; left: 0; right: 0;
             z-index: 3;
-            padding: 20px 20px 18px;
+            padding: 20px 20px 22px;
         }
         .hn-berita-title {
-            margin: 0 0 6px;
-            font-size: clamp(.85rem, 1.1vw, 1rem);
+            margin: 0 0 8px;
+            font-size: clamp(.95rem, 1.2vw, 1.1rem);
             font-weight: 800;
-            line-height: 1.4;
-            letter-spacing: .01em;
+            line-height: 1.35;
+            letter-spacing: 0;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
         .hn-berita-title a {
             color: #fff;
             text-decoration: none;
         }
         .hn-berita-desc {
-            margin: 0 0 12px;
-            font-size: .78rem;
-            line-height: 1.55;
+            margin: 0 0 14px;
+            font-size: .82rem;
+            line-height: 1.6;
             color: rgba(255,255,255,.78);
             display: -webkit-box;
             -webkit-line-clamp: 3;
@@ -104,241 +269,66 @@
         .hn-berita-btn {
             display: inline-flex;
             align-items: center;
-            gap: 5px;
-            font-size: .75rem;
+            gap: 6px;
+            font-size: .8rem;
             font-weight: 700;
             color: #fff;
             border: 1.5px solid rgba(255,255,255,.55);
             border-radius: 50px;
-            padding: 5px 14px;
+            padding: 6px 16px;
             text-decoration: none;
             transition: background .2s, border-color .2s, color .2s;
         }
         .hn-berita-btn:hover {
-            background: #f4b000;
-            border-color: #f4b000;
+            background: var(--bat-accent, #f4b000);
+            border-color: var(--bat-accent, #f4b000);
             color: #1a1a1a;
             text-decoration: none;
         }
         .home-berita-pagination { bottom: 0 !important; }
-        .home-berita-pagination .swiper-pagination-bullet { background: #1a6bcc; opacity: .3; }
+        .home-berita-pagination .swiper-pagination-bullet { background: var(--bat-primary); opacity: .3; }
         .home-berita-pagination .swiper-pagination-bullet-active { opacity: 1; }
 
-        /* ══════════════════════════════════════
-           Publication Swiper – redesign
-        ══════════════════════════════════════ */
-
-        /* wrapper card */
-        .home-pub-wrap {
-            background: #fff;
-            border-radius: 24px;
-            box-shadow: 0 6px 40px rgba(0,30,80,.09);
-            padding: 28px 28px 0;
-            margin-top: 8px;
+        /* ── "Lihat Semua Berita" — dark premium pill ── */
+        .hn-berita-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 16px;
+            padding: 6px 6px 6px 26px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #12213b, #050d1c);
+            color: #ffffff;
+            font-family: var(--bat-font-title);
+            font-weight: 900;
+            font-size: 15px;
+            text-decoration: none;
+            box-shadow: 0 16px 34px rgba(4,13,28,.35);
+            transition: transform .22s ease, box-shadow .22s ease;
         }
-
-        /* swiper outer */
-        .home-pub-swiper-outer {
-            position: relative;
-            padding: 0 56px;
-        }
-        .home-pub-swiper { padding-bottom: 48px !important; overflow: visible !important; }
-
-        /* nav arrows */
-        .home-pub-nav {
-            position: absolute;
-            top: 50%;
-            transform: translateY(calc(-50% - 24px));
-            z-index: 10;
-            width: 42px; height: 42px;
-            border-radius: 50%;
-            border: none;
-            background: #0a1f44;
-            color: #fff;
-            font-size: .8rem;
-            display: flex;
+        .hn-berita-cta i {
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 4px 18px rgba(0,30,80,.28);
-            transition: background .18s, transform .2s, box-shadow .2s;
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            background: #ffffff;
+            color: var(--bat-accent, #f4b000);
+            font-size: 14px;
+            transition: transform .22s ease;
         }
-        .home-pub-nav:hover {
-            background: #0047cc;
-            transform: translateY(calc(-50% - 24px)) scale(1.1);
-            box-shadow: 0 6px 24px rgba(0,71,204,.35);
+        .hn-berita-cta:hover {
+            color: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 22px 44px rgba(4,13,28,.45);
         }
-        .home-pub-nav.swiper-button-disabled { opacity: .28; pointer-events: none; }
-        .home-pub-prev { left: 0; }
-        .home-pub-next { right: 0; }
-
-        /* pagination */
-        .home-pub-pag { bottom: 12px !important; }
-        .home-pub-pag .swiper-pagination-bullet {
-            background: #0a1f44; opacity: .18;
-            width: 8px; height: 8px;
-        }
-        .home-pub-pag .swiper-pagination-bullet-active { opacity: 1; background: #0047cc; width: 22px; border-radius: 4px; }
-
-        /* ── pub card ── */
-        .pub-card {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            background: #f7fafd;
-            border-radius: 16px;
-            overflow: hidden;
-            border: 1px solid rgba(8,24,57,.06);
-            box-shadow: 0 2px 10px rgba(0,30,80,.06);
-            transition: transform .28s ease, box-shadow .28s ease;
-        }
-        .pub-card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(0,30,80,.14); }
-
-        .pub-card-img {
-            position: relative;
-            display: block;
-            width: 100%;
-            aspect-ratio: 16/9;
-            overflow: hidden;
-            flex-shrink: 0;
-            text-decoration: none;
-            background: #0d2d5e;
-            border: 0;
-            padding: 0;
-            cursor: pointer;
-        }
-        .pub-card-img::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to top, rgba(4,18,44,.55) 0%, rgba(4,18,44,.0) 55%);
-            pointer-events: none;
-        }
-        .pub-card-img img {
-            display: block;
-            width: 100%; height: 100%;
-            object-fit: cover;
-            transition: transform .45s ease;
-        }
-        .pub-card:hover .pub-card-img img { transform: scale(1.06); }
-        .pub-card-img--btn { width: 100%; text-align: left; }
-
-        /* type badge top-right */
-        .pub-card-type {
-            position: absolute;
-            top: 10px; right: 10px;
-            background: rgba(4,18,44,.78);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            color: #fff;
-            font-size: .6rem;
-            font-weight: 800;
-            letter-spacing: .1em;
-            text-transform: uppercase;
-            padding: 3px 10px;
-            border-radius: 50px;
-            border: 1px solid rgba(255,255,255,.15);
-            pointer-events: none;
-            z-index: 2;
-        }
-
-        /* date bottom-left on image */
-        .pub-card-date {
-            position: absolute;
-            bottom: 10px; left: 10px;
-            color: rgba(255,255,255,.85);
-            font-size: .62rem;
-            font-weight: 600;
-            letter-spacing: .04em;
-            pointer-events: none;
-            z-index: 2;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        /* card body */
-        .pub-card-body {
-            padding: 14px 16px 18px;
-            display: flex;
-            flex: 1;
-            flex-direction: column;
-            background: #fff;
-        }
-        .pub-card-title {
-            margin: 0;
-            font-size: .88rem;
-            font-weight: 800;
-            color: #0a1f44;
-            line-height: 1.45;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-        .pub-card-title a { color: inherit; text-decoration: none; }
-        .pub-card-title a:hover { color: #0047cc; }
-
-        .pub-card-divider {
-            height: 1px;
-            background: rgba(0,30,80,.07);
-            margin: 12px 0;
-        }
-
-        .pub-card-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 0;
-            border: 0;
-            background: transparent;
-            color: #0047cc;
-            font-size: .8rem;
-            font-weight: 800;
-            text-decoration: none;
-            cursor: pointer;
-            align-self: flex-start;
-            margin-top: auto;
-            transition: gap .18s, color .18s;
-        }
-        .pub-card-btn:hover { color: #003099; gap: 10px; text-decoration: none; }
-        .pub-card-btn i { font-size: .7rem; }
-
-        /* CTA bottom */
-        .home-pub-cta {
-            text-align: center;
-            padding: 20px 0 28px;
-            border-top: 1px solid rgba(0,30,80,.06);
-            margin-top: 8px;
-        }
-        .home-pub-cta a {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: #0a1f44;
-            font-size: .85rem;
-            font-weight: 800;
-            text-decoration: none;
-            transition: color .18s, gap .18s;
-        }
-        .home-pub-cta a:hover { color: #0047cc; gap: 12px; }
-
-        .pub-empty { padding: 48px 0; text-align: center; color: #8a97b0; font-size: .95rem; }
-
-        @media (max-width: 640px) {
-            .home-pub-wrap { padding: 20px 16px 0; border-radius: 18px; }
-            .home-pub-swiper-outer { padding: 0 36px; }
-            .home-pub-nav { width: 34px; height: 34px; font-size: .72rem; }
+        .hn-berita-cta:hover i {
+            transform: translateX(3px);
         }
 
         .social-profile-logo {
             color: #ffffff;
-            font-size: 34px;
+            font-size: 19px;
             border-color: rgba(255, 255, 255, 0.32);
-        }
-
-        .social-profile-card {
-            grid-template-columns: 86px minmax(0, 1fr);
         }
 
         .social-profile-logo i {
@@ -484,9 +474,9 @@
             -webkit-backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.18);
             color: #fff;
-            font-size: 0.58rem;
+            font-size: 0.72rem;
             font-weight: 700;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.06em;
             text-transform: uppercase;
             pointer-events: none;
             transition: background 0.25s ease;
@@ -509,9 +499,9 @@
 
         .gallery-tile-label .label-sub {
             display: block;
-            font-size: 0.57rem;
+            font-size: 0.7rem;
             font-weight: 600;
-            letter-spacing: 0.13em;
+            letter-spacing: 0.1em;
             text-transform: uppercase;
             color: rgba(255, 255, 255, 0.62);
             margin-bottom: 3px;
@@ -627,9 +617,9 @@
         .gallery-tile-placeholder .ph-sub {
             position: relative;
             z-index: 1;
-            font-size: 0.58rem;
+            font-size: 0.7rem;
             font-weight: 700;
-            letter-spacing: 0.15em;
+            letter-spacing: 0.1em;
             text-transform: uppercase;
             color: rgba(255,255,255,0.5);
         }
@@ -776,7 +766,7 @@
 </div><!-- Slider Section End -->
 
 <!-- About Section Start -->
-<section class="about-us home-about" id="tentang-kami">
+<section class="about-us home-about bat-section-anime" id="tentang-kami">
     <div class="container">
         <div class="home-about-grid">
             <div class="about-content">
@@ -796,7 +786,12 @@
                 <img src="{{ asset('images/cp.png') }}" alt="Balai Air Tanah" decoding="async" loading="eager" fetchpriority="high">
             </figure>
 
-            <aside class="about-service-panel" aria-labelledby="aboutServiceTitle">
+            <aside class="about-service-panel" id="aboutServicePanel" aria-labelledby="aboutServiceTitle">
+                <span class="about-service-pulse" aria-hidden="true"></span>
+                <span class="about-service-badge">
+                    <i class="fa-solid fa-star" aria-hidden="true"></i>
+                    Populer
+                </span>
                 <h3 id="aboutServiceTitle">Akses Cepat</h3>
                 <div class="about-service-grid" aria-label="Informasi unggulan Balai Air Tanah">
                     <a href="{{ route('peta') }}" class="about-service-card">
@@ -810,23 +805,22 @@
                         <i class="fa-solid fa-arrow-right about-service-card-arrow" aria-hidden="true"></i>
                     </a>
 
-                    <a href="https://siatab.sda.pu.go.id/" target="_blank" rel="noopener noreferrer" class="about-service-card">
-                        <span class="about-service-card-icon" aria-hidden="true">
-                            <i class="fa-solid fa-database" aria-hidden="true"></i>
+                    <a href="https://siatab.sda.pu.go.id/" target="_blank" rel="noopener noreferrer" class="about-service-card about-service-card--logo">
+                        <span class="about-service-card-logo-wrap">
+                            <img src="{{ asset('images/15.png') }}" alt="SIATAB" class="about-service-card-logo about-service-card-logo--flat">
                         </span>
                         <span class="about-service-card-copy">
-                            <span class="about-service-card-title">SIATAB</span>
                             <span class="about-service-card-desc">Sistem Informasi Air Tanah dan Air Baku</span>
                         </span>
                         <i class="fa-solid fa-arrow-right about-service-card-arrow" aria-hidden="true"></i>
                     </a>
 
-                    <a href="https://siatab.sda.pu.go.id/" class="about-service-card">
-                        <span class="about-service-card-icon" aria-hidden="true">
-                            <i class="fa-regular fa-map" aria-hidden="true"></i>
+                    <a href="https://siatab.sda.pu.go.id/" class="about-service-card about-service-card--logo">
+                        <span class="hn-live-badge" aria-hidden="true"><span class="hn-live-dot"></span>Live</span>
+                        <span class="about-service-card-logo-wrap">
+                            <img src="{{ asset('images/gems2.png') }}" alt="GeMS" class="about-service-card-logo about-service-card-logo--rounded">
                         </span>
                         <span class="about-service-card-copy">
-                            <span class="about-service-card-title">GeMS</span>
                             <span class="about-service-card-desc">Groundwater Monitoring System</span>
                         </span>
                         <i class="fa-solid fa-arrow-right about-service-card-arrow" aria-hidden="true"></i>
@@ -849,18 +843,21 @@
 </section><!-- About Section End -->
 
 <!-- Berita Terkini Section Start -->
-<section class="home-berita-section" style="padding-top: 60px; padding-bottom: 20px;">
+<section class="home-berita-section bat-section-anime" style="padding-top: 60px; padding-bottom: 20px;">
     <div class="container-fluid px-3 px-lg-4">
         <div class="row section-row">
             <div class="col-lg-12">
                 <div class="section-title">
-                    <h2 class="text-anime-style-3">Berita Terkini</h2>
+                    <h2 class="text-anime-style-3">Berita <span class="section-title-accent">Terkini</span></h2>
                 </div>
             </div>
         </div>
 
         @if ($publikasiBeritas->isNotEmpty())
-            <div style="background: #f0f4f9; border-radius: 20px; box-shadow: 0 4px 28px rgba(10,38,71,0.10); padding: 28px 24px 16px;">
+            <div class="hn-berita-wrap">
+            <button class="hn-berita-nav hn-berita-prev" id="beritaPrev" aria-label="Berita sebelumnya">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
             <div class="swiper home-berita-swiper" style="padding-bottom: 42px;">
                 <div class="swiper-wrapper">
                     @foreach ($publikasiBeritas as $berita)
@@ -904,6 +901,9 @@
                 </div>
                 <div class="swiper-pagination home-berita-pagination"></div>
             </div>
+            <button class="hn-berita-nav hn-berita-next" id="beritaNext" aria-label="Berita berikutnya">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
             </div>
         @else
             <div class="text-center py-4">
@@ -912,7 +912,7 @@
         @endif
 
         <div class="text-center mt-2 mb-5 wow fadeInUp" data-wow-delay="0.4s">
-            <a href="{{ route('publikasi.berita') }}" class="about-more-link">
+            <a href="{{ route('publikasi.berita') }}" class="hn-berita-cta">
                 <span>Lihat Semua Berita</span>
                 <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
             </a>
@@ -922,150 +922,87 @@
 <!-- Berita Terkini Section End -->
 
 <!-- Publikasi Section Start -->
-<div class="what-we-do home-publication-wrapper home-publication-spacing">
-    <div class="light-bg-section home-publication-section home-publication-tabs js-publication-tabs" data-page-size="4">
-        <div class="container-fluid">
-            <div class="row section-row">
-                <div class="col-lg-12">
-                    <!-- Section Title Start -->
-                    <div class="section-title">
-                        <a href="post">
-                            <h3 class="wow fadeInUp section-label-link">Publikasi</h3>
-                        </a>
-                        <h2 class="text-anime-style-3">Informasi dan Edukasi Air Tanah</h2>
-                    </div>
-                    <!-- Section Title End -->
-                </div>
-            </div>
+<section class="pub-section js-publication-tabs bat-section-anime">
+    <div class="pub-container">
+        <div class="pub-head">
+            <p class="pub-kicker">Publikasi</p>
+            <h2 class="pub-title text-anime-style-3">Informasi &amp; Edukasi <em>Air Tanah</em></h2>
+        </div>
 
-            <nav class="publication-menu-box home-publication-menu" aria-label="Kategori publikasi landing page">
-                <ul class="publication-menu-list">
-                    <li>
-                        <button type="button" class="publication-menu-link is-active js-publication-menu" data-target="home-edukasi">
-                            <i class="fa-solid fa-file-lines" aria-hidden="true"></i>
-                            <span>Edukasi</span>
-                        </button>
-                    </li>
-                    <li>
-                        <button type="button" class="publication-menu-link js-publication-menu" data-target="home-infografis">
-                            <i class="fa-solid fa-chart-pie" aria-hidden="true"></i>
-                            <span>Infografis</span>
-                        </button>
-                    </li>
-                </ul>
-            </nav>
+        <nav class="pub-tabs" aria-label="Kategori publikasi landing page">
+            <button type="button" class="pub-tab is-active js-publication-menu" data-target="home-edukasi">Edukasi</button>
+            <button type="button" class="pub-tab js-publication-menu" data-target="home-infografis">Infografis</button>
+        </nav>
 
-            {{-- ── Edukasi ─────────────────────────────────────── --}}
-            <div class="publication-group is-active" data-publication-group="home-edukasi">
-                @if($publikasiEdukasi->isNotEmpty())
-                <div class="home-pub-wrap">
-                    <div class="home-pub-swiper-outer">
-                        <button class="home-pub-nav home-pub-prev" id="eduPrev" aria-label="Sebelumnya">
-                            <i class="fa-solid fa-chevron-left"></i>
-                        </button>
-                        <div class="swiper home-pub-swiper" id="swiperEdukasi">
-                            <div class="swiper-wrapper">
-                                @foreach($publikasiEdukasi as $item)
-                                    @php
-                                        $firstImage = $item->images->first();
-                                        $imageUrl = $firstImage ? asset('storage/' . $firstImage->image_path) : asset('assets/images/placeholders/publikasi.svg');
-                                    @endphp
-                                    <div class="swiper-slide">
-                                        <article class="pub-card">
-                                            <a class="pub-card-img" href="{{ route('publikasi.buletin.show', $item->slug) }}" tabindex="-1">
-                                                <img src="{{ $imageUrl }}" alt="{{ $item->judul }}" decoding="async" loading="lazy">
-                                                <span class="pub-card-type"><i class="fa-solid fa-book-open fa-xs"></i>&nbsp;Edukasi</span>
-                                                <span class="pub-card-date">
-                                                    <i class="fa-regular fa-calendar"></i>
-                                                    {{ $item->published_at ? $item->published_at->locale('id')->translatedFormat('d M Y') : '-' }}
-                                                </span>
-                                            </a>
-                                            <div class="pub-card-body">
-                                                <h2 class="pub-card-title">
-                                                    <a href="{{ route('publikasi.buletin.show', $item->slug) }}">{{ $item->judul }}</a>
-                                                </h2>
-                                                <div class="pub-card-divider"></div>
-                                                <a href="{{ route('publikasi.buletin.show', $item->slug) }}" class="pub-card-btn">
-                                                    Baca selengkapnya <i class="fa-solid fa-arrow-right"></i>
-                                                </a>
-                                            </div>
-                                        </article>
-                                    </div>
-                                @endforeach
+        {{-- ── Edukasi ─────────────────────────────────────── --}}
+        <div class="pub-panel is-active" data-publication-group="home-edukasi">
+            @if($publikasiEdukasi->isNotEmpty())
+                <div class="pub-grid">
+                    @foreach($publikasiEdukasi as $item)
+                        @php
+                            $firstImage = $item->images->first();
+                            $imageUrl = $firstImage ? asset('storage/' . $firstImage->image_path) : asset('assets/images/placeholders/publikasi.svg');
+                        @endphp
+                        <a class="pub-card" href="{{ route('publikasi.buletin.show', $item->slug) }}">
+                            @include('pages.partials.pub_card_corners')
+                            <div class="pub-card-media">
+                                <div class="ripple"></div>
+                                <img src="{{ $imageUrl }}" alt="{{ $item->judul }}" decoding="async" loading="lazy">
+                                <span class="pub-card-spotlight" aria-hidden="true"></span>
+                                <span class="pub-badge"><i class="fa-solid fa-book-open"></i>Edukasi</span>
+                                <span class="pub-date">{{ $item->published_at ? $item->published_at->locale('id')->translatedFormat('d M Y') : '-' }}</span>
                             </div>
-                            <div class="swiper-pagination home-pub-pag" id="swiperEduPag"></div>
-                        </div>
-                        <button class="home-pub-nav home-pub-next" id="eduNext" aria-label="Selanjutnya">
-                            <i class="fa-solid fa-chevron-right"></i>
-                        </button>
-                    </div>
-                    <div class="home-pub-cta">
-                        <a href="{{ route('publikasi.buletin.index') }}">
-                            Lihat Semua Edukasi&nbsp;&nbsp;<i class="fa-solid fa-arrow-right fa-xs"></i>
-                        </a>
-                    </div>
-                </div>
-                @else
-                    <p class="pub-empty">Belum ada data edukasi.</p>
-                @endif
-            </div>
-
-            {{-- ── Infografis ──────────────────────────────────── --}}
-            <div class="publication-group" data-publication-group="home-infografis">
-                @if($publikasiInfografis->isNotEmpty())
-                <div class="home-pub-wrap">
-                    <div class="home-pub-swiper-outer">
-                        <button class="home-pub-nav home-pub-prev" id="infoPrev" aria-label="Sebelumnya">
-                            <i class="fa-solid fa-chevron-left"></i>
-                        </button>
-                        <div class="swiper home-pub-swiper" id="swiperInfografis">
-                            <div class="swiper-wrapper">
-                                @foreach($publikasiInfografis as $item)
-                                    @php
-                                        $firstImage = $item->images->first();
-                                        $imageUrl = $firstImage ? asset('storage/' . $firstImage->image_path) : asset('assets/images/placeholders/publikasi.svg');
-                                        $imagePayload = $item->images->map(fn($img) => ['url' => asset('storage/' . $img->image_path)])->values()->toJson();
-                                    @endphp
-                                    <div class="swiper-slide">
-                                        <article class="pub-card">
-                                            <a class="pub-card-img" href="{{ route('publikasi.infografis.show', $item) }}" tabindex="-1">
-                                                <img src="{{ $imageUrl }}" alt="{{ $item->judul }}" decoding="async" loading="lazy">
-                                                <span class="pub-card-type"><i class="fa-solid fa-chart-pie fa-xs"></i>&nbsp;Infografis</span>
-                                                <span class="pub-card-date">
-                                                    <i class="fa-regular fa-calendar"></i>
-                                                    {{ $item->created_at ? $item->created_at->locale('id')->translatedFormat('d M Y') : '-' }}
-                                                </span>
-                                            </a>
-                                            <div class="pub-card-body">
-                                                <h2 class="pub-card-title">{{ $item->judul }}</h2>
-                                                <div class="pub-card-divider"></div>
-                                                <a href="{{ route('publikasi.infografis.show', $item) }}" class="pub-card-btn">
-                                                    Lihat infografis <i class="fa-solid fa-arrow-right"></i>
-                                                </a>
-                                            </div>
-                                        </article>
-                                    </div>
-                                @endforeach
+                            <div class="pub-card-body">
+                                <h3 class="pub-card-title">{{ $item->judul }}</h3>
+                                <div class="pub-card-divider"></div>
+                                <span class="pub-card-cta">Baca Selengkapnya <i class="fa-solid fa-arrow-right"></i></span>
                             </div>
-                            <div class="swiper-pagination home-pub-pag" id="swiperInfoPag"></div>
-                        </div>
-                        <button class="home-pub-nav home-pub-next" id="infoNext" aria-label="Selanjutnya">
-                            <i class="fa-solid fa-chevron-right"></i>
-                        </button>
-                    </div>
-                    <div class="home-pub-cta">
-                        <a href="{{ route('publikasi.infografis') }}" >
-                            Lihat Semua Infografis&nbsp;&nbsp;<i class="fa-solid fa-arrow-right fa-xs"></i>
                         </a>
-                    </div>
+                    @endforeach
                 </div>
-                @else
-                    <p class="pub-empty">Belum ada data infografis.</p>
-                @endif
-            </div>
+                <div class="pub-foot">
+                    <a href="{{ route('publikasi.buletin.index') }}">Lihat Semua Edukasi</a>
+                </div>
+            @else
+                <p class="pub-empty">Belum ada data edukasi.</p>
+            @endif
+        </div>
+
+        {{-- ── Infografis ──────────────────────────────────── --}}
+        <div class="pub-panel" data-publication-group="home-infografis">
+            @if($publikasiInfografis->isNotEmpty())
+                <div class="pub-grid">
+                    @foreach($publikasiInfografis as $item)
+                        @php
+                            $firstImage = $item->images->first();
+                            $imageUrl = $firstImage ? asset('storage/' . $firstImage->image_path) : asset('assets/images/placeholders/publikasi.svg');
+                        @endphp
+                        <a class="pub-card" href="{{ route('publikasi.infografis.show', $item) }}">
+                            @include('pages.partials.pub_card_corners')
+                            <div class="pub-card-media">
+                                <div class="ripple"></div>
+                                <img src="{{ $imageUrl }}" alt="{{ $item->judul }}" decoding="async" loading="lazy">
+                                <span class="pub-card-spotlight" aria-hidden="true"></span>
+                                <span class="pub-badge"><i class="fa-solid fa-chart-pie"></i>Infografis</span>
+                                <span class="pub-date">{{ $item->created_at ? $item->created_at->locale('id')->translatedFormat('d M Y') : '-' }}</span>
+                            </div>
+                            <div class="pub-card-body">
+                                <h3 class="pub-card-title">{{ $item->judul }}</h3>
+                                <div class="pub-card-divider"></div>
+                                <span class="pub-card-cta">Lihat Infografis <i class="fa-solid fa-arrow-right"></i></span>
+                            </div>
+                        </a>
+                    @endforeach
+                </div>
+                <div class="pub-foot">
+                    <a href="{{ route('publikasi.infografis') }}">Lihat Semua Infografis</a>
+                </div>
+            @else
+                <p class="pub-empty">Belum ada data infografis.</p>
+            @endif
         </div>
     </div>
-</div><!-- Publikasi Section End -->
+</section><!-- Publikasi Section End -->
 
 <div class="publication-detail-overlay" id="publicationDetailOverlay" aria-hidden="true">
     <div class="publication-detail-card" role="dialog" aria-modal="true" aria-labelledby="publicationDetailTitle">
@@ -1083,7 +1020,7 @@
 </div>
 
 <!-- Why Choose Us Section Start -->
-<div class="akun">
+<div class="akun bat-section-anime">
     <div class="container-fluid px-3 px-lg-4">
         <div class="row section-row">
             <div class="col-lg-12">
@@ -1099,6 +1036,13 @@
         <div class="row justify-content-center g-4">
             <div class="col-lg-4 col-md-6 col-sm-12 col-12">
                 <div class="social-embed-card instagram-card instagram-widget wow fadeInUp" data-wow-delay="0.5s">
+                    <div class="social-card-head">
+                        <span class="social-badge instagram-badge"><i class="fa-brands fa-instagram" aria-hidden="true"></i></span>
+                        <span class="social-card-id">
+                            <span class="social-card-name">pu_sda_balaiairtanah</span>
+                            <span class="social-card-sub">Balai Air Tanah</span>
+                        </span>
+                    </div>
                     <div class="social-embed-frame">
                         <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/pu_sda_balaiairtanah/?utm_source=ig_embed&utm_campaign=loading" data-instgrm-version="14" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:658px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);">
                         <div style="padding:16px;"><a href="https://www.instagram.com/pu_sda_balaiairtanah/?utm_source=ig_embed&utm_campaign=loading" style=" background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank">
@@ -1152,14 +1096,21 @@
                     </div>
                     <script async src="//platform.instagram.com/en_US/embeds.js"></script>
                     <a class="social-embed-footer instagram-link" href="https://www.instagram.com/pu_sda_balaiairtanah/" target="_blank" rel="noopener noreferrer">
-                        <span class="social-embed-kicker">Instagram</span>
-                        <span class="social-embed-title">pu_sda_balaiairtanah</span>
+                        <span>Buka Instagram</span>
+                        <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
                     </a>
                 </div>
             </div>
 
             <div class="col-lg-4 col-md-6 col-sm-12 col-12">
                 <div class="social-embed-card youtube-card wow fadeInUp" data-wow-delay="0.65s">
+                    <div class="social-card-head">
+                        <span class="social-badge youtube-badge"><i class="fa-brands fa-youtube" aria-hidden="true"></i></span>
+                        <span class="social-card-id">
+                            <span class="social-card-name">Balai Air Tanah</span>
+                            <span class="social-card-sub">In House Training Geolistrik</span>
+                        </span>
+                    </div>
                     <div class="social-embed-frame">
                         <iframe
                             src="https://www.youtube.com/embed/videoseries?list=UULwA6GMkzfPwzCbDYIszIHA"
@@ -1171,43 +1122,55 @@
                         </iframe>
                     </div>
                     <a class="social-embed-footer" href="https://www.youtube.com/@pu_sda_balaiairtanah" target="_blank" rel="noopener noreferrer">
-                        <span class="social-embed-kicker">YouTube</span>
-                        <span class="social-embed-title">Balai Air Tanah</span>
+                        <span>Tonton Selengkapnya</span>
+                        <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
                     </a>
                 </div>
             </div>
 
             <div class="col-lg-4 col-md-6 col-sm-12 col-12">
-                <div class="social-link-stack wow fadeInUp" data-wow-delay="0.8s" aria-label="Akun media sosial Balai Air Tanah">
-                    <a class="social-profile-card facebook-card" href="https://www.facebook.com/pupr.sda.balaiairtanah" target="_blank" rel="noopener noreferrer">
-                        <span class="social-profile-logo">
-                            <i class="fa-brands fa-facebook-f" aria-hidden="true"></i>
+                <div class="social-embed-card social-ledger-card wow fadeInUp" data-wow-delay="0.8s" aria-label="Akun media sosial Balai Air Tanah">
+                    <div class="social-card-head">
+                        <span class="social-badge ledger-badge"><i class="fa-solid fa-share-nodes" aria-hidden="true"></i></span>
+                        <span class="social-card-id">
+                            <span class="social-card-name">Kanal Lainnya</span>
+                            <span class="social-card-sub">Facebook &middot; X &middot; Threads</span>
                         </span>
-                        <span class="social-profile-copy">
-                            <span class="social-profile-name">pupr.sda.balaiairtanah</span>
-                            <span class="social-profile-url">facebook.com</span>
-                        </span>
-                    </a>
+                    </div>
+                    <div class="social-ledger-body">
+                        <a class="social-ledger-row facebook-card" href="https://www.facebook.com/pupr.sda.balaiairtanah" target="_blank" rel="noopener noreferrer">
+                            <span class="social-profile-logo">
+                                <i class="fa-brands fa-facebook-f" aria-hidden="true"></i>
+                            </span>
+                            <span class="social-profile-copy">
+                                <span class="social-profile-name">pupr.sda.balaiairtanah</span>
+                                <span class="social-profile-url">facebook.com</span>
+                            </span>
+                            <i class="fa-solid fa-arrow-right social-ledger-arrow" aria-hidden="true"></i>
+                        </a>
 
-                    <a class="social-profile-card x-card" href="https://x.com/pu_sda_bat?s=20" target="_blank" rel="noopener noreferrer">
-                        <span class="social-profile-logo">
-                            <i class="fa-brands fa-x-twitter" aria-hidden="true"></i>
-                        </span>
-                        <span class="social-profile-copy">
-                            <span class="social-profile-name">pu_sda_bat</span>
-                            <span class="social-profile-url">x.com</span>
-                        </span>
-                    </a>
+                        <a class="social-ledger-row x-card" href="https://x.com/pu_sda_bat?s=20" target="_blank" rel="noopener noreferrer">
+                            <span class="social-profile-logo">
+                                <i class="fa-brands fa-x-twitter" aria-hidden="true"></i>
+                            </span>
+                            <span class="social-profile-copy">
+                                <span class="social-profile-name">pu_sda_bat</span>
+                                <span class="social-profile-url">x.com</span>
+                            </span>
+                            <i class="fa-solid fa-arrow-right social-ledger-arrow" aria-hidden="true"></i>
+                        </a>
 
-                    <a class="social-profile-card threads-card" href="https://www.threads.com/@pu_sda_balaiairtanah" target="_blank" rel="noopener noreferrer">
-                        <span class="social-profile-logo">
-                            <i class="fa-brands fa-threads" aria-hidden="true"></i>
-                        </span>
-                        <span class="social-profile-copy">
-                            <span class="social-profile-name">pu_sda_balaiairtanah</span>
-                            <span class="social-profile-url">threads.com</span>
-                        </span>
-                    </a>
+                        <a class="social-ledger-row threads-card" href="https://www.threads.com/@pu_sda_balaiairtanah" target="_blank" rel="noopener noreferrer">
+                            <span class="social-profile-logo">
+                                <i class="fa-brands fa-threads" aria-hidden="true"></i>
+                            </span>
+                            <span class="social-profile-copy">
+                                <span class="social-profile-name">pu_sda_balaiairtanah</span>
+                                <span class="social-profile-url">threads.com</span>
+                            </span>
+                            <i class="fa-solid fa-arrow-right social-ledger-arrow" aria-hidden="true"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
 
@@ -1216,7 +1179,7 @@
 </div><!-- Why Choose Us Section End -->
 
 <!-- Complaint Survey Section Start -->
-<section class="complaint-survey-section">
+<section class="complaint-survey-section bat-section-anime">
     <div class="container-fluid px-3 px-lg-4">
         <div class="row section-row">
             <div class="col-lg-12">
@@ -1358,7 +1321,7 @@
 <!-- Pengumuman Section End -->
 
 <!-- Our Galeri Section Start -->
-<div class="gallery-home">
+<div class="gallery-home bat-section-anime">
     <div class="container">
         <div class="row section-row">
             <div class="col-lg-12">
@@ -1450,7 +1413,7 @@
 <!-- Our Galeri Section End -->
 
 <!-- Link Terkait Section Start-->
-<div class="container">
+<div class="container bat-section-anime">
     <div class="row section-row">
         <div class="col-lg-12">
             <div class="link-slider">
@@ -1566,6 +1529,22 @@
 @push('scripts')
 <script>
 (function () {
+    var panel = document.getElementById('aboutServicePanel');
+    if (!panel || !window.IntersectionObserver) return;
+    var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+                panel.classList.add('is-inview');
+                observer.unobserve(panel);
+            }
+        });
+    }, { threshold: 0.4 });
+    observer.observe(panel);
+})();
+</script>
+
+<script>
+(function () {
     var el = document.querySelector('.home-berita-swiper');
     if (!el) return;
     new Swiper(el, {
@@ -1576,6 +1555,10 @@
             delay: 5000,
             disableOnInteraction: false,
             pauseOnMouseEnter: true,
+        },
+        navigation: {
+            prevEl: document.getElementById('beritaPrev'),
+            nextEl: document.getElementById('beritaNext'),
         },
         pagination: {
             el: '.home-berita-pagination',
@@ -1590,44 +1573,4 @@
 })();
 </script>
 
-<script>
-(function () {
-    function makePubSwiper(id, prevId, nextId, pagId) {
-        var el = document.getElementById(id);
-        if (!el) return null;
-        return new Swiper(el, {
-            slidesPerView: 1,
-            spaceBetween: 20,
-            observer: true,
-            observeParents: true,
-            navigation: {
-                prevEl: document.getElementById(prevId),
-                nextEl: document.getElementById(nextId),
-            },
-            pagination: {
-                el: document.getElementById(pagId),
-                clickable: true,
-            },
-            breakpoints: {
-                560:  { slidesPerView: 2, spaceBetween: 20 },
-                992:  { slidesPerView: 3, spaceBetween: 22 },
-                1280: { slidesPerView: 4, spaceBetween: 24 },
-            },
-        });
-    }
-
-    var swiperEdu  = makePubSwiper('swiperEdukasi',   'eduPrev',  'eduNext',  'swiperEduPag');
-    var swiperInfo = makePubSwiper('swiperInfografis', 'infoPrev', 'infoNext', 'swiperInfoPag');
-
-    document.querySelectorAll('.js-publication-menu').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-            var target = btn.getAttribute('data-target');
-            setTimeout(function () {
-                if (target === 'home-edukasi'   && swiperEdu)  swiperEdu.update();
-                if (target === 'home-infografis' && swiperInfo) swiperInfo.update();
-            }, 50);
-        });
-    });
-})();
-</script>
 @endpush

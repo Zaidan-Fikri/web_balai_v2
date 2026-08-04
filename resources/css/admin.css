@@ -1241,6 +1241,12 @@ tbody tr.is-hidden-row {
     color: var(--bad);
 }
 
+.btn-action.download {
+    border-color: rgba(47, 143, 70, 0.24);
+    background: #eefbf1;
+    color: #2f8f46;
+}
+
 .btn-action:hover {
     transform: translateY(-1px);
     box-shadow: 0 10px 22px rgba(16, 24, 40, 0.08);
@@ -1408,6 +1414,63 @@ input[type="file"].popup-input {
 
 .popup-actions.has-gap {
     margin-top: 12px;
+}
+
+.kategori-edukasi-label {
+    margin: 4px 0 10px;
+    color: var(--text-soft);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.kategori-edukasi-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 260px;
+    margin-bottom: 12px;
+    padding-right: 2px;
+    overflow-y: auto;
+}
+
+.kategori-edukasi-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 14px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--surface-soft);
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.kategori-edukasi-item:hover {
+    border-color: rgba(0, 71, 204, 0.28);
+    background: #ffffff;
+}
+
+.kategori-edukasi-name {
+    color: var(--text);
+    font-size: 13.5px;
+    font-weight: 800;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.kategori-edukasi-item form {
+    flex-shrink: 0;
+}
+
+.kategori-edukasi-empty {
+    padding: 14px;
+    border: 1px dashed var(--line);
+    border-radius: 14px;
+    background: var(--surface-soft);
+    text-align: center;
 }
 
 .import-preview-card {

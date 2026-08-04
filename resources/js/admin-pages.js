@@ -26,6 +26,7 @@
             const readCekunganAirTanah = document.getElementById('readGeolistrikCekunganAirTanah');
             const readHidrogeologi = document.getElementById('readGeolistrikHidrogeologi');
             const readLapisanPembawaAir = document.getElementById('readGeolistrikLapisanPembawaAir');
+            const readPotensi = document.getElementById('readGeolistrikPotensi');
             const readPdf = document.getElementById('readGeolistrikPdf');
             const updateOverlay = document.getElementById('geolistrikUpdateOverlay');
             const updateForm = document.getElementById('geolistrikUpdateForm');
@@ -42,6 +43,7 @@
             const updateCekunganAirTanah = document.getElementById('updateGeolistrikCekunganAirTanah');
             const updateHidrogeologi = document.getElementById('updateGeolistrikHidrogeologi');
             const updateLapisanPembawaAir = document.getElementById('updateGeolistrikLapisanPembawaAir');
+            const updatePotensi = document.getElementById('updateGeolistrikPotensi');
             const updatePdfCurrent = document.getElementById('updateGeolistrikPdfCurrent');
             const updatePdfFile = document.getElementById('updateGeolistrikPdfFile');
 
@@ -97,6 +99,7 @@
                     readCekunganAirTanah.textContent = button.dataset.cekunganAirTanah || '-';
                     readHidrogeologi.textContent = button.dataset.hidrogeologi || '-';
                     readLapisanPembawaAir.textContent = button.dataset.lapisanPembawaAir || '-';
+                    if (readPotensi) readPotensi.textContent = button.dataset.potensi || '-';
                     if (readPdf) {
                         if (button.dataset.pdfUrl) {
                             readPdf.innerHTML = '<a href="' + button.dataset.pdfUrl + '" target="_blank" rel="noopener">' + (button.dataset.pdfName || 'PDF') + '</a>';
@@ -124,6 +127,7 @@
                     updateCekunganAirTanah.value = button.dataset.cekunganAirTanah || '';
                     updateHidrogeologi.value = button.dataset.hidrogeologi || '';
                     updateLapisanPembawaAir.value = button.dataset.lapisanPembawaAir || '';
+                    if (updatePotensi) updatePotensi.value = button.dataset.potensi || '';
                     if (updatePdfFile) updatePdfFile.value = '';
                     if (updatePdfCurrent) {
                         if (button.dataset.pdfUrl) {
@@ -1457,8 +1461,11 @@
     const updateJudul = document.getElementById('updateBuletinJudul');
     const updateIsi = document.getElementById('updateBuletinIsi');
     const updateStatus = document.getElementById('updateBuletinStatus');
+    const updateKategori = document.getElementById('updateBuletinKategori');
     const updatePublishedAt = document.getElementById('updateBuletinPublishedAt');
     const existingImageList = document.getElementById('existingBuletinImageList');
+    const kategoriOpenButton = document.getElementById('openKategoriEdukasiPopup');
+    const kategoriOverlay = document.getElementById('kategoriEdukasiOverlay');
 
     if (!createOpenButton || !createOverlay || !createInput) return;
 
@@ -1614,6 +1621,20 @@
         openOverlay(createOverlay, createInput);
     });
 
+    if (kategoriOpenButton && kategoriOverlay) {
+        kategoriOpenButton.addEventListener('click', function () {
+            openOverlay(kategoriOverlay);
+        });
+    }
+
+    document.querySelectorAll('.js-kategori-edukasi-delete-form').forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+            if (!window.confirm('Hapus kategori ini? Edukasi yang memakainya akan jadi tanpa kategori.')) {
+                event.preventDefault();
+            }
+        });
+    });
+
     document.querySelectorAll('.js-buletin-read-btn').forEach(function (button) {
         button.addEventListener('click', function () {
             const images = parseImages(button.dataset.images);
@@ -1643,6 +1664,9 @@
             updateForm.action = button.dataset.updateUrl || '';
             updateId.value = button.dataset.id || '';
             updateJudul.value = button.dataset.judul || '';
+            if (updateKategori) {
+                updateKategori.value = button.dataset.kategoriId || '';
+            }
             updateIsi.value = button.dataset.isi || '';
             updateStatus.value = button.dataset.status || 'draft';
             updatePublishedAt.value = button.dataset.publishedValue || '';

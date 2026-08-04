@@ -3,7 +3,7 @@
 @section('title', $infografis->judul . ' - Infografis Balai Air Tanah')
 
 @section('content')
-    @include('pages.partials.menu_detail_hero', ['menuGroup' => 'Publikasi', 'pageTitle' => $infografis->judul])
+    @include('pages.partials.menu_detail_hero', ['menuGroup' => 'Publikasi', 'pageTitle' => 'Infografis'])
 
     <section class="buletin-detail-section">
         <div class="container">

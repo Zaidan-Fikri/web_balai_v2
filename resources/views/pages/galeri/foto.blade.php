@@ -107,14 +107,14 @@
         font-weight: 800;
         letter-spacing: .12em;
         text-transform: uppercase;
-        color: #0047cc;
+        color: var(--bat-primary);
         margin: 0 0 5px;
     }
     .galeri-foto-judul {
         margin: 0 0 7px;
         font-size: .98rem;
         font-weight: 800;
-        color: #0a1f44;
+        color: var(--bat-primary-dark);
         line-height: 1.3;
     }
     .galeri-foto-desc {
@@ -134,7 +134,7 @@
         margin: 0 0 6px;
         font-size: .72rem;
         font-weight: 800;
-        color: #0047cc;
+        color: var(--bat-primary);
     }
 
     /* ── empty state ── */
@@ -143,7 +143,7 @@
         text-align: center;
         padding: 80px 20px;
     }
-    .galeri-empty h2 { font-size: 1.4rem; color: #0a1f44; margin-bottom: 8px; }
+    .galeri-empty h2 { font-size: 1.4rem; color: var(--bat-primary-dark); margin-bottom: 8px; }
     .galeri-empty p  { color: #666; font-size: .95rem; }
 
     /* ── pagination ── */
@@ -161,7 +161,7 @@
         color: #666;
     }
     .galeri-paging-info strong {
-        color: #0a1f44;
+        color: var(--bat-primary-dark);
     }
     .galeri-paging-btns {
         display: flex;
@@ -178,7 +178,7 @@
         border-radius: 10px;
         border: 1.5px solid rgba(0,51,153,.15);
         background: #fff;
-        color: #0a1f44;
+        color: var(--bat-primary-dark);
         font-size: 14px;
         font-weight: 600;
         text-decoration: none;
@@ -186,13 +186,13 @@
     }
     a.galeri-paging-btn:hover {
         background: #e8eeff;
-        border-color: #0047cc;
-        color: #0047cc;
+        border-color: var(--bat-primary);
+        color: var(--bat-primary);
         transform: translateY(-1px);
     }
     .galeri-paging-btn.is-active {
-        background: #0047cc;
-        border-color: #0047cc;
+        background: var(--bat-primary);
+        border-color: var(--bat-primary);
         color: #fff;
     }
     .galeri-paging-btn.is-disabled {
@@ -239,12 +239,12 @@
     .galeri-filter-btn:hover {
         background: #e8eeff;
         border-color: rgba(0,71,204,.35);
-        color: #0047cc;
+        color: var(--bat-primary);
         transform: translateY(-1px);
     }
     .galeri-filter-btn.active {
-        background: #0047cc;
-        border-color: #0047cc;
+        background: var(--bat-primary);
+        border-color: var(--bat-primary);
         color: #fff;
     }
     .galeri-filter-btn.active:hover {
@@ -334,7 +334,7 @@
         gap: 16px;
         align-items: start;
         text-align: left;
-        color: #0a1f44;
+        color: var(--bat-primary-dark);
         padding: 16px 18px;
         background: #fff;
         border-top: 1px solid #e4eaf5;
@@ -344,13 +344,13 @@
         font-weight: 800;
         letter-spacing: .12em;
         text-transform: uppercase;
-        color: #0047cc;
+        color: var(--bat-primary);
         margin-bottom: 4px;
     }
     .lb-caption-title {
         font-size: 1.18rem;
         font-weight: 800;
-        color: #0a1f44;
+        color: var(--bat-primary-dark);
         margin: 0 0 10px;
         line-height: 1.35;
     }
@@ -375,7 +375,7 @@
         background: #eef4ff;
         font-size: .75rem;
         font-weight: 700;
-        color: #0047cc;
+        color: var(--bat-primary);
         margin: 0;
         letter-spacing: .06em;
         white-space: nowrap;
@@ -406,7 +406,7 @@
     .lb-thumb:hover,
     .lb-thumb.is-active {
         opacity: 1;
-        border-color: #0047cc;
+        border-color: var(--bat-primary);
         transform: translateY(-1px);
     }
     .lb-thumb img {
@@ -425,7 +425,7 @@
         height: 38px;
         border-radius: 50%;
         border: 2px solid #fff;
-        background: #0a1f44;
+        background: var(--bat-primary-dark);
         color: #fff;
         font-size: 18px;
         cursor: pointer;
@@ -435,7 +435,7 @@
         transition: background .2s;
         z-index: 10000;
     }
-    .lb-close:hover { background: #0047cc; }
+    .lb-close:hover { background: var(--bat-primary); }
 
     /* nav arrows */
     .lb-nav {
@@ -447,7 +447,7 @@
         border-radius: 50%;
         border: 1px solid rgba(10,31,68,.14);
         background: rgba(255,255,255,.92);
-        color: #0a1f44;
+        color: var(--bat-primary-dark);
         font-size: 18px;
         cursor: pointer;
         display: flex;

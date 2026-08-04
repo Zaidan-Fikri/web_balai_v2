@@ -42,7 +42,7 @@
         align-items: center;
         gap: 8px;
         margin: 0 0 12px;
-        color: #0047cc;
+        color: var(--bat-primary);
         font-size: var(--profile-kicker-size, 12px);
         font-weight: 900;
         letter-spacing: .12em;
@@ -57,7 +57,7 @@
     }
     .profile-content-title {
         margin: 0;
-        color: #0a1f44;
+        color: var(--bat-primary-dark);
         font-size: var(--profile-title-size, clamp(1.9rem, 2.8vw, 2.75rem));
         font-weight: 900;
         line-height: 1.2;
@@ -90,7 +90,7 @@
         border: var(--profile-section-title-border, 1px solid #dce8fb);
         border-radius: 999px;
         background: var(--profile-section-title-bg, #ffffff);
-        color: #0047cc;
+        color: var(--bat-primary);
         font-size: var(--profile-section-title-size, 1.05rem);
         font-weight: 900;
         line-height: 1.35;
@@ -155,7 +155,7 @@
         background: linear-gradient(135deg, #eef4ff, #ffffff);
         border: 1px solid #dce8fb;
         box-shadow: 0 8px 16px rgba(0, 71, 204, .08);
-        color: #0047cc;
+        color: var(--bat-primary);
         font-size: 11px;
         font-weight: 900;
     }
@@ -196,7 +196,7 @@
         box-shadow: 0 0 0 5px #fff6dc;
     }
     .profile-content-tips strong {
-        color: #0a1f44;
+        color: var(--bat-primary-dark);
         font-size: 13px;
         font-weight: 900;
     }

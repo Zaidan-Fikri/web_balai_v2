@@ -49,6 +49,11 @@
     @endproduction
 </head>
 <body>
+<div id="batPageLoader" class="bat-page-loader" aria-hidden="true">
+    <div class="bat-loader-mark">
+        <img src="{{ asset('images/logo-pu.png') }}" alt="" loading="eager">
+    </div>
+</div>
 @include('master.navbar')
 @yield('content')
 @include('master.footer')

@@ -283,4 +283,103 @@ window.addEventListener('load', function () {
 
     renderDots();
     updateSlider();
+
+    // Fullscreen lightbox for photo/video slides
+    const lightbox = document.createElement('div');
+    lightbox.className = 'buletin-lightbox js-buletin-lightbox';
+    lightbox.setAttribute('role', 'dialog');
+    lightbox.setAttribute('aria-modal', 'true');
+    lightbox.setAttribute('aria-label', 'Tampilan penuh');
+    lightbox.innerHTML =
+        '<button type="button" class="buletin-lightbox-close" aria-label="Tutup">' +
+            '<i class="fa-solid fa-xmark" aria-hidden="true"></i>' +
+        '</button>' +
+        '<button type="button" class="buletin-lightbox-nav buletin-lightbox-prev" aria-label="Sebelumnya">' +
+            '<i class="fa-solid fa-chevron-left" aria-hidden="true"></i>' +
+        '</button>' +
+        '<div class="buletin-lightbox-stage"></div>' +
+        '<button type="button" class="buletin-lightbox-nav buletin-lightbox-next" aria-label="Berikutnya">' +
+            '<i class="fa-solid fa-chevron-right" aria-hidden="true"></i>' +
+        '</button>';
+    document.body.appendChild(lightbox);
+
+    const stage = lightbox.querySelector('.buletin-lightbox-stage');
+    const lbClose = lightbox.querySelector('.buletin-lightbox-close');
+    const lbPrev = lightbox.querySelector('.buletin-lightbox-prev');
+    const lbNext = lightbox.querySelector('.buletin-lightbox-next');
+    let lbIndex = 0;
+
+    function renderLightboxSlide() {
+        const slideEl = slides[lbIndex];
+        const sourceVideo = slideEl.querySelector('video');
+        const sourceImg = slideEl.querySelector('img');
+        stage.innerHTML = '';
+
+        if (sourceVideo) {
+            const video = document.createElement('video');
+            video.src = sourceVideo.currentSrc || sourceVideo.src;
+            if (sourceVideo.poster) video.poster = sourceVideo.poster;
+            video.controls = true;
+            video.autoplay = true;
+            stage.appendChild(video);
+        } else if (sourceImg) {
+            const img = document.createElement('img');
+            img.src = sourceImg.src;
+            img.alt = sourceImg.alt || '';
+            stage.appendChild(img);
+        }
+
+        const showNav = slides.length > 1;
+        lbPrev.style.display = showNav ? '' : 'none';
+        lbNext.style.display = showNav ? '' : 'none';
+    }
+
+    function openLightbox(slideIndex) {
+        pauseCurrentVideo();
+        lbIndex = slideIndex;
+        renderLightboxSlide();
+        lightbox.classList.add('is-open');
+        document.body.classList.add('buletin-lightbox-open');
+        lbClose.focus();
+    }
+
+    function closeLightbox() {
+        stage.innerHTML = '';
+        lightbox.classList.remove('is-open');
+        document.body.classList.remove('buletin-lightbox-open');
+    }
+
+    function moveLightbox(direction) {
+        lbIndex += direction;
+        if (lbIndex < 0) lbIndex = slides.length - 1;
+        if (lbIndex >= slides.length) lbIndex = 0;
+        renderLightboxSlide();
+    }
+
+    slides.forEach(function (slideEl, slideIndex) {
+        const expandButton = document.createElement('button');
+        expandButton.type = 'button';
+        expandButton.className = 'buletin-slide-expand';
+        expandButton.setAttribute('aria-label', 'Perbesar tampilan');
+        expandButton.innerHTML = '<i class="fa-solid fa-expand" aria-hidden="true"></i>';
+        expandButton.addEventListener('click', function () {
+            openLightbox(slideIndex);
+        });
+        slideEl.appendChild(expandButton);
+    });
+
+    lbClose.addEventListener('click', closeLightbox);
+    lbPrev.addEventListener('click', function () { moveLightbox(-1); });
+    lbNext.addEventListener('click', function () { moveLightbox(1); });
+
+    lightbox.addEventListener('click', function (event) {
+        if (event.target === lightbox) closeLightbox();
+    });
+
+    document.addEventListener('keydown', function (event) {
+        if (!lightbox.classList.contains('is-open')) return;
+        if (event.key === 'Escape') closeLightbox();
+        if (event.key === 'ArrowLeft') moveLightbox(-1);
+        if (event.key === 'ArrowRight') moveLightbox(1);
+    });
 })();

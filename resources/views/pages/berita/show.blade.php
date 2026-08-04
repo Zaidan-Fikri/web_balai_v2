@@ -40,6 +40,21 @@
         letter-spacing: -.01em;
     }
 
+    .berita-show-kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: .7rem;
+        font-weight: 800;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+        color: #fff;
+        background: linear-gradient(135deg, #0f2d5a 0%, #1a6bcc 100%);
+        padding: 5px 12px 5px 9px;
+        border-radius: 999px;
+        margin-bottom: 12px;
+    }
+
     .berita-show-card .buletin-slider {
         border-radius: 0;
         border: none;
@@ -176,7 +191,7 @@
         transition: color .18s;
     }
     .berita-sidebar-item:hover .berita-sidebar-title {
-        color: #1a6bcc;
+        color: var(--bat-primary);
     }
     .berita-sidebar-footer {
         padding: 14px 16px;
@@ -244,7 +259,7 @@
 
 
 @section('content')
-    @include('pages.partials.menu_detail_hero', ['menuGroup' => 'Berita', 'pageTitle' => $berita->judul])
+    @include('pages.partials.menu_detail_hero', ['menuGroup' => 'Publikasi', 'pageTitle' => 'Berita'])
 
     <section class="berita-show-section">
         <div class="container">
@@ -262,6 +277,9 @@
                 {{-- Main Article --}}
                 <article class="berita-show-card">
                     <div class="berita-show-head">
+                        <span class="berita-show-kicker">
+                            <i class="fa-solid fa-newspaper fa-xs" aria-hidden="true"></i> Berita
+                        </span>
                         <h1 class="berita-show-title">{{ $berita->judul }}</h1>
                         <div class="buletin-detail-meta">
                             <span>

@@ -278,6 +278,7 @@ class AdminGeolistrik1dController extends Controller
             'cekungan_air_tanah' => ['nullable', 'string', 'max:255'],
             'hidrogeologi' => ['nullable', 'string'],
             'lapisan_pembawa_air' => ['nullable', 'string'],
+            'potensi' => ['nullable', 'string'],
             'pdf_path' => ['nullable', 'string', 'max:255'],
             'pdf_file' => ['nullable', 'file', 'mimes:pdf', 'max:10240'],
         ];
@@ -332,6 +333,7 @@ class AdminGeolistrik1dController extends Controller
 
         $sharedStrings = $this->readSharedStrings($zip);
         $sheetXml = $zip->getFromName('xl/worksheets/sheet1.xml');
+        $sheetRelsXml = $zip->getFromName('xl/worksheets/_rels/sheet1.xml.rels');
         $zip->close();
 
         if ($sheetXml === false) {
@@ -350,6 +352,10 @@ class AdminGeolistrik1dController extends Controller
             throw new \RuntimeException('Sheet Excel tidak bisa dibaca.');
         }
 
+        // Sel dengan hyperlink (mis. teks "Lihat PDF" yang di-link ke Google Drive)
+        // menyimpan URL asli terpisah dari teks yang ditampilkan, jadi harus dibaca dari sini.
+        $hyperlinkTargets = $this->readHyperlinkTargets($sheetXPath, $sheetRelsXml);
+
         $rows = [];
 
         foreach ($rowNodes as $rowNode) {
@@ -358,7 +364,8 @@ class AdminGeolistrik1dController extends Controller
             foreach ($sheetXPath->query('./main:c', $rowNode) as $cell) {
                 $reference = $cell->attributes?->getNamedItem('r')?->nodeValue ?? '';
                 $columnIndex = $this->columnIndex($reference);
-                $values[$columnIndex] = $this->readXlsxCellValue($cell, $sharedStrings, $sheetXPath);
+                $values[$columnIndex] = $hyperlinkTargets[$reference]
+                    ?? $this->readXlsxCellValue($cell, $sharedStrings, $sheetXPath);
             }
 
             if (!count($values)) {
@@ -377,6 +384,53 @@ class AdminGeolistrik1dController extends Controller
         }
 
         return $rows;
+    }
+
+    /**
+     * Peta referensi sel (mis. "N2") ke URL hyperlink asli, dibaca dari
+     * <hyperlinks> pada sheet1.xml dan diresolusi lewat sheet1.xml.rels.
+     */
+    private function readHyperlinkTargets(\DOMXPath $sheetXPath, string|false $sheetRelsXml): array
+    {
+        if ($sheetRelsXml === false) {
+            return [];
+        }
+
+        $relsDom = new \DOMDocument();
+        $relsDom->preserveWhiteSpace = false;
+        $relsDom->loadXML($sheetRelsXml);
+
+        $relsXPath = new \DOMXPath($relsDom);
+        $relsXPath->registerNamespace('main', 'http://schemas.openxmlformats.org/package/2006/relationships');
+
+        $relationshipTargets = [];
+        foreach ($relsXPath->query('//main:Relationship') as $node) {
+            $id = $node->attributes?->getNamedItem('Id')?->nodeValue;
+            $target = $node->attributes?->getNamedItem('Target')?->nodeValue;
+
+            if ($id && $target) {
+                $relationshipTargets[$id] = $target;
+            }
+        }
+
+        if (!count($relationshipTargets)) {
+            return [];
+        }
+
+        $targets = [];
+        foreach ($sheetXPath->query('//main:hyperlinks/main:hyperlink') as $node) {
+            $ref = $node->attributes?->getNamedItem('ref')?->nodeValue;
+            $relationshipId = $node->getAttributeNS(
+                'http://schemas.openxmlformats.org/officeDocument/2006/relationships',
+                'id'
+            );
+
+            if ($ref && $relationshipId && isset($relationshipTargets[$relationshipId])) {
+                $targets[$ref] = $relationshipTargets[$relationshipId];
+            }
+        }
+
+        return $targets;
     }
 
     private function readSharedStrings(ZipArchive $zip): array
@@ -465,7 +519,8 @@ class AdminGeolistrik1dController extends Controller
             'cekungan_air_tanah' => ['cekunganairtanah', 'cat'],
             'hidrogeologi' => ['hidrogeologi'],
             'lapisan_pembawa_air' => ['lapisanpembawaair'],
-            'pdf_path' => ['pdf', 'filepdf', 'dokumenpdf'],
+            'potensi' => ['potensi'],
+            'pdf_path' => ['pdf', 'filepdf', 'dokumenpdf', 'foto', 'link', 'linkpdf', 'url'],
         ];
 
         return collect($rawRows)

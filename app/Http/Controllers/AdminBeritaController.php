@@ -24,7 +24,7 @@ class AdminBeritaController extends Controller
     {
         $beritas = Berita::query()
             ->with(['images', 'author'])
-            ->latest('tanggal_publish')
+            ->orderByRaw('COALESCE(tanggal_publish, created_at) DESC')
             ->get();
 
         return view('pages.admin.berita', compact('beritas'));

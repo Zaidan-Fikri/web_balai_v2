@@ -37,8 +37,8 @@
     text-align: center;
     white-space: nowrap;
 }
-.ib-tab:hover { color: #1a6bcc; background: #eef4ff; }
-.ib-tab.active { color: #1a6bcc; border-bottom-color: #1a6bcc; background: #fff; }
+.ib-tab:hover { color: var(--bat-primary); background: #eef4ff; }
+.ib-tab.active { color: var(--bat-primary); border-bottom-color: var(--bat-primary); background: #fff; }
 
 /* ── Tab Content ─────────────────────────────────────── */
 .ib-tab-content { display: none; padding: 28px 32px 32px; }
@@ -67,11 +67,11 @@
 }
 .ib-accordion-header::-webkit-details-marker { display: none; }
 .ib-accordion-header:hover { background: #eef4ff; }
-.ib-accordion[open] .ib-accordion-header { background: #e9f0fd; color: #1a6bcc; }
+.ib-accordion[open] .ib-accordion-header { background: #e9f0fd; color: var(--bat-primary); }
 .ib-accordion-caret {
     width: 20px; height: 20px;
     transition: transform .25s;
-    color: #1a6bcc;
+    color: var(--bat-primary);
     flex-shrink: 0;
 }
 .ib-accordion[open] .ib-accordion-caret { transform: rotate(180deg); }
@@ -105,7 +105,7 @@
     text-decoration: none;
 }
 .ib-btn:hover { opacity: .85; transform: translateY(-1px); }
-.ib-btn-view { background: #1a6bcc; color: #fff; }
+.ib-btn-view { background: var(--bat-primary); color: #fff; }
 
 /* ── Empty State ─────────────────────────────────────── */
 .ib-empty { padding: 40px 0; text-align: center; color: #8a97b0; font-size: .95rem; }

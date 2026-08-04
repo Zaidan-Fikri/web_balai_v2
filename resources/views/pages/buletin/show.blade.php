@@ -3,7 +3,7 @@
 @section('title', $buletin->judul . ' - Edukasi Balai Air Tanah')
 
 @section('content')
-    @include('pages.partials.menu_detail_hero', ['menuGroup' => 'Edukasi', 'pageTitle' => $buletin->judul])
+    @include('pages.partials.menu_detail_hero', ['menuGroup' => 'Publikasi', 'pageTitle' => 'Edukasi'])
 
     <section class="buletin-detail-section">
         <div class="container">

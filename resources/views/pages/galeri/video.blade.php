@@ -136,7 +136,7 @@
         margin: 0 0 6px;
         font-size: .95rem;
         font-weight: 800;
-        color: #0a1f44;
+        color: var(--bat-primary-dark);
         line-height: 1.3;
     }
     .galeri-video-desc {
@@ -165,7 +165,7 @@
         text-align: center;
         padding: 80px 20px;
     }
-    .galeri-empty h2 { font-size: 1.4rem; color: #0a1f44; margin-bottom: 8px; }
+    .galeri-empty h2 { font-size: 1.4rem; color: var(--bat-primary-dark); margin-bottom: 8px; }
     .galeri-empty p  { color: #666; font-size: .95rem; }
 
     /* Filter bar */
@@ -194,13 +194,13 @@
     .galeri-filter-btn:hover {
         background: #e8eeff;
         border-color: rgba(0,71,204,.35);
-        color: #0047cc;
+        color: var(--bat-primary);
         transform: translateY(-1px);
         text-decoration: none;
     }
     .galeri-filter-btn.active {
-        background: #0047cc;
-        border-color: #0047cc;
+        background: var(--bat-primary);
+        border-color: var(--bat-primary);
         color: #fff;
     }
     .galeri-filter-btn.active:hover {

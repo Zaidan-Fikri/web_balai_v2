@@ -141,6 +141,7 @@
                             <th>Cekungan Air Tanah</th>
                             <th>Hidrogeologi</th>
                             <th>Lapisan Pembawa Air</th>
+                            <th>Potensi</th>
                             <th>PDF</th>
                             <th>Action</th>
                         </tr>
@@ -161,9 +162,10 @@
                                 <td>{{ $item->cekungan_air_tanah ?? '-' }}</td>
                                 <td>{{ $item->hidrogeologi ?? '-' }}</td>
                                 <td>{{ $item->lapisan_pembawa_air ?? '-' }}</td>
+                                <td>{{ $item->potensi ?? '-' }}</td>
                                 <td>
                                     @if ($item->pdf_path)
-                                        <a class="btn-action read" href="{{ asset('storage/' . $item->pdf_path) }}" target="_blank" rel="noopener">PDF</a>
+                                        <a class="btn-action read" href="{{ $item->pdf_url }}" target="_blank" rel="noopener">PDF</a>
                                     @else
                                         -
                                     @endif
@@ -184,8 +186,9 @@
                                             data-cekungan-air-tanah="{{ $item->cekungan_air_tanah }}"
                                             data-hidrogeologi="{{ $item->hidrogeologi }}"
                                             data-lapisan-pembawa-air="{{ $item->lapisan_pembawa_air }}"
-                                            data-pdf-url="{{ $item->pdf_path ? asset('storage/' . $item->pdf_path) : '' }}"
-                                            data-pdf-name="{{ $item->pdf_path ? basename($item->pdf_path) : '' }}"
+                                            data-potensi="{{ $item->potensi }}"
+                                            data-pdf-url="{{ $item->pdf_url }}"
+                                            data-pdf-name="{{ $item->pdf_name }}"
                                         >Read</button>
                                         <button type="button" class="btn-action update js-geolistrik-update-btn"
                                             data-update-url="{{ route('admin.geolistrik-1d.update', $item->id) }}"
@@ -202,8 +205,9 @@
                                             data-cekungan-air-tanah="{{ $item->cekungan_air_tanah }}"
                                             data-hidrogeologi="{{ $item->hidrogeologi }}"
                                             data-lapisan-pembawa-air="{{ $item->lapisan_pembawa_air }}"
-                                            data-pdf-url="{{ $item->pdf_path ? asset('storage/' . $item->pdf_path) : '' }}"
-                                            data-pdf-name="{{ $item->pdf_path ? basename($item->pdf_path) : '' }}"
+                                            data-potensi="{{ $item->potensi }}"
+                                            data-pdf-url="{{ $item->pdf_url }}"
+                                            data-pdf-name="{{ $item->pdf_name }}"
                                         >Update</button>
                                         <form method="POST" action="{{ route('admin.geolistrik-1d.destroy', $item->id) }}" class="js-geolistrik-delete-form">
                                             @csrf @method('DELETE')
@@ -265,7 +269,7 @@
                         Baris tanpa kolom UPT akan otomatis diisi: <strong>{{ $selectedUpt }}</strong>
                     </span>
                 @endif
-                <span class="popup-help">Gunakan header: KODE, KAB/KOTA, KECAMATAN, DESA/KELURAHAN, UPT, LATITUDE, LONGITUDE, ELEVASI, TANGGAL AKUSISI DATA, GEOLOGI, CEKUNGAN AIR TANAH, HIDROGEOLOGI, LAPISAN PEMBAWA AIR, PDF.</span>
+                <span class="popup-help">Gunakan header: KODE, KAB/KOTA, KECAMATAN, DESA/KELURAHAN, UPT, LATITUDE, LONGITUDE, ELEVASI, TANGGAL AKUSISI DATA, GEOLOGI, CEKUNGAN AIR TANAH, HIDROGEOLOGI, LAPISAN PEMBAWA AIR, POTENSI, PDF (atau FOTO/LINK). Kolom PDF boleh diisi link Google Drive dsb., baik sebagai teks biasa maupun hyperlink.</span>
                 <div class="popup-actions">
                     <button type="button" class="btn-action" data-close-overlay="geolistrikImportOverlay">Batal</button>
                     <button type="submit" class="btn-primary">Preview</button>
@@ -302,6 +306,7 @@
                             <th>Cekungan Air Tanah</th>
                             <th>Hidrogeologi</th>
                             <th>Lapisan Pembawa Air</th>
+                            <th>Potensi</th>
                             <th>PDF</th>
                             <th>Status</th>
                         </tr>
@@ -324,6 +329,7 @@
                                 <td>{{ $data['cekungan_air_tanah'] ?? '-' }}</td>
                                 <td>{{ $data['hidrogeologi'] ?? '-' }}</td>
                                 <td>{{ $data['lapisan_pembawa_air'] ?? '-' }}</td>
+                                <td>{{ $data['potensi'] ?? '-' }}</td>
                                 <td>{{ $data['pdf_path'] ?? '-' }}</td>
                                 <td>
                                     @if (count($row['errors']))
@@ -372,6 +378,7 @@
                 <input type="text" class="popup-input" name="cekungan_air_tanah" value="{{ old('cekungan_air_tanah') }}" placeholder="Cekungan Air Tanah">
                 <textarea class="popup-input" name="hidrogeologi" placeholder="Hidrogeologi">{{ old('hidrogeologi') }}</textarea>
                 <textarea class="popup-input" name="lapisan_pembawa_air" placeholder="Lapisan Pembawa Air">{{ old('lapisan_pembawa_air') }}</textarea>
+                <textarea class="popup-input" name="potensi" placeholder="Potensi">{{ old('potensi') }}</textarea>
                 <input type="file" class="popup-input" name="pdf_file" accept=".pdf,application/pdf">
                 <span class="popup-help">Koordinat dibatasi dalam wilayah Indonesia.</span>
                 <div class="popup-actions"><button type="submit" class="btn-primary">Tambah</button></div>
@@ -395,6 +402,7 @@
             <p class="read-meta">Cekungan Air Tanah: <strong id="readGeolistrikCekunganAirTanah">-</strong></p>
             <p class="read-meta">Hidrogeologi: <strong id="readGeolistrikHidrogeologi">-</strong></p>
             <p class="read-meta">Lapisan Pembawa Air: <strong id="readGeolistrikLapisanPembawaAir">-</strong></p>
+            <p class="read-meta">Potensi: <strong id="readGeolistrikPotensi">-</strong></p>
             <p class="read-meta">PDF: <strong id="readGeolistrikPdf">-</strong></p>
             <div class="popup-actions"><button type="button" class="btn-primary" data-close-overlay="geolistrikReadOverlay">Tutup</button></div>
         </div>
@@ -420,6 +428,7 @@
                 <input type="text" class="popup-input" id="updateGeolistrikCekunganAirTanah" name="cekungan_air_tanah" placeholder="Cekungan Air Tanah">
                 <textarea class="popup-input" id="updateGeolistrikHidrogeologi" name="hidrogeologi" placeholder="Hidrogeologi"></textarea>
                 <textarea class="popup-input" id="updateGeolistrikLapisanPembawaAir" name="lapisan_pembawa_air" placeholder="Lapisan Pembawa Air"></textarea>
+                <textarea class="popup-input" id="updateGeolistrikPotensi" name="potensi" placeholder="Potensi"></textarea>
                 <p class="read-meta">PDF Saat Ini: <strong id="updateGeolistrikPdfCurrent">-</strong></p>
                 <input type="file" class="popup-input" id="updateGeolistrikPdfFile" name="pdf_file" accept=".pdf,application/pdf">
                 <span class="popup-help">Kosongkan tidak diperbolehkan karena marker peta membutuhkan koordinat.</span>

@@ -99,6 +99,8 @@ function createDetailsPanelRenderer(config, map) {
     const panel          = document.getElementById('geolistrikInfoPanel');
     const closeBtn       = document.getElementById('geolistrikInfoClose');
     const titleEl        = document.getElementById('mapDetailTitle');
+    const potensiEl      = document.getElementById('mapDetailPotensi');
+    const potensiTextEl  = document.getElementById('mapDetailPotensiText');
     const coordsEl       = document.getElementById('mapDetailCoords');
     const preview        = document.getElementById('geolistrikPdfPreview');
     const centerBtn      = document.getElementById('mapDetailCenter');
@@ -307,6 +309,15 @@ function createDetailsPanelRenderer(config, map) {
         }
 
         if (titleEl) titleEl.textContent = data.kode || '—';
+        if (potensiEl) {
+            if (data.potensi) {
+                if (potensiTextEl) potensiTextEl.textContent = data.potensi;
+                potensiEl.hidden = false;
+            } else {
+                if (potensiTextEl) potensiTextEl.textContent = '';
+                potensiEl.hidden = true;
+            }
+        }
         if (coordsEl) coordsEl.textContent = Number(data.lat).toFixed(7) + ', ' + Number(data.lng).toFixed(7);
         if (gmapsBtn) gmapsBtn.href = 'https://www.google.com/maps?q=' + Number(data.lat) + ',' + Number(data.lng);
 

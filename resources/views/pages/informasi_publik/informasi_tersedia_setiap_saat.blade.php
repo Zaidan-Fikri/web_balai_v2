@@ -26,8 +26,8 @@
 .ib-accordion-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; font-size: 1rem; font-weight: 700; color: #1e2d4e; cursor: pointer; background: #f8fafc; user-select: none; list-style: none; transition: background .15s; }
 .ib-accordion-header::-webkit-details-marker { display: none; }
 .ib-accordion-header:hover { background: #eef4ff; }
-.ib-accordion[open] .ib-accordion-header { background: #e9f0fd; color: #1a6bcc; }
-.ib-accordion-caret { width: 20px; height: 20px; transition: transform .25s; color: #1a6bcc; flex-shrink: 0; }
+.ib-accordion[open] .ib-accordion-header { background: #e9f0fd; color: var(--bat-primary); }
+.ib-accordion-caret { width: 20px; height: 20px; transition: transform .25s; color: var(--bat-primary); flex-shrink: 0; }
 .ib-accordion[open] .ib-accordion-caret { transform: rotate(180deg); }
 .ib-accordion-body { padding: 0 20px 16px; }
 .ib-file-list { list-style: none; margin: 0; padding: 0; }
@@ -38,7 +38,7 @@
 .ib-file-actions { display: flex; gap: 8px; flex-shrink: 0; }
 .ib-btn { display: inline-flex; align-items: center; gap: 5px; padding: 6px 14px; border-radius: 6px; font-size: .82rem; font-weight: 600; cursor: pointer; border: none; transition: opacity .15s, transform .1s; text-decoration: none; }
 .ib-btn:hover { opacity: .85; transform: translateY(-1px); }
-.ib-btn-view { background: #1a6bcc; color: #fff; }
+.ib-btn-view { background: var(--bat-primary); color: #fff; }
 .ib-empty { padding: 40px 0; text-align: center; color: #8a97b0; font-size: .95rem; }
 
 /* FLIPBOOK MODAL */

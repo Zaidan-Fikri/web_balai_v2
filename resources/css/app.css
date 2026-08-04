@@ -32,6 +32,8 @@
     --bat-brand-h: clamp(36px, 2.8vw, 44px);
     --bat-flyout-gap: 18px;
     --bat-hero-gradient-h: clamp(105px, 15vh, 180px);
+    /* accent blue used only by the "Akses Cepat" service cards on the homepage */
+    --bat-service-blue: #1d4ed8;
     --bs-body-font-family: var(--bat-font-body);
 }
 
@@ -787,6 +789,70 @@ h6,
     visibility: visible;
     pointer-events: auto;
     transform: translateX(0) scale(1);
+}
+
+/* =========================================================
+   Page loader (overlay shown on initial load & navigation)
+   ========================================================= */
+.bat-page-loader {
+    position: fixed;
+    inset: 0;
+    z-index: 100000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bat-primary-deep);
+    opacity: 1;
+    visibility: visible;
+    transition: opacity .35s ease, visibility 0s linear 0s;
+}
+
+.bat-page-loader.is-hidden {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .35s ease, visibility 0s linear .35s;
+}
+
+.bat-loader-mark {
+    position: relative;
+    width: 84px;
+    height: 84px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bat-loader-mark::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 3px solid rgba(255, 255, 255, 0.16);
+    border-top-color: var(--bat-accent);
+    animation: bat-loader-spin .85s linear infinite;
+}
+
+.bat-loader-mark img {
+    width: 46px;
+    height: 46px;
+    object-fit: contain;
+    animation: bat-loader-pulse 1.5s ease-in-out infinite;
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.35));
+}
+
+@keyframes bat-loader-spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes bat-loader-pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: .78; transform: scale(.92); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .bat-page-loader { transition: opacity .01s linear; }
+    .bat-loader-mark::before,
+    .bat-loader-mark img { animation: none; }
 }
 
 /* =========================================================

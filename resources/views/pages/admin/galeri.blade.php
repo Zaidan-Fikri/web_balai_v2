@@ -86,6 +86,33 @@
         border-color: rgba(0, 71, 204, 0.35);
         transform: translateY(-1px);
     }
+    .galeri-type-tabs {
+        display: flex;
+        gap: 8px;
+        margin: 4px 0 16px;
+        flex-wrap: wrap;
+    }
+    .galeri-type-tab {
+        display: inline-flex;
+        align-items: center;
+        padding: 9px 18px;
+        border-radius: 999px;
+        border: 1px solid rgba(0, 51, 153, 0.14);
+        background: #ffffff;
+        color: var(--navy-dark);
+        font-size: 13px;
+        font-weight: 900;
+        text-decoration: none;
+        transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+    }
+    .galeri-type-tab:hover {
+        transform: translateY(-1px);
+    }
+    .galeri-type-tab.active {
+        background: linear-gradient(135deg, var(--blue-dark), var(--blue-bright));
+        border-color: transparent;
+        color: #ffffff;
+    }
     .badge-type {
         display: inline-flex;
         align-items: center;
@@ -255,6 +282,12 @@
                 <div class="flash-error">{{ $errors->first() }}</div>
             @endif
 
+            <div class="galeri-type-tabs">
+                <a href="{{ route('admin.galeri.index') }}" class="galeri-type-tab {{ $type === null ? 'active' : '' }}">Semua</a>
+                <a href="{{ route('admin.galeri.index', ['type' => 'foto']) }}" class="galeri-type-tab {{ $type === 'foto' ? 'active' : '' }}">Foto</a>
+                <a href="{{ route('admin.galeri.index', ['type' => 'video']) }}" class="galeri-type-tab {{ $type === 'video' ? 'active' : '' }}">Video</a>
+            </div>
+
             <div class="table-wrap">
                 <table class="thumbnail-table">
                     <thead>
@@ -325,6 +358,7 @@
                                             data-tanggal="{{ $item->tanggal_publish ? $item->tanggal_publish->format('Y-m-d\TH:i') : '' }}"
                                             data-bg="{{ $item->background_color }}"
                                             data-extra-images="{{ json_encode($item->images->map(fn($i) => ['id' => $i->id, 'url' => $i->image_url, 'delete_url' => route('admin.galeri.destroy-image', [$item->id, $i->id])])->values()) }}">Update</button>
+                                        <a href="{{ route('admin.galeri.download', $item->id) }}" class="btn-action download">Download</a>
                                         <form method="POST" action="{{ route('admin.galeri.destroy', $item->id) }}" class="js-galeri-delete-form">
                                             @csrf
                                             @method('DELETE')
@@ -335,7 +369,15 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="8">Belum ada data galeri.</td>
+                                <td colspan="8">
+                                    @if ($type === 'foto')
+                                        Belum ada data foto.
+                                    @elseif ($type === 'video')
+                                        Belum ada data video.
+                                    @else
+                                        Belum ada data galeri.
+                                    @endif
+                                </td>
                             </tr>
                         @endforelse
                     </tbody>

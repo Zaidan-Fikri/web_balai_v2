@@ -17,6 +17,7 @@ class Buletin extends Model
 
     protected $fillable = [
         'admin_user_id',
+        'kategori_edukasi_id',
         'judul',
         'slug',
         'isi',
@@ -41,6 +42,11 @@ class Buletin extends Model
     public function author(): BelongsTo
     {
         return $this->belongsTo(AdminUser::class, 'admin_user_id');
+    }
+
+    public function kategori(): BelongsTo
+    {
+        return $this->belongsTo(KategoriEdukasi::class, 'kategori_edukasi_id');
     }
 
     public function scopePublished(Builder $query): Builder

@@ -35,7 +35,7 @@ final class IndonesiaMap
 
     private static function baseConfig(bool $withDetails): array
     {
-        $geo1dCols = self::SURVEY_COLS;
+        $geo1dCols = array_merge(self::SURVEY_COLS, ['potensi']);
 
         $geolistrikMarkers = Geolistrik1d::query()
             ->orderBy('kode')
@@ -157,6 +157,7 @@ final class IndonesiaMap
             'cekunganAirTanah'  => $item->cekungan_air_tanah,
             'hidrogeologi'      => $item->hidrogeologi,
             'lapisanPembawaAir' => $item->lapisan_pembawa_air,
+            'potensi'           => $item->potensi,
             'pdfUrl'            => self::pdfUrl($item->pdf_path),
             'pdfName'           => $item->pdf_path ? basename($item->pdf_path) : null,
         ]);

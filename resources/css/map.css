@@ -174,6 +174,25 @@ html, body {
     word-break: break-word;
 }
 
+.map-detail-potensi {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 7px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(15, 157, 88, 0.12);
+    color: #0f9d58;
+    font-family: var(--bat-font-body);
+    font-size: 11.5px;
+    font-weight: 800;
+    line-height: 1.3;
+}
+
+.map-detail-potensi[hidden] {
+    display: none;
+}
+
 /* ── Detail card body (scrollable) ──────────────────── */
 .map-detail-body {
     overflow-y: auto;

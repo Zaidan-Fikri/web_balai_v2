@@ -8,8 +8,11 @@ use App\Models\Galeri;
 use App\Models\GaleriImage;
 use App\Services\FileUploadService;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class AdminGaleriController extends Controller
 {
@@ -20,14 +23,18 @@ class AdminGaleriController extends Controller
     {
     }
 
-    public function index(): View
+    public function index(Request $request): View
     {
+        $type = $request->query('type');
+        $type = in_array($type, ['foto', 'video'], true) ? $type : null;
+
         $galeris = Galeri::query()
             ->with(['author', 'images'])
-            ->latest('tanggal_publish')
+            ->when($type, fn ($q) => $q->where('type', $type))
+            ->orderByRaw('COALESCE(tanggal_publish, created_at) DESC')
             ->get();
 
-        return view('pages.admin.galeri', compact('galeris'));
+        return view('pages.admin.galeri', compact('galeris', 'type'));
     }
 
     public function store(StoreGaleriRequest $request): RedirectResponse
@@ -129,6 +136,15 @@ class AdminGaleriController extends Controller
         return redirect()
             ->route('admin.galeri.index')
             ->with('success', 'Item galeri berhasil diperbarui.');
+    }
+
+    public function download(Galeri $galeri): StreamedResponse
+    {
+        abort_unless($galeri->image_path && Storage::disk('public')->exists($galeri->image_path), 404);
+
+        $filename = Str::slug($galeri->judul ?: 'galeri') . '.' . pathinfo($galeri->image_path, PATHINFO_EXTENSION);
+
+        return Storage::disk('public')->download($galeri->image_path, $filename);
     }
 
     public function destroyImage(Galeri $galeri, GaleriImage $galeriImage): RedirectResponse

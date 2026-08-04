@@ -10,7 +10,10 @@
                     <p class="page-kicker">Publikasi</p>
                     <h3>Edukasi</h3>
                 </div>
-                <button type="button" class="btn-plus" id="openBuletinPopup" aria-label="Tambah edukasi">+</button>
+                <div class="action-group">
+                    <button type="button" class="btn-action update" id="openKategoriEdukasiPopup">Kelola Kategori</button>
+                    <button type="button" class="btn-plus" id="openBuletinPopup" aria-label="Tambah edukasi">+</button>
+                </div>
             </div>
 
             @if (session('success'))
@@ -26,6 +29,7 @@
                     <thead>
                     <tr>
                         <th>Judul</th>
+                        <th>Kategori</th>
                         <th>Status</th>
                         <th>Tanggal Publish</th>
                         <th>Views</th>
@@ -52,6 +56,7 @@
                         @endphp
                         <tr>
                             <td>{{ $buletin->judul }}</td>
+                            <td>{{ $buletin->kategori?->nama ?? '-' }}</td>
                             <td><span class="status {{ $statusClass }}">{{ $statusLabel }}</span></td>
                             <td>{{ $buletin->published_at ? $buletin->published_at->format('d M, Y H:i') : '-' }}</td>
                             <td>{{ number_format($buletin->views) }}</td>
@@ -76,6 +81,7 @@
                                         type="button"
                                         class="btn-action update js-buletin-update-btn"
                                         data-id="{{ $buletin->id }}"
+                                        data-kategori-id="{{ $buletin->kategori_edukasi_id }}"
                                         data-judul="{{ $buletin->judul }}"
                                         data-isi="{{ $buletin->isi }}"
                                         data-status="{{ $buletin->status }}"
@@ -95,7 +101,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7">Belum ada data edukasi.</td>
+                            <td colspan="8">Belum ada data edukasi.</td>
                         </tr>
                     @endforelse
                     </tbody>
@@ -111,6 +117,12 @@
                 @csrf
                 <input type="hidden" name="form_type" value="create">
                 <input type="text" class="popup-input" id="buletinPopupInput" name="judul" value="{{ old('judul') }}" placeholder="Masukkan judul edukasi" required>
+                <select class="popup-input" name="kategori_edukasi_id">
+                    <option value="">Tanpa kategori</option>
+                    @foreach ($kategoriEdukasis as $kategoriEdukasi)
+                        <option value="{{ $kategoriEdukasi->id }}" @selected((string) old('kategori_edukasi_id') === (string) $kategoriEdukasi->id)>{{ $kategoriEdukasi->nama }}</option>
+                    @endforeach
+                </select>
                 <textarea class="popup-textarea" name="isi" placeholder="Masukkan isi edukasi" required>{{ old('isi') }}</textarea>
                 <select class="popup-input js-buletin-status" name="status" required>
                     <option value="draft" @selected(old('status', 'draft') === 'draft')>Draft</option>
@@ -150,6 +162,12 @@
                 <input type="hidden" name="form_type" value="update">
                 <input type="hidden" name="buletin_id" id="updateBuletinId">
                 <input type="text" class="popup-input" id="updateBuletinJudul" name="judul" placeholder="Masukkan judul edukasi" required>
+                <select class="popup-input" id="updateBuletinKategori" name="kategori_edukasi_id">
+                    <option value="">Tanpa kategori</option>
+                    @foreach ($kategoriEdukasis as $kategoriEdukasi)
+                        <option value="{{ $kategoriEdukasi->id }}">{{ $kategoriEdukasi->nama }}</option>
+                    @endforeach
+                </select>
                 <textarea class="popup-textarea" id="updateBuletinIsi" name="isi" placeholder="Masukkan isi edukasi" required></textarea>
                 <select class="popup-input js-buletin-status" id="updateBuletinStatus" name="status" required>
                     <option value="draft">Draft</option>
@@ -166,6 +184,40 @@
                     <button type="submit" class="btn-tambah">Simpan Perubahan</button>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <div class="popup-overlay" id="kategoriEdukasiOverlay" aria-hidden="true">
+        <div class="popup-card" role="dialog" aria-modal="true" aria-labelledby="kategoriEdukasiTitle">
+            <h4 id="kategoriEdukasiTitle">Kelola Kategori Edukasi</h4>
+
+            <form method="POST" action="{{ route('admin.kategori-edukasi.store') }}">
+                @csrf
+                <input type="text" class="popup-input" name="nama" placeholder="Nama kategori baru" required>
+                <div class="popup-actions">
+                    <button type="submit" class="btn-tambah">Tambah Kategori</button>
+                </div>
+            </form>
+
+            <p class="kategori-edukasi-label">Kategori Tersedia</p>
+            <div class="kategori-edukasi-list">
+                @forelse ($kategoriEdukasis as $kategoriEdukasi)
+                    <div class="kategori-edukasi-item">
+                        <span class="kategori-edukasi-name">{{ $kategoriEdukasi->nama }}</span>
+                        <form method="POST" action="{{ route('admin.kategori-edukasi.destroy', $kategoriEdukasi) }}" class="js-kategori-edukasi-delete-form">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn-action delete">Hapus</button>
+                        </form>
+                    </div>
+                @empty
+                    <p class="read-meta empty-cell-message kategori-edukasi-empty">Belum ada kategori.</p>
+                @endforelse
+            </div>
+
+            <div class="popup-actions has-gap">
+                <button type="button" class="btn-tambah" data-close-overlay="kategoriEdukasiOverlay">Tutup</button>
+            </div>
         </div>
     </div>
 @endsection

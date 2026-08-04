@@ -12,6 +12,7 @@ class UpdateBuletinRequest extends BaseAdminRequest
         $buletinId = $this->routeModelId('buletin');
 
         return [
+            'kategori_edukasi_id' => ['nullable', 'integer', Rule::exists('kategori_edukasis', 'id')],
             'judul' => ['required', 'string', 'max:255'],
             'isi' => ['required', 'string'],
             'status' => ['required', Rule::in([Buletin::STATUS_DRAFT, Buletin::STATUS_PUBLISHED])],

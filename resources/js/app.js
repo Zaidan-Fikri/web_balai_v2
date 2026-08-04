@@ -191,7 +191,37 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    const animatedItems = document.querySelectorAll('.wow, .reveal, .text-anime-style-3, .bat-text-anime');
+    const sections = Array.from(document.querySelectorAll('.bat-section-anime'));
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (!sections.length) {
+        return;
+    }
+
+    if (reduceMotion || !window.gsap || !window.ScrollTrigger) {
+        sections.forEach((section) => section.classList.add('is-visible'));
+        return;
+    }
+
+    window.gsap.registerPlugin(window.ScrollTrigger);
+
+    sections.forEach((section) => {
+        window.gsap.from(section, {
+            autoAlpha: 0,
+            y: 56,
+            duration: 0.9,
+            ease: 'power2.out',
+            scrollTrigger: {
+                trigger: section,
+                start: 'top 82%',
+                toggleActions: 'play none none none',
+            },
+        });
+    });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const animatedItems = document.querySelectorAll('.wow, .reveal, .text-anime-style-3, .bat-text-anime, .bat-section-anime');
 
     if (!animatedItems.length) {
         return;
@@ -377,4 +407,95 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         desktopQuery.addListener(() => closeAll());
     }
+});
+
+/* =========================================================
+   Page loader — shown on first paint & while navigating away
+   ========================================================= */
+document.addEventListener('DOMContentLoaded', () => {
+    const loader = document.getElementById('batPageLoader');
+
+    if (!loader) {
+        return;
+    }
+
+    const MIN_VISIBLE_MS = 350;
+    const shownAt = performance.now();
+
+    function hideLoader() {
+        const wait = Math.max(0, MIN_VISIBLE_MS - (performance.now() - shownAt));
+        window.setTimeout(() => loader.classList.add('is-hidden'), wait);
+    }
+
+    function showLoader() {
+        loader.classList.remove('is-hidden');
+    }
+
+    if (document.readyState === 'complete') {
+        hideLoader();
+    } else {
+        window.addEventListener('load', hideLoader, { once: true });
+    }
+
+    // Pages restored from the back/forward cache keep their old DOM state,
+    // so force the loader hidden instead of leaving it stuck on-screen.
+    window.addEventListener('pageshow', (event) => {
+        if (event.persisted) {
+            loader.classList.add('is-hidden');
+        }
+    });
+
+    function isNavigableLinkClick(event, link) {
+        if (event.defaultPrevented || event.button !== 0) {
+            return false;
+        }
+
+        if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+            return false;
+        }
+
+        if (link.target && link.target !== '_self') {
+            return false;
+        }
+
+        if (link.hasAttribute('download') || link.getAttribute('rel') === 'external') {
+            return false;
+        }
+
+        const href = link.getAttribute('href');
+
+        if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('javascript:')) {
+            return false;
+        }
+
+        if (link.origin !== window.location.origin) {
+            return false;
+        }
+
+        const samePath = link.pathname === window.location.pathname && link.search === window.location.search;
+
+        return !(samePath && link.hash);
+    }
+
+    document.addEventListener('click', (event) => {
+        const link = event.target.closest('a[href]');
+
+        if (link && isNavigableLinkClick(event, link)) {
+            showLoader();
+        }
+    });
+
+    document.addEventListener('submit', (event) => {
+        const form = event.target;
+
+        if (event.defaultPrevented || !(form instanceof HTMLFormElement)) {
+            return;
+        }
+
+        if (form.target && form.target !== '_self') {
+            return;
+        }
+
+        showLoader();
+    });
 });

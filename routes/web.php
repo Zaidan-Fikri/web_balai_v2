@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminBeritaController;
 use App\Http\Controllers\AdminBuletinController;
+use App\Http\Controllers\AdminKategoriEdukasiController;
 use App\Http\Controllers\AdminGemController;
 use App\Http\Controllers\AdminGeolistrik1dController;
 use App\Http\Controllers\AdminSurveyDataController;
@@ -92,6 +93,9 @@ Route::prefix('admin')->name('admin.')->middleware('admin.auth')->group(function
         Route::post('/buletin', [AdminBuletinController::class, 'store'])->name('buletin.store');
         Route::put('/buletin/{buletin}', [AdminBuletinController::class, 'update'])->name('buletin.update');
         Route::delete('/buletin/{buletin}', [AdminBuletinController::class, 'destroy'])->name('buletin.destroy');
+
+        Route::post('/kategori-edukasi', [AdminKategoriEdukasiController::class, 'store'])->name('kategori-edukasi.store');
+        Route::delete('/kategori-edukasi/{kategoriEdukasi}', [AdminKategoriEdukasiController::class, 'destroy'])->name('kategori-edukasi.destroy');
     });
 
     Route::middleware('admin.role:publikasi_infografis')->group(function () {
@@ -103,6 +107,7 @@ Route::prefix('admin')->name('admin.')->middleware('admin.auth')->group(function
 
     Route::middleware('admin.role:publikasi_galeri')->group(function () {
         Route::get('/galeri', [AdminGaleriController::class, 'index'])->name('galeri.index');
+        Route::get('/galeri/{galeri}/download', [AdminGaleriController::class, 'download'])->name('galeri.download');
         Route::post('/galeri', [AdminGaleriController::class, 'store'])->name('galeri.store');
         Route::put('/galeri/{galeri}', [AdminGaleriController::class, 'update'])->name('galeri.update');
         Route::delete('/galeri/{galeri}', [AdminGaleriController::class, 'destroy'])->name('galeri.destroy');
@@ -249,7 +254,7 @@ Route::prefix('pelayanan_publik')->name('pelayanan_publik.')->group(function () 
     Route::view('/permintaan_pelayanan/data', 'pages.pelayanan_publik.permintaan_pelayanan_data')->name('permintaan_pelayanan_data');
     Route::view('/permintaan_pelayanan/magang', 'pages.pelayanan_publik.permintaan_pelayanan_magang')->name('permintaan_pelayanan_magang');
     Route::view('/peminjaman_ruangan', 'pages.menu_detail', ['menuGroup' => 'Pelayanan Publik', 'pageTitle' => 'Peminjaman Ruangan'])->name('peminjaman_ruangan');
-    Route::view('/permintaan_pelayanan/advis', 'pages.menu_detail', ['menuGroup' => 'Pelayanan Publik', 'pageTitle' => 'Permintaan Pelayanan Advis'])->name('permintaan_pelayanan_advis');
+    Route::view('/permintaan_pelayanan/advis', 'pages.pelayanan_publik.permintaan_pelayanan_advis')->name('permintaan_pelayanan_advis');
     Route::view('/e_ppid', 'pages.menu_detail', ['menuGroup' => 'Pelayanan Publik', 'pageTitle' => 'E-PPID'])->name('e_ppid');
     Route::view('/layanan_pengaduan', 'pages.menu_detail', ['menuGroup' => 'Pelayanan Publik', 'pageTitle' => 'Layanan Pengaduan'])->name('layanan_pengaduan');
     Route::get('/laporan_skm', [LaporanSkmController::class, 'index'])->name('laporan_skm');

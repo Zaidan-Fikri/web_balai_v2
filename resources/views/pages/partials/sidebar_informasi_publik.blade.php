@@ -107,33 +107,33 @@
 /* Hover */
 .ip-sidebar-link:hover {
     background: #f4f7ff;
-    color: #1a6bcc;
+    color: var(--bat-primary);
     padding-left: 26px;
     border-left-color: #c5d8f5;
 }
 .ip-sidebar-link:hover .ip-sidebar-link-icon {
     background: #dde9fb;
-    color: #1a6bcc;
+    color: var(--bat-primary);
 }
 .ip-sidebar-link:hover .ip-sidebar-arrow {
-    color: #1a6bcc;
+    color: var(--bat-primary);
     transform: translateX(2px);
 }
 
 /* Active */
 .ip-sidebar-link.active {
     background: linear-gradient(90deg, #e8f0fe, #f0f5ff);
-    color: #1a6bcc;
+    color: var(--bat-primary);
     font-weight: 700;
-    border-left-color: #1a6bcc;
+    border-left-color: var(--bat-primary);
     padding-left: 26px;
 }
 .ip-sidebar-link.active .ip-sidebar-link-icon {
-    background: #1a6bcc;
+    background: var(--bat-primary);
     color: #fff;
 }
 .ip-sidebar-link.active .ip-sidebar-arrow {
-    color: #1a6bcc;
+    color: var(--bat-primary);
     transform: translateX(2px);
 }
 
