@@ -1,7 +1,30 @@
 import 'leaflet.markercluster';
 import { readIndonesiaMapConfig } from './map/indonesia-map-model';
+import * as pdfjsLib from 'pdfjs-dist';
+import PdfWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?worker';
+
+pdfjsLib.GlobalWorkerOptions.workerPort = new PdfWorker();
 
 const REGION_COLORS = ['#e74c3c', '#0047cc', '#f39c12', '#27ae60', '#9b59b6', '#16a085'];
+
+// Renders page 1 of a PDF onto a canvas at a fixed pixel resolution (unlike an
+// <iframe>, which the browser rasterizes once and then blurs when our CSS
+// zoom scales it up).
+async function renderPdfFirstPage(url, canvas, scale) {
+    const pdfDoc = await pdfjsLib.getDocument({ url }).promise;
+    const page = await pdfDoc.getPage(1);
+    const viewport = page.getViewport({ scale });
+    canvas.width = viewport.width;
+    canvas.height = viewport.height;
+    await page.render({ canvasContext: canvas.getContext('2d'), viewport }).promise;
+}
+
+// Geolistrik1d::getPdfUrlAttribute() rewrites Google Drive links into a Drive
+// "/preview" URL — an HTML page hosting Google's own viewer, not a PDF file,
+// so it can't be fetched/parsed by pdf.js and must stay embedded as an iframe.
+function isDriveEmbedUrl(url) {
+    return /drive\.google\.com/.test(url);
+}
 
 const DATA_TYPE_CONFIG = {
     geolistrik1d:   { color: '#0047cc', label: 'Geolistrik 1D',   icon: 'fa-wave-square' },
@@ -105,6 +128,7 @@ function createDetailsPanelRenderer(config, map) {
     const preview        = document.getElementById('geolistrikPdfPreview');
     const centerBtn      = document.getElementById('mapDetailCenter');
     const gmapsBtn       = document.getElementById('mapDetailGmaps');
+    const sidebarToggle  = document.getElementById('mapFilterToggle');
     const fullscreenOverlay = document.getElementById('pdfFullscreenOverlay');
     const fullscreenFrame   = document.getElementById('pdfFullscreenFrame');
     const fullscreenCard    = document.getElementById('pdfFullscreenCard');
@@ -259,7 +283,8 @@ function createDetailsPanelRenderer(config, map) {
         if (!fullscreenOverlay || !fullscreenFrame) return;
         fullscreenOverlay.classList.remove('is-open');
         fullscreenOverlay.setAttribute('aria-hidden', 'true');
-        fullscreenFrame.src = '';
+        fullscreenFrame.innerHTML = '';
+        if (fullscreenCard) fullscreenCard.classList.remove('is-native-embed');
         resetZoom();
     }
 
@@ -269,12 +294,26 @@ function createDetailsPanelRenderer(config, map) {
     }
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeFullscreen(); });
 
+    // Center the map on a point, nudged right so it doesn't land underneath
+    // the docked detail panel (panel becomes a bottom sheet below 576px, so
+    // no horizontal nudge is needed there).
+    function focusMap(lat, lng) {
+        if (!map) return;
+        const zoom = Math.max(map.getZoom(), Number(config.detailsPanel.zoom) || 14);
+        const panelWidth = panel && window.innerWidth > 576 ? panel.offsetWidth : 0;
+
+        if (panelWidth > 0) {
+            const targetPoint = map.project([lat, lng], zoom).subtract([panelWidth / 2, 0]);
+            map.flyTo(map.unproject(targetPoint, zoom), zoom, { duration: 0.8 });
+        } else {
+            map.flyTo([lat, lng], zoom, { duration: 0.8 });
+        }
+    }
+
     if (centerBtn && map) {
         centerBtn.addEventListener('click', () => {
             if (!currentItem) return;
-            const zoom = Number(config.detailsPanel.zoom) || 14;
-            map.setView([Number(currentItem.lat), Number(currentItem.lng)],
-                Math.max(map.getZoom(), zoom), { animate: true });
+            focusMap(Number(currentItem.lat), Number(currentItem.lng));
         });
     }
 
@@ -282,6 +321,7 @@ function createDetailsPanelRenderer(config, map) {
         panel.classList.remove('is-visible');
         preview.innerHTML = '';
         currentItem = null;
+        if (sidebarToggle) sidebarToggle.classList.remove('is-panel-open');
     }
 
     if (closeBtn) closeBtn.addEventListener('click', closeDetails);
@@ -300,6 +340,7 @@ function createDetailsPanelRenderer(config, map) {
         panel.classList.add('is-visible');
         preview.innerHTML = '';
         closeSidebar();
+        if (sidebarToggle) sidebarToggle.classList.add('is-panel-open');
 
         // Update type badge dynamically
         const badgeEl = document.getElementById('mapDetailBadge');
@@ -326,11 +367,30 @@ function createDetailsPanelRenderer(config, map) {
         });
 
         if (data.pdfUrl) {
-            const iframe = document.createElement('iframe');
-            iframe.src = data.pdfUrl;
-            iframe.title = data.pdfName || data.kode || 'Preview PDF';
-            iframe.loading = 'lazy';
-            preview.appendChild(iframe);
+            const driveEmbed = isDriveEmbedUrl(data.pdfUrl);
+
+            if (driveEmbed) {
+                const iframe = document.createElement('iframe');
+                iframe.src = data.pdfUrl;
+                iframe.loading = 'lazy';
+                iframe.title = data.pdfName || data.kode || 'Preview PDF';
+                preview.appendChild(iframe);
+            } else {
+                const canvas = document.createElement('canvas');
+                canvas.setAttribute('role', 'img');
+                canvas.setAttribute('aria-label', data.pdfName || data.kode || 'Preview PDF');
+                preview.appendChild(canvas);
+                const previewScale = 1.5 * Math.min(window.devicePixelRatio || 1, 2);
+                renderPdfFirstPage(data.pdfUrl, canvas, previewScale)
+                    .catch((err) => {
+                        console.error('Gagal memuat preview PDF', err);
+                        canvas.remove();
+                        const failed = document.createElement('div');
+                        failed.className = 'map-info-pdf-empty';
+                        failed.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> <span>Gagal memuat PDF</span>';
+                        preview.appendChild(failed);
+                    });
+            }
 
             const fsBtn = document.createElement('button');
             fsBtn.type = 'button';
@@ -339,9 +399,30 @@ function createDetailsPanelRenderer(config, map) {
             fsBtn.innerHTML = '<i class="fa-solid fa-up-right-and-down-left-from-center" aria-hidden="true"></i>';
             fsBtn.addEventListener('click', () => {
                 if (!fullscreenOverlay || !fullscreenFrame) return;
-                fullscreenFrame.src = data.pdfUrl;
                 fullscreenOverlay.classList.add('is-open');
                 fullscreenOverlay.setAttribute('aria-hidden', 'false');
+                fullscreenFrame.innerHTML = '';
+                // Drive's embedded viewer has its own crisp, high-res zoom — our
+                // CSS-transform zoom only rescales its already-rasterized output,
+                // which blurs. So for Drive embeds we defer to its own controls
+                // instead of layering ours on top.
+                if (fullscreenCard) fullscreenCard.classList.toggle('is-native-embed', driveEmbed);
+
+                if (driveEmbed) {
+                    const iframe = document.createElement('iframe');
+                    iframe.src = data.pdfUrl;
+                    iframe.loading = 'lazy';
+                    fullscreenFrame.appendChild(iframe);
+                } else {
+                    const canvas = document.createElement('canvas');
+                    fullscreenFrame.appendChild(canvas);
+                    // Rendered sharp enough to stay crisp up to the max CSS zoom level.
+                    const fullscreenScale = ZOOM_MAX * Math.min(window.devicePixelRatio || 1, 2);
+                    renderPdfFirstPage(data.pdfUrl, canvas, fullscreenScale)
+                        .catch((err) => console.error('Gagal memuat PDF fullscreen', err));
+                }
+                // errors here are already visible via the preview panel's own
+                // fallback message, since fullscreen is only reachable from there
             });
             preview.appendChild(fsBtn);
         } else {
@@ -352,7 +433,7 @@ function createDetailsPanelRenderer(config, map) {
         }
     }
 
-    return { close: closeDetails, render: renderDetails };
+    return { close: closeDetails, render: renderDetails, focusMap };
 }
 
 // ── Geolistrik markers (clustered, colored) ──────────────────────────────────
@@ -400,7 +481,10 @@ function addGeolistrikMarkers(leaflet, map, markers, config) {
 
         marker.on('click', (event) => {
             if (event.originalEvent) leaflet.DomEvent.stopPropagation(event.originalEvent);
-            if (detailsPanel) detailsPanel.render(item);
+            if (detailsPanel) {
+                detailsPanel.render(item);
+                detailsPanel.focusMap(lat, lng);
+            }
         });
 
         if (!uptMarkersMap[upt]) uptMarkersMap[upt] = [];
@@ -589,9 +673,13 @@ function initSearch(map, markers, detailsPanel, config) {
                 e.preventDefault();
                 input.value = item.kode || '';
                 results.hidden = true;
-                const zoom = Number(config.detailsPanel?.zoom) || 14;
-                map.flyTo([Number(item.lat), Number(item.lng)], Math.max(map.getZoom(), zoom), { duration: 0.8 });
-                if (detailsPanel) detailsPanel.render(item);
+                if (detailsPanel) {
+                    detailsPanel.render(item);
+                    detailsPanel.focusMap(Number(item.lat), Number(item.lng));
+                } else {
+                    const zoom = Number(config.detailsPanel?.zoom) || 14;
+                    map.flyTo([Number(item.lat), Number(item.lng)], Math.max(map.getZoom(), zoom), { duration: 0.8 });
+                }
             });
             results.appendChild(li);
         });

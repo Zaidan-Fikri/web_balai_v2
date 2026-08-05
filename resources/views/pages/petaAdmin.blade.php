@@ -223,7 +223,7 @@
             </button>
             <div class="pdf-viewport" id="pdfViewport">
                 <div class="pdf-frame-wrap" id="pdfFrameWrap">
-                    <iframe id="pdfFullscreenFrame" title="Preview PDF fullscreen"></iframe>
+                    <div id="pdfFullscreenFrame" aria-label="Preview PDF fullscreen"></div>
                 </div>
                 <div class="pdf-drag-overlay" id="pdfDragOverlay"></div>
             </div>

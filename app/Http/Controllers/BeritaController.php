@@ -13,6 +13,7 @@ class BeritaController extends Controller
             ->with('images')
             ->latest('tanggal_publish')
             ->paginate(9);
+        $fotos->withPath(url('publikasi/berita'));
 
         return view('pages.berita.index', compact('beritas'));
     }

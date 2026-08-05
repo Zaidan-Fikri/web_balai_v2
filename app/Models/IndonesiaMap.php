@@ -65,11 +65,12 @@ final class IndonesiaMap
             'elementId' => 'indonesiaMap',
             'detailsPanel' => [
                 'enabled' => $withDetails,
-                'zoom' => 14,
+                'zoom' => 18,
             ],
             'mapOptions' => [
                 'zoomControl' => false,
                 'scrollWheelZoom' => true,
+                'maxZoom' => 18,
             ],
             'bounds' => [
                 'southWest' => [
