@@ -103,6 +103,37 @@ class AdminSurveyDataController extends Controller
             ->with('success', 'Data ' . $typeConfig['label'] . ' berhasil dihapus.');
     }
 
+    public function bulkDestroy(Request $request, string $typeSlug): RedirectResponse
+    {
+        $typeConfig = $this->resolveType($typeSlug);
+
+        $validator = Validator::make($request->all(), [
+            'ids' => ['required', 'array', 'min:1'],
+            'ids.*' => ['integer'],
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()
+                ->route('admin.survey.index', ['typeSlug' => $typeSlug])
+                ->with('error', 'Tidak ada data yang dipilih untuk dihapus.');
+        }
+
+        $items = SurveyData::where('type', $typeConfig['db'])
+            ->whereIn('id', $request->input('ids'))
+            ->get();
+
+        DB::transaction(function () use ($items): void {
+            foreach ($items as $item) {
+                $this->files->delete($item->pdf_path);
+                $item->delete();
+            }
+        });
+
+        return redirect()
+            ->route('admin.survey.index', ['typeSlug' => $typeSlug])
+            ->with('success', $items->count() . ' data ' . $typeConfig['label'] . ' berhasil dihapus.');
+    }
+
     public function importPreview(Request $request, string $typeSlug): RedirectResponse
     {
         $typeConfig = $this->resolveType($typeSlug);

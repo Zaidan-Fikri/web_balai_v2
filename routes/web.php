@@ -173,6 +173,7 @@ Route::prefix('admin')->name('admin.')->middleware('admin.auth')->group(function
         Route::post('/geolistrik-1d', [AdminGeolistrik1dController::class, 'store'])->name('geolistrik-1d.store');
         Route::post('/geolistrik-1d/import-preview', [AdminGeolistrik1dController::class, 'importPreview'])->name('geolistrik-1d.import-preview');
         Route::post('/geolistrik-1d/import-store', [AdminGeolistrik1dController::class, 'importStore'])->name('geolistrik-1d.import-store');
+        Route::delete('/geolistrik-1d/bulk-destroy', [AdminGeolistrik1dController::class, 'bulkDestroy'])->name('geolistrik-1d.bulk-destroy');
         Route::put('/geolistrik-1d/{geolistrik1d}', [AdminGeolistrik1dController::class, 'update'])->name('geolistrik-1d.update');
         Route::delete('/geolistrik-1d/{geolistrik1d}', [AdminGeolistrik1dController::class, 'destroy'])->name('geolistrik-1d.destroy');
     });
@@ -186,6 +187,7 @@ Route::prefix('admin')->name('admin.')->middleware('admin.auth')->group(function
             Route::post('/', [AdminSurveyDataController::class, 'store'])->name('store');
             Route::post('/import-preview', [AdminSurveyDataController::class, 'importPreview'])->name('import-preview');
             Route::post('/import-store', [AdminSurveyDataController::class, 'importStore'])->name('import-store');
+            Route::delete('/bulk-destroy', [AdminSurveyDataController::class, 'bulkDestroy'])->name('bulk-destroy');
             Route::put('/{surveyData}', [AdminSurveyDataController::class, 'update'])->name('update');
             Route::delete('/{surveyData}', [AdminSurveyDataController::class, 'destroy'])->name('destroy');
         });

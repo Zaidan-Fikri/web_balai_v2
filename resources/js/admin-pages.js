@@ -177,6 +177,69 @@
             if (document.body.dataset.openImportPreview === 'true' && importPreviewOverlay) {
                 openOverlay(importPreviewOverlay);
             }
+
+            // Bulk select + bulk delete
+            (function () {
+                const selectAll = document.getElementById('geolistrikSelectAll');
+                const bar = document.getElementById('geolistrikBulkBar');
+                const countEl = document.getElementById('geolistrikBulkCount');
+                const clearBtn = document.getElementById('geolistrikBulkClear');
+                const deleteBtn = document.getElementById('geolistrikBulkDeleteBtn');
+                const bulkForm = document.getElementById('geolistrikBulkDeleteForm');
+
+                if (!selectAll || !bar || !bulkForm) return;
+
+                function checkboxes() {
+                    return Array.from(document.querySelectorAll('.js-bulk-checkbox'));
+                }
+
+                function updateBar() {
+                    const all = checkboxes();
+                    const checked = all.filter(function (cb) { return cb.checked; });
+
+                    if (countEl) countEl.textContent = String(checked.length);
+                    bar.classList.toggle('is-visible', checked.length > 0);
+
+                    selectAll.checked = all.length > 0 && checked.length === all.length;
+                    selectAll.indeterminate = checked.length > 0 && checked.length < all.length;
+                }
+
+                selectAll.addEventListener('change', function () {
+                    checkboxes().forEach(function (cb) { cb.checked = selectAll.checked; });
+                    updateBar();
+                });
+
+                checkboxes().forEach(function (cb) {
+                    cb.addEventListener('change', updateBar);
+                });
+
+                if (clearBtn) {
+                    clearBtn.addEventListener('click', function () {
+                        checkboxes().forEach(function (cb) { cb.checked = false; });
+                        updateBar();
+                    });
+                }
+
+                if (deleteBtn) {
+                    deleteBtn.addEventListener('click', function () {
+                        const ids = checkboxes().filter(function (cb) { return cb.checked; }).map(function (cb) { return cb.value; });
+                        if (!ids.length) return;
+                        if (!window.confirm('Hapus ' + ids.length + ' data Geolistrik 1D terpilih? Tindakan ini tidak bisa dibatalkan.')) return;
+
+                        bulkForm.querySelectorAll('input[name="ids[]"]').forEach(function (el) { el.remove(); });
+                        ids.forEach(function (id) {
+                            const input = document.createElement('input');
+                            input.type = 'hidden';
+                            input.name = 'ids[]';
+                            input.value = id;
+                            bulkForm.appendChild(input);
+                        });
+                        bulkForm.submit();
+                    });
+                }
+
+                updateBar();
+            })();
         })();
 
 /* =========================================================

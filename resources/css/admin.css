@@ -1036,7 +1036,7 @@ details.geo-folder-group[open] > summary .geo-caret {
 /* ── End Geolistrik Layout ───────────────────────────────────── */
 
 .geolistrik-table {
-    min-width: 1840px;
+    min-width: 2020px;
 }
 
 th,
@@ -1046,7 +1046,13 @@ td {
     text-align: left;
     vertical-align: top;
     color: var(--text);
-    word-break: break-word;
+    /* overflow-wrap (not word-break) so table auto-layout still sizes each
+       column to its natural word width instead of squeezing it to ~1 char. */
+    overflow-wrap: break-word;
+}
+
+.col-nowrap {
+    white-space: nowrap;
 }
 
 th {
@@ -1250,6 +1256,72 @@ tbody tr.is-hidden-row {
 .btn-action:hover {
     transform: translateY(-1px);
     box-shadow: 0 10px 22px rgba(16, 24, 40, 0.08);
+}
+
+.bulk-actions-bar {
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+    padding: 12px 16px;
+    border: 1px solid rgba(198, 54, 54, 0.18);
+    border-radius: 16px;
+    background: #fff5f5;
+}
+
+.bulk-actions-bar.is-visible {
+    display: flex;
+}
+
+.bulk-actions-count {
+    color: var(--navy-dark);
+    font-size: 13.5px;
+    font-weight: 800;
+}
+
+.bulk-actions-count strong {
+    color: var(--bad);
+}
+
+.bulk-actions-buttons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.bulk-actions-delete-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    min-height: 38px;
+    padding: 9px 16px;
+    border: 0;
+    border-radius: 12px;
+    background: var(--bad);
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 900;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.bulk-actions-delete-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 22px rgba(198, 54, 54, 0.24);
+}
+
+.bulk-checkbox-col {
+    width: 40px;
+    text-align: center;
+}
+
+.js-bulk-checkbox,
+.js-bulk-select-all {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
 }
 
 .flash-success,

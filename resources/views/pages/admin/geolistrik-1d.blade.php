@@ -124,10 +124,25 @@
                     </form>
                 </div>
 
+                <div class="bulk-actions-bar" id="geolistrikBulkBar">
+                    <span class="bulk-actions-count"><strong id="geolistrikBulkCount">0</strong> data terpilih</span>
+                    <div class="bulk-actions-buttons">
+                        <button type="button" class="btn-action" id="geolistrikBulkClear">Batal Pilih</button>
+                        <button type="button" class="bulk-actions-delete-btn" id="geolistrikBulkDeleteBtn">
+                            <i class="fa-solid fa-trash" aria-hidden="true"></i> Hapus Terpilih
+                        </button>
+                    </div>
+                </div>
+                <form method="POST" id="geolistrikBulkDeleteForm" action="{{ route('admin.geolistrik-1d.bulk-destroy') }}">
+                    @csrf
+                    @method('DELETE')
+                </form>
+
                 <div class="table-wrap">
                     <table class="item-table geolistrik-table">
                         <thead>
                         <tr>
+                            <th class="bulk-checkbox-col"><input type="checkbox" class="js-bulk-select-all" id="geolistrikSelectAll" aria-label="Pilih semua"></th>
                             <th>Kode</th>
                             <th>Kab/Kota</th>
                             <th>Kecamatan</th>
@@ -149,21 +164,22 @@
                         <tbody>
                         @foreach ($geolistrik1ds as $item)
                             <tr>
-                                <td>{{ $item->kode ?? '-' }}</td>
+                                <td class="bulk-checkbox-col"><input type="checkbox" class="js-bulk-checkbox" value="{{ $item->id }}" aria-label="Pilih {{ $item->kode }}"></td>
+                                <td class="col-nowrap">{{ $item->kode ?? '-' }}</td>
                                 <td>{{ $item->kab_kota ?? '-' }}</td>
                                 <td>{{ $item->kecamatan ?? '-' }}</td>
                                 <td>{{ $item->desa_kelurahan ?? '-' }}</td>
                                 @if ($selectedUpt === '') <td>{{ $item->upt ?? '-' }}</td> @endif
-                                <td>{{ number_format($item->latitude, 7, '.', '') }}</td>
-                                <td>{{ number_format($item->longitude, 7, '.', '') }}</td>
-                                <td>{{ $item->elevasi ?? '-' }}</td>
-                                <td>{{ $item->tanggal_akusisi_data ?? '-' }}</td>
+                                <td class="col-nowrap">{{ number_format($item->latitude, 7, '.', '') }}</td>
+                                <td class="col-nowrap">{{ number_format($item->longitude, 7, '.', '') }}</td>
+                                <td class="col-nowrap">{{ $item->elevasi ?? '-' }}</td>
+                                <td class="col-nowrap">{{ $item->tanggal_akusisi_data ?? '-' }}</td>
                                 <td>{{ $item->geologi ?? '-' }}</td>
                                 <td>{{ $item->cekungan_air_tanah ?? '-' }}</td>
                                 <td>{{ $item->hidrogeologi ?? '-' }}</td>
                                 <td>{{ $item->lapisan_pembawa_air ?? '-' }}</td>
                                 <td>{{ $item->potensi ?? '-' }}</td>
-                                <td>
+                                <td class="col-nowrap">
                                     @if ($item->pdf_path)
                                         <a class="btn-action read" href="{{ $item->pdf_url }}" target="_blank" rel="noopener">PDF</a>
                                     @else

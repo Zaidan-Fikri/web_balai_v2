@@ -138,6 +138,33 @@ class AdminGeolistrik1dController extends Controller
             ->with('success', 'Data Geolistrik 1D berhasil dihapus.');
     }
 
+    public function bulkDestroy(Request $request): RedirectResponse
+    {
+        $validator = Validator::make($request->all(), [
+            'ids' => ['required', 'array', 'min:1'],
+            'ids.*' => ['integer'],
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()
+                ->route('admin.geolistrik-1d.index')
+                ->with('error', 'Tidak ada data yang dipilih untuk dihapus.');
+        }
+
+        $items = Geolistrik1d::whereIn('id', $request->input('ids'))->get();
+
+        DB::transaction(function () use ($items): void {
+            foreach ($items as $item) {
+                $this->files->delete($item->pdf_path);
+                $item->delete();
+            }
+        });
+
+        return redirect()
+            ->route('admin.geolistrik-1d.index')
+            ->with('success', $items->count() . ' data Geolistrik 1D berhasil dihapus.');
+    }
+
     public function importPreview(Request $request): RedirectResponse
     {
         $request->validate([

@@ -131,10 +131,25 @@
                     </form>
                 </div>
 
+                <div class="bulk-actions-bar" id="surveyBulkBar">
+                    <span class="bulk-actions-count"><strong id="surveyBulkCount">0</strong> data terpilih</span>
+                    <div class="bulk-actions-buttons">
+                        <button type="button" class="btn-action" id="surveyBulkClear">Batal Pilih</button>
+                        <button type="button" class="bulk-actions-delete-btn" id="surveyBulkDeleteBtn">
+                            <i class="fa-solid fa-trash" aria-hidden="true"></i> Hapus Terpilih
+                        </button>
+                    </div>
+                </div>
+                <form method="POST" id="surveyBulkDeleteForm" action="{{ route('admin.survey.bulk-destroy', ['typeSlug' => $typeSlug]) }}">
+                    @csrf
+                    @method('DELETE')
+                </form>
+
                 <div class="table-wrap">
                     <table class="item-table geolistrik-table">
                         <thead>
                         <tr>
+                            <th class="bulk-checkbox-col"><input type="checkbox" class="js-bulk-select-all" id="surveySelectAll" aria-label="Pilih semua"></th>
                             <th>Kode</th>
                             <th>Kab/Kota</th>
                             <th>Kecamatan</th>
@@ -155,20 +170,21 @@
                         <tbody>
                         @foreach ($items as $item)
                             <tr>
-                                <td>{{ $item->kode ?? '-' }}</td>
+                                <td class="bulk-checkbox-col"><input type="checkbox" class="js-bulk-checkbox" value="{{ $item->id }}" aria-label="Pilih {{ $item->kode }}"></td>
+                                <td class="col-nowrap">{{ $item->kode ?? '-' }}</td>
                                 <td>{{ $item->kab_kota ?? '-' }}</td>
                                 <td>{{ $item->kecamatan ?? '-' }}</td>
                                 <td>{{ $item->desa_kelurahan ?? '-' }}</td>
                                 @if ($selectedUpt === '') <td>{{ $item->upt ?? '-' }}</td> @endif
-                                <td>{{ number_format($item->latitude, 7, '.', '') }}</td>
-                                <td>{{ number_format($item->longitude, 7, '.', '') }}</td>
-                                <td>{{ $item->elevasi ?? '-' }}</td>
-                                <td>{{ $item->tanggal_akusisi_data?->format('Y-m-d') ?? '-' }}</td>
+                                <td class="col-nowrap">{{ number_format($item->latitude, 7, '.', '') }}</td>
+                                <td class="col-nowrap">{{ number_format($item->longitude, 7, '.', '') }}</td>
+                                <td class="col-nowrap">{{ $item->elevasi ?? '-' }}</td>
+                                <td class="col-nowrap">{{ $item->tanggal_akusisi_data?->format('Y-m-d') ?? '-' }}</td>
                                 <td>{{ $item->geologi ?? '-' }}</td>
                                 <td>{{ $item->cekungan_air_tanah ?? '-' }}</td>
                                 <td>{{ $item->hidrogeologi ?? '-' }}</td>
                                 <td>{{ $item->lapisan_pembawa_air ?? '-' }}</td>
-                                <td>
+                                <td class="col-nowrap">
                                     @if ($item->pdf_path)
                                         <a class="btn-action read" href="{{ asset('storage/' . $item->pdf_path) }}" target="_blank" rel="noopener">PDF</a>
                                     @else
@@ -556,6 +572,69 @@
             if (!confirm('Hapus data ini?')) e.preventDefault();
         });
     });
+
+    // Bulk select + bulk delete
+    (function () {
+        const selectAll = document.getElementById('surveySelectAll');
+        const bar = document.getElementById('surveyBulkBar');
+        const countEl = document.getElementById('surveyBulkCount');
+        const clearBtn = document.getElementById('surveyBulkClear');
+        const deleteBtn = document.getElementById('surveyBulkDeleteBtn');
+        const bulkForm = document.getElementById('surveyBulkDeleteForm');
+
+        if (!selectAll || !bar || !bulkForm) return;
+
+        function checkboxes() {
+            return Array.from(document.querySelectorAll('.js-bulk-checkbox'));
+        }
+
+        function updateBar() {
+            const all = checkboxes();
+            const checked = all.filter(function (cb) { return cb.checked; });
+
+            if (countEl) countEl.textContent = String(checked.length);
+            bar.classList.toggle('is-visible', checked.length > 0);
+
+            selectAll.checked = all.length > 0 && checked.length === all.length;
+            selectAll.indeterminate = checked.length > 0 && checked.length < all.length;
+        }
+
+        selectAll.addEventListener('change', function () {
+            checkboxes().forEach(function (cb) { cb.checked = selectAll.checked; });
+            updateBar();
+        });
+
+        checkboxes().forEach(function (cb) {
+            cb.addEventListener('change', updateBar);
+        });
+
+        if (clearBtn) {
+            clearBtn.addEventListener('click', function () {
+                checkboxes().forEach(function (cb) { cb.checked = false; });
+                updateBar();
+            });
+        }
+
+        if (deleteBtn) {
+            deleteBtn.addEventListener('click', function () {
+                const ids = checkboxes().filter(function (cb) { return cb.checked; }).map(function (cb) { return cb.value; });
+                if (!ids.length) return;
+                if (!window.confirm('Hapus ' + ids.length + ' data {{ $typeConfig['label'] }} terpilih? Tindakan ini tidak bisa dibatalkan.')) return;
+
+                bulkForm.querySelectorAll('input[name="ids[]"]').forEach(function (el) { el.remove(); });
+                ids.forEach(function (id) {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = 'ids[]';
+                    input.value = id;
+                    bulkForm.appendChild(input);
+                });
+                bulkForm.submit();
+            });
+        }
+
+        updateBar();
+    })();
 })();
 </script>
 @endpush
