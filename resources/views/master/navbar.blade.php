@@ -40,12 +40,12 @@
                                 </a>
                                 <ul class="sub-menu">
                                     <li class="nav-item submenu flyout-parent">
-                                        <a class="nav-link" href="{{ route('pelayanan_publik.permintaan_pelayanan') }}">
+                                        <a class="nav-link" href="#">
                                             Layanan Terpadu
                                             <span class="menu-caret menu-caret-flyout" aria-hidden="true">&gt;</span>
                                         </a>
                                         <ul class="sub-menu flyout-card">
-                                            <li class="nav-item"><a class="nav-link" href="{{ route('pelayanan_publik.permintaan_pelayanan_advis') }}">Layanan Advis Teknis</a></li>
+                                            {{-- <li class="nav-item"><a class="nav-link" href="{{ route('pelayanan_publik.permintaan_pelayanan_advis') }}">Layanan Advis Teknis</a></li> --}}
                                             <li class="nav-item"><a class="nav-link" href="{{ route('pelayanan_publik.permintaan_pelayanan_data') }}">Layanan Data dan Informasi</a></li>
                                             <li class="nav-item"><a class="nav-link" href="{{ route('pelayanan_publik.permintaan_pelayanan_magang') }}">Magang/Kunjungan</a></li>
                                             <li class="nav-item"><a class="nav-link" href="{{ route('pelayanan_publik.peminjaman_ruangan') }}">Peminjaman Ruangan</a></li>

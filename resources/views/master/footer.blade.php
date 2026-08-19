@@ -37,7 +37,6 @@
                 <h3>Layanan</h3>
                 <ul>
                     <li><a href="{{ route('pelayanan_publik.standar_pelayanan') }}">Standar Pelayanan</a></li>
-                    <li><a href="{{ route('pelayanan_publik.permintaan_pelayanan') }}">Permintaan Pelayanan</a></li>
                     <li><a href="{{ route('pelayanan_publik.e_ppid') }}">E-PPID</a></li>
                     <li><a href="{{ route('pelayanan_publik.layanan_pengaduan') }}">Layanan Pengaduan</a></li>
                 </ul>

@@ -40,8 +40,6 @@ class SearchController extends Controller
             ['title' => 'Visi dan Misi', 'category' => 'Profil', 'url' => route('profil.visi_misi'), 'excerpt' => 'Visi dan misi organisasi.'],
             ['title' => 'Struktur Organisasi', 'category' => 'Profil', 'url' => route('profil.struktur_organisasi'), 'excerpt' => 'Struktur organisasi Balai Air Tanah.'],
             ['title' => 'Lokasi dan Kontak', 'category' => 'Profil', 'url' => route('profil.lokasi_dan_kontak'), 'excerpt' => 'Alamat, lokasi, dan kontak Balai Air Tanah.'],
-            ['title' => 'Layanan Terpadu', 'category' => 'Pelayanan Publik', 'url' => route('pelayanan_publik.permintaan_pelayanan'), 'excerpt' => 'Permintaan layanan terpadu Balai Air Tanah.'],
-            ['title' => 'Layanan Advis', 'category' => 'Pelayanan Publik', 'url' => route('pelayanan_publik.permintaan_pelayanan_advis'), 'excerpt' => 'Permintaan pelayanan advis teknis.'],
             ['title' => 'Permintaan Data', 'category' => 'Pelayanan Publik', 'url' => route('pelayanan_publik.permintaan_pelayanan_data'), 'excerpt' => 'Permintaan data air tanah.'],
             ['title' => 'Permintaan Magang', 'category' => 'Pelayanan Publik', 'url' => route('pelayanan_publik.permintaan_pelayanan_magang'), 'excerpt' => 'Informasi dan formulir permintaan magang.'],
             ['title' => 'Layanan Pengaduan', 'category' => 'Pelayanan Publik', 'url' => route('pelayanan_publik.layanan_pengaduan'), 'excerpt' => 'Kanal layanan pengaduan masyarakat.'],
