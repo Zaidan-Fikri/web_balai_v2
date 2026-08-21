@@ -25,8 +25,6 @@
     <link href="{{ asset('assets/vendor/fontawesome/css/all.min.css') }}" rel="stylesheet" media="screen">
     <!-- Animated Css -->
     <link href="{{ asset('assets/sda/web/css/animate.css') }}" rel="stylesheet">
-    <!-- Magnific Popup Core Css File -->
-    <link rel="stylesheet" href="{{ asset('assets/sda/web/css/magnific-popup.css') }}">
     <!-- Main Custom Css -->
     <link href="{{ asset('assets/sda/web/css/custom.css') }}" rel="stylesheet" media="screen">
     @stack('head')
@@ -60,33 +58,22 @@
 <button type="button" class="scroll-top-btn" id="scrollTopBtn" aria-label="Kembali ke atas" aria-hidden="true">
     <i class="fa-solid fa-chevron-up" aria-hidden="true"></i>
 </button>
-<script src="{{ asset('assets/sda/web/js/jquery-3.7.1.min.js') }}"></script>
-<!-- Bootstrap js file -->
-<script src="{{ asset('assets/sda/web/js/bootstrap.min.js') }}"></script>
-<!-- Validator js file -->
-<script src="{{ asset('assets/sda/web/js/validator.min.js') }}"></script>
+<script src="{{ asset('assets/sda/web/js/jquery-3.7.1.min.js') }}" defer></script>
 <!-- SlickNav js file -->
-<script src="{{ asset('assets/sda/web/js/jquery.slicknav.js') }}"></script>
+<script src="{{ asset('assets/sda/web/js/jquery.slicknav.js') }}" defer></script>
 <!-- Swiper js file -->
-<script src="{{ asset('assets/sda/web/js/swiper-bundle.min.js') }}"></script>
-<!-- Counter js file -->
-<script src="{{ asset('assets/sda/web/js/jquery.waypoints.min.js') }}"></script>
-<script src="{{ asset('assets/sda/web/js/jquery.counterup.min.js') }}"></script>
-<!-- Magnific js file -->
-<script src="{{ asset('assets/sda/web/js/jquery.magnific-popup.min.js') }}"></script>
+<script src="{{ asset('assets/sda/web/js/swiper-bundle.min.js') }}" defer></script>
 <!-- SmoothScroll -->
-<script src="{{ asset('assets/sda/web/js/SmoothScroll.js') }}"></script>
-<!-- Parallax js -->
-<script src="{{ asset('assets/sda/web/js/parallaxie.js') }}"></script>
+<script src="{{ asset('assets/sda/web/js/SmoothScroll.js') }}" defer></script>
 <!-- Animation helper js file -->
-<script src="{{ asset('assets/sda/web/js/gsap.min.js') }}"></script>
+<script src="{{ asset('assets/sda/web/js/gsap.min.js') }}" defer></script>
 <!-- Text Effect js file -->
-<script src="{{ asset('assets/sda/web/js/SplitText.js') }}"></script>
-<script src="{{ asset('assets/sda/web/js/ScrollTrigger.min.js') }}"></script>
+<script src="{{ asset('assets/sda/web/js/SplitText.js') }}" defer></script>
+<script src="{{ asset('assets/sda/web/js/ScrollTrigger.min.js') }}" defer></script>
 <!-- Wow js file -->
-<script src="{{ asset('assets/sda/web/js/wow.js') }}"></script>
+<script src="{{ asset('assets/sda/web/js/wow.js') }}" defer></script>
 <!-- Main Custom js file -->
-<script src="{{ asset('assets/sda/web/js/function.js') }}"></script>
+<script src="{{ asset('assets/sda/web/js/function.js') }}" defer></script>
 @vite(['resources/js/app.js', 'resources/js/pages.js'])
 @stack('scripts')
 </body>
