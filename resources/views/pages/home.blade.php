@@ -783,7 +783,7 @@
             </div>
 
             <figure class="about-image reveal">
-                <img src="{{ asset('images/cp.png') }}" alt="Balai Air Tanah" decoding="async" loading="eager" fetchpriority="high">
+                <img src="{{ asset('images/cp.webp') }}" alt="Balai Air Tanah" decoding="async" loading="eager" fetchpriority="high">
             </figure>
 
             <aside class="about-service-panel" id="aboutServicePanel" aria-labelledby="aboutServiceTitle">
