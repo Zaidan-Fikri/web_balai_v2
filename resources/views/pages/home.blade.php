@@ -1544,7 +1544,7 @@
 </script>
 
 <script>
-(function () {
+document.addEventListener('DOMContentLoaded', function () {
     var el = document.querySelector('.home-berita-swiper');
     if (!el) return;
     new Swiper(el, {
@@ -1570,7 +1570,7 @@
             1024: { slidesPerView: 4 },
         },
     });
-})();
+});
 </script>
 
 @endpush

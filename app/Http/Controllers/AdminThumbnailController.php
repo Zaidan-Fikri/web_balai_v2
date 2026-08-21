@@ -33,7 +33,7 @@ class AdminThumbnailController extends Controller
         $data = $request->validated();
 
         Thumbnail::create([
-            'image_path' => $this->files->store($data['image'], self::IMAGE_DIR),
+            'image_path' => $this->files->storeImage($data['image'], self::IMAGE_DIR),
             'title' => $data['title'] ?? null,
             'description' => $data['description'] ?? null,
         ]);
@@ -49,7 +49,7 @@ class AdminThumbnailController extends Controller
         $imagePath = $thumbnail->image_path;
 
         if (! empty($data['image'])) {
-            $imagePath = $this->files->replace($thumbnail->image_path, $data['image'], self::IMAGE_DIR);
+            $imagePath = $this->files->replaceImage($thumbnail->image_path, $data['image'], self::IMAGE_DIR);
         }
 
         $thumbnail->update([
