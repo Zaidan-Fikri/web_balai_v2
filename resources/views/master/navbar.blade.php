@@ -48,7 +48,7 @@
                                             {{-- <li class="nav-item"><a class="nav-link" href="{{ route('pelayanan_publik.permintaan_pelayanan_advis') }}">Layanan Advis Teknis</a></li> --}}
                                             <li class="nav-item"><a class="nav-link" href="{{ route('pelayanan_publik.permintaan_pelayanan_data') }}">Layanan Data dan Informasi</a></li>
                                             <li class="nav-item"><a class="nav-link" href="{{ route('pelayanan_publik.permintaan_pelayanan_magang') }}">Magang/Kunjungan</a></li>
-                                            <li class="nav-item"><a class="nav-link" href="{{ route('pelayanan_publik.peminjaman_ruangan') }}">Peminjaman Ruangan</a></li>
+                                            <li class="nav-item"><a class="nav-link" href="{{ route('pelayanan_publik.permintaan_pelayanan_peminjaman_ruangan') }}">Peminjaman Ruangan</a></li>
                                         </ul>
                                     </li>
                                     <li class="nav-item"><a class="nav-link" target="_blank" rel="noopener noreferrer" href="https://sahabat.pu.go.id/">E-PPID</a></li>
