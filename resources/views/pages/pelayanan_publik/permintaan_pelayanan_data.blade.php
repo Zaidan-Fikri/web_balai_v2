@@ -36,7 +36,8 @@
         background: linear-gradient(90deg, #0047cc, #16a3e8, #f6c34a);
     }
     .batdata-card:hover {
-        box-shadow: 0 4px 14px rgba(10, 38, 71, .07), 0 20px 44px rgba(10, 38, 71, .1);
+        transform: translateY(-4px);
+        box-shadow: 0 4px 14px rgba(10, 38, 71, .07), 0 22px 48px rgba(10, 38, 71, .12);
     }
     .batdata-kicker {
         display: inline-flex;
@@ -149,10 +150,6 @@
         font-size: .9rem;
         box-shadow: 0 8px 18px rgba(0, 71, 204, .28), 0 0 0 4px #fff;
     }
-    .batdata-alur-step:last-child .batdata-alur-icon {
-        background: linear-gradient(135deg, #f0b429, #f6c34a);
-        box-shadow: 0 8px 18px rgba(240, 180, 41, .35), 0 0 0 4px #fff;
-    }
     .batdata-alur-num {
         position: absolute;
         top: -7px;
@@ -169,9 +166,6 @@
         font-size: .64rem;
         font-weight: 900;
         border: 2px solid #fff;
-    }
-    .batdata-alur-step:last-child .batdata-alur-num {
-        background: #d89100;
     }
     .batdata-alur-step strong {
         display: block;
@@ -223,7 +217,7 @@
     .batdata-req-list {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        align-content: center;
+        align-content: start;
         gap: 10px;
         flex: 1;
         margin: 0;
@@ -261,6 +255,21 @@
         flex-shrink: 0;
         box-shadow: 0 4px 10px rgba(22, 163, 74, .28);
     }
+    .batdata-req-note {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        margin-top: auto;
+        padding: 12px 14px;
+        border-radius: 10px;
+        background: #fef9e7;
+        border: 1px solid #fde68a;
+        color: #92400e;
+        font-size: .8rem;
+        font-weight: 600;
+        line-height: 1.5;
+    }
+    .batdata-req-note i { margin-top: 2px; color: #d97706; flex-shrink: 0; }
 
     .batdata-info-grid {
         display: grid;
@@ -600,14 +609,14 @@
         <nav class="page-breadcrumb" aria-label="Breadcrumb">
             <a href="{{ route('home') }}"><i class="fa-solid fa-house fa-xs"></i> Beranda</a>
             <span class="bc-sep"><i class="fa-solid fa-chevron-right fa-xs"></i></span>
-            <a href="{{ route('pelayanan_publik.permintaan_pelayanan') }}">Pelayanan Publik</a>
+            <span>Pelayanan Publik</span>
             <span class="bc-sep"><i class="fa-solid fa-chevron-right fa-xs"></i></span>
             <span class="bc-current">Layanan Data dan Informasi</span>
         </nav>
 
         {{-- Intro + Alur Layanan --}}
         <div class="batdata-top-grid">
-            <div class="batdata-card batdata-intro">
+            <div class="batdata-card batdata-intro wow fadeInDown" data-wow-delay="0.05s">
                 <div class="batdata-intro-icon"><i class="fa-solid fa-file-lines"></i></div>
                 <div>
                     <span class="batdata-kicker">Pelayanan Publik</span>
@@ -620,7 +629,7 @@
                 </a>
             </div>
 
-            <div class="batdata-card batdata-alur">
+            <div class="batdata-card batdata-alur wow fadeInUp" data-wow-delay="0.15s">
                 <h3><i class="fa-solid fa-diagram-project text-primary me-2"></i> Alur Layanan</h3>
                 <div class="batdata-alur-steps">
                     <div class="batdata-alur-step">
@@ -669,7 +678,7 @@
 
         {{-- Persyaratan + Informasi Layanan --}}
         <div class="batdata-mid-grid">
-            <div class="batdata-card">
+            <div class="batdata-card wow fadeInLeft" data-wow-delay="0.2s">
                 <h3><span class="batdata-h-icon"><i class="fa-solid fa-clipboard-check"></i></span> Persyaratan</h3>
                 <ul class="batdata-req-list">
                     <li><i class="fa-solid fa-check"></i> Identitas pemohon</li>
@@ -679,9 +688,13 @@
                     <li><i class="fa-solid fa-check"></i> Tujuan penggunaan data</li>
                     <li><i class="fa-solid fa-check"></i> Dokumen pendukung (jika diperlukan)</li>
                 </ul>
+                <div class="batdata-req-note">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <span>Pastikan seluruh berkas telah dilengkapi sebelum pengajuan. Berkas yang tidak lengkap akan ditunda hingga dokumen pelengkap diterima.</span>
+                </div>
             </div>
 
-            <div class="batdata-card">
+            <div class="batdata-card wow fadeInRight" data-wow-delay="0.3s">
                 <h3><span class="batdata-h-icon"><i class="fa-solid fa-circle-info"></i></span> Informasi Layanan</h3>
                 <dl class="batdata-info-grid">
                     <div class="batdata-info-item">
@@ -706,13 +719,6 @@
                         </div>
                     </div>
                     <div class="batdata-info-item">
-                        <div class="batdata-info-item-icon"><i class="fa-solid fa-envelope"></i></div>
-                        <div>
-                            <dt>Email</dt>
-                            <dd><a href="mailto:balaiairtanah@pu.go.id">balaiairtanah@pu.go.id</a></dd>
-                        </div>
-                    </div>
-                    <div class="batdata-info-item">
                         <div class="batdata-info-item-icon"><i class="fa-solid fa-phone"></i></div>
                         <div>
                             <dt>Telepon</dt>
@@ -720,10 +726,17 @@
                         </div>
                     </div>
                     <div class="batdata-info-item">
+                        <div class="batdata-info-item-icon"><i class="fa-solid fa-envelope"></i></div>
+                        <div>
+                            <dt>Email</dt>
+                            <dd><a href="mailto:balaiirtanah@pu.go.id">balaiirtanah@pu.go.id</a></dd>
+                        </div>
+                    </div>
+                    <div class="batdata-info-item">
                         <div class="batdata-info-item-icon"><i class="fa-solid fa-note-sticky"></i></div>
                         <div>
                             <dt>Catatan</dt>
-                            <dd>Ketersediaan data disesuaikan dengan ketentuan dan hasil verifikasi</dd>
+                            <dd>Jadwal kegiatan disesuaikan dengan ketersediaan waktu &amp; kapasitas layanan</dd>
                         </div>
                     </div>
                 </dl>
@@ -735,9 +748,7 @@
             <h3>Formulir Permohonan</h3>
             <p>Silakan lengkapi formulir berikut dengan data yang benar dan jelas.</p>
 
-            <form method="POST" action="#" enctype="multipart/form-data">
-                @csrf
-                <div class="batdata-form-grid">
+            <div class="batdata-form-grid">
                     <div class="batdata-form-group">
                         <div class="batdata-section-head">
                             <span class="batdata-section-num">1</span>
@@ -792,17 +803,6 @@
                         <div class="batdata-field">
                             <label>Tahun Data <span class="req">*</span></label>
                             <input type="text" name="tahun_data" placeholder="Contoh: 2024" required>
-                        </div>
-                        <div class="batdata-field">
-                            <label>Format Data yang Diinginkan <span class="req">*</span></label>
-                            <select name="format_data" required>
-                                <option value="" selected disabled>Pilih format data</option>
-                                <option value="pdf">PDF</option>
-                                <option value="excel">Excel</option>
-                                <option value="shapefile">Shapefile</option>
-                                <option value="jpeg">JPG/JPEG</option>
-                                <option value="lainnya">Lainnya</option>
-                            </select>
                         </div>
                         <div class="batdata-field">
                             <label>Uraian Data/Informasi yang Dibutuhkan <span class="req">*</span></label>
@@ -895,7 +895,6 @@
                         <span class="req">*</span> Menandakan kolom wajib diisi.
                     </span>
                 </div>
-            </form>
         </div>
     </div>
 </section>

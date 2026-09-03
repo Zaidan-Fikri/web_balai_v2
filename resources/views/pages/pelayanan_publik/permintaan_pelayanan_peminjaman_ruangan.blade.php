@@ -35,7 +35,8 @@
         background: linear-gradient(90deg, #0047cc, #16a3e8, #f6c34a);
     }
     .peminjaman-card:hover {
-        box-shadow: 0 4px 14px rgba(10,38,71,.07), 0 20px 44px rgba(10,38,71,.1);
+        transform: translateY(-4px);
+        box-shadow: 0 4px 14px rgba(10,38,71,.07), 0 22px 48px rgba(10,38,71,.12);
     }
     .peminjaman-kicker {
         display: inline-flex;
@@ -143,10 +144,6 @@
         font-size: .9rem;
         box-shadow: 0 8px 18px rgba(0,71,204,.28), 0 0 0 4px #fff;
     }
-    .peminjaman-alur-step:last-child .peminjaman-alur-icon {
-        background: linear-gradient(135deg, #f0b429, #f6c34a);
-        box-shadow: 0 8px 18px rgba(240,180,41,.35), 0 0 0 4px #fff;
-    }
     .peminjaman-alur-num {
         position: absolute;
         top: -7px;
@@ -164,7 +161,6 @@
         font-weight: 900;
         border: 2px solid #fff;
     }
-    .peminjaman-alur-step:last-child .peminjaman-alur-num { background: #d89100; }
     .peminjaman-alur-step strong {
         display: block;
         margin-bottom: 4px;
@@ -273,7 +269,7 @@
     .peminjaman-req-list {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        align-content: center;
+        align-content: start;
         gap: 10px;
         flex: 1;
         margin: 0;
@@ -309,6 +305,21 @@
         flex-shrink: 0;
         box-shadow: 0 4px 10px rgba(22,163,74,.28);
     }
+    .peminjaman-req-note {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        margin-top: auto;
+        padding: 12px 14px;
+        border-radius: 10px;
+        background: #fef9e7;
+        border: 1px solid #fde68a;
+        color: #92400e;
+        font-size: .8rem;
+        font-weight: 600;
+        line-height: 1.5;
+    }
+    .peminjaman-req-note i { margin-top: 2px; color: #d97706; flex-shrink: 0; }
 
     .peminjaman-info-grid {
         display: grid;
@@ -734,14 +745,14 @@
         <nav class="page-breadcrumb" aria-label="Breadcrumb">
             <a href="{{ route('home') }}"><i class="fa-solid fa-house fa-xs"></i> Beranda</a>
             <span class="bc-sep"><i class="fa-solid fa-chevron-right fa-xs"></i></span>
-            <a href="{{ route('pelayanan_publik.permintaan_pelayanan') }}">Pelayanan Publik</a>
+            <span>Pelayanan Publik</span>
             <span class="bc-sep"><i class="fa-solid fa-chevron-right fa-xs"></i></span>
             <span class="bc-current">Peminjaman Ruangan</span>
         </nav>
 
         {{-- Intro + Alur Layanan --}}
         <div class="peminjaman-top-grid">
-            <div class="peminjaman-card peminjaman-intro">
+            <div class="peminjaman-card peminjaman-intro wow fadeInDown" data-wow-delay="0.05s">
                 <div class="peminjaman-intro-icon"><i class="fa-solid fa-building-user"></i></div>
                 <div>
                     <span class="peminjaman-kicker">Pelayanan Publik</span>
@@ -755,7 +766,7 @@
                 </a>
             </div>
 
-            <div class="peminjaman-card peminjaman-alur">
+            <div class="peminjaman-card peminjaman-alur wow fadeInUp" data-wow-delay="0.15s">
                 <h3><i class="fa-solid fa-diagram-project text-primary me-2"></i> Alur Layanan Peminjaman Ruangan</h3>
                 <div class="peminjaman-alur-steps">
                     <div class="peminjaman-alur-step">
@@ -804,7 +815,7 @@
 
         {{-- Persyaratan + Info Layanan --}}
         <div class="peminjaman-mid-grid">
-            <div class="peminjaman-card">
+            <div class="peminjaman-card wow fadeInLeft" data-wow-delay="0.2s">
                 <h3>
                     <span class="peminjaman-h-icon"><i class="fa-solid fa-list-check"></i></span>
                     Persyaratan Permohonan
@@ -817,43 +828,60 @@
                     <li><i class="fa-solid fa-check"></i> Menjaga Kebersihan, Ketertiban, & Fasilitas</li>
                     <li><i class="fa-solid fa-check"></i> Mematuhi Ketentuan K3 & Dilarang Merokok</li>
                 </ul>
+                <div class="peminjaman-req-note">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <span>Peminjaman ruangan bergantung pada ketersediaan jadwal. Pengajuan minimal 3 hari kerja sebelum tanggal kegiatan.</span>
+                </div>
             </div>
 
-            <div class="peminjaman-card">
+            <div class="peminjaman-card wow fadeInRight" data-wow-delay="0.3s">
                 <h3>
                     <span class="peminjaman-h-icon"><i class="fa-solid fa-circle-info"></i></span>
                     Informasi Layanan
                 </h3>
                 <dl class="peminjaman-info-grid">
                     <div class="peminjaman-info-item">
-                        <div class="peminjaman-info-item-icon"><i class="fa-solid fa-clock"></i></div>
+                        <div class="peminjaman-info-item-icon"><i class="fa-solid fa-sack-dollar"></i></div>
                         <div>
-                            <dt>Waktu Operasional</dt>
-                            <dd>Senin – Jumat<br>07.30 – 16.00 WIB</dd>
+                            <dt>Biaya</dt>
+                            <dd>Tidak dipungut biaya</dd>
                         </div>
                     </div>
                     <div class="peminjaman-info-item">
-                        <div class="peminjaman-info-item-icon"><i class="fa-solid fa-door-open"></i></div>
+                        <div class="peminjaman-info-item-icon"><i class="fa-solid fa-calendar-days"></i></div>
                         <div>
-                            <dt>Fasilitas Ruangan</dt>
-                            <dd>AC, Proyektor, Sound System, & Wi-Fi</dd>
+                            <dt>Waktu Layanan</dt>
+                            <dd>Senin&ndash;Jumat</dd>
                         </div>
                     </div>
                     <div class="peminjaman-info-item">
-                        <div class="peminjaman-info-item-icon"><i class="fa-solid fa-tag"></i></div>
+                        <div class="peminjaman-info-item-icon"><i class="fa-regular fa-clock"></i></div>
                         <div>
-                            <dt>Biaya Layanan</dt>
-                            <dd>Rp 0,- (Gratis / Tidak Dipungut Biaya)</dd>
+                            <dt>Jam Layanan</dt>
+                            <dd>07.30&ndash;16.00 WIB</dd>
                         </div>
                     </div>
                     <div class="peminjaman-info-item">
-                        <div class="peminjaman-info-item-icon"><i class="fa-solid fa-location-dot"></i></div>
+                        <div class="peminjaman-info-item-icon"><i class="fa-solid fa-phone"></i></div>
                         <div>
-                            <dt>Lokasi Balai</dt>
-                            <dd>Jl. Ir. H. Juanda No. 193, Bandung, Jawa Barat</dd>
+                            <dt>Telepon</dt>
+                            <dd>(022) 20463967</dd>
                         </div>
                     </div>
-                    
+                    <div class="peminjaman-info-item">
+                        <div class="peminjaman-info-item-icon"><i class="fa-solid fa-envelope"></i></div>
+                        <div>
+                            <dt>Email</dt>
+                            <dd><a href="mailto:balaiirtanah@pu.go.id">balaiirtanah@pu.go.id</a></dd>
+                        </div>
+                    </div>
+                    <div class="peminjaman-info-item">
+                        <div class="peminjaman-info-item-icon"><i class="fa-solid fa-note-sticky"></i></div>
+                        <div>
+                            <dt>Catatan</dt>
+                            <dd>Jadwal kegiatan disesuaikan dengan ketersediaan waktu &amp; kapasitas layanan</dd>
+                        </div>
+                    </div>
                 </dl>
             </div>
         </div>
@@ -865,11 +893,8 @@
                 <p>Isi formulir berikut untuk mengajukan peminjaman ruangan di lingkungan Balai Air Tanah.</p>
             </div>
 
-            <form action="#" method="POST" enctype="multipart/form-data" id="form-peminjaman-ruangan">
-                @csrf
-
-                <div class="peminjaman-sections-four-col">
-                    {{-- 1. Data Pemohon --}}
+            <div class="peminjaman-sections-four-col">
+                {{-- 1. Data Pemohon --}}
                     <div class="peminjaman-form-section">
                         <div class="peminjaman-section-head">
                             <span class="peminjaman-section-num">1</span>
@@ -1041,7 +1066,6 @@
                         <span class="req">*</span> Menandakan kolom wajib diisi.
                     </span>
                 </div>
-            </form>
         </div>
 
         
@@ -1067,7 +1091,6 @@ document.addEventListener('DOMContentLoaded', function() {
     var capacityIcon = document.getElementById('capacity-icon');
     var capacityMsg = document.getElementById('capacity-message');
     var btnReset = document.getElementById('btn-reset-form');
-    var form = document.getElementById('form-peminjaman-ruangan');
 
     // Dynamic Capacity Calculation & Warning Update
     function checkCapacity() {
@@ -1133,7 +1156,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Shared Reset Logic
     function clearForm() {
-        form.reset();
+        var formCard = document.getElementById('peminjaman-formulir');
+        formCard.querySelectorAll('input, textarea, select').forEach(function(el) {
+            if (el.type === 'checkbox' || el.type === 'radio') {
+                el.checked = false;
+            } else {
+                el.value = '';
+            }
+        });
         capacityBox.style.display = 'none';
 
         document.querySelectorAll('.peminjaman-dropzone').forEach(function(dz) {
@@ -1151,24 +1181,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (confirm('Apakah Anda yakin ingin mengosongkan seluruh isian formulir peminjaman ruangan?')) {
             clearForm();
         }
-    });
-
-    // Submit Handler
-    form?.addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        var selectedOpt = roomSelect.options[roomSelect.selectedIndex];
-        var capacity = parseInt(selectedOpt.getAttribute('data-kapasitas') || '0', 10);
-        var pesertaCount = parseInt(pesertaInput.value || '0', 10);
-
-        if (capacity > 0 && pesertaCount > capacity) {
-            if (!confirm('Jumlah peserta (' + pesertaCount + ' orang) melebihi kapasitas maksimal ' + selectedOpt.value + ' (' + capacity + ' orang). Apakah Anda tetap ingin melanjutkan pengajuan?')) {
-                return;
-            }
-        }
-
-        alert('Terima kasih! Permohonan Peminjaman Ruangan Anda telah berhasil dikirim. Petugas Balai Air Tanah akan memverifikasi ketersediaan jadwal dan menghubungi Anda melalui Email / WhatsApp.');
-        clearForm();
     });
 });
 </script>

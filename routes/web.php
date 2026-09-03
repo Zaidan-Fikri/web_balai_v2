@@ -251,7 +251,7 @@ Route::prefix('informasi_publik')->name('informasi_publik.')->group(function () 
 
 Route::prefix('pelayanan_publik')->name('pelayanan_publik.')->group(function () {
     Route::view('/standar_pelayanan', 'pages.pelayanan_publik.standar_pelayanan')->name('standar_pelayanan');
-    Route::view('/maklumat_pelayanan', 'pages.menu_detail', ['menuGroup' => 'Pelayanan Publik', 'pageTitle' => 'Maklumat Pelayanan'])->name('maklumat_pelayanan');
+    Route::view('/maklumat_pelayanan', 'pages.pelayanan_publik.maklumat_pelayanan')->name('maklumat_pelayanan');
     Route::get('/permintaan_pelayanan', fn () => abort(404))->name('permintaan_pelayanan');
     Route::view('/permintaan_pelayanan/data', 'pages.pelayanan_publik.permintaan_pelayanan_data')->name('permintaan_pelayanan_data');
     Route::view('/permintaan_pelayanan/magang', 'pages.pelayanan_publik.permintaan_pelayanan_magang')->name('permintaan_pelayanan_magang');

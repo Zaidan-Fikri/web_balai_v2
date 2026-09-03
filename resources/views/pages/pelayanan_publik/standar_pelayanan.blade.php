@@ -28,6 +28,24 @@
         background: linear-gradient(90deg, #0047cc, #16a3e8, #f6c34a);
     }
 
+    .standar-card::after {
+        content: "BAT";
+        position: absolute;
+        top: 30px;
+        right: 15px;
+        color: rgba(0, 51, 153, .032);
+        font-size: clamp(4rem, 10vw, 8rem);
+        font-weight: 900;
+        letter-spacing: .02em;
+        line-height: 1;
+        pointer-events: none;
+    }
+
+    .standar-card > * {
+        position: relative;
+        z-index: 1;
+    }
+
     .standar-title {
         font-family: var(--bat-font-title);
         font-size: clamp(2rem, 3.5vw, 2.8rem);
@@ -44,6 +62,47 @@
         max-width: 760px;
         margin: 12px auto 0;
     }
+
+    .standar-kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin: 0 0 12px;
+        color: var(--bat-primary);
+        font-size: 12px;
+        font-weight: 900;
+        letter-spacing: .12em;
+        text-transform: uppercase;
+    }
+    .standar-kicker::before {
+        content: "";
+        width: 28px;
+        height: 2px;
+        border-radius: 999px;
+        background: #f6c34a;
+    }
+
+    .standar-col-title {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .standar-col-title::before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #f6c34a;
+        box-shadow: 0 0 0 4px #fff6dc;
+        flex: 0 0 auto;
+    }
+
+    .law-title {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
 
     /* Tabs Styling */
     .standar-tabs-wrapper {
@@ -122,8 +181,8 @@
     }
 
     .standar-col-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 12px 30px rgba(11, 43, 92, 0.06);
+        transform: translateY(-4px);
+        box-shadow: 0 12px 30px rgba(11, 43, 92, 0.08);
         border-color: #e2e8f0;
     }
 
@@ -302,6 +361,7 @@
     .law-item {
         position: relative;
         padding-left: 20px;
+        padding-top: 5px;
         font-size: 11.5px;
         font-weight: 700;
         color: #475569;
@@ -318,10 +378,10 @@
     .law-item::before {
         content: "•";
         position: absolute;
-        left: 6px;
+        left: 0;
         color: var(--bat-primary, #0b2b5c);
         font-size: 16px;
-        top: -1px;
+        top: 0;
     }
 
     /* Responsive adjustments */
@@ -370,7 +430,8 @@
         {{-- Main Container Card --}}
         <div class="standar-card">
             {{-- Header --}}
-            <div class="text-center">
+            <div class="text-center wow fadeInDown" data-wow-delay="0.05s">
+                <p class="standar-kicker">Pelayanan Publik</p>
                 <h2 class="standar-title">Standar Pelayanan Publik</h2>
                 <p class="standar-subtitle">
                     Standar Pelayanan Publik Balai Air Tanah merupakan pedoman dalam memberikan layanan yang profesional, transparan, mudah, cepat, terukur, dan akuntabel, guna menjamin kepastian serta meningkatkan kualitas pelayanan kepada masyarakat.
@@ -378,7 +439,7 @@
             </div>
 
             {{-- Tabs --}}
-            <div class="standar-tabs-wrapper">
+            <div class="standar-tabs-wrapper wow fadeInUp" data-wow-delay="0.15s">
                 <ul class="standar-tabs">
                     <li class="standar-tab-item">
                         <button class="standar-tab-btn active" id="tab-btn-data" aria-selected="true">
@@ -397,7 +458,7 @@
             <div class="standar-grid" id="content-layanan-data">
                 {{-- Column 1: Informasi Pelayanan --}}
                 <div>
-                    <div class="standar-col-card">
+                    <div class="standar-col-card wow fadeInUp" data-wow-delay="0.2s">
                         <h3 class="standar-col-title">Informasi Pelayanan</h3>
                         <div class="info-list">
                             <div class="info-item">
@@ -427,7 +488,7 @@
 
                 {{-- Column 2: Produk Layanan Data --}}
                 <div>
-                    <div class="standar-col-card">
+                    <div class="standar-col-card wow fadeInUp" data-wow-delay="0.3s">
                         <h3 class="standar-col-title">Produk Layanan Data</h3>
                         <div class="product-list-wrapper">
                             <ul class="product-list">
@@ -455,7 +516,7 @@
 
                 {{-- Column 3: Jadwal Pelayanan --}}
                 <div>
-                    <div class="standar-col-card">
+                    <div class="standar-col-card wow fadeInUp" data-wow-delay="0.4s">
                         <h3 class="standar-col-title">Jadwal Pelayanan</h3>
                         <div class="schedule-list">
                             <div class="info-item">
@@ -588,7 +649,7 @@
 
             {{-- Dasar Hukum (Bottom) --}}
             <div class="mt-4">
-                <div class="law-card">
+                <div class="law-card wow fadeInUp" data-wow-delay="0.25s">
                     <h4 class="law-title"><i class="fa-solid fa-scale-balanced"></i> Dasar Hukum</h4>
                     <ul class="law-list">
                         <li class="law-item">

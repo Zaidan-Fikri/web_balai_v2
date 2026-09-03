@@ -35,7 +35,8 @@
         background: linear-gradient(90deg, #0047cc, #16a3e8, #f6c34a);
     }
     .magang-card:hover {
-        box-shadow: 0 4px 14px rgba(10,38,71,.07), 0 20px 44px rgba(10,38,71,.1);
+        transform: translateY(-4px);
+        box-shadow: 0 4px 14px rgba(10,38,71,.07), 0 22px 48px rgba(10,38,71,.12);
     }
     .magang-kicker {
         display: inline-flex;
@@ -143,10 +144,6 @@
         font-size: .9rem;
         box-shadow: 0 8px 18px rgba(0,71,204,.28), 0 0 0 4px #fff;
     }
-    .magang-alur-step:last-child .magang-alur-icon {
-        background: linear-gradient(135deg, #f0b429, #f6c34a);
-        box-shadow: 0 8px 18px rgba(240,180,41,.35), 0 0 0 4px #fff;
-    }
     .magang-alur-num {
         position: absolute;
         top: -7px;
@@ -164,7 +161,6 @@
         font-weight: 900;
         border: 2px solid #fff;
     }
-    .magang-alur-step:last-child .magang-alur-num { background: #d89100; }
     .magang-alur-step strong {
         display: block;
         margin-bottom: 4px;
@@ -213,7 +209,7 @@
     .magang-req-list {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        align-content: center;
+        align-content: start;
         gap: 10px;
         flex: 1;
         margin: 0;
@@ -249,6 +245,21 @@
         flex-shrink: 0;
         box-shadow: 0 4px 10px rgba(22,163,74,.28);
     }
+    .magang-req-note {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        margin-top: auto;
+        padding: 12px 14px;
+        border-radius: 10px;
+        background: #fef9e7;
+        border: 1px solid #fde68a;
+        color: #92400e;
+        font-size: .8rem;
+        font-weight: 600;
+        line-height: 1.5;
+    }
+    .magang-req-note i { margin-top: 2px; color: #d97706; flex-shrink: 0; }
 
     .magang-info-grid {
         display: grid;
@@ -721,14 +732,14 @@
         <nav class="page-breadcrumb" aria-label="Breadcrumb">
             <a href="{{ route('home') }}"><i class="fa-solid fa-house fa-xs"></i> Beranda</a>
             <span class="bc-sep"><i class="fa-solid fa-chevron-right fa-xs"></i></span>
-            <a href="{{ route('pelayanan_publik.permintaan_pelayanan') }}">Pelayanan Publik</a>
+            <span>Pelayanan Publik</span>
             <span class="bc-sep"><i class="fa-solid fa-chevron-right fa-xs"></i></span>
             <span class="bc-current">Magang / Kunjungan</span>
         </nav>
 
         {{-- Intro + Alur Layanan --}}
         <div class="magang-top-grid">
-            <div class="magang-card magang-intro">
+            <div class="magang-card magang-intro wow fadeInDown" data-wow-delay="0.05s">
                 <div class="magang-intro-icon"><i class="fa-solid fa-graduation-cap"></i></div>
                 <div>
                     <span class="magang-kicker">Pelayanan Publik</span>
@@ -742,7 +753,7 @@
                 </a>
             </div>
 
-            <div class="magang-card magang-alur">
+            <div class="magang-card magang-alur wow fadeInUp" data-wow-delay="0.15s">
                 <h3><i class="fa-solid fa-diagram-project text-primary me-2"></i> Alur Layanan Magang / Kunjungan</h3>
                 <div class="magang-alur-steps">
                     <div class="magang-alur-step">
@@ -791,7 +802,7 @@
 
         {{-- Persyaratan + Info Layanan --}}
         <div class="magang-mid-grid">
-            <div class="magang-card">
+            <div class="magang-card wow fadeInLeft" data-wow-delay="0.2s">
                 <h3>
                     <span class="magang-h-icon"><i class="fa-solid fa-list-check"></i></span>
                     Persyaratan Permohonan
@@ -804,43 +815,60 @@
                     <li><i class="fa-solid fa-check"></i> Mematuhi Peraturan & Protokol K3 Balai Air Tanah</li>
                     <li><i class="fa-solid fa-check"></i> Menyusun & Menyerahkan Laporan Akhir (Khusus Magang)</li>
                 </ul>
+                <div class="magang-req-note">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <span>Kuota magang/kunjungan terbatas dan bergantung pada jadwal operasional Balai. Pengajuan akan dikonfirmasi maksimal 3 hari kerja.</span>
+                </div>
             </div>
 
-            <div class="magang-card">
+            <div class="magang-card wow fadeInRight" data-wow-delay="0.3s">
                 <h3>
                     <span class="magang-h-icon"><i class="fa-solid fa-circle-info"></i></span>
                     Informasi Layanan
                 </h3>
                 <dl class="magang-info-grid">
                     <div class="magang-info-item">
-                        <div class="magang-info-item-icon"><i class="fa-solid fa-clock"></i></div>
+                        <div class="magang-info-item-icon"><i class="fa-solid fa-sack-dollar"></i></div>
                         <div>
-                            <dt>Waktu Pelayanan</dt>
-                            <dd>Senin – Jumat<br>07.30 – 16.00 WIB</dd>
+                            <dt>Biaya</dt>
+                            <dd>Tidak dipungut biaya</dd>
                         </div>
                     </div>
                     <div class="magang-info-item">
                         <div class="magang-info-item-icon"><i class="fa-solid fa-calendar-days"></i></div>
                         <div>
-                            <dt>Durasi Layanan</dt>
-                            <dd>Magang: 1–3 Bulan<br>Kunjungan: 1 Hari</dd>
+                            <dt>Waktu Layanan</dt>
+                            <dd>Senin&ndash;Jumat</dd>
                         </div>
                     </div>
                     <div class="magang-info-item">
-                        <div class="magang-info-item-icon"><i class="fa-solid fa-tag"></i></div>
+                        <div class="magang-info-item-icon"><i class="fa-regular fa-clock"></i></div>
                         <div>
-                            <dt>Biaya Layanan</dt>
-                            <dd>Rp 0,- (Gratis / Tidak Dipungut Biaya)</dd>
+                            <dt>Jam Layanan</dt>
+                            <dd>07.30&ndash;16.00 WIB</dd>
                         </div>
                     </div>
                     <div class="magang-info-item">
-                        <div class="magang-info-item-icon"><i class="fa-solid fa-location-dot"></i></div>
+                        <div class="magang-info-item-icon"><i class="fa-solid fa-phone"></i></div>
                         <div>
-                            <dt>Lokasi Balai</dt>
-                            <dd>Jl. Ir. H. Juanda No. 193, Bandung, Jawa Barat</dd>
+                            <dt>Telepon</dt>
+                            <dd>(022) 20463967</dd>
                         </div>
                     </div>
-                    
+                    <div class="magang-info-item">
+                        <div class="magang-info-item-icon"><i class="fa-solid fa-envelope"></i></div>
+                        <div>
+                            <dt>Email</dt>
+                            <dd><a href="mailto:balaiirtanah@pu.go.id">balaiirtanah@pu.go.id</a></dd>
+                        </div>
+                    </div>
+                    <div class="magang-info-item">
+                        <div class="magang-info-item-icon"><i class="fa-solid fa-note-sticky"></i></div>
+                        <div>
+                            <dt>Catatan</dt>
+                            <dd>Jadwal kegiatan disesuaikan dengan ketersediaan waktu &amp; kapasitas layanan</dd>
+                        </div>
+                    </div>
                 </dl>
             </div>
         </div>
@@ -860,10 +888,7 @@
                 </div>
             </div>
 
-            <form action="#" method="POST" enctype="multipart/form-data" id="form-magang-kunjungan">
-                @csrf
-
-                <div class="magang-sections-four-col">
+            <div class="magang-sections-four-col">
                     {{-- 1. Data Peserta --}}
                     <div class="magang-form-section">
                         <div class="magang-section-head">
@@ -1069,7 +1094,6 @@
                         <span class="req">*</span> Menandakan kolom wajib diisi.
                     </span>
                 </div>
-            </form>
         </div>
     </div>
 </section>
@@ -1092,7 +1116,6 @@ document.addEventListener('DOMContentLoaded', function() {
     var cbLainnya = document.getElementById('cb-kebutuhan-lainnya');
     var fieldLainnya = document.getElementById('field-kebutuhan-lainnya');
     var btnReset = document.getElementById('btn-reset-form');
-    var form = document.getElementById('form-magang-kunjungan');
 
     // Update Live Count
     function updateTotalPeserta() {
@@ -1197,7 +1220,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // Reset Form Listener
     btnReset?.addEventListener('click', function() {
         if (confirm('Apakah Anda yakin ingin mengosongkan seluruh isian formulir?')) {
-            form.reset();
+            var formCard = document.getElementById('magang-formulir');
+            formCard.querySelectorAll('input, textarea, select').forEach(function(el) {
+                if (el.type === 'checkbox' || el.type === 'radio') {
+                    el.checked = false;
+                } else {
+                    el.value = '';
+                }
+            });
             
             // Reset dynamic peserta list back to 1
             var items = container.querySelectorAll('.peserta-item');
@@ -1220,12 +1250,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
             updateTotalPeserta();
         }
-    });
-
-    // Form Submit Event Handler
-    form?.addEventListener('submit', function(e) {
-        e.preventDefault();
-        alert('Terima kasih! Permohonan Magang / Kunjungan Anda telah berhasil terkirim. Petugas Balai Air Tanah akan memverifikasi dan menghubungi Anda melalui Email / WhatsApp.');
     });
 
     // Initialize total counter
